@@ -14,4 +14,4 @@ With a passion for pure mathematics since childhood, I obtained my doctoral degr
 Research interests
 ======
 
-My main research expertise lies in the fields of Nonlinear Elasticity and Geometric Analysis. A common factor in the problems I tend to study is the interplay of analysis and geometry in problems which are easy to state but difficult to solve.
+My main research expertise lies in the fields of Nonlinear Elasticity and Geometric Analysis. A common factor in the problems I tend to study is the interplay of analysis and geometry in problems which are simple to state but difficult to solve. I am also interested in all the related areas of research such as nonlinear PDE's, Harmonic Analysis, and Complex Dynamics.
