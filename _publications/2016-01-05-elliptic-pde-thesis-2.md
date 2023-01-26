@@ -5,7 +5,6 @@ permalink: /publication/2016-01-05-elliptic-pde-thesis-2
 excerpt: 'Doctoral Thesis'
 date: 2016-01-05
 venue: 'University of Helsinki'
-citation: ''
 ---
 Ph.D. thesis
 
