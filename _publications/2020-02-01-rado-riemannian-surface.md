@@ -2,6 +2,7 @@
 title: "The Radó-Kneser-Choquet theorem for p-harmonic mappings between Riemannian surfaces"
 collection: publications
 permalink: /publication/2020-02-01-rado-riemannian-surface
+excerpt: 'Published article'
 date: 2020-02-01
 venue: 'Revista Matemática Iberoamericana'
 authors: 'Tomasz Adamowicz, Aleksis Koski, Jarmo Jääskeläinen'
