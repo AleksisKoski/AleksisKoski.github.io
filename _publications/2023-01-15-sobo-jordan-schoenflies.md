@@ -2,7 +2,7 @@
 title: "The Sobolev Jordan-Schönflies problems"
 collection: publications
 permalink: /publication/2023-01-15-sobo-jordan-schoenflies
-excerpt: 'Doctoral Thesis'
+excerpt: 'Published article'
 date: 2023-01-15
 venue: 'Advances in Mathematics'
 authors: 'Aleksis Koski, Jani Onninen'
