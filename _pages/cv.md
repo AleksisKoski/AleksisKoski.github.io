@@ -43,6 +43,8 @@ Work experience
   
 Scientific and Societal impact
 ======
+* <b> Reviewer of scientific publications </b>
+  * Served as a referee for multiple mathematical journals, on many occasions during the years 2011-2023
 * <b> Matikkamaanantai, extracurricular mathematics teaching at the Maunula Secondary School and Helsinki School of Mathematics</b>
   * Teacher in 2023
 * <b> The high school mathematics competition in Central Finland </b>
