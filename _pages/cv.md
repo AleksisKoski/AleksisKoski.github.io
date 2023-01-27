@@ -9,23 +9,43 @@ redirect_from:
 
 {% include base_path %}
 
-Education
+Degrees
 ======
-* Bachelor of Science, University of Helsinki, 2011
-* Master of Science, University of Helsinki, 2011
-* Doctor of Philosophy, University of Helsinki, 2016
+* Doctor of Philosophy, University of Helsinki, 19.2.2016
+* Master of Science, University of Helsinki, 30.10.2011
+* Bachelor of Science, University of Helsinki, 30.10.2011
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* 9.2022-Present
+  * University of Helsinki
+  * Postdoctoral Researcher
+  * Working under: Finnish Centre of Excellence in Randomness and Structures (FiRST)
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* 9.2021-8.2022
+  * Universidad Autónoma de Madrid
+  * Postdoctoral Researcher
+  * Working under: ERC Advanced Grant project QUAMAP
+
+* 9.2020-8.2021
+  * University of Helsinki
+  * Postdoctoral Researcher
+  * Working under: Personal Academy of Finland Research Fellow grant
+
+* 1.2017-8.2020
+  * University of Jyväskylä
+  * Postdoctoral Researcher
+  * Working under: Personal Academy of Finland Research Fellow grant, Department of Mathematics and Statistics
+  
+* 1.2016-12.2017
+  * University of Helsinki
+  * Postdoctoral Researcher
+  * Working under: Department of Mathematics and Statistics
+  
+* 1.2012-12.2015
+  * University of Helsinki
+  * Doctoral Student
+  * Working under: Department of Mathematics and Statistics
   
 Skills
 ======
@@ -35,6 +55,10 @@ Skills
   * Sub-skill 2.2
   * Sub-skill 2.3
 * Skill 3
+
+Service and leadership
+======
+* Worked
 
 Publications
 ======
@@ -53,7 +77,3 @@ Teaching
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Service and leadership
-======
-* Worked
