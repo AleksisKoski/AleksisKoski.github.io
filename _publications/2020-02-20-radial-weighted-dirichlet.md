@@ -2,7 +2,6 @@
 title: "Radial symmetry of minimizers to the weighted Dirichlet energy"
 collection: publications
 permalink: /publication/2020-02-20-radial-weighted-dirichlet
-excerpt: 'Published article'
 date: 2020-02-20
 venue: 'Proceedings of the Royal Society of Edinburgh Section A: Mathematics'
 authors: 'Aleksis Koski, Jani Onninen'
