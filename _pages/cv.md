@@ -9,6 +9,14 @@ redirect_from:
 
 {% include base_path %}
 
+Languages
+======
+* Finnish - mother tongue
+* German - mother tongue
+* English - fluent
+* Japanese - good
+* Swedish - good
+
 Degrees
 ======
 * Doctor of Philosophy, University of Helsinki, 19.2.2016
