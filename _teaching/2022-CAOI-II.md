@@ -1,7 +1,7 @@
 ---
 title: "Convex Analysis and Optimization I-II"
 collection: teaching
-type: "Master's course"
+type: "Masters course"
 permalink: /teaching/2022-CAOI-II
 venue: "University of Helsinki"
 date: 2022-09-01
