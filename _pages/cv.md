@@ -12,37 +12,33 @@ redirect_from:
 Degrees
 ======
 * Doctor of Philosophy, University of Helsinki, 19.2.2016
+  * Supervisor: Tadeusz Iwaniec
+  * Thesis: Elliptic Partial Differential Equations in Geometric Analysis and the Calculus of Variations
 * Master of Science, University of Helsinki, 30.10.2011
+  * Supervisor: Tadeusz Iwaniec
+  * Thesis: Singular integrals and Beltrami type operators in the plane and beyond
 * Bachelor of Science, University of Helsinki, 30.10.2011
+  * Supervisor: Tadeusz Iwaniec, Eero Saksman
+  * Thesis: The Hilbert Transform
 
 Work experience
 ======
 * <b> Postdoctoral Researcher:</b> 9.2022-Present, University of Helsinki
   * Working under: Finnish Centre of Excellence in Randomness and Structures (FiRST)
 
-* 9.2021-8.2022
-  * Universidad Autónoma de Madrid
-  * Postdoctoral Researcher
+* <b> Postdoctoral Researcher:</b> 9.2021-8.2022, Universidad Autónoma de Madrid
   * Working under: ERC Advanced Grant project QUAMAP
 
-* 9.2020-8.2021
-  * University of Helsinki
-  * Postdoctoral Researcher
+* <b> Postdoctoral Researcher:</b> 9.2020-8.2021, University of Helsinki
   * Working under: Personal Academy of Finland Research Fellow grant
 
-* 1.2017-8.2020
-  * University of Jyväskylä
-  * Postdoctoral Researcher
+* <b> Postdoctoral Researcher:</b> 1.2017-8.2020, University of Jyväskylä
   * Working under: Personal Academy of Finland Research Fellow grant, Department of Mathematics and Statistics
   
-* 1.2016-12.2017
-  * University of Helsinki
-  * Postdoctoral Researcher
+* <b> Postdoctoral Researcher:</b> 1.2016-12.2017, University of Helsinki
   * Working under: Department of Mathematics and Statistics
   
-* 1.2012-12.2015
-  * University of Helsinki
-  * Doctoral Student
+* <b> Doctoral Student:</b> 1.2012-12.2015, University of Helsinki
   * Working under: Department of Mathematics and Statistics
   
 Skills
