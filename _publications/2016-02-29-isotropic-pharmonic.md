@@ -1,5 +1,5 @@
 ---
-title: "Isotropic ppp-harmonic systems in 2D Jacobian estimates and univalent solutions"
+title: "Isotropic p-harmonic systems in 2D Jacobian estimates and univalent solutions"
 collection: publications
 permalink: /publication/2016-02-29-isotropic-pharmonic
 excerpt: 'Published article'
