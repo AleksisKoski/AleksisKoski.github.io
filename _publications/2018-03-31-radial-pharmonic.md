@@ -2,7 +2,6 @@
 title: "Radial Symmetry of p-Harmonic Minimizers"
 collection: publications
 permalink: /publication/2018-03-31-radial-pharmonic
-excerpt: 'Published article'
 date: 2018-03-31
 venue: 'Archive for Rational Mechanics and Analysis'
 authors: 'Aleksis Koski, Jani Onninen'
