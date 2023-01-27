@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2017-12-01-nonlinear-beltrami-schauder
 excerpt: 'Published paper'
 date: 2017-12-01
-venue: 'Annales de l'Institut Henri Poincaré C, Analyse non linéaire'
+venue: 'Annales de l Institut Henri Poincaré C, Analyse non linéaire'
 authors: 'Kari Astala, Albert Clop, Daniel Faraco, Jarmo Jääskeläinen, Aleksis Koski'
 ---
 Kari Astala, Albert Clop, Daniel Faraco, Jarmo Jääskeläinen, Aleksis Koski
