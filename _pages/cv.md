@@ -23,36 +23,48 @@ Degrees
 
 Work experience
 ======
-* <b> Postdoctoral Researcher:</b> 9.2022-Present, University of Helsinki
+* <b> Postdoctoral Researcher:</b> 1.9.2022-Present, University of Helsinki
   * Working under: Finnish Centre of Excellence in Randomness and Structures (FiRST)
 
-* <b> Postdoctoral Researcher:</b> 9.2021-8.2022, Universidad Autónoma de Madrid
+* <b> Postdoctoral Researcher:</b> 1.9.2021-31.8.2022, Universidad Autónoma de Madrid
   * Working under: ERC Advanced Grant project QUAMAP
 
-* <b> Postdoctoral Researcher:</b> 9.2020-8.2021, University of Helsinki
+* <b> Postdoctoral Researcher:</b> 1.9.2020-31.8.2021, University of Helsinki
   * Working under: Personal Academy of Finland Research Fellow grant
 
-* <b> Postdoctoral Researcher:</b> 1.2017-8.2020, University of Jyväskylä
+* <b> Postdoctoral Researcher:</b> 1.1.2017-31.8.2020, University of Jyväskylä
   * Working under: Personal Academy of Finland Research Fellow grant, Department of Mathematics and Statistics
   
-* <b> Postdoctoral Researcher:</b> 1.2016-12.2017, University of Helsinki
+* <b> Postdoctoral Researcher:</b> 1.1.2016-31.12.2017, University of Helsinki
   * Working under: Department of Mathematics and Statistics
   
-* <b> Doctoral Student:</b> 1.2012-12.2015, University of Helsinki
+* <b> Doctoral Student:</b> 1.1.2012-31.12.2015, University of Helsinki
   * Working under: Department of Mathematics and Statistics
   
-Skills
+Scientific and Societal impact
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* <b> Matikkamaanantai, extracurricular mathematics teaching at the Maunula Secondary School and Helsinki School of Mathematics</b>
+  * Teacher in 2023
+* <b> The high school mathematics competition in Central Finland </b>
+  * Main coordinator for the competition in 2020 and 2019
+  * Organizing committee member in 2018 and 2017
+* <b> Problem solving seminar </b>
+  * Organized a seminar about techniques in mathematical problem solving for undergraduates at the University of Helsinki during 2011-2012
 
-Service and leadership
+Grants and awards
 ======
-* Worked
+* <b> Academy of Finland Research Fellow grant: </b> 1.9.2018-31.8.2021
+* <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2016
+* <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2015
+* <b> Helsinki Science Foundation grant: </b> 1.1-31.12.2014
+* <b> Rolf Nevanlinna doctoral thesis award: </b>
+  * Awarded for the best doctoral thesis in mathematics in Finland during the year 2016 by the Rolf Nevanlinna Research Foundation, 2017
+* <b> University of Helsinki doctoral thesis award: </b>
+  * Awarded to the top four doctoral theses in the University of Helsinki for the year 2016 by the University of Helsinki, 2017
+* <b> Ernst Lindelöf master’s thesis award: </b>
+  * Awarded for the best Master’s thesis in mathematics in Finland during the year 2011 by the Finnish Mathematical Society, 2012
+* <b> Special award for an exceptionally successful and fast completion of a Master’s degree: </b>
+  * Awarded by the Faculty of Science, University of Helsinki, 2011
 
 Publications
 ======
