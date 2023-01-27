@@ -13,10 +13,17 @@ List of courses
 ======
 
 Number Theory - 2011 Spring
+
 Functional Analysis - 2014 Spring
+
 Measure Theory - 2015 Summer
+
 Fourier Analysis - 2015 Fall
+
 Vector Calculus - 2016 Fall
+
 Sobolev Spaces - 2016 Spring
+
 Introduction to University Mathematics - 2020 Fall
+
 Complex Analysis - 2021 Spring
