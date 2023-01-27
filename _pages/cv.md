@@ -17,9 +17,7 @@ Degrees
 
 Work experience
 ======
-* 9.2022-Present
-  * University of Helsinki
-  * Postdoctoral Researcher
+* <b> Postdoctoral Researcher:</b> 9.2022-Present, University of Helsinki
   * Working under: Finnish Centre of Excellence in Randomness and Structures (FiRST)
 
 * 9.2021-8.2022
