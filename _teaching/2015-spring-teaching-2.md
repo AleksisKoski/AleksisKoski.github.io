@@ -18,6 +18,7 @@ Course website
 ======
 
 Front page: [Link](https://studies.helsinki.fi/courses/cur/hy-opt-cur-2223-ce34a870-744c-4e07-b511-339055a4c8c3/MAST31015/Harmonic_analysis_II_Lectures)
+
 Moodle (for students): Link pending
 
 Material
