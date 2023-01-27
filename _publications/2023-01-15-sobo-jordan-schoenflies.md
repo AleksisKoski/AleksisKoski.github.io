@@ -1,5 +1,5 @@
 ---
-title: "The Sobolev Jordan-Schönflies problems"
+title: "The Sobolev Jordan-Schönflies problem"
 collection: publications
 permalink: /publication/2023-01-15-sobo-jordan-schoenflies
 excerpt: 'Published article'
