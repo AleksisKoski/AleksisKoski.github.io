@@ -1,5 +1,5 @@
 ---
-title: "Nonlinear Beltrami operators, Schauder estimates and bounds for the Jacobian"
+title: 'Nonlinear Beltrami operators, Schauder estimates and bounds for the Jacobian'
 collection: publications
 permalink: /publication/2017-12-01-nonlinear-beltrami-schauder
 excerpt: 'Published paper'
