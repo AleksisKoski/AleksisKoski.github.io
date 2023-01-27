@@ -7,7 +7,7 @@ venue: "University of Helsinki"
 date: 2022-09-01
 ---
 
-In the fall semester of 2022, I served as the assistant for two courses on optimization taught by professor Xiao Zhong in Helsinki.
+In the fall semester of 2022, I served as the assistant for two courses on mathematical optimization taught by professor Xiao Zhong in Helsinki.
 
 Course description
 ======
