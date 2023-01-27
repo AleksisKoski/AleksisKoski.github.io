@@ -7,6 +7,6 @@ date: 2016-02-29
 venue: 'Revista Matemática Iberoamericana'
 authors: 'Tadeusz Iwaniec, Aleksis Koski, Jani Onninen'
 ---
-Aleksis Koski, Jani Onninen
+Tadeusz Iwaniec, Aleksis Koski, Jani Onninen
 
 [Link](https://ems.press/journals/rmi/articles/13699)
