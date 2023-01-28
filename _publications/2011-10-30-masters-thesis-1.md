@@ -1,6 +1,5 @@
 ---
-title: "Singular Integrals and Beltrami Type Opera-
-tors in the Plane and Beyond"
+title: "Singular Integrals and Beltrami Type Operators in the Plane and Beyond"
 collection: publications
 permalink: /publication/2011-10-30-masters-thesis-1
 excerpt: 'Masters Thesis'
