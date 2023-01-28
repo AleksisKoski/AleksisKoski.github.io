@@ -9,7 +9,7 @@ redirect_from:
 published: true
 ---
 
-With a passion for mathematics ever since childhood, I obtained my doctoral degree in 2016 at the University of Helsinki under the supervision of professor Tadeusz Iwaniec. Since then my career has been lined with an assortment of national and international collaboration, and periods of work with my colleagues at institutes such as the University of Jyväskylä, Syracuse University, Universidad Autónoma de Madrid, and Charles University. I love teaching mathematics, and have a particular interest in modern technology both as a tool in teaching as well as a field to learn about from a mathematical point of view. I am also passionate about connecting high school students with the world of academia and the ideas found in contemporary mathematics.
+With a passion for mathematics since childhood, I obtained my doctoral degree in 2016 at the University of Helsinki under the supervision of professor Tadeusz Iwaniec. Since then my career has been lined with an assortment of national and international collaboration, and periods of work with my colleagues at institutes such as the University of Jyväskylä, Syracuse University, Universidad Autónoma de Madrid, and Charles University. I love teaching mathematics, and have a particular interest in modern technology both as a tool in teaching as well as a field to learn about from a mathematical point of view. I am also passionate about connecting high school students with the world of academia and the ideas found in contemporary mathematics.
 
 Research interests
 ======
