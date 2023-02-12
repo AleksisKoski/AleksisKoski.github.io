@@ -3,6 +3,8 @@ title: "Other material"
 author_profile: true
 redirect_from: 
   - /md/
+  - /markdown/
+  - /other/
   - /other.html
 ---
 
