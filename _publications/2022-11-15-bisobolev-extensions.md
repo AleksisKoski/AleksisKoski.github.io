@@ -9,4 +9,4 @@ authors: Aleksis Koski, Jani Onninen
 ---
 Aleksis Koski, Jani Onninen
 
-[Link](arXiv:2211.08498)
+[Link](https://arxiv.org/abs/2211.08498)
