@@ -9,4 +9,4 @@ authors: 'Aleksis Koski'
 ---
 Masters thesis
 
-[Download](https://atkoski.fi/aleksis_koski_gradu.pdf)
+[Download](https://atkoski.fi/files/aleksis_koski_gradu.pdf)
