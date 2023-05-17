@@ -8,3 +8,5 @@ venue: 'University of Helsinki'
 authors: 'Aleksis Koski'
 ---
 Masters thesis
+
+[Download](https://atkoski.fi/aleksis_koski_gradu.pdf)
