@@ -31,6 +31,9 @@ Degrees
 
 Work experience
 ======
+* <b> University Lecturer:</b> 1.7.2023-Present, Aalto University
+  * Working under: Personal Academy of Finland Research Fellow grant (<a href="https://atkoski.fi/gme">GME</a>).
+
 * <b> Postdoctoral Researcher:</b> 1.9.2022-Present, University of Helsinki
   * Working under: Finnish Centre of Excellence in Randomness and Structures (FiRST)
 
