@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Two Gray Squares</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="300"></canvas>
+
+    <script>
+        // Get the canvas element and its context
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Set the fill style to gray
+        ctx.fillStyle = "gray";
+
+        // Draw the first square
+        ctx.fillRect(50, 50, 300, 300);
+
+        // Draw the second square 100 pixels to the right
+        ctx.fillRect(150, 50, 300, 300);
+    </script>
+</body>
+</html>
