@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Two Gray Squares</title>
+    <title>Self-Symmetric Fractal Creator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="myCanvas" width="500" height="300"></canvas>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
 
     <script>
         // Get the canvas element and its context
@@ -14,11 +23,17 @@
         // Set the fill style to gray
         ctx.fillStyle = "gray";
 
-        // Draw the first square
-        ctx.fillRect(50, 50, 300, 300);
+        // Calculate the coordinates for the first square to center it
+        var squareSize = 300;
+        var canvasWidth = canvas.width;
+        var firstSquareX = (canvasWidth - squareSize * 2 - 100) / 2;
+        var secondSquareX = firstSquareX + squareSize + 100;
 
-        // Draw the second square 100 pixels to the right
-        ctx.fillRect(150, 50, 300, 300);
+        // Draw the first square
+        ctx.fillRect(firstSquareX, 50, squareSize, squareSize);
+
+        // Draw the second square 100 pixels from the end of the first one
+        ctx.fillRect(secondSquareX, 50, squareSize, squareSize);
     </script>
 </body>
 </html>
