@@ -1,39 +1,634 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Self-Symmetric Fractal Creator</title>
+    <title>Self-Symmetric Fractal Designer</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+		
+        .btn {
+            margin-top: 10px;
+            cursor: pointer;
+			margin-bottom: 10px;
         }
+		
+        canvas {
+            border: 1px solid black;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+       
+        .container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-right: 20px; /* Add space between containers */
+		}
+
+		/* Add space between the input elements */
+		.container input {
+			margin-bottom: 10px;
+		}
+
+		/* Place containers horizontally */
+		.container-wrapper {
+			display: flex;
+		}
     </style>
 </head>
 <body>
-    <canvas id="myCanvas" width="400" height="300"></canvas>
+	<h1>Self-Symmetric Fractal Designer</h1>
+
+	<div class="container-wrapper">
+		<div class="container">
+			<canvas id="firstSquare" width="400" height="400"></canvas>
+			<button class="btn" id="addShape">Add Shape</button>
+		</div>
+
+		<div class="container">
+			<canvas id="secondSquare" width="400" height="400"></canvas>
+			<button class="btn" id="addTransformation">Add Transformation</button>
+			<input type="text" id="translation" placeholder="Translation: x, y">
+			<input type="text" id="dilation" placeholder="Dilation: scale">
+			<input type="text" id="rotation" placeholder="Rotation: angle">
+		</div>
+
+		<div class="container">
+			<canvas id="thirdSquare" width="400" height="400"></canvas>
+			<button class="btn" id="genBtn">Generate</button>
+		</div>
+	</div>
+
+    <p>Here are some instructions for use:
+	<br> <br>
+	1) Add some shapes into the first box and use your mouse to shape them how you wish. <br><br>
+	2) Add some transformations into the second box to be iterated in the generation of the fractal. 
+	The formula for each transformations is T(v) = R(a*v) + b, where a is the scale, R is the rotation, and b is the translation. 
+	You can either specify these numbers yourself or use your mouse to shape a given transformation. 
+	To delete a transformation, scale it to be small enough. <br><br>
+	3) Hit "Generate" to create the fractal (5 iterations).
+	</p>
+
 
     <script>
-        // Get the canvas element and its context
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
+        var firstSquare = document.getElementById("firstSquare");
+        var secondSquare = document.getElementById("secondSquare");
+        var thirdSquare = document.getElementById("thirdSquare");
+        var addShapeButton = document.getElementById("addShape");
+        var addTransformationButton = document.getElementById("addTransformation");
+        var translationInput = document.getElementById("translation");
+        var dilationInput = document.getElementById("dilation");
+        var rotationInput = document.getElementById("rotation");
+        var genBtn = document.getElementById("genBtn");
 
-        // Set the fill style to gray
-        ctx.fillStyle = "gray";
+        var shapes = [];
+        var transformations = [];
+       
+        var currentShape = -1;
+        var currentTransf = -1;
 
-        // Calculate the coordinates for the first square to center it
-        var squareSize = 300;
-        var canvasWidth = canvas.width;
-        var firstSquareX = (canvasWidth - squareSize * 2 - 100) / 2;
-        var secondSquareX = firstSquareX + squareSize + 100;
+        // Shape class
+        class Shape {
+            constructor() {
+				var defaultsize = 100;
+                this.vertices = [{ x: -defaultsize, y: -defaultsize }, { x: defaultsize, y: -defaultsize }, { x: defaultsize, y: defaultsize }, { x: -defaultsize, y: defaultsize }];
+                this.reSizing = false;
+                this.drag = false;
+                this.dragStartX = -1;
+                this.dragStartY = -1;
+                this.reSizeIndex = -1;
+				this.drawType = "fill";
+            }
 
-        // Draw the first square
-        ctx.fillRect(firstSquareX, 50, squareSize, squareSize);
+            draw(ctx) {
+				ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+                for (let i = 1; i < this.vertices.length; i++) {
+                    ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+                }
+                ctx.closePath();
+				if (this.drawType == "fill"){
+					ctx.fill();
+				}
+				else {
+					ctx.stroke();
+				}
+            }
+        }
+		
+		var fullBox = new Shape();
+		fullBox.vertices = [{x: 0,y: 0},{x: firstSquare.width, y: 0},{x: firstSquare.width, y: firstSquare.height},{x: 0, y: firstSquare.height}];
+		fullBox.drawType = "border";
 
-        // Draw the second square 100 pixels from the end of the first one
-        ctx.fillRect(secondSquareX, 50, squareSize, squareSize);
+        // Transformation class
+        class Transformation {
+            constructor(translation, dilation, rotation) {
+                this.translation = translation || { x: 0, y: 0 };
+                this.dilation = dilation || 0.5;
+                this.rotation = rotation || 0;
+				this.drag = false;
+                this.dragStartX = -1;
+                this.dragStartY = -1;
+				
+				this.rotate = false;
+				this.rotateStart = 0;
+				this.rotateStartX = 0;
+				this.rotateStartY = 0;
+				
+				this.scale = false;
+				this.scaleStart = 1;
+				this.scaleStartX = 0;
+				this.scaleStartY = 0;
+				
+				this.moveIndex = -1;
+				
+				this.rotVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
+				this.dilVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
+				this.center = {x : 0, y : 0};
+            }
+
+            apply(shape) {
+                // Apply transformation logic here
+                // This example only applies translation, dilation, and rotation to each vertex
+                for (let i = 0; i < shape.vertices.length; i++) {
+                    var x = shape.vertices[i].x - firstSquare.width/2;
+                    var y = shape.vertices[i].y - firstSquare.height/2;
+	
+                    // Dilation
+                    x *= this.dilation;
+                    y *= this.dilation;
+
+                    // Rotation
+                    const angle = -1*(Math.PI / 180) * this.rotation;
+                    const cosA = Math.cos(angle);
+                    const sinA = Math.sin(angle);
+					var oldx = x;
+					var oldy = y;
+                    x = oldx * cosA - oldy * sinA;
+                    y = oldx * sinA + oldy * cosA;
+
+                    // Translation
+                    x += this.translation.x;
+                    y += this.translation.y;
+
+
+					
+					shape.vertices[i].x = x + secondSquare.width/2;
+					shape.vertices[i].y = y + secondSquare.height/2;
+                }
+            }
+			
+			draw(ctx) {
+				var boxShape = new Shape();
+				for (var k = 0; k < boxShape.vertices.length; k++){
+					boxShape.vertices[k].x = fullBox.vertices[k].x;
+					boxShape.vertices[k].y = fullBox.vertices[k].y;
+				}
+				boxShape.drawType = fullBox.drawType;
+				this.apply(boxShape);
+				boxShape.draw(ctx);
+			}
+			
+			update() {
+				var boxShape = new Shape();
+				for (var k = 0; k < boxShape.vertices.length; k++){
+					boxShape.vertices[k].x = fullBox.vertices[k].x;
+					boxShape.vertices[k].y = fullBox.vertices[k].y;
+				}
+				this.apply(boxShape);
+				for (var k = 0; k < 4; k++){
+					this.rotVerts[k].x = boxShape.vertices[k].x;
+					this.rotVerts[k].y = boxShape.vertices[k].y;
+				}
+				
+				for (var k = 0; k < 3; k++){
+					this.dilVerts[k].x = (boxShape.vertices[k].x+boxShape.vertices[k+1].x)/2;
+					this.dilVerts[k].y = (boxShape.vertices[k].y+boxShape.vertices[k+1].y)/2;
+				}
+				this.dilVerts[3].x = (boxShape.vertices[3].x+boxShape.vertices[0].x)/2;
+				this.dilVerts[3].y = (boxShape.vertices[3].y+boxShape.vertices[0].y)/2;
+				
+				this.center.x = (this.dilVerts[0].x+this.dilVerts[2].x)/2;
+				this.center.y = (this.dilVerts[0].y+this.dilVerts[2].y)/2;
+				
+			}
+        }
+
+        // Event listener for adding a shape
+        addShapeButton.addEventListener("click", function () {
+            var newShape = new Shape();
+			for (var i = 0; i < newShape.vertices.length; i++){
+				newShape.vertices[i].x += firstSquare.width/2;
+				newShape.vertices[i].y += firstSquare.height/2;
+			}
+            shapes.push(newShape);
+            currentShape = shapes.length - 1;
+            drawShapes(firstSquare, shapes);
+			applyTransformations(shapes, transformations, secondSquare);
+        });
+
+        // Event listener for adding a transformation
+        addTransformationButton.addEventListener("click", function () {
+            var translation = parseInput(translationInput.value);
+            var dilation = parseFloat(dilationInput.value) || 0.5;
+            var rotation = parseFloat(rotationInput.value) || 0;
+
+            var newTransformation = new Transformation(translation, dilation, rotation);
+			newTransformation.update();
+            transformations.push(newTransformation);
+			
+			currentTransf = transformations.length - 1;
+			
+            applyTransformations(shapes, transformations, secondSquare);
+        });
+       
+        function parseInput(inputValue) {
+            var parts = inputValue.split(",");
+            if (parts.length === 2) {
+                var x = parseFloat(parts[0]);
+                var y = parseFloat(parts[1]);
+                if (!isNaN(x) && !isNaN(y)) {
+                    return { x: x, y: y };
+                }
+            }
+            return { x: 0, y: 0 }; // Default to no translation
+        }
+		
+		function isPointInPolygon(point, vertices) {
+			const copyV = [...vertices];
+			copyV.push(copyV[0]);
+			let isInside = false;
+			const x = point.x;
+			const y = point.y;
+			
+
+			for (let i = 0, j = copyV.length - 1; i < copyV.length; j = i++) {
+				const xi = copyV[i].x;
+				const yi = copyV[i].y;
+				const xj = copyV[j].x;
+				const yj = copyV[j].y;
+
+				const intersect =
+				  yi > y !== yj > y &&
+				  x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+
+				if (intersect) {
+				  isInside = !isInside;
+				}
+			}
+
+			return isInside;
+		}
+
+
+        // Helper function to draw shapes in a square
+        function drawShapes(square, shapeArray) {
+            var ctx = square.getContext("2d");
+            ctx.clearRect(0, 0, square.width, square.height);
+            ctx.fillStyle = "blue";
+
+            for (var i = 0; i < shapeArray.length; i++) {
+                var shape = shapeArray[i];
+                shape.draw(ctx);
+            }
+			
+			if (currentShape !== -1){
+				for (var i = 0; i < shapes[currentShape].vertices.length; i++){
+					const centerX = shapes[currentShape].vertices[i].x;
+					const centerY = shapes[currentShape].vertices[i].y;
+					const radius = 3; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "gray"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+			}
+        }
+
+        // Helper function to apply transformations to shapes
+        function applyTransformations(shapeArray, transformationArray, outputSquare) {
+            var ctx = outputSquare.getContext("2d");
+            ctx.clearRect(0, 0, outputSquare.width, outputSquare.height);
+            ctx.fillStyle = "blue";
+
+            for (var j = 0; j < transformationArray.length; j++) {
+                
+				var transformation = transformationArray[j];
+				
+				for (var i = 0; i < shapeArray.length; i++) {
+					var shape = shapeArray[i];
+
+					var transformedShape = new Shape();
+					
+					transformedShape.vertices = JSON.parse(JSON.stringify(shape.vertices));
+					
+                    
+					transformation.apply(transformedShape);
+					
+					transformedShape.draw(ctx);
+                }
+				
+				
+				transformationArray[j].draw(ctx);
+            }
+			
+			if (currentTransf !== -1){
+				for (var k = 0; k < 4; k++){
+					const centerX = transformations[currentTransf].rotVerts[k].x;
+					const centerY = transformations[currentTransf].rotVerts[k].y;
+					const radius = 3; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "purple"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+				for (var k = 0; k < 4; k++){
+					const centerX = transformations[currentTransf].dilVerts[k].x;
+					const centerY = transformations[currentTransf].dilVerts[k].y;
+					const radius = 3; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "green"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+			}
+        }
+       
+        function isCloseToVertex(vertices,mouseX, mouseY) {
+            for (var i = 0; i < vertices.length; i++) {
+                var vertex = vertices[i];
+                var dx = mouseX - vertex.x;
+                var dy = mouseY - vertex.y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 10) { // You can adjust the proximity threshold here
+                    return i;
+                }
+            }
+            return -1;
+        }
+       
+        firstSquare.addEventListener("mousedown", function (e) {
+            var mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+            var mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+			
+			
+			var didFind = false;
+			for (var i = shapes.length - 1; i > -1; i += -1){
+				if (isPointInPolygon({x: mouseX, y: mouseY},shapes[i].vertices)){
+					currentShape = i;
+					didFind = true;
+					break;
+				}
+			}
+
+            // Check if the mouse is close to any vertex
+            if (currentShape !== -1){
+              var vertexIndex = isCloseToVertex(shapes[currentShape].vertices, mouseX, mouseY);
+
+              if (vertexIndex !== -1) {
+                shapes[currentShape].reSizing = true;
+                shapes[currentShape].reSizeIndex = vertexIndex;
+              }
+              else {
+				
+				if (didFind){
+					shapes[currentShape].dragStartX = mouseX;
+					shapes[currentShape].dragStartY = mouseY;
+					shapes[currentShape].drag = true;
+				}
+				else {currentShape = -1;}
+              }
+            }
+			drawShapes(firstSquare, shapes);
+        });
+       
+        firstSquare.addEventListener("mousemove", function (e) {
+            var mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+            var mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+
+			if (currentShape !== -1){
+				if (shapes[currentShape].reSizing) {
+					// Move vertex
+					shapes[currentShape].vertices[shapes[currentShape].reSizeIndex].x = mouseX;
+					shapes[currentShape].vertices[shapes[currentShape].reSizeIndex].y = mouseY;
+				} else if (shapes[currentShape].drag){
+					// Move whole thing
+					var dx = mouseX - shapes[currentShape].dragStartX;
+					var dy = mouseY - shapes[currentShape].dragStartY;
+					for (var i = 0; i < shapes[currentShape].vertices.length; i++) {
+						shapes[currentShape].vertices[i].x += dx;
+						shapes[currentShape].vertices[i].y += dy;
+					}
+					shapes[currentShape].dragStartX = mouseX;
+					shapes[currentShape].dragStartY = mouseY;
+				};
+				drawShapes(firstSquare, shapes);
+            }
+        });
+       
+        firstSquare.addEventListener("mouseup", function () {
+            if (currentShape !== -1){
+				shapes[currentShape].reSizing = false;
+				shapes[currentShape].drag = false;
+            }
+			applyTransformations(shapes, transformations, secondSquare);
+        });
+		
+		
+		
+		secondSquare.addEventListener("mousedown", function (e) {
+            var mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+            var mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+
+            var didFind = false;
+			for (var i = transformations.length - 1; i > -1; i += -1){
+				if (isPointInPolygon({x: mouseX, y: mouseY},transformations[i].rotVerts)){
+					currentTransf = i;
+					didFind = true;
+					break;
+				}
+			}
+			
+            if (currentTransf !== -1){
+				var amDilating = false;
+				var vertexIndex = isCloseToVertex(transformations[currentTransf].dilVerts, mouseX, mouseY);
+				
+				if (vertexIndex !== -1){
+					amDilating = true;
+				}
+				else {
+					var vertexIndex = isCloseToVertex(transformations[currentTransf].rotVerts, mouseX, mouseY);
+				}
+				
+				if (vertexIndex !== -1){
+					if (amDilating == true){
+						transformations[currentTransf].scale = true;
+						transformations[currentTransf].scaleStart = transformations[currentTransf].dilation;
+						transformations[currentTransf].scaleStartX = mouseX;
+						transformations[currentTransf].scaleStartY = mouseY;
+					}
+					else{
+						transformations[currentTransf].rotate = true;
+						transformations[currentTransf].rotateStart = transformations[currentTransf].rotation;
+						transformations[currentTransf].rotateStartX = mouseX;
+						transformations[currentTransf].rotateStartY = mouseY;
+					}
+					transformations[currentTransf].moveIndex = vertexIndex;
+				}
+				else {
+					if (didFind){
+						transformations[currentTransf].dragStartX = mouseX;
+						transformations[currentTransf].dragStartY = mouseY;
+						transformations[currentTransf].drag = true;
+					}
+					else {
+						currentTransf = -1;
+					}
+				}
+            }
+        });
+       
+        secondSquare.addEventListener("mousemove", function (e) {
+            var mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+            var mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+
+			if (currentTransf !== -1){
+				if (transformations[currentTransf].rotate){
+				
+					var badDiv = false;
+					
+					var nX = mouseX - transformations[currentTransf].center.x;
+					var nY = mouseY - transformations[currentTransf].center.y;
+					var magnitude = Math.sqrt(nX * nX + nY * nY);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else{
+						nX = nX/magnitude;
+						nY = nY/magnitude;
+					}
+					
+					
+					var nX2 = transformations[currentTransf].rotateStartX - transformations[currentTransf].center.x;
+					var nY2 = transformations[currentTransf].rotateStartY - transformations[currentTransf].center.y;
+					magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else {
+						nX2 = nX2/magnitude;
+						nY2 = nY2/magnitude;
+					}
+					
+					var dtheta = 90-1*Math.atan2(nX * nX2 + nY * nY2,nX * nY2 - nY * nX2) * 180/Math.PI;
+					
+					
+					transformations[currentTransf].rotation = dtheta + transformations[currentTransf].rotateStart;
+					transformations[currentTransf].update();
+				
+				}
+				else if (transformations[currentTransf].scale){
+				
+					var badDiv = false;
+					
+					
+					var nX2 = transformations[currentTransf].scaleStartX - transformations[currentTransf].center.x;
+					var nY2 = transformations[currentTransf].scaleStartY - transformations[currentTransf].center.y;
+					var magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					var nX = mouseX - transformations[currentTransf].center.x;
+					var nY = mouseY - transformations[currentTransf].center.y;
+					var dotP = nX * nX2 + nY * nY2;
+					
+					nX = dotP/(magnitude*magnitude) * nX2;
+					nY = dotP/(magnitude*magnitude) * nY2;
+					var magnitude2 = Math.sqrt(nX * nX + nY * nY);
+					
+					
+					transformations[currentTransf].dilation = transformations[currentTransf].scaleStart * magnitude2 / magnitude;
+					if (dotP < 0){
+						transformations[currentTransf].dilation = transformations[currentTransf].dilation * -1;
+					}
+					if (Math.abs(transformations[currentTransf].dilation) < 0.01){
+						transformations.splice(currentTransf, 1);
+					}
+					else {
+					transformations[currentTransf].update();
+					}
+
+				}
+				else if (transformations[currentTransf].drag){
+					// Move whole thing
+					var dx = mouseX - transformations[currentTransf].dragStartX;
+					var dy = mouseY - transformations[currentTransf].dragStartY;
+					
+					transformations[currentTransf].translation.x += dx;
+					transformations[currentTransf].translation.y += dy;
+					transformations[currentTransf].update();
+					
+					transformations[currentTransf].dragStartX = mouseX;
+					transformations[currentTransf].dragStartY = mouseY;
+				};
+				applyTransformations(shapes, transformations, secondSquare);
+            }
+        });
+       
+        secondSquare.addEventListener("mouseup", function () {
+            if (currentTransf !== -1){
+				transformations[currentTransf].drag = false;
+				transformations[currentTransf].rotate = false;
+				transformations[currentTransf].scale = false;
+            }
+			applyTransformations(shapes, transformations, secondSquare);
+        });
+		
+		
+		
+        // Event listener for making the fractal
+        genBtn.addEventListener("click", function () {
+			var N = transformations.length;
+			var M = shapes.length;
+			var ctx = thirdSquare.getContext("2d");
+			ctx.clearRect(0, 0, thirdSquare.width, thirdSquare.height);
+
+			for (var j = 0; j < M; j++){
+            for (var i1 = 0; i1 < N; i1++){
+			for (var i2 = 0; i2 < N; i2++){
+			for (var i3 = 0; i3 < N; i3++){
+			for (var i4 = 0; i4 < N; i4++){
+			for (var i5 = 0; i5 < N; i5++){
+			
+				var shape = new Shape();
+				for (var k = 0; k < 4; k++){
+					shape.vertices[k].x = shapes[j].vertices[k].x;
+					shape.vertices[k].y = shapes[j].vertices[k].y;
+				}
+				transformations[i1].apply(shape);
+				transformations[i2].apply(shape);
+				transformations[i3].apply(shape);
+				transformations[i4].apply(shape);
+				transformations[i5].apply(shape);
+				shape.draw(ctx);
+			}
+			}
+			}
+			}
+			}
+			}
+        });
+
+        // Initial drawing
+        drawShapes(firstSquare, shapes);
+        applyTransformations(shapes, transformations, secondSquare);
     </script>
 </body>
 </html>
