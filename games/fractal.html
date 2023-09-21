@@ -378,10 +378,17 @@
             return -1;
         }
        
-        firstSquare.addEventListener("mousedown", function (e) {
-            var mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
-            var mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
-			
+		
+		function handleMdown1(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousedown") {
+				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchstart") {
+				mouseX = e.touches[0].clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.touches[0].clientY - firstSquare.getBoundingClientRect().top;
+			}
 			
 			var didFind = false;
 			for (var i = shapes.length - 1; i > -1; i += -1){
@@ -411,11 +418,21 @@
               }
             }
 			drawShapes(firstSquare, shapes);
-        });
+        }
+		
+        firstSquare.addEventListener("mousedown", handleMdown1);
+        firstSquare.addEventListener("touchstart", handleMdown1);
        
-        firstSquare.addEventListener("mousemove", function (e) {
-            var mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
-            var mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+		function handleMove1(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousemove") {
+				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchmove") {
+				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
+			}
 
 			if (currentShape !== -1){
 				if (shapes[currentShape].reSizing) {
@@ -435,21 +452,32 @@
 				};
 				drawShapes(firstSquare, shapes);
             }
-        });
+        }
+        firstSquare.addEventListener("mousemove", handleMove1);
+        firstSquare.addEventListener("touchmove", handleMove1);
        
-        firstSquare.addEventListener("mouseup", function () {
+         function handleUp1() {
             if (currentShape !== -1){
 				shapes[currentShape].reSizing = false;
 				shapes[currentShape].drag = false;
             }
 			applyTransformations(shapes, transformations, secondSquare);
-        });
+        }
+		firstSquare.addEventListener("mouseup",handleUp1);
+		firstSquare.addEventListener("touchend",handleUp1);
 		
 		
 		
-		secondSquare.addEventListener("mousedown", function (e) {
-            var mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
-            var mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+		function handleMdown2(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousedown") {
+				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchstart") {
+				mouseX = e.touches[0].clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.touches[0].clientY - secondSquare.getBoundingClientRect().top;
+			}
 
             var didFind = false;
 			for (var i = transformations.length - 1; i > -1; i += -1){
@@ -497,11 +525,21 @@
 					}
 				}
             }
-        });
+        }
+		secondSquare.addEventListener("mousedown", handleMdown2);
+		secondSquare.addEventListener("touchstart", handleMdown2);
        
-        secondSquare.addEventListener("mousemove", function (e) {
-            var mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
-            var mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+		
+		function handleMove2(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousemove") {
+				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchmove") {
+				mouseX = e.changedTouches[0].clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.changedTouches[0].clientY - secondSquare.getBoundingClientRect().top;
+			}
 
 			if (currentTransf !== -1){
 				if (transformations[currentTransf].rotate){
@@ -580,16 +618,18 @@
 				};
 				applyTransformations(shapes, transformations, secondSquare);
             }
-        });
-       
-        secondSquare.addEventListener("mouseup", function () {
+        }
+        secondSquare.addEventListener("mousemove",handleMove2);
+        secondSquare.addEventListener("touchmove",handleMove2);
+		function handleUp2() {
             if (currentTransf !== -1){
 				transformations[currentTransf].drag = false;
 				transformations[currentTransf].rotate = false;
 				transformations[currentTransf].scale = false;
             }
 			applyTransformations(shapes, transformations, secondSquare);
-        });
+        }
+        secondSquare.addEventListener("mouseup", handleUp2);
 		
 		
 		
