@@ -386,6 +386,7 @@
 				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
 			} else if (e.type === "touchstart") {
+				e.preventDefault();
 				mouseX = e.touches[0].clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.touches[0].clientY - firstSquare.getBoundingClientRect().top;
 			}
@@ -430,6 +431,7 @@
 				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
 			} else if (e.type === "touchmove") {
+				e.preventDefault();
 				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
 			}
@@ -475,6 +477,7 @@
 				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
 			} else if (e.type === "touchstart") {
+				e.preventDefault();
 				mouseX = e.touches[0].clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.touches[0].clientY - secondSquare.getBoundingClientRect().top;
 			}
@@ -537,6 +540,7 @@
 				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
 			} else if (e.type === "touchmove") {
+				e.preventDefault();
 				mouseX = e.changedTouches[0].clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.changedTouches[0].clientY - secondSquare.getBoundingClientRect().top;
 			}
