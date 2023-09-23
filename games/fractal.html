@@ -45,21 +45,14 @@
 			text-align: left;
 		}
 		
-		@media (max-width: 1200px) {
-            .container-wrapper {
-                flex-direction: column;
-            }
-
-            .container {
-                margin-right: 0;
-                margin-bottom: 20px; /* Add more spacing between containers */
-                text-align: left; /* Align elements to the left within containers */
-            }
-
-            canvas {
-                width: 100%; /* Make the canvas elements full width of the container */
-            }
-        }
+		@media (max-width: 600px) {
+			.container-wrapper {
+				justify-content: start;
+			}
+			body {
+				text-align: left;
+			}
+		}
 	</style>
 </head>
 <body>
