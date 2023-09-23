@@ -19,33 +19,47 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			margin-right: 20px; /* Add space between containers */
+			margin-right: 20px;
 		}
 
-		/* Add space between the input elements */
 		.container input {
 			margin-bottom: 10px;
 		}
 
-		/* Place containers horizontally and center them */
 		.container-wrapper {
 			display: flex;
-			justify-content: center; /* Center horizontally */
+			justify-content: center;
 		}
 
 		body {
 			background-color: #464454;
 			color: #e0e0e0;
-			text-align: center; /* Center text content on the page */
+			text-align: center;
 		}
 
 		h1 {
-			margin-top: 20px; /* Add space above the title */
+			margin-top: 20px;
 		}
 		
 		.left-align {
 			text-align: left;
 		}
+		
+		@media (max-width: 600px) {
+            .container-wrapper {
+                flex-direction: column;
+            }
+
+            .container {
+                margin-right: 0;
+                margin-bottom: 20px; /* Add more spacing between containers */
+                text-align: left; /* Align elements to the left within containers */
+            }
+
+            canvas {
+                width: 100%; /* Make the canvas elements full width of the container */
+            }
+        }
 	</style>
 </head>
 <body>
@@ -541,7 +555,6 @@
 					break;
 				}
 			}
-			console.log("HI");
 			if (currentShape == -1){
 				currentShape = whoFound;
 			}
@@ -608,7 +621,6 @@
 				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
 			}
-
 			if (currentShape !== -1){
 				if (shapes[currentShape].reSizing) {
 					// Move vertex
@@ -870,6 +882,7 @@
 			applyTransformations(shapes, transformations, secondSquare);
         }
         secondSquare.addEventListener("mouseup", handleUp2);
+        secondSquare.addEventListener("touchend",handleUp2);
 		
 		
 		
