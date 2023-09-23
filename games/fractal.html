@@ -2,21 +2,20 @@
 <html>
 <head>
     <title>Self-Similar Fractal Designer</title>
-    <style>
-		
-        .btn {
-            margin-top: 10px;
-            cursor: pointer;
+	<style>
+		.btn {
+			margin-top: 10px;
+			cursor: pointer;
 			margin-bottom: 10px;
-        }
-		
-        canvas {
-            border: 1px solid black;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-       
-        .container {
+		}
+
+		canvas {
+			border: 1px solid black;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+
+		.container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -28,11 +27,26 @@
 			margin-bottom: 10px;
 		}
 
-		/* Place containers horizontally */
+		/* Place containers horizontally and center them */
 		.container-wrapper {
 			display: flex;
+			justify-content: center; /* Center horizontally */
 		}
-    </style>
+
+		body {
+			background-color: #464454;
+			color: #e0e0e0;
+			text-align: center; /* Center text content on the page */
+		}
+
+		h1 {
+			margin-top: 20px; /* Add space above the title */
+		}
+		
+		.left-align {
+			text-align: left;
+		}
+	</style>
 </head>
 <body>
 	<h1>Self-Similar Fractal Designer</h1>
@@ -57,7 +71,7 @@
 		</div>
 	</div>
 
-    <p>Here are some instructions for use:
+    <p class="left-align">Here are some instructions for use:
 	<br> <br>
 	1) Add some shapes into the first box and use your mouse to shape them how you wish. To delete a shape, scale it to be small enough. <br><br>
 	2) Add some transformations into the second box to be iterated in creating the fractal. 
@@ -372,8 +386,9 @@
         // Helper function to draw shapes in a square
         function drawShapes(square, shapeArray) {
             var ctx = square.getContext("2d");
-            ctx.clearRect(0, 0, square.width, square.height);
-            ctx.fillStyle = "blue";
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, square.width, square.height);
+            ctx.fillStyle = "rgb(30,49,181)";
 
             for (var i = 0; i < shapeArray.length; i++) {
                 var shape = shapeArray[i];
@@ -410,7 +425,7 @@
 					// Define the circle's path
 					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
 					// Set the fill color
-					ctx.fillStyle = "gray"; // Change to your desired fill color
+					ctx.fillStyle = "rgb(37,155,165)"; // Change to your desired fill color
 					// Fill the circle
 					ctx.fill();
 				}
@@ -419,7 +434,7 @@
 				// Define the circle's path
 				ctx.arc(shapes[currentShape].rotVert.x, shapes[currentShape].rotVert.y, 5, 0, Math.PI * 2);
 				// Set the fill color
-				ctx.fillStyle = "purple"; // Change to your desired fill color
+				ctx.fillStyle = "rgb(208,32,165)"; // Change to your desired fill color
 				// Fill the circle
 				ctx.fill();
 				
@@ -427,7 +442,7 @@
 				// Define the circle's path
 				ctx.arc(shapes[currentShape].dilVert.x, shapes[currentShape].dilVert.y, 5, 0, Math.PI * 2);
 				// Set the fill color
-				ctx.fillStyle = "green"; // Change to your desired fill color
+				ctx.fillStyle = "rgb(6,168,31)"; // Change to your desired fill color
 				// Fill the circle
 				ctx.fill();
 			}
@@ -436,8 +451,9 @@
         // Helper function to apply transformations to shapes
         function applyTransformations(shapeArray, transformationArray, outputSquare) {
             var ctx = outputSquare.getContext("2d");
-            ctx.clearRect(0, 0, outputSquare.width, outputSquare.height);
-            ctx.fillStyle = "blue";
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, outputSquare.width, outputSquare.height);
+            ctx.fillStyle = "rgb(30,49,181)";
 
             for (var j = 0; j < transformationArray.length; j++) {
                 
@@ -470,7 +486,7 @@
 					// Define the circle's path
 					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
 					// Set the fill color
-					ctx.fillStyle = "purple"; // Change to your desired fill color
+					ctx.fillStyle = "rgb(208,32,165)"; // Change to your desired fill color
 					// Fill the circle
 					ctx.fill();
 				}
@@ -483,7 +499,7 @@
 					// Define the circle's path
 					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
 					// Set the fill color
-					ctx.fillStyle = "green"; // Change to your desired fill color
+					ctx.fillStyle = "rgb(6,168,31)"; // Change to your desired fill color
 					// Fill the circle
 					ctx.fill();
 				}
@@ -862,7 +878,9 @@
 			var N = transformations.length;
 			var M = shapes.length;
 			var ctx = thirdSquare.getContext("2d");
-			ctx.clearRect(0, 0, thirdSquare.width, thirdSquare.height);
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
+			ctx.fillStyle = "black";
 
 			for (var j = 0; j < M; j++){
             for (var i1 = 0; i1 < N; i1++){
@@ -891,6 +909,11 @@
         });
 
         // Initial drawing
+		
+		var ctx = thirdSquare.getContext("2d");
+		ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
+		ctx.fillStyle = "rgb(30,49,181)";
         drawShapes(firstSquare, shapes);
         applyTransformations(shapes, transformations, secondSquare);
     </script>
