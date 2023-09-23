@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Self-Similar Fractal Designer</title>
+	<style>
+		.btn {
+			margin-top: 10px;
+			cursor: pointer;
+			margin-bottom: 10px;
+		}
+
+		canvas {
+			border: 1px solid black;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-right: 20px; /* Add space between containers */
+		}
+
+		/* Add space between the input elements */
+		.container input {
+			margin-bottom: 10px;
+		}
+
+		/* Place containers horizontally and center them */
+		.container-wrapper {
+			display: flex;
+			justify-content: center; /* Center horizontally */
+		}
+
+		body {
+			background-color: #464454;
+			color: #e0e0e0;
+			text-align: center; /* Center text content on the page */
+		}
+
+		h1 {
+			margin-top: 20px; /* Add space above the title */
+		}
+		
+		.left-align {
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<h1>Self-Similar Fractal Designer</h1>
+
+	<div class="container-wrapper">
+		<div class="container">
+			<canvas id="firstSquare" width="400" height="400"></canvas>
+			<button class="btn" id="addShape">Add Shape</button>
+		</div>
+
+		<div class="container">
+			<canvas id="secondSquare" width="400" height="400"></canvas>
+			<button class="btn" id="addTransformation">Add Transformation</button>
+			<input type="text" id="translation" placeholder="Translation: x, y">
+			<input type="text" id="dilation" placeholder="Dilation: scale">
+			<input type="text" id="rotation" placeholder="Rotation: angle">
+		</div>
+
+		<div class="container">
+			<canvas id="thirdSquare" width="400" height="400"></canvas>
+			<button class="btn" id="genBtn">Generate</button>
+		</div>
+	</div>
+
+    <p class="left-align">Here are some instructions for use:
+	<br> <br>
+	1) Add some shapes into the first box and use your mouse to shape them how you wish. To delete a shape, scale it to be small enough. <br><br>
+	2) Add some transformations into the second box to be iterated in creating the fractal. 
+	The formula for each transformation is T(v) = R(a*v) + b, where a is the scale, R is the rotation, and b is the translation. 
+	You can either specify these numbers yourself or use your mouse to shape a given transformation. The x and y axis limits are -200 and 200. 
+	To delete a transformation, scale it to be small enough. <br><br>
+	3) Hit "Generate" to create the fractal (5 iterations).
+	</p>
+
+
+    <script>
+        var firstSquare = document.getElementById("firstSquare");
+        var secondSquare = document.getElementById("secondSquare");
+        var thirdSquare = document.getElementById("thirdSquare");
+        var addShapeButton = document.getElementById("addShape");
+        var addTransformationButton = document.getElementById("addTransformation");
+        var translationInput = document.getElementById("translation");
+        var dilationInput = document.getElementById("dilation");
+        var rotationInput = document.getElementById("rotation");
+        var genBtn = document.getElementById("genBtn");
+
+        var shapes = [];
+        var transformations = [];
+       
+        var currentShape = -1;
+        var currentTransf = -1;
+
+        // Shape class
+		
+		class SimpleShape {
+            constructor() {
+				var defaultsize = 100;
+                this.vertices = [{ x: -defaultsize, y: -defaultsize }, { x: defaultsize, y: -defaultsize }, { x: defaultsize, y: defaultsize }, { x: -defaultsize, y: defaultsize }];
+				
+				this.dilation = 1;
+				this.rotation = 0;
+            }
+
+            draw(ctx) {
+                ctx.beginPath();
+                ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+                for (let i = 1; i < this.vertices.length; i++) {
+                    ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+                }
+                ctx.closePath();
+				ctx.fill();
+            }
+        }
+		
+        class Shape {
+            constructor() {
+				var defaultsize = 100;
+                this.vertices = [{ x: -defaultsize, y: -defaultsize }, { x: defaultsize, y: -defaultsize }, { x: defaultsize, y: defaultsize }, { x: -defaultsize, y: defaultsize }];
+                this.reSizing = false;
+                this.drag = false;
+                this.dragStartX = -1;
+                this.dragStartY = -1;
+                this.reSizeIndex = -1;
+				
+				this.dilation = 1;
+				this.rotation = 0;
+				
+				this.rotate = false;
+				this.rotateStart = 0;
+				this.rotateStartX = 0;
+				this.rotateStartY = 0;
+				
+				this.scale = false;
+				this.scaleStart = 1;
+				this.scaleStartX = 0;
+				this.scaleStartY = 0;
+				
+				
+				this.rotVert = {x : 0, y : 0};
+				this.dilVert = {x : 0, y : 0};
+				this.center = {x : 0, y : 0};
+            }
+
+            draw(ctx) {
+				var drawShape = new SimpleShape();
+				drawShape.vertices = JSON.parse(JSON.stringify(this.vertices));
+				if (this.rotate){
+					for (var i = 0; i < this.vertices.length; i++){
+						var oldX = drawShape.vertices[i].x - this.center.x;
+						var oldY = drawShape.vertices[i].y - this.center.y;
+						var theta = -1*(this.rotation - this.rotateStart) * Math.PI/180;
+						drawShape.vertices[i].x = this.center.x + oldX * Math.cos(theta) - oldY * Math.sin(theta);
+						drawShape.vertices[i].y = this.center.y + oldX * Math.sin(theta) + oldY * Math.cos(theta);
+					}
+				}
+				else if (this.scale){
+					for (var i = 0; i < this.vertices.length; i++){
+						var oldX = drawShape.vertices[i].x - this.center.x;
+						var oldY = drawShape.vertices[i].y - this.center.y;
+						var s = this.dilation/this.scaleStart;
+						drawShape.vertices[i].x = this.center.x + oldX * s;
+						drawShape.vertices[i].y = this.center.y + oldY * s;
+					}
+				}
+				drawShape.draw(ctx);
+            }
+			
+            draw2(ctx) {
+				ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+                for (let i = 1; i < this.vertices.length; i++) {
+                    ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+                }
+                ctx.closePath();
+				ctx.stroke();
+            }
+			
+			update() {
+				this.center.x = (this.vertices[0].x + this.vertices[1].x + this.vertices[2].x + this.vertices[3].x)/4;
+				this.center.y = (this.vertices[0].y + this.vertices[1].y + this.vertices[2].y + this.vertices[3].y)/4;
+				
+				this.dilVert.x = this.center.x + Math.cos(-1*this.rotation * Math.PI/180) * this.dilation;
+				this.dilVert.y = this.center.y + Math.sin(-1*this.rotation * Math.PI/180) * this.dilation;
+				
+				this.rotVert.x = this.center.x + Math.cos(-1*(90+this.rotation) * Math.PI/180) * this.dilation;
+				this.rotVert.y = this.center.y + Math.sin(-1*(90+this.rotation) * Math.PI/180) * this.dilation;
+			}
+			
+			update2(){
+				if (this.rotate){
+					for (var i = 0; i < this.vertices.length; i++){
+						var oldX = this.vertices[i].x - this.center.x;
+						var oldY = this.vertices[i].y - this.center.y;
+						var theta = -1*(this.rotation - this.rotateStart) * Math.PI/180;
+						this.vertices[i].x = this.center.x + oldX * Math.cos(theta) - oldY * Math.sin(theta);
+						this.vertices[i].y = this.center.y + oldX * Math.sin(theta) + oldY * Math.cos(theta);
+					}
+				}
+				else if (this.scale){
+					for (var i = 0; i < this.vertices.length; i++){
+						var oldX = this.vertices[i].x - this.center.x;
+						var oldY = this.vertices[i].y - this.center.y;
+						var s = this.dilation/this.scaleStart;
+						this.vertices[i].x = this.center.x + oldX * s;
+						this.vertices[i].y = this.center.y + oldY * s;
+					}
+				}
+			}
+        }
+		
+		
+		var fullBox = new Shape();
+		fullBox.vertices = [{x: 0,y: 0},{x: firstSquare.width, y: 0},{x: firstSquare.width, y: firstSquare.height},{x: 0, y: firstSquare.height}];
+
+        // Transformation class
+        class Transformation {
+            constructor(translation, dilation, rotation) {
+                this.translation = translation || { x: 0, y: 0 };
+                this.dilation = dilation || 0.5;
+                this.rotation = rotation || 0;
+				this.drag = false;
+                this.dragStartX = -1;
+                this.dragStartY = -1;
+				
+				this.rotate = false;
+				this.rotateStart = 0;
+				this.rotateStartX = 0;
+				this.rotateStartY = 0;
+				
+				this.scale = false;
+				this.scaleStart = 1;
+				this.scaleStartX = 0;
+				this.scaleStartY = 0;
+				
+				this.moveIndex = -1;
+				
+				this.rotVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
+				this.dilVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
+				this.center = {x : 0, y : 0};
+            }
+
+            apply(shape) {
+                // Apply transformation logic here
+                // This example only applies translation, dilation, and rotation to each vertex
+                for (let i = 0; i < shape.vertices.length; i++) {
+                    var x = shape.vertices[i].x - firstSquare.width/2;
+                    var y = shape.vertices[i].y - firstSquare.height/2;
+	
+                    // Dilation
+                    x *= this.dilation;
+                    y *= this.dilation;
+
+                    // Rotation
+                    const angle = -1*(Math.PI / 180) * this.rotation;
+                    const cosA = Math.cos(angle);
+                    const sinA = Math.sin(angle);
+					var oldx = x;
+					var oldy = y;
+                    x = oldx * cosA - oldy * sinA;
+                    y = oldx * sinA + oldy * cosA;
+
+                    // Translation
+                    x += this.translation.x;
+                    y += this.translation.y;
+
+
+					
+					shape.vertices[i].x = x + secondSquare.width/2;
+					shape.vertices[i].y = y + secondSquare.height/2;
+                }
+            }
+			
+			draw(ctx) {
+				var boxShape = new Shape();
+				for (var k = 0; k < boxShape.vertices.length; k++){
+					boxShape.vertices[k].x = fullBox.vertices[k].x;
+					boxShape.vertices[k].y = fullBox.vertices[k].y;
+				}
+				this.apply(boxShape);
+				boxShape.draw2(ctx);
+			}
+			
+			update() {
+				var boxShape = new Shape();
+				for (var k = 0; k < boxShape.vertices.length; k++){
+					boxShape.vertices[k].x = fullBox.vertices[k].x;
+					boxShape.vertices[k].y = fullBox.vertices[k].y;
+				}
+				this.apply(boxShape);
+				for (var k = 0; k < 4; k++){
+					this.rotVerts[k].x = boxShape.vertices[k].x;
+					this.rotVerts[k].y = boxShape.vertices[k].y;
+				}
+				
+				for (var k = 0; k < 3; k++){
+					this.dilVerts[k].x = (boxShape.vertices[k].x+boxShape.vertices[k+1].x)/2;
+					this.dilVerts[k].y = (boxShape.vertices[k].y+boxShape.vertices[k+1].y)/2;
+				}
+				this.dilVerts[3].x = (boxShape.vertices[3].x+boxShape.vertices[0].x)/2;
+				this.dilVerts[3].y = (boxShape.vertices[3].y+boxShape.vertices[0].y)/2;
+				
+				this.center.x = (this.dilVerts[0].x+this.dilVerts[2].x)/2;
+				this.center.y = (this.dilVerts[0].y+this.dilVerts[2].y)/2;
+			}
+        }
+
+        // Event listener for adding a shape
+        addShapeButton.addEventListener("click", function () {
+            var newShape = new Shape();
+			for (var i = 0; i < newShape.vertices.length; i++){
+				newShape.vertices[i].x += firstSquare.width/2;
+				newShape.vertices[i].y += firstSquare.height/2;
+			}
+			newShape.dilation = 100;
+			newShape.update();
+            shapes.push(newShape);
+            currentShape = shapes.length - 1;
+            drawShapes(firstSquare, shapes);
+			applyTransformations(shapes, transformations, secondSquare);
+        });
+
+        // Event listener for adding a transformation
+        addTransformationButton.addEventListener("click", function () {
+            var translation = parseInput(translationInput.value);
+            var dilation = parseFloat(dilationInput.value) || 0.5;
+            var rotation = parseFloat(rotationInput.value) || 0;
+
+            var newTransformation = new Transformation(translation, dilation, rotation);
+			newTransformation.update();
+            transformations.push(newTransformation);
+			
+			currentTransf = transformations.length - 1;
+			
+            applyTransformations(shapes, transformations, secondSquare);
+        });
+       
+        function parseInput(inputValue) {
+            var parts = inputValue.split(",");
+            if (parts.length === 2) {
+                var x = parseFloat(parts[0]);
+                var y = parseFloat(parts[1]);
+                if (!isNaN(x) && !isNaN(y)) {
+                    return { x: x, y: y };
+                }
+            }
+            return { x: 0, y: 0 }; // Default to no translation
+        }
+		
+		function isPointInPolygon(point, vertices) {
+			const copyV = [...vertices];
+			copyV.push(copyV[0]);
+			let isInside = false;
+			const x = point.x;
+			const y = point.y;
+			
+
+			for (let i = 0, j = copyV.length - 1; i < copyV.length; j = i++) {
+				const xi = copyV[i].x;
+				const yi = copyV[i].y;
+				const xj = copyV[j].x;
+				const yj = copyV[j].y;
+
+				const intersect =
+				  yi > y !== yj > y &&
+				  x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+
+				if (intersect) {
+				  isInside = !isInside;
+				}
+			}
+
+			return isInside;
+		}
+
+
+        // Helper function to draw shapes in a square
+        function drawShapes(square, shapeArray) {
+            var ctx = square.getContext("2d");
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, square.width, square.height);
+            ctx.fillStyle = "rgb(30,49,181)";
+
+            for (var i = 0; i < shapeArray.length; i++) {
+                var shape = shapeArray[i];
+                shape.draw(ctx);
+            }
+			
+			if (currentShape !== -1){
+				var drawShape = new SimpleShape();
+				drawShape.vertices = JSON.parse(JSON.stringify(shapes[currentShape].vertices));
+				if (shapes[currentShape].rotate){
+					for (var i = 0; i < shapes[currentShape].vertices.length; i++){
+						var oldX = drawShape.vertices[i].x - shapes[currentShape].center.x;
+						var oldY = drawShape.vertices[i].y - shapes[currentShape].center.y;
+						var theta = -1*(shapes[currentShape].rotation - shapes[currentShape].rotateStart) * Math.PI/180;
+						drawShape.vertices[i].x = shapes[currentShape].center.x + oldX * Math.cos(theta) - oldY * Math.sin(theta);
+						drawShape.vertices[i].y = shapes[currentShape].center.y + oldX * Math.sin(theta) + oldY * Math.cos(theta);
+					}
+				}
+				else if (shapes[currentShape].scale){
+					for (var i = 0; i < shapes[currentShape].vertices.length; i++){
+						var oldX = drawShape.vertices[i].x - shapes[currentShape].center.x;
+						var oldY = drawShape.vertices[i].y - shapes[currentShape].center.y;
+						var s = shapes[currentShape].dilation/shapes[currentShape].scaleStart;
+						drawShape.vertices[i].x = shapes[currentShape].center.x + oldX * s;
+						drawShape.vertices[i].y = shapes[currentShape].center.y + oldY * s;
+					}
+				}
+				for (var i = 0; i < drawShape.vertices.length; i++){
+					const centerX = drawShape.vertices[i].x;
+					const centerY = drawShape.vertices[i].y;
+					const radius = 5; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "rgb(37,155,165)"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+				// Begin a new path
+				ctx.beginPath();
+				// Define the circle's path
+				ctx.arc(shapes[currentShape].rotVert.x, shapes[currentShape].rotVert.y, 5, 0, Math.PI * 2);
+				// Set the fill color
+				ctx.fillStyle = "rgb(208,32,165)"; // Change to your desired fill color
+				// Fill the circle
+				ctx.fill();
+				
+				ctx.beginPath();
+				// Define the circle's path
+				ctx.arc(shapes[currentShape].dilVert.x, shapes[currentShape].dilVert.y, 5, 0, Math.PI * 2);
+				// Set the fill color
+				ctx.fillStyle = "rgb(6,168,31)"; // Change to your desired fill color
+				// Fill the circle
+				ctx.fill();
+			}
+        }
+
+        // Helper function to apply transformations to shapes
+        function applyTransformations(shapeArray, transformationArray, outputSquare) {
+            var ctx = outputSquare.getContext("2d");
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, outputSquare.width, outputSquare.height);
+            ctx.fillStyle = "rgb(30,49,181)";
+
+            for (var j = 0; j < transformationArray.length; j++) {
+                
+				var transformation = transformationArray[j];
+				
+				for (var i = 0; i < shapeArray.length; i++) {
+					var shape = shapeArray[i];
+
+					var transformedShape = new SimpleShape();
+					
+					transformedShape.vertices = JSON.parse(JSON.stringify(shape.vertices));
+					
+                    
+					transformation.apply(transformedShape);
+					
+					transformedShape.draw(ctx);
+                }
+				
+				
+				transformationArray[j].draw(ctx);
+            }
+			
+			if (currentTransf !== -1){
+				for (var k = 0; k < 4; k++){
+					const centerX = transformations[currentTransf].rotVerts[k].x;
+					const centerY = transformations[currentTransf].rotVerts[k].y;
+					const radius = 5; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "rgb(208,32,165)"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+				for (var k = 0; k < 4; k++){
+					const centerX = transformations[currentTransf].dilVerts[k].x;
+					const centerY = transformations[currentTransf].dilVerts[k].y;
+					const radius = 5; // Adjust the radius as needed
+					// Begin a new path
+					ctx.beginPath();
+					// Define the circle's path
+					ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+					// Set the fill color
+					ctx.fillStyle = "rgb(6,168,31)"; // Change to your desired fill color
+					// Fill the circle
+					ctx.fill();
+				}
+			}
+        }
+       
+        function isCloseToVertex(vertices,mouseX, mouseY) {
+            for (var i = 0; i < vertices.length; i++) {
+                var vertex = vertices[i];
+                var dx = mouseX - vertex.x;
+                var dy = mouseY - vertex.y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 15) { // You can adjust the proximity threshold here
+                    return i;
+                }
+            }
+            return -1;
+        }
+       
+		
+		function handleMdown1(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousedown") {
+				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchstart") {
+				e.preventDefault();
+				mouseX = e.touches[0].clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.touches[0].clientY - firstSquare.getBoundingClientRect().top;
+			}
+			
+			var didFind = false;
+			var whoFound = -1;
+			for (var i = shapes.length - 1; i > -1; i += -1){
+				if (isPointInPolygon({x: mouseX, y: mouseY},shapes[i].vertices)){
+					whoFound = i;
+					didFind = true;
+					break;
+				}
+			}
+			if (currentShape == -1){
+				currentShape = whoFound;
+			}
+			else {
+				var clickMode = "none";
+				var vertexIndex = isCloseToVertex(shapes[currentShape].vertices, mouseX, mouseY);
+				if (vertexIndex !== -1){
+					clickMode = "resize";
+				}
+				else {
+					vertexIndex = isCloseToVertex([shapes[currentShape].rotVert], mouseX, mouseY);
+					if (vertexIndex !== -1){
+						clickMode = "rotate";
+					}
+					else {
+						vertexIndex = isCloseToVertex([shapes[currentShape].dilVert], mouseX, mouseY);
+						if (vertexIndex !== -1){
+							clickMode = "scale";
+						}
+					}
+				}
+			  
+
+				if (clickMode == "resize") {
+					shapes[currentShape].reSizing = true;
+					shapes[currentShape].reSizeIndex = vertexIndex;
+				}
+				else if (clickMode == "rotate"){
+					shapes[currentShape].rotate = true;
+					shapes[currentShape].rotateStart = shapes[currentShape].rotation;
+					shapes[currentShape].rotateStartX = mouseX;
+					shapes[currentShape].rotateStartY = mouseY;
+				}
+				else if (clickMode == "scale"){
+					shapes[currentShape].scale = true;
+					shapes[currentShape].scaleStart = shapes[currentShape].dilation;
+					shapes[currentShape].scaleStartX = mouseX;
+					shapes[currentShape].scaleStartY = mouseY;
+				}
+				else {
+					if (didFind){
+						currentShape = whoFound;
+						shapes[currentShape].dragStartX = mouseX;
+						shapes[currentShape].dragStartY = mouseY;
+						shapes[currentShape].drag = true;
+					}
+					else {currentShape = -1;}
+				}
+            }
+			drawShapes(firstSquare, shapes);
+        }
+		
+        firstSquare.addEventListener("mousedown", handleMdown1);
+        firstSquare.addEventListener("touchstart", handleMdown1);
+       
+		function handleMove1(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousemove") {
+				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchmove") {
+				e.preventDefault();
+				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
+			}
+			if (currentShape !== -1){
+				if (shapes[currentShape].reSizing) {
+					// Move vertex
+					shapes[currentShape].vertices[shapes[currentShape].reSizeIndex].x = mouseX;
+					shapes[currentShape].vertices[shapes[currentShape].reSizeIndex].y = mouseY;
+				}
+				else if (shapes[currentShape].rotate) {
+					var badDiv = false;
+					
+					var nX = mouseX - shapes[currentShape].center.x;
+					var nY = mouseY - shapes[currentShape].center.y;
+					var magnitude = Math.sqrt(nX * nX + nY * nY);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else{
+						nX = nX/magnitude;
+						nY = nY/magnitude;
+					}
+					
+					
+					var nX2 = shapes[currentShape].rotateStartX - shapes[currentShape].center.x;
+					var nY2 = shapes[currentShape].rotateStartY - shapes[currentShape].center.y;
+					magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else {
+						nX2 = nX2/magnitude;
+						nY2 = nY2/magnitude;
+					}
+					
+					var dtheta = 90-1*Math.atan2(nX * nX2 + nY * nY2,nX * nY2 - nY * nX2) * 180/Math.PI + shapes[currentShape].rotateStart;
+					
+					shapes[currentShape].rotation = dtheta;
+				}
+				else if (shapes[currentShape].scale){
+					
+					var nX2 = shapes[currentShape].scaleStartX - shapes[currentShape].center.x;
+					var nY2 = shapes[currentShape].scaleStartY - shapes[currentShape].center.y;
+					var magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					var nX = mouseX - shapes[currentShape].center.x;
+					var nY = mouseY - shapes[currentShape].center.y;
+					var dotP = nX * nX2 + nY * nY2;
+					
+					nX = dotP/(magnitude*magnitude) * nX2;
+					nY = dotP/(magnitude*magnitude) * nY2;
+					var magnitude2 = Math.sqrt(nX * nX + nY * nY);
+					
+					
+					shapes[currentShape].dilation = shapes[currentShape].scaleStart * magnitude2 / magnitude;
+					if (dotP < 0){
+						shapes[currentShape].dilation = shapes[currentShape].dilation * -1;
+					}
+					if (Math.abs(shapes[currentShape].dilation) < 4){
+						shapes.splice(currentShape, 1);
+						currentShape = -1;
+					}
+				}
+				else if (shapes[currentShape].drag){
+					// Move whole thing
+					var dx = mouseX - shapes[currentShape].dragStartX;
+					var dy = mouseY - shapes[currentShape].dragStartY;
+					for (var i = 0; i < shapes[currentShape].vertices.length; i++) {
+						shapes[currentShape].vertices[i].x += dx;
+						shapes[currentShape].vertices[i].y += dy;
+					}
+					shapes[currentShape].dragStartX = mouseX;
+					shapes[currentShape].dragStartY = mouseY;
+				};
+				shapes[currentShape].update();
+            }
+			drawShapes(firstSquare, shapes);
+        }
+        firstSquare.addEventListener("mousemove", handleMove1);
+        firstSquare.addEventListener("touchmove", handleMove1);
+       
+         function handleUp1() {
+            if (currentShape !== -1){
+				shapes[currentShape].update2();
+				shapes[currentShape].reSizing = false;
+				shapes[currentShape].drag = false;
+				shapes[currentShape].rotate = false;
+				shapes[currentShape].scale = false;
+            }
+			drawShapes(firstSquare, shapes);
+			applyTransformations(shapes, transformations, secondSquare);
+        }
+		firstSquare.addEventListener("mouseup",handleUp1);
+		firstSquare.addEventListener("touchend",handleUp1);
+		
+		
+		
+		function handleMdown2(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousedown") {
+				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchstart") {
+				e.preventDefault();
+				mouseX = e.touches[0].clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.touches[0].clientY - secondSquare.getBoundingClientRect().top;
+			}
+
+            var didFind = false;
+			var whoFound = -1;
+			for (var i = transformations.length - 1; i > -1; i += -1){
+				if (isPointInPolygon({x: mouseX, y: mouseY},transformations[i].rotVerts)){
+					whoFound = i;
+					didFind = true;
+					break;
+				}
+			}
+			if (currentTransf == -1){
+				currentTransf = whoFound;
+			}
+            else{
+				var amDilating = false;
+				var vertexIndex = isCloseToVertex(transformations[currentTransf].dilVerts, mouseX, mouseY);
+				
+				if (vertexIndex !== -1){
+					amDilating = true;
+				}
+				else {
+					var vertexIndex = isCloseToVertex(transformations[currentTransf].rotVerts, mouseX, mouseY);
+				}
+				
+				if (vertexIndex !== -1){
+					if (amDilating == true){
+						transformations[currentTransf].scale = true;
+						transformations[currentTransf].scaleStart = transformations[currentTransf].dilation;
+						transformations[currentTransf].scaleStartX = mouseX;
+						transformations[currentTransf].scaleStartY = mouseY;
+					}
+					else{
+						transformations[currentTransf].rotate = true;
+						transformations[currentTransf].rotateStart = transformations[currentTransf].rotation;
+						transformations[currentTransf].rotateStartX = mouseX;
+						transformations[currentTransf].rotateStartY = mouseY;
+					}
+					transformations[currentTransf].moveIndex = vertexIndex;
+				}
+				else {
+					if (didFind){
+						currentTransf = whoFound;
+						transformations[currentTransf].dragStartX = mouseX;
+						transformations[currentTransf].dragStartY = mouseY;
+						transformations[currentTransf].drag = true;
+					}
+					else {
+						currentTransf = -1;
+					}
+				}
+            }
+        }
+		secondSquare.addEventListener("mousedown", handleMdown2);
+		secondSquare.addEventListener("touchstart", handleMdown2);
+       
+		
+		function handleMove2(e) {
+            var mouseX = 0;
+            var mouseY = 0;
+			if (e.type === "mousemove") {
+				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+			} else if (e.type === "touchmove") {
+				e.preventDefault();
+				mouseX = e.changedTouches[0].clientX - secondSquare.getBoundingClientRect().left;
+				mouseY = e.changedTouches[0].clientY - secondSquare.getBoundingClientRect().top;
+			}
+
+			if (currentTransf !== -1){
+				if (transformations[currentTransf].rotate){
+				
+					var badDiv = false;
+					
+					var nX = mouseX - transformations[currentTransf].center.x;
+					var nY = mouseY - transformations[currentTransf].center.y;
+					var magnitude = Math.sqrt(nX * nX + nY * nY);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else{
+						nX = nX/magnitude;
+						nY = nY/magnitude;
+					}
+					
+					
+					var nX2 = transformations[currentTransf].rotateStartX - transformations[currentTransf].center.x;
+					var nY2 = transformations[currentTransf].rotateStartY - transformations[currentTransf].center.y;
+					magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					if (magnitude < 1){ badDiv = true; }
+					else {
+						nX2 = nX2/magnitude;
+						nY2 = nY2/magnitude;
+					}
+					
+					var dtheta = 90-1*Math.atan2(nX * nX2 + nY * nY2,nX * nY2 - nY * nX2) * 180/Math.PI;
+					
+					
+					transformations[currentTransf].rotation = dtheta + transformations[currentTransf].rotateStart;
+					transformations[currentTransf].update();
+				
+				}
+				else if (transformations[currentTransf].scale){
+				
+					var badDiv = false;
+					
+					
+					var nX2 = transformations[currentTransf].scaleStartX - transformations[currentTransf].center.x;
+					var nY2 = transformations[currentTransf].scaleStartY - transformations[currentTransf].center.y;
+					var magnitude = Math.sqrt(nX2 * nX2 + nY2 * nY2);
+					
+					var nX = mouseX - transformations[currentTransf].center.x;
+					var nY = mouseY - transformations[currentTransf].center.y;
+					var dotP = nX * nX2 + nY * nY2;
+					
+					nX = dotP/(magnitude*magnitude) * nX2;
+					nY = dotP/(magnitude*magnitude) * nY2;
+					var magnitude2 = Math.sqrt(nX * nX + nY * nY);
+					
+					
+					transformations[currentTransf].dilation = transformations[currentTransf].scaleStart * magnitude2 / magnitude;
+					if (dotP < 0){
+						transformations[currentTransf].dilation = transformations[currentTransf].dilation * -1;
+					}
+					if (Math.abs(transformations[currentTransf].dilation) < 0.01){
+						transformations.splice(currentTransf, 1);
+						currentTransf = -1;
+					}
+					else {
+					transformations[currentTransf].update();
+					}
+
+				}
+				else if (transformations[currentTransf].drag){
+					// Move whole thing
+					var dx = mouseX - transformations[currentTransf].dragStartX;
+					var dy = mouseY - transformations[currentTransf].dragStartY;
+					
+					transformations[currentTransf].translation.x += dx;
+					transformations[currentTransf].translation.y += dy;
+					transformations[currentTransf].update();
+					
+					transformations[currentTransf].dragStartX = mouseX;
+					transformations[currentTransf].dragStartY = mouseY;
+				};
+				applyTransformations(shapes, transformations, secondSquare);
+            }
+        }
+        secondSquare.addEventListener("mousemove",handleMove2);
+        secondSquare.addEventListener("touchmove",handleMove2);
+		function handleUp2() {
+            if (currentTransf !== -1){
+				transformations[currentTransf].drag = false;
+				transformations[currentTransf].rotate = false;
+				transformations[currentTransf].scale = false;
+            }
+			applyTransformations(shapes, transformations, secondSquare);
+        }
+        secondSquare.addEventListener("mouseup", handleUp2);
+        secondSquare.addEventListener("touchend",handleUp2);
+		
+		
+		
+        // Event listener for making the fractal
+        genBtn.addEventListener("click", function () {
+			var N = transformations.length;
+			var M = shapes.length;
+			var ctx = thirdSquare.getContext("2d");
+			ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
+			ctx.fillStyle = "black";
+
+			for (var j = 0; j < M; j++){
+            for (var i1 = 0; i1 < N; i1++){
+			for (var i2 = 0; i2 < N; i2++){
+			for (var i3 = 0; i3 < N; i3++){
+			for (var i4 = 0; i4 < N; i4++){
+			for (var i5 = 0; i5 < N; i5++){
+			
+				var shape = new SimpleShape();
+				for (var k = 0; k < 4; k++){
+					shape.vertices[k].x = shapes[j].vertices[k].x;
+					shape.vertices[k].y = shapes[j].vertices[k].y;
+				}
+				transformations[i1].apply(shape);
+				transformations[i2].apply(shape);
+				transformations[i3].apply(shape);
+				transformations[i4].apply(shape);
+				transformations[i5].apply(shape);
+				shape.draw(ctx);
+			}
+			}
+			}
+			}
+			}
+			}
+        });
+
+        // Initial drawing
+		
+		var ctx = thirdSquare.getContext("2d");
+		ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
+		ctx.fillStyle = "rgb(30,49,181)";
+        drawShapes(firstSquare, shapes);
+        applyTransformations(shapes, transformations, secondSquare);
+    </script>
+</body>
+</html>
