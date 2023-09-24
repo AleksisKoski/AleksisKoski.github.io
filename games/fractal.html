@@ -4,7 +4,7 @@
     <title>Self-Similar Fractal Designer</title>
 	<style>
 		.btn {
-			margin-top: 10px;
+			margin-top: 0px;
 			cursor: pointer;
 			margin-bottom: 10px;
 		}
@@ -12,7 +12,7 @@
 		canvas {
 			border: 1px solid black;
 			margin-right: 10px;
-			margin-bottom: 10px;
+			margin-bottom: 20px;
 		}
 
 		.container {
@@ -70,6 +70,7 @@
 			<input type="text" id="translation" placeholder="Translation: x, y">
 			<input type="text" id="dilation" placeholder="Dilation: scale">
 			<input type="text" id="rotation" placeholder="Rotation: angle">
+			<button class="btn" id="mirror">Mirror</button>
 		</div>
 
 		<div class="container">
@@ -96,6 +97,7 @@
         var thirdSquare = document.getElementById("thirdSquare");
         var addShapeButton = document.getElementById("addShape");
         var addTransformationButton = document.getElementById("addTransformation");
+        var mirrorButton = document.getElementById("mirror");
         var translationInput = document.getElementById("translation");
         var dilationInput = document.getElementById("dilation");
         var rotationInput = document.getElementById("rotation");
@@ -151,6 +153,7 @@
 				this.scaleStart = 1;
 				this.scaleStartX = 0;
 				this.scaleStartY = 0;
+				
 				
 				
 				this.rotVert = {x : 0, y : 0};
@@ -251,6 +254,7 @@
 				this.scaleStartY = 0;
 				
 				this.moveIndex = -1;
+				this.mirror = 1;
 				
 				this.rotVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
 				this.dilVerts = [{x: 0,y: 0},{x: 200, y: 0},{x: 200, y: 200},{x: 0, y: 200}];
@@ -261,7 +265,7 @@
                 // Apply transformation logic here
                 // This example only applies translation, dilation, and rotation to each vertex
                 for (let i = 0; i < shape.vertices.length; i++) {
-                    var x = shape.vertices[i].x - firstSquare.width/2;
+                    var x = (shape.vertices[i].x - firstSquare.width/2)*this.mirror;
                     var y = shape.vertices[i].y - firstSquare.height/2;
 	
                     // Dilation
@@ -350,6 +354,14 @@
 			currentTransf = transformations.length - 1;
 			
             applyTransformations(shapes, transformations, secondSquare);
+        });
+		
+		
+        mirrorButton.addEventListener("click", function () {
+            if (currentTransf !== -1){
+				transformations[currentTransf].mirror = -1 * transformations[currentTransf].mirror;
+				applyTransformations(shapes, transformations, secondSquare);
+			}
         });
        
         function parseInput(inputValue) {
