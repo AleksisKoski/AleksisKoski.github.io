@@ -20,6 +20,7 @@
 			flex-direction: column;
 			align-items: center;
 			margin-right: 20px;
+			margin-top: 20px;
 		}
 
 		.container input {
@@ -57,8 +58,8 @@
 </head>
 <body>
 	<h1>Self-Similar Fractal Designer</h1>
-
-	<div class="container-wrapper">
+	
+	<div class="container-wrapper" id="mouseTracker">
 		<div class="container">
 			<canvas id="firstSquare" width="400" height="400"></canvas>
 			<button class="btn" id="addShape">Add Shape</button>
@@ -102,6 +103,7 @@
         var dilationInput = document.getElementById("dilation");
         var rotationInput = document.getElementById("rotation");
         var genBtn = document.getElementById("genBtn");
+		const mouseTracker = document.getElementById('mouseTracker');
 
         var shapes = [];
         var transformations = [];
@@ -110,6 +112,54 @@
         var currentTransf = -1;
 
         // Shape class
+		
+		var currentCanvas = 0;
+		
+		function isInRect(pointX, pointY, rectX, rectY, rectWidth, rectHeight) {
+			// Check if the point is within the rectangle's bounds
+			return (
+				pointX >= rectX &&          // Check left boundary
+				pointX <= rectX + rectWidth &&  // Check right boundary
+				pointY >= rectY &&          // Check top boundary
+				pointY <= rectY + rectHeight     // Check bottom boundary
+			);
+}
+		
+		function handleMouseMove(e) {
+			var mouseX = 0;
+            var mouseY = 0;
+			
+			if (e.type === "mousemove") {
+				mouseX = e.clientX ;
+				mouseY = e.clientY ;
+			} else if (e.type === "touchmove") {
+				e.preventDefault();
+				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
+				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
+			}
+			
+			if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-3,firstSquare.getBoundingClientRect().top-3,firstSquare.width+6,firstSquare.height+6)){
+				currentCanvas = 1;
+				handleMove1(e);
+			}
+			else if (isInRect(mouseX,mouseY,secondSquare.getBoundingClientRect().left,secondSquare.getBoundingClientRect().top,secondSquare.width,secondSquare.height)){
+				currentCanvas = 2;
+				handleMove2(e);
+			}
+            else if (currentCanvas !== 0){
+				currentCanvas = 0;
+				handleUp1();
+				handleUp2();
+				//currentShape = -1;
+				//currentTransf = -1;
+				//drawShapes(firstSquare, shapes);
+				//applyTransformations(shapes, transformations, secondSquare);
+			}
+        }
+
+        // Add the "mousemove" event listener to the parent container
+        mouseTracker.addEventListener('mousemove', handleMouseMove);
+        mouseTracker.addEventListener("touchmove", handleMouseMove);
 		
 		class SimpleShape {
             constructor() {
@@ -619,6 +669,7 @@
 		function handleMove1(e) {
             var mouseX = 0;
             var mouseY = 0;
+			
 			if (e.type === "mousemove") {
 				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
@@ -700,8 +751,6 @@
             }
 			drawShapes(firstSquare, shapes);
         }
-        firstSquare.addEventListener("mousemove", handleMove1);
-        firstSquare.addEventListener("touchmove", handleMove1);
        
          function handleUp1() {
             if (currentShape !== -1){
@@ -877,8 +926,7 @@
 				applyTransformations(shapes, transformations, secondSquare);
             }
         }
-        secondSquare.addEventListener("mousemove",handleMove2);
-        secondSquare.addEventListener("touchmove",handleMove2);
+		
 		function handleUp2() {
             if (currentTransf !== -1){
 				transformations[currentTransf].drag = false;
