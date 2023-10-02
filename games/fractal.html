@@ -133,7 +133,6 @@
 				mouseX = e.clientX ;
 				mouseY = e.clientY ;
 			} else if (e.type === "touchmove") {
-				e.preventDefault();
 				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
 			}
