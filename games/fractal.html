@@ -77,6 +77,7 @@
 		<div class="container">
 			<canvas id="thirdSquare" width="400" height="400"></canvas>
 			<button class="btn" id="genBtn">Generate</button>
+			<input type="text" id="iteration" placeholder="Iterations: Default 6">
 		</div>
 	</div>
 
@@ -87,7 +88,7 @@
 	The formula for each transformation is T(v) = R(a*v) + b, where a is the scale, R is the rotation, and b is the translation. 
 	You can either specify these numbers yourself or use your mouse to shape a given transformation. The x and y axis limits are -200 and 200. 
 	To delete a transformation, scale it to be small enough. <br><br>
-	3) Hit "Generate" to create the fractal (5 iterations). <br><br>
+	3) Hit "Generate" to iterate the transformations and create the fractal. <br><br>
 	<a href="https://atkoski.fi/games/gallery.html">Gallery</a>
 	</p>
 
@@ -101,6 +102,7 @@
         var mirrorButton = document.getElementById("mirror");
         var translationInput = document.getElementById("translation");
         var dilationInput = document.getElementById("dilation");
+        var iterationInput = document.getElementById("iteration");
         var rotationInput = document.getElementById("rotation");
         var genBtn = document.getElementById("genBtn");
 		const mouseTracker = document.getElementById('mouseTracker');
@@ -405,6 +407,7 @@
 			
             applyTransformations(shapes, transformations, secondSquare);
         });
+        
 		
 		
         mirrorButton.addEventListener("click", function () {
@@ -948,6 +951,12 @@
 			ctx.fillStyle = "white";
             ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
 			ctx.fillStyle = "black";
+			
+			
+            iterNum = parseFloat(iterationInput.value) || 5;
+            if (iterNum > 12){
+                iterNum = 12;
+            }
 			
 			
             function iterateTransforms(iterNum, j, iArray) {
