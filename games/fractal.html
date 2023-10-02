@@ -133,8 +133,8 @@
 				mouseX = e.clientX ;
 				mouseY = e.clientY ;
 			} else if (e.type === "touchmove") {
-				mouseX = e.changedTouches[0].clientX - firstSquare.getBoundingClientRect().left;
-				mouseY = e.changedTouches[0].clientY - firstSquare.getBoundingClientRect().top;
+				mouseX = e.changedTouches[0].clientX;
+				mouseY = e.changedTouches[0].clientY;
 			}
 			
 			if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-3,firstSquare.getBoundingClientRect().top-3,firstSquare.width+6,firstSquare.height+6)){
