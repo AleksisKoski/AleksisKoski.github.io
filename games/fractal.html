@@ -107,6 +107,7 @@
 
         var shapes = [];
         var transformations = [];
+		var iterNum = 6; // number of iterations to be done to generate the fractal
        
         var currentShape = -1;
         var currentTransf = -1;
@@ -947,31 +948,30 @@
 			ctx.fillStyle = "white";
             ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
 			ctx.fillStyle = "black";
-
-			for (var j = 0; j < M; j++){
-            for (var i1 = 0; i1 < N; i1++){
-			for (var i2 = 0; i2 < N; i2++){
-			for (var i3 = 0; i3 < N; i3++){
-			for (var i4 = 0; i4 < N; i4++){
-			for (var i5 = 0; i5 < N; i5++){
 			
-				var shape = new SimpleShape();
-				for (var k = 0; k < 4; k++){
-					shape.vertices[k].x = shapes[j].vertices[k].x;
-					shape.vertices[k].y = shapes[j].vertices[k].y;
-				}
-				transformations[i1].apply(shape);
-				transformations[i2].apply(shape);
-				transformations[i3].apply(shape);
-				transformations[i4].apply(shape);
-				transformations[i5].apply(shape);
-				shape.draw(ctx);
-			}
-			}
-			}
-			}
-			}
-			}
+			
+            function iterateTransforms(iterNum, j, iArray) {
+                if (iterNum === 0) {
+                    var shape = new SimpleShape();
+                    for (var k = 0; k < 4; k++) {
+                        shape.vertices[k].x = shapes[j].vertices[k].x;
+                        shape.vertices[k].y = shapes[j].vertices[k].y;
+                    }
+                    for (var i = 0; i < iArray.length; i++) {
+                        transformations[iArray[i]].apply(shape);
+                    }
+                    shape.draw(ctx);
+                } else {
+                    for (var i = 0; i < N; i++) {
+                        iArray.push(i);
+                        iterateTransforms(iterNum - 1, j, iArray);
+                        iArray.pop();
+                    }
+                }
+            }
+			for (var j = 0; j < M; j++) {
+                iterateTransforms(iterNum, j, []);
+            }
         });
 
         // Initial drawing
