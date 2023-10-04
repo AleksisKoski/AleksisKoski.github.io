@@ -105,7 +105,7 @@
         var iterationInput = document.getElementById("iteration");
         var rotationInput = document.getElementById("rotation");
         var genBtn = document.getElementById("genBtn");
-		const mouseTracker = document.getElementById('mouseTracker');
+	const mouseTracker = document.getElementById('mouseTracker');
 
         var shapes = [];
         var transformations = [];
@@ -128,26 +128,26 @@
 			);
 }
 		
-		function handleMouseMove(e) {
-			var mouseX = 0;
-            var mouseY = 0;
+	function handleMouseMove(e) {
+		var mouseX = 0;
+        	var mouseY = 0;
 			
-			if (e.type === "mousemove") {
-				mouseX = e.clientX ;
-				mouseY = e.clientY ;
-			} else if (e.type === "touchmove") {
-				mouseX = e.changedTouches[0].clientX;
-				mouseY = e.changedTouches[0].clientY;
-			}
+		if (e.type === "mousemove") {
+			mouseX = e.clientX ;
+			mouseY = e.clientY ;
+		} else if (e.type === "touchmove") {
+			mouseX = e.changedTouches[0].clientX;
+			mouseY = e.changedTouches[0].clientY;
+		}
 			
-			if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-3,firstSquare.getBoundingClientRect().top-3,firstSquare.width+6,firstSquare.height+6)){
-				currentCanvas = 1;
-				handleMove1(e);
-			}
-			else if (isInRect(mouseX,mouseY,secondSquare.getBoundingClientRect().left,secondSquare.getBoundingClientRect().top,secondSquare.width,secondSquare.height)){
-				currentCanvas = 2;
-				handleMove2(e);
-			}
+		if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-5,firstSquare.getBoundingClientRect().top-5,firstSquare.width+5,firstSquare.height+5)){
+			currentCanvas = 1;
+			handleMove1(e);
+		}
+		else if (isInRect(mouseX,mouseY,secondSquare.getBoundingClientRect().left-5,secondSquare.getBoundingClientRect().top-5,secondSquare.width+5,secondSquare.height+5)){
+			currentCanvas = 2;
+			handleMove2(e);
+		}
             else if (currentCanvas !== 0){
 				currentCanvas = 0;
 				handleUp1();
@@ -159,11 +159,36 @@
 			}
         }
 
+	function handleMouseUp(e) {
+	    var mouseX = 0;
+            var mouseY = 0;
+			
+			if (e.type === "mouseup") {
+				mouseX = e.clientX ;
+				mouseY = e.clientY ;
+			} else if (e.type === "touchend") {
+				mouseX = e.changedTouches[0].clientX;
+				mouseY = e.changedTouches[0].clientY;
+			}
+			
+			if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-5,firstSquare.getBoundingClientRect().top-5,firstSquare.width+5,firstSquare.height+5)){
+				currentCanvas = 1;
+				handleUp1(e);
+			}
+			else if (isInRect(mouseX,mouseY,secondSquare.getBoundingClientRect().left-5,secondSquare.getBoundingClientRect().top-5,secondSquare.width+5,secondSquare.height+5)){
+				currentCanvas = 2;
+				handleUp2(e);
+			}
+        }
+
         // Add the "mousemove" event listener to the parent container
         mouseTracker.addEventListener('mousemove', handleMouseMove);
         mouseTracker.addEventListener("touchmove", handleMouseMove);
+
+        mouseTracker.addEventListener('mouseup', handleMouseUp);
+        mouseTracker.addEventListener("touchend", handleMouseUp);
 		
-		class SimpleShape {
+	class SimpleShape {
             constructor() {
 				var defaultsize = 100;
                 this.vertices = [{ x: -defaultsize, y: -defaultsize }, { x: defaultsize, y: -defaultsize }, { x: defaultsize, y: defaultsize }, { x: -defaultsize, y: defaultsize }];
@@ -669,7 +694,7 @@
         firstSquare.addEventListener("mousedown", handleMdown1);
         firstSquare.addEventListener("touchstart", handleMdown1);
        
-		function handleMove1(e) {
+	function handleMove1(e) {
             var mouseX = 0;
             var mouseY = 0;
 			
@@ -755,7 +780,7 @@
 			drawShapes(firstSquare, shapes);
         }
        
-         function handleUp1() {
+        function handleUp1() {
             if (currentShape !== -1){
 				shapes[currentShape].update2();
 				shapes[currentShape].reSizing = false;
@@ -766,12 +791,10 @@
 			drawShapes(firstSquare, shapes);
 			applyTransformations(shapes, transformations, secondSquare);
         }
-		firstSquare.addEventListener("mouseup",handleUp1);
-		firstSquare.addEventListener("touchend",handleUp1);
 		
 		
 		
-		function handleMdown2(e) {
+	function handleMdown2(e) {
             var mouseX = 0;
             var mouseY = 0;
 			if (e.type === "mousedown") {
@@ -838,7 +861,7 @@
 		secondSquare.addEventListener("touchstart", handleMdown2);
        
 		
-		function handleMove2(e) {
+	function handleMove2(e) {
             var mouseX = 0;
             var mouseY = 0;
 			if (e.type === "mousemove") {
@@ -930,7 +953,7 @@
             }
         }
 		
-		function handleUp2() {
+	function handleUp2() {
             if (currentTransf !== -1){
 				transformations[currentTransf].drag = false;
 				transformations[currentTransf].rotate = false;
@@ -938,8 +961,6 @@
             }
 			applyTransformations(shapes, transformations, secondSquare);
         }
-        secondSquare.addEventListener("mouseup", handleUp2);
-        secondSquare.addEventListener("touchend",handleUp2);
 		
 		
 		
