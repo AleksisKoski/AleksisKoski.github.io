@@ -45,7 +45,10 @@
 		.left-align {
 			text-align: left;
 		}
-		
+		#iteration {
+             margin-bottom: 75px; /* Add desired vertical spacing (adjust the value as needed) */
+        }
+
 		@media (max-width: 1200px) {
 			.container-wrapper {
 				justify-content: start;
@@ -78,6 +81,7 @@
 			<canvas id="thirdSquare" width="400" height="400"></canvas>
 			<button class="btn" id="genBtn">Generate</button>
 			<input type="text" id="iteration" placeholder="Iterations: Default 6">
+			<button class="btn" id="capture">Open in new tab</button>
 		</div>
 	</div>
 
@@ -105,6 +109,7 @@
         var iterationInput = document.getElementById("iteration");
         var rotationInput = document.getElementById("rotation");
         var genBtn = document.getElementById("genBtn");
+        var captureButton = document.getElementById("capture");
 	const mouseTracker = document.getElementById('mouseTracker');
 
         var shapes = [];
@@ -1002,6 +1007,26 @@
 			for (var j = 0; j < M; j++) {
                 iterateTransforms(iterNum, j, []);
             }
+        });
+        
+        captureButton.addEventListener("click", function () {
+          // Create a new canvas to temporarily store the captured image
+          var tempCanvas = document.createElement("canvas");
+          var tempCtx = tempCanvas.getContext("2d");
+        
+          // Set the dimensions of the temporary canvas to match the original canvas
+          tempCanvas.width = thirdSquare.width;
+          tempCanvas.height = thirdSquare.height;
+        
+          // Draw the content of the original canvas onto the temporary canvas
+          tempCtx.drawImage(thirdSquare, 0, 0);
+        
+          // Convert the captured image to a data URL
+          var imageDataURL = tempCanvas.toDataURL("image/png");
+        
+          // Open a new tab with the captured image
+          var newTab = window.open();
+          newTab.document.write('<img src="' + imageDataURL + '" />');
         });
 
         // Initial drawing
