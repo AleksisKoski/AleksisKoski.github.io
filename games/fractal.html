@@ -46,7 +46,7 @@
 			text-align: left;
 		}
 		#iteration {
-             margin-bottom: 75px; /* Add desired vertical spacing (adjust the value as needed) */
+             margin-bottom: 45px; /* Add desired vertical spacing (adjust the value as needed) */
         }
 
 		@media (max-width: 1200px) {
@@ -82,6 +82,7 @@
 			<button class="btn" id="genBtn">Generate</button>
 			<input type="text" id="iteration" placeholder="Iterations: Default 6">
 			<button class="btn" id="capture">Open in new tab</button>
+			<input type="text" id="newsize" placeholder="New size: Default 400">
 		</div>
 	</div>
 
@@ -107,6 +108,8 @@
         var translationInput = document.getElementById("translation");
         var dilationInput = document.getElementById("dilation");
         var iterationInput = document.getElementById("iteration");
+	    
+        var sizeInput = document.getElementById("newsize");
         var rotationInput = document.getElementById("rotation");
         var genBtn = document.getElementById("genBtn");
         var captureButton = document.getElementById("capture");
@@ -118,6 +121,10 @@
        
         var currentShape = -1;
         var currentTransf = -1;
+        
+        var snapR = 6;
+	var mouseSnap = 15;
+	var touchSnap = 23;
 
         // Shape class
 		
@@ -138,11 +145,13 @@
         	var mouseY = 0;
 			
 		if (e.type === "mousemove") {
-			mouseX = e.clientX ;
-			mouseY = e.clientY ;
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			snapR = mouseSnap;
 		} else if (e.type === "touchmove") {
 			mouseX = e.changedTouches[0].clientX;
 			mouseY = e.changedTouches[0].clientY;
+			snapR = touchSnap;
 		}
 			
 		if (isInRect(mouseX,mouseY,firstSquare.getBoundingClientRect().left-5,firstSquare.getBoundingClientRect().top-5,firstSquare.width+5,firstSquare.height+5)){
@@ -169,8 +178,8 @@
             var mouseY = 0;
 			
 			if (e.type === "mouseup") {
-				mouseX = e.clientX ;
-				mouseY = e.clientY ;
+				mouseX = e.clientX;
+				mouseY = e.clientY;
 			} else if (e.type === "touchend") {
 				mouseX = e.changedTouches[0].clientX;
 				mouseY = e.changedTouches[0].clientY;
@@ -615,7 +624,7 @@
                 var dx = mouseX - vertex.x;
                 var dy = mouseY - vertex.y;
                 var distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 15) { // You can adjust the proximity threshold here
+                if (distance < snapR) { // You can adjust the proximity threshold here
                     return i;
                 }
             }
@@ -629,10 +638,12 @@
 			if (e.type === "mousedown") {
 				mouseX = e.clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - firstSquare.getBoundingClientRect().top;
+				snapR = mouseSnap;
 			} else if (e.type === "touchstart") {
 				e.preventDefault();
 				mouseX = e.touches[0].clientX - firstSquare.getBoundingClientRect().left;
 				mouseY = e.touches[0].clientY - firstSquare.getBoundingClientRect().top;
+				snapR = touchSnap;
 			}
 			
 			var didFind = false;
@@ -805,10 +816,12 @@
 			if (e.type === "mousedown") {
 				mouseX = e.clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.clientY - secondSquare.getBoundingClientRect().top;
+				snapR = mouseSnap;
 			} else if (e.type === "touchstart") {
 				e.preventDefault();
 				mouseX = e.touches[0].clientX - secondSquare.getBoundingClientRect().left;
 				mouseY = e.touches[0].clientY - secondSquare.getBoundingClientRect().top;
+				snapR = touchSnap;
 			}
 
             var didFind = false;
@@ -979,7 +992,10 @@
 			ctx.fillStyle = "black";
 			
 			
-            iterNum = parseFloat(iterationInput.value) || 6;
+            iterNum = parseInt(iterationInput.value) || 6;
+            if (iterNum < 1){
+                iterNum = 1;
+            }
             if (iterNum > 12){
                 iterNum = 12;
             }
@@ -1009,17 +1025,64 @@
         }
         });
         
-        captureButton.addEventListener("click", function () {
-          // Create a new canvas to temporarily store the captured image
-          var tempCanvas = document.createElement("canvas");
-          var tempCtx = tempCanvas.getContext("2d");
-        
-        	  // Set the dimensions of the temporary canvas to match the original canvas
-         	 tempCanvas.width = thirdSquare.width;
-        	  tempCanvas.height = thirdSquare.height;
-        
-         	 // Draw the content of the original canvas onto the temporary canvas
-          	tempCtx.drawImage(thirdSquare, 0, 0);
+    captureButton.addEventListener("click", function () {
+             // Create a new canvas to temporarily store the captured image
+            var tempCanvas = document.createElement("canvas");
+            var ctx = tempCanvas.getContext("2d");
+            // Set the dimensions of the temporary canvas to match the original canvas
+	    
+            var newSize = parseInt(sizeInput.value) || 400;
+            if (newSize > 10000){
+                newSize = 10000;
+            }
+            if (newSize < 100){
+                newSize = 100;
+            }
+            tempCanvas.width = newSize;
+            tempCanvas.height = newSize;
+          
+            var N = transformations.length;
+		    var M = shapes.length;
+		    ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, newSize, newSize);
+			ctx.fillStyle = "black";
+			
+			
+            iterNum = parseInt(iterationInput.value) || 6;
+            if (iterNum < 1){
+                iterNum = 1;
+            }
+            if (iterNum > 12){
+                iterNum = 12;
+            }
+			
+			
+            function iterateTransforms(iterNum, j, iArray) {
+                if (iterNum === 0) {
+                    var shape = new SimpleShape();
+                    for (var k = 0; k < 4; k++) {
+                        shape.vertices[k].x = shapes[j].vertices[k].x;
+                        shape.vertices[k].y = shapes[j].vertices[k].y;
+                    }
+                    for (var i = 0; i < iArray.length; i++) {
+                        transformations[iArray[i]].apply(shape);
+                    }
+                    for (var i = 0; i < shape.vertices.length; i++){
+                        shape.vertices[i].x = newSize/400*shape.vertices[i].x;
+                        shape.vertices[i].y = newSize/400*shape.vertices[i].y;
+                    }
+                    shape.draw(ctx);
+                } else {
+                    for (var i = 0; i < N; i++) {
+                        iArray.push(i);
+                        iterateTransforms(iterNum - 1, j, iArray);
+                        iArray.pop();
+                    }
+                }
+            }
+        	for (var j = 0; j < M; j++) {
+                	iterateTransforms(iterNum, j, []);
+            }
         
          	 // Convert the captured image to a data URL
          	 var imageDataURL = tempCanvas.toDataURL("image/png");
