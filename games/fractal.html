@@ -1004,9 +1004,9 @@
                     }
                 }
             }
-			for (var j = 0; j < M; j++) {
-                iterateTransforms(iterNum, j, []);
-            }
+	for (var j = 0; j < M; j++) {
+        	iterateTransforms(iterNum, j, []);
+        }
         });
         
         captureButton.addEventListener("click", function () {
@@ -1014,27 +1014,27 @@
           var tempCanvas = document.createElement("canvas");
           var tempCtx = tempCanvas.getContext("2d");
         
-          // Set the dimensions of the temporary canvas to match the original canvas
-          tempCanvas.width = thirdSquare.width;
-          tempCanvas.height = thirdSquare.height;
+        	  // Set the dimensions of the temporary canvas to match the original canvas
+         	 tempCanvas.width = thirdSquare.width;
+        	  tempCanvas.height = thirdSquare.height;
         
-          // Draw the content of the original canvas onto the temporary canvas
-          tempCtx.drawImage(thirdSquare, 0, 0);
+         	 // Draw the content of the original canvas onto the temporary canvas
+          	tempCtx.drawImage(thirdSquare, 0, 0);
         
-          // Convert the captured image to a data URL
-          var imageDataURL = tempCanvas.toDataURL("image/png");
+         	 // Convert the captured image to a data URL
+         	 var imageDataURL = tempCanvas.toDataURL("image/png");
         
-          // Open a new tab with the captured image
-          var newTab = window.open();
-          newTab.document.write('<img src="' + imageDataURL + '" />');
+          	// Open a new tab with the captured image
+        	var newTab = window.open();
+  		newTab.document.write('<html><head><title>Saved image</title></head><body style="background-color: #464454;"><img src="' + imageDataURL + '" /></body></html>');
         });
 
         // Initial drawing
 		
-		var ctx = thirdSquare.getContext("2d");
-		ctx.fillStyle = "white";
+	var ctx = thirdSquare.getContext("2d");
+	ctx.fillStyle = "white";
         ctx.fillRect(0, 0, thirdSquare.width, thirdSquare.height);
-		ctx.fillStyle = "rgb(30,49,181)";
+	ctx.fillStyle = "rgb(30,49,181)";
         drawShapes(firstSquare, shapes);
         applyTransformations(shapes, transformations, secondSquare);
     </script>
