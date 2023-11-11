@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wallpaper group quiz</title>
+</head>
+<body>
+<style>
 
+		body {
+			background-color: #464454;
+			color: #e0e0e0;
+		}
+</style>
+    <h1>Which wallpaper group is depicted in the image?</h1>
+
+    <!-- Create a container for the image and input fields -->
+    <div class="quiz-container">
+        <h3> Image 1 </h3>
+        <img src="t1.jpg" alt="Image 1" width="400">
+        <br>
+        <!-- Input field and Check button -->
+        <input type="text" id="answer1" placeholder="Enter your answer">
+        <button onclick="checkAnswer(1)">Check</button>
+        <p id="result1"></p>
+    </div>
+
+    <!-- Repeat the container structure for additional images -->
+    <!-- For each image, change the source, input id, and result id -->
+    
+    <div class="quiz-container">
+        <h3> Image 2 </h3>
+        <img src="t2.jpg" alt="Image 2" width="400">
+	<br>
+        <input type="text" id="answer2" placeholder="Enter your answer">
+        <button onclick="checkAnswer(2)">Check</button>
+        <p id="result2"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 3 </h3>
+        <img src="t3.jpg" alt="Image 3" width="400">
+	<br>
+        <input type="text" id="answer3" placeholder="Enter your answer">
+        <button onclick="checkAnswer(3)">Check</button>
+        <p id="result3"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 4 </h3>
+        <img src="t4.png" alt="Image 4" width="400">
+	<br>
+        <input type="text" id="answer4" placeholder="Enter your answer">
+        <button onclick="checkAnswer(4)">Check</button>
+        <p id="result4"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 5 </h3>
+        <img src="t5.png" alt="Image 5" width="400">
+	<br>
+        <input type="text" id="answer5" placeholder="Enter your answer">
+        <button onclick="checkAnswer(5)">Check</button>
+        <p id="result5"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 6 </h3>
+        <img src="t6.jpg" alt="Image 6" width="400">
+	<br>
+        <input type="text" id="answer6" placeholder="Enter your answer">
+        <button onclick="checkAnswer(6)">Check</button>
+        <p id="result6"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 7 </h3>
+        <img src="t7.jpg" alt="Image 7" width="400">
+	<br>
+        <input type="text" id="answer7" placeholder="Enter your answer">
+        <button onclick="checkAnswer(7)">Check</button>
+        <p id="result7"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 8 </h3>
+        <img src="t8.jpg" alt="Image 8" width="400">
+	<br>
+        <input type="text" id="answer8" placeholder="Enter your answer">
+        <button onclick="checkAnswer(8)">Check</button>
+        <p id="result8"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 9 </h3>
+        <img src="t9.jpg" alt="Image 9" width="400">
+	<br>
+        <input type="text" id="answer9" placeholder="Enter your answer">
+        <button onclick="checkAnswer(9)">Check</button>
+        <p id="result9"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 10 (Note: Assume colors matter) </h3>
+        <img src="t10.jpg" alt="Image 10" width="400">
+	<br>
+        <input type="text" id="answer10" placeholder="Enter your answer">
+        <button onclick="checkAnswer(10)">Check</button>
+        <p id="result10"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 11 (Note: Assume colors don't matter) </h3>
+        <img src="t11.jpg" alt="Image 11" width="400">
+	<br>
+        <input type="text" id="answer11" placeholder="Enter your answer">
+        <button onclick="checkAnswer(11)">Check</button>
+        <p id="result11"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 12 </h3>
+        <img src="t12.jpg" alt="Image 12" width="400">
+	<br>
+        <input type="text" id="answer12" placeholder="Enter your answer">
+        <button onclick="checkAnswer(12)">Check</button>
+        <p id="result12"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 13 </h3>
+        <img src="t13.jpg" alt="Image 13" width="400">
+	<br>
+        <input type="text" id="answer13" placeholder="Enter your answer">
+        <button onclick="checkAnswer(13)">Check</button>
+        <p id="result13"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 14 (Note: Assume the flowers in the centers are drawn symmetrically) </h3>
+        <img src="t14.jpg" alt="Image 14" width="400">
+	<br>
+        <input type="text" id="answer14" placeholder="Enter your answer">
+        <button onclick="checkAnswer(14)">Check</button>
+        <p id="result14"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 15 </h3>
+        <img src="t15.jpg" alt="Image 15" width="400">
+	<br>
+        <input type="text" id="answer15" placeholder="Enter your answer">
+        <button onclick="checkAnswer(15)">Check</button>
+        <p id="result15"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 16 </h3>
+        <img src="t16.jpg" alt="Image 16" width="400">
+	<br>
+        <input type="text" id="answer16" placeholder="Enter your answer">
+        <button onclick="checkAnswer(16)">Check</button>
+        <p id="result16"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 17 </h3>
+        <img src="t17.jpg" alt="Image 17" width="400">
+	<br>
+        <input type="text" id="answer17" placeholder="Enter your answer">
+        <button onclick="checkAnswer(17)">Check</button>
+        <p id="result17"></p>
+    </div>
+
+
+
+    <!-- JavaScript to check answers -->
+    <script>
+        function checkAnswer(imageNumber) {
+            // Get the user's answer from the input field
+            var userAnswer = document.getElementById('answer' + imageNumber).value.toLowerCase();
+            
+            // Get the correct answer for the corresponding image (you need to define this)
+            var correctAnswer = getCorrectAnswer(imageNumber).toLowerCase();
+            
+            // Get the result element where we'll display the outcome
+            var resultElement = document.getElementById('result' + imageNumber);
+            
+            // Check if the user's answer matches the correct answer
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = 'Correct!';
+            } else {
+                resultElement.textContent = 'Incorrect';
+            }
+        }
+
+        // Define the correct answers for each image here
+        function getCorrectAnswer(imageNumber) {
+            // You can return the correct answer based on the image number
+            // For example:
+            switch (imageNumber) {
+                case 1:
+                    return 'p4';
+                case 2:
+                    return 'cmm';
+                case 3:
+                    return 'p1';
+                case 4:
+                    return 'p3m1';
+                case 5:
+                    return 'p6m';
+                case 6:
+                    return 'p31m';
+                case 7:
+                    return 'pg';
+                case 8:
+                    return 'p4m';
+                case 9:
+                    return 'cm';
+                case 10:
+                    return 'pmm';
+                case 11:
+                    return 'p3';
+                case 12:
+                    return 'p2';
+                case 13:
+                    return 'pmg';
+                case 14:
+                    return 'p6';
+                case 15:
+                    return 'pm';
+                case 16:
+                    return 'pgg';
+                case 17:
+                    return 'p4g';
+                // Add more cases for additional images
+                default:
+                    return 'default_answer';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wallpaper group quiz</title>
+</head>
+<body>
+<style>
+
+		body {
+			background-color: #464454;
+			color: #e0e0e0;
+		}
+</style>
+    <h1>Which wallpaper group is depicted in the image?</h1>
+
+    <!-- Create a container for the image and input fields -->
+    <div class="quiz-container">
+        <h3> Image 1 </h3>
+        <img src="brick1.jpg" alt="Image 1" width="400">
+        <br>
+        <!-- Input field and Check button -->
+        <input type="text" id="answer1" placeholder="Enter your answer">
+        <button onclick="checkAnswer(1)">Check</button>
+        <p id="result1"></p>
+    </div>
+
+    <!-- Repeat the container structure for additional images -->
+    <!-- For each image, change the source, input id, and result id -->
+    
+    <div class="quiz-container">
+        <h3> Image 2 </h3>
+        <img src="brick2.jpg" alt="Image 2" width="400">
+	<br>
+        <input type="text" id="answer2" placeholder="Enter your answer">
+        <button onclick="checkAnswer(2)">Check</button>
+        <p id="result2"></p>
+    </div>
+
+
+    <div class="quiz-container">
+        <h3> Image 3 </h3>
+        <img src="brick3.jpg" alt="Image 3" width="400">
+	<br>
+        <input type="text" id="answer3" placeholder="Enter your answer">
+        <button onclick="checkAnswer(3)">Check</button>
+        <p id="result3"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 4 </h3>
+        <img src="brick4.jpg" alt="Image 4" width="400">
+	<br>
+        <input type="text" id="answer4" placeholder="Enter your answer">
+        <button onclick="checkAnswer(4)">Check</button>
+        <p id="result4"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 5 </h3>
+        <img src="brick5.jpg" alt="Image 5" width="400">
+	<br>
+        <input type="text" id="answer5" placeholder="Enter your answer">
+        <button onclick="checkAnswer(5)">Check</button>
+        <p id="result5"></p>
+    </div>
+
+    <div class="quiz-container">
+        <h3> Image 6 </h3>
+        <img src="brick6.jpg" alt="Image 6" width="400">
+	<br>
+        <input type="text" id="answer6" placeholder="Enter your answer">
+        <button onclick="checkAnswer(6)">Check</button>
+        <p id="result6"></p>
+    </div>
+
+
+
+    <!-- JavaScript to check answers -->
+    <script>
+        function checkAnswer(imageNumber) {
+            // Get the user's answer from the input field
+            var userAnswer = document.getElementById('answer' + imageNumber).value.toLowerCase();
+            
+            // Get the correct answer for the corresponding image (you need to define this)
+            var correctAnswer = getCorrectAnswer(imageNumber).toLowerCase();
+            
+            // Get the result element where we'll display the outcome
+            var resultElement = document.getElementById('result' + imageNumber);
+            
+            // Check if the user's answer matches the correct answer
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = 'Correct!';
+            } else {
+                resultElement.textContent = 'Incorrect';
+            }
+        }
+
+        // Define the correct answers for each image here
+        function getCorrectAnswer(imageNumber) {
+            // You can return the correct answer based on the image number
+            // For example:
+            switch (imageNumber) {
+                case 1:
+                    return 'cmm';
+                case 2:
+                    return 'pgg';
+                case 3:
+                    return 'cmm';
+                case 4:
+                    return 'p3';
+                case 5:
+                    return 'p4g';
+                case 6:
+                    return 'p4';
+                case 7:
+                    return 'pg';
+                case 8:
+                    return 'p4m';
+                case 9:
+                    return 'cm';
+                case 10:
+                    return 'pmm';
+                // Add more cases for additional images
+                default:
+                    return 'default_answer';
+            }
+        }
+    </script>
+</body>
+</html>
