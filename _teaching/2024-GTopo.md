@@ -2,7 +2,7 @@
 title: "General Topology"
 collection: teaching
 type: "Advanced course"
-permalink: /teaching/2023-HAII
+permalink: /teaching/2024-GTopo
 venue: "Aalto University"
 date: 2024-02-27
 ---
