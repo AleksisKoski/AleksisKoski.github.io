@@ -54,18 +54,21 @@ Work experience
   
 Scientific and Societal impact
 ======
-* <b> Reviewer of scientific publications </b>
-  * Served as a referee for multiple mathematical journals, on many occasions during the years 2011-2023
+* <b> Aalto Junior program: Delivering researcher visits to schools and organizing mathematical activities
+  * Active member since 2023
 * <b> Matikkamaanantai, extracurricular mathematics teaching at the Maunula Secondary School and Helsinki School of Mathematics</b>
-  * Teacher in 2023
+  * Participation since 2023
 * <b> The high school mathematics competition in Central Finland </b>
   * Main coordinator for the competition in 2020 and 2019
   * Organizing committee member in 2018 and 2017
 * <b> Problem solving seminar </b>
   * Organized a seminar about techniques in mathematical problem solving for undergraduates at the University of Helsinki during 2011-2012
+* <b> Reviewer of scientific publications </b>
+  * Served as a referee for multiple mathematical journals, on many occasions since 2011
 
 Grants and awards
 ======
+* <b> Academy of Finland Research Fellow grant: </b> 1.9.2023-31.8.2027
 * <b> Academy of Finland Research Fellow grant: </b> 1.9.2018-31.8.2021
 * <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2016
 * <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2015
