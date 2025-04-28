@@ -5,7 +5,7 @@ permalink: /publication/2023-07-08-bisobolev-extensions
 excerpt: 'Published article'
 date: 2023-07-08
 venue: 'The Journal of Geometric Analysis'
-authors: Aleksis Koski, Jani Onninen
+authors: 'Aleksis Koski, Jani Onninen'
 ---
 Aleksis Koski, Jani Onninen
 
