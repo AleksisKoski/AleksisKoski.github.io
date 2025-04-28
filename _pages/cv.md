@@ -55,7 +55,7 @@ Work experience
 Scientific and Societal impact
 ======
 * <b> Aalto Junior program: Delivering researcher visits to schools and organizing mathematical activities
-  * Active member since 2023
+  * Active member since 2023, Organizer of Aalto Math Camp
 * <b> Matikkamaanantai, extracurricular mathematics teaching at the Maunula Secondary School and Helsinki School of Mathematics</b>
   * Participation since 2023
 * <b> The high school mathematics competition in Central Finland </b>
