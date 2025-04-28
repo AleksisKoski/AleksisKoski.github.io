@@ -1,11 +1,11 @@
 ---
 title: "Extension of planar Hölder homeomorphisms"
 collection: publications
-permalink: /publication/2024-08-17-holder-extensions.md
+permalink: /publication/2024-08-17-holder-extensions
 excerpt: 'Published article'
 date: 2024-08-17
 venue: 'Journal of the London Mathematical Society'
-authors: Stanislav Hencl, Aleksis Koski
+authors: 'Stanislav Hencl, Aleksis Koski'
 ---
 Stanislav Hencl, Aleksis Koski
 
