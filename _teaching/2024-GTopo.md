@@ -7,7 +7,9 @@ venue: "Aalto University"
 date: 2024-02-27
 ---
 
-I taught the course General Topology in spring 2024 and 2025.
+I taught the course General Topology in Spring 2024 and 2025.
+
+The Spring 2024 implementation was awarded both the Aalto School of Science Teaching Award and the Department of Mathematics and Systems Analysis Course of the Year award.
 
 Course material
 ======
