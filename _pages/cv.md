@@ -54,6 +54,7 @@ Work experience
   
 Scientific and Societal impact
 ======
+* <b> Author of high school math book Pitkän matematiikan lisäsivut 6: Differentiaalilaskenta ja numeeriset menetelmät, published in 2025
 * <b> Aalto Junior program: Delivering researcher visits to schools and organizing mathematical activities
   * Active member since 2023, Organizer of Aalto Math Camp
 * <b> Matikkamaanantai, extracurricular mathematics teaching at the Maunula Secondary School and Helsinki School of Mathematics</b>
