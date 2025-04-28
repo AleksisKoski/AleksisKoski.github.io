@@ -74,7 +74,7 @@ Grants and awards
 * <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2016
 * <b> Vilho, Yrjö and Kalle Väisälä Foundation grant: </b> 1.1-31.12.2015
 * <b> Helsinki Science Foundation grant: </b> 1.1-31.12.2014
-* <b> Aalto School of Science teaching award for the year 2024
+* <b> Aalto School of Science Teaching Award for the year 2024
 * <b> Department of Mathematics and Systems Analysis Course of the Year award for the course General Topology in Spring 2024.
 * <b> Rolf Nevanlinna doctoral thesis award: </b>
   * Awarded for the best doctoral thesis in mathematics in Finland during the year 2016 by the Rolf Nevanlinna Research Foundation, 2017
