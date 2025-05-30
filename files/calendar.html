@@ -226,7 +226,6 @@
   		activeTooltipTarget = div;
  		tooltip.innerHTML = `
 			<strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
-    			<em>${e.name}</em><br>
     			Type: ${e.type}<br>
     			Room: ${e.room}<br>
     			Code: ${e.sesCode}<br>
@@ -411,6 +410,7 @@
   populateTimeLabels();
   renderCalendar();
   populateCourseDropdown();
+  updateCourseList();
   document.addEventListener('click', (e) => {
   const tooltip = document.getElementById('tooltip');
   if (!e.target.classList.contains('event')) {
