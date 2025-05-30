@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Weekly Calendar</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; }
+    .calendar { display: grid; grid-template-columns: 80px repeat(5, 1fr); }
+    .time-labels, .day-column { display: flex; flex-direction: column; }
+    .day-header {
+      height: 40px; text-align: center; font-weight: bold;
+      background: #f0f0f0; border-bottom: 1px solid #ccc; line-height: 40px;
+    }
+    .time-label, .timeslot {
+      height: 60px; border: 1px solid #ccc; box-sizing: border-box;
+      position: relative;
+    }
+    .time-label { text-align: right; padding: 5px 10px; font-size: 0.9em; }
+    .day-column { border-left: 1px solid #000; }
+    .event {
+      position: absolute; height: 90%; top: 5%;
+      font-size: 0.75em; overflow: hidden; color: #fff;
+      padding: 2px; box-sizing: border-box;
+      border-radius: 3px; white-space: nowrap;
+    }
+    .controls, .course-list {
+      margin: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .course-chip {
+      display: flex; align-items: center; background: #eee;
+      border-radius: 4px; padding: 4px 8px; gap: 6px;
+    }
+    .color-box {
+      width: 12px; height: 12px; display: inline-block; border-radius: 2px;
+    }
+    button { padding: 4px 8px; }
+    select { padding: 4px; }
+    .week-display { font-weight: bold; margin: 0 10px; }
+  </style>
+</head>
+<body>
+
+<div class="controls">
+  <button id="prevWeek">Previous week</button>
+  <span class="week-display" id="weekDisplay"></span>
+  <button id="nextWeek">Next week</button>
+
+  <select id="courseSelect">
+    <option value="">-- Add a Course --</option>
+  </select>
+
+  <select id="multiCourseSelect">
+    <option value="">-- Add Multiple Courses --</option>
+    <option value="CS">Add all CS courses</option>
+    <option value="ALL">Add all courses</option>
+  </select>
+
+  <button id="toggleExercises">Hide Exercises</button>
+</div>
+
+<div class="calendar">
+  <div class="time-labels">
+    <div class="day-header">Time</div>
+  </div>
+</div>
+
+<div class="course-list" id="activeCourses"></div>
+
+<script>
+  const hours = Array.from({ length: 10 }, (_, i) => `${8 + i}:00`);
+  const calendarContainer = document.querySelector('.calendar');
+  const courseSelect = document.getElementById('courseSelect');
+  const multiSelect = document.getElementById('multiCourseSelect');
+  const toggleExercisesBtn = document.getElementById('toggleExercises');
+  const activeCoursesDiv = document.getElementById('activeCourses');
+  const weekDisplay = document.getElementById('weekDisplay');
+  let currentWeekStart = new Date('2025-05-26');
+  const addedCourses = new Set();
+  let hideExercises = false;
+  let activeTooltipTarget = null;
+  const presetColors = [
+  '#FF5733', '#33C3FF', '#9B59B6', '#2ECC71', '#F1C40F',
+  '#E67E22', '#1ABC9C', '#E74C3C', '#34495E', '#7F8C8D'
+  ];
+  let colorIndex = 0;
+  const finnishWeekdayMap = {
+    'Ma': 0, // Monday
+    'Ti': 1, // Tuesday
+    'Ke': 2, // Wednesday
+    'To': 3, // Thursday
+    'Pe': 4  // Friday
+  };
+
+  let Courses = [
+  ];
+
+  function getWeekDates(startDate) {
+    return Array.from({ length: 5 }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      return {
+        date,
+        iso: date.toISOString().split('T')[0],
+        display: `${date.getDate()}.${date.getMonth() + 1} ${date.toLocaleDateString('en-GB', { weekday: 'short' })}`
+      };
+    });
+  }
+
+  function getWeekNumber(date) {
+    const firstJan = new Date(date.getFullYear(), 0, 1);
+    const days = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
+    return Math.ceil((days + firstJan.getDay() + 1) / 7);
+  }
+
+  function renderCalendar() {
+    document.querySelectorAll('.day-column').forEach(el => el.remove());
+
+    const days = getWeekDates(currentWeekStart);
+    weekDisplay.textContent = `Week ${getWeekNumber(currentWeekStart)}`;
+
+    days.forEach(day => {
+      const col = document.createElement('div');
+      col.className = 'day-column';
+      col.dataset.date = day.iso;
+
+      const header = document.createElement('div');
+      header.className = 'day-header';
+      header.textContent = day.display;
+      col.appendChild(header);
+
+      hours.forEach(time => {
+        const slot = document.createElement('div');
+        slot.className = 'timeslot';
+        slot.dataset.time = time;
+        col.appendChild(slot);
+      });
+
+      calendarContainer.appendChild(col);
+    });
+
+    const events = [];
+    Courses.forEach(course => {
+      if (!addedCourses.has(course.code)) return;
+      course.instances.forEach(instance => {
+        if (hideExercises && instance.type === "exercise") return;
+        if (days.some(d => d.iso === instance.date)) {
+          events.push({ ...instance, code: course.code, color: course.color });
+        }
+      });
+    });
+
+    const slotGroups = {};
+    events.forEach(e => {
+      const key = `${e.date}_${e.time}`;
+      if (!slotGroups[key]) slotGroups[key] = [];
+      slotGroups[key].push(e);
+    });
+
+    for (const [key, group] of Object.entries(slotGroups)) {
+      const [date, time] = key.split('_');
+      const col = document.querySelector(`.day-column[data-date="${date}"]`);
+      if (!col) continue;
+      const slot = Array.from(col.children).find(
+        el => el.classList.contains('timeslot') && el.dataset.time === time
+      );
+      if (!slot) continue;
+
+      const width = 100 / group.length;
+      group.forEach((e, i) => {
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.innerHTML = `${e.code} ${e.name}<br>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}`;
+	div.onclick = (eClick) => {
+ 		const tooltip = document.getElementById('tooltip');
+		if (activeTooltipTarget != null) {
+			tooltip.style.display = 'none';
+    			activeTooltipTarget = null;
+    			return;
+ 		}
+
+  		activeTooltipTarget = div;
+ 		tooltip.innerHTML = `
+			<strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
+    			<em>${e.name}</em><br>
+    			Type: ${e.type}<br>
+    			${e.date} ${e.time}
+  		`;
+ 		tooltip.style.display = 'block';
+  		tooltip.style.left = `${eClick.pageX + 10}px`;
+  		tooltip.style.top = `${eClick.pageY + 10}px`;
+		};
+        div.style.backgroundColor = e.color;
+        div.style.width = `calc(${width}% - 2px)`;
+        div.style.left = `calc(${width * i}% + 1px)`;
+        slot.appendChild(div);
+      });
+    }
+  }
+
+  function populateTimeLabels() {
+    const timeLabels = document.querySelector('.time-labels');
+    timeLabels.innerHTML = '<div class="day-header">Time</div>';
+    hours.forEach(time => {
+      const div = document.createElement('div');
+      div.className = 'time-label';
+      div.textContent = time;
+      timeLabels.appendChild(div);
+    });
+  }
+
+  function populateCourseDropdown() {
+    courseSelect.innerHTML = `<option value="">-- Add a Course --</option>`;
+    Courses.forEach(course => {
+      if (!addedCourses.has(course.code)) {
+        const opt = document.createElement('option');
+        opt.value = course.code;
+        opt.textContent = `${course.code} - ${course.name}`;
+        courseSelect.appendChild(opt);
+      }
+    });
+  }
+
+  function updateCourseList() {
+    activeCoursesDiv.innerHTML = '';
+    Courses.forEach(course => {
+      if (!addedCourses.has(course.code)) return;
+      const chip = document.createElement('div');
+      chip.className = 'course-chip';
+
+      const colorBox = document.createElement('span');
+      colorBox.className = 'color-box';
+      colorBox.style.backgroundColor = course.color;
+
+      const label = document.createElement('span');
+      label.textContent = `${course.code} - ${course.name}`;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = '✕';
+      removeBtn.onclick = () => {
+        addedCourses.delete(course.code);
+        renderCalendar();
+        populateCourseDropdown();
+        updateCourseList();
+      };
+
+      chip.append(colorBox, label, removeBtn);
+      activeCoursesDiv.appendChild(chip);
+    });
+  }
+  
+  function loadCoursesFromFile(filename) {
+  	console.log("hello");
+    fetch(filename)
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to load course data');
+        return response.text();
+      })
+      .then(text => {
+        const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+
+        for (const line of lines) {
+          const [nameline, lecturecode, day, time, room, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
+          if (!nameline || !day || !time || !weeksStr) continue;
+
+          const [code, ...nameParts] = nameline.trim().split(' ');
+          const courseName = nameParts.join(' ');
+
+          let course = Courses.find(c => c.code === code);
+          if (!course) {
+            course = {
+              code,
+              name: courseName,
+              color: presetColors[colorIndex % presetColors.length],
+              instances: []
+            };
+            Courses.push(course);
+            colorIndex++;
+          }
+
+          const [startWeek, endWeek] = weeksStr.split('-').map(Number);
+          const [startTime, endTime] = timeStr.split('-');
+          const startHour = parseInt(startTime.split(':')[0], 10);
+          const endHour = parseInt(endTime.split(':')[0], 10);
+
+          for (let w = startWeek; w <= endWeek; w++) {
+              for (let h = startHour; h < endHour; h++) {
+                let year = 2025;
+                if (w < 30){
+                  year++;
+                }
+                date = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
+
+                // Store session
+                course.instances.push({
+                  type,
+                  date,
+                  time: `${h}:00`,
+                  name: courseName
+                });
+              }
+          }
+
+        }
+
+        // Trigger your UI update here (e.g. renderCalendar())
+        updateCourseDropdowns();
+        renderCalendar();
+      })
+      .catch(err => console.error('Error loading course data:', err));
+    }
+
+  // Event Handlers
+  document.getElementById('prevWeek').onclick = () => {
+    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+    renderCalendar();
+  };
+  document.getElementById('nextWeek').onclick = () => {
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    renderCalendar();
+  };
+  courseSelect.onchange = () => {
+    const code = courseSelect.value;
+    if (code && !addedCourses.has(code)) {
+      addedCourses.add(code);
+      courseSelect.value = '';
+      renderCalendar();
+      populateCourseDropdown();
+      updateCourseList();
+    }
+  };
+  multiSelect.onchange = () => {
+    const mode = multiSelect.value;
+    if (mode === "CS") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("CS")) addedCourses.add(c.code);
+      });
+    } else if (mode === "ALL") {
+      Courses.forEach(c => addedCourses.add(c.code));
+    }
+    renderCalendar();
+    populateCourseDropdown();
+    updateCourseList();
+    multiSelect.value = "";
+  };
+  toggleExercisesBtn.onclick = () => {
+    hideExercises = !hideExercises;
+    toggleExercisesBtn.textContent = hideExercises ? "Show Exercises" : "Hide Exercises";
+    renderCalendar();
+  };
+
+  // Initial setup
+  loadCoursesFromFile('courses.txt');
+  populateTimeLabels();
+  renderCalendar();
+  populateCourseDropdown();
+  document.addEventListener('click', (e) => {
+  const tooltip = document.getElementById('tooltip');
+  if (!e.target.classList.contains('event')) {
+    tooltip.style.display = 'none';
+    activeTooltipTarget = null;
+    }
+  });
+</script>
+<div id="tooltip" style="
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  font-size: 0.8em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+"></div>
+</body>
+</html>

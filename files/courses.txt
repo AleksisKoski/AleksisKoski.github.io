@@ -1,0 +1,1051 @@
+;;;;;;;;;;;
+MS-A0001 Matrix Algebra;L01;Ti;08:15-10:00;R001/Y122 D-sali;236;Harri Hakula;43-48;135;;Vast.op Harri Hakula;
+MS-A0001 Matrix Algebra;L01;To;10:15-12:00;R001/Y122 D-sali;236;Harri Hakula;43-48;135;;Vast.op Harri Hakula;
+MS-A0001 Matrix Algebra;H01;Ke;16:15-18:00;R001/Y229a;36;;43-48;;36;;
+MS-A0001 Matrix Algebra;H01;Pe;10:15-12:00;R001/Y405;45;;43-48;;36;;
+MS-A0001 Matrix Algebra;H02;Ma;14:15-16:00;R001/U358;50;;43-48;;36;;
+MS-A0001 Matrix Algebra;H02;To;16:15-18:00;R001/Y228b;39;;43-48;;36;;
+MS-A0001 Matrix Algebra;H03;Ti;14:15-16:00;R001/Y405;45;;43-48;;36;;
+MS-A0001 Matrix Algebra;H03;Pe;10:15-12:00;R001/Y228b;39;;43-48;;36;;
+;;;;;;;;;;;
+MS-A0002 Matriisilaskenta (SCI);L01;Ma;08:15-10:00;R001/Y202a A-sali (Aalto-sali);570;Harri Hakula;02;331;;Vast.op Harri Hakula;06.01.2026: Loppiainen / Epiphany: -> 5.1.  B-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> R037/2005 TU2  
+MS-A0002 Matriisilaskenta (SCI);L01;Ti;08:15-10:00;R001/Y202a A-sali (Aalto-sali);570;Harri Hakula;03-07;331;;Vast.op Harri Hakula;06.01.2026: Loppiainen / Epiphany: -> 5.1.  B-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> R037/2005 TU2  
+MS-A0002 Matriisilaskenta (SCI);L01;To;08:15-10:00;R037/2005 TU2;300;Harri Hakula;06;331;;Vast.op Harri Hakula;06.01.2026: Loppiainen / Epiphany: -> 5.1.  B-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> R037/2005 TU2  
+MS-A0002 Matriisilaskenta (SCI);L01;To;08:15-10:00;R001/Y203a B-sali;320;Harri Hakula;02-05, 07;331;;Vast.op Harri Hakula;06.01.2026: Loppiainen / Epiphany: -> 5.1.  B-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> R037/2005 TU2  
+MS-A0002 Matriisilaskenta (SCI);H01;Ma;10:15-12:00;R001/U257 U257 (Win);30;;02;;36;;Loppiainen 6.1. -> tiistait vaihdettu maanantaiksi
+MS-A0002 Matriisilaskenta (SCI);H01;Pe;08:15-10:00;R001/U119 DELOITTE;50;;02-07;;36;;Loppiainen 6.1. -> tiistait vaihdettu maanantaiksi
+MS-A0002 Matriisilaskenta (SCI);H01;Ma;10:15-12:00;R001/U119 DELOITTE;50;;03-07;;36;;Loppiainen 6.1. -> tiistait vaihdettu maanantaiksi
+MS-A0002 Matriisilaskenta (SCI);H02;Ma;10:15-12:00;R001/Y342a Y342a (Linux);29;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.   Remontissa oleva sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H02;To;10:15-12:00;R001/U149 U6;78;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.   Remontissa oleva sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H02;Ma;10:15-12:00;R001/Y229a;36;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.   Remontissa oleva sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H03;Ma;14:15-16:00;R001/Y344 Y344 (Win);24;;02;;36;;Pe 06.02.26 08:00-18:00 Opopäivät 2026 -> pe-sali vaihdettu kokonaan.
+MS-A0002 Matriisilaskenta (SCI);H03;Pe;14:15-16:00;R001/Y228a;39;;02-07;;36;;Pe 06.02.26 08:00-18:00 Opopäivät 2026 -> pe-sali vaihdettu kokonaan.
+MS-A0002 Matriisilaskenta (SCI);H03;Ma;14:15-16:00;R001/Y228b;39;;03-07;;36;;Pe 06.02.26 08:00-18:00 Opopäivät 2026 -> pe-sali vaihdettu kokonaan.
+MS-A0002 Matriisilaskenta (SCI);H04;Ke;08:15-10:00;R001/Y342a Y342a (Linux);29;;02;;36;;Remontissa oleva pe-sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H04;Pe;10:15-12:00;R001/U406b;36;;02-07;;36;;Remontissa oleva pe-sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H04;Ke;08:15-10:00;R001/Y228a;39;;03-07;;36;;Remontissa oleva pe-sali vaihdettu.
+MS-A0002 Matriisilaskenta (SCI);H05;Ke;12:15-14:00;R001/A046 A046 (Win);52;;02;;36;;
+MS-A0002 Matriisilaskenta (SCI);H05;Pe;10:15-12:00;R001/Y228b;39;;02-07;;36;;
+MS-A0002 Matriisilaskenta (SCI);H05;Ke;12:15-14:00;R001/Y228b;39;;03-07;;36;;
+MS-A0002 Matriisilaskenta (SCI);H06;Ma;14:15-16:00;R001/Y342a Y342a (Linux);29;;02;;36;;Ke 7.1. palautettu maanantaille 5.1.
+MS-A0002 Matriisilaskenta (SCI);H06;Pe;14:15-16:00;R001/M240;36;;02-07;;36;;Ke 7.1. palautettu maanantaille 5.1.
+MS-A0002 Matriisilaskenta (SCI);H06;Ma;14:15-16:00;R001/Y229c;36;;03-07;;36;;Ke 7.1. palautettu maanantaille 5.1.
+MS-A0002 Matriisilaskenta (SCI);H07;Ma;14:15-16:00;R001/Y338 Y338 (Win);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H07;To;14:15-16:00;R001/Y228b;39;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H07;Ti;14:15-16:00;R001/Y228b;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H08;Ma;16:15-18:00;R001/U344 U344 (Win);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H08;To;16:15-18:00;R001/U405a;42;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H08;Ti;16:15-18:00;R001/U405a;42;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H09;Ma;14:15-16:00;R001/U256 U256 (Win);24;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H09;To;14:15-16:00;R001/U141 U3;70;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0002 Matriisilaskenta (SCI);H09;Ti;14:15-16:00;R001/U147 U5;76;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+;;;;;;;;;;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);L01;Ti;08:15-10:00;R001/U157 U2;602;Ville Turunen;43-48;535;;Vast.op Ville Turunen;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);L01;To;10:15-12:00;R001/U157 U2;602;Ville Turunen;43-48;535;;Vast.op Ville Turunen;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H01;Ma;08:15-10:00;R001/Y344 Y344 (Win);24;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H01;Pe;08:15-10:00;R001/Y228b;39;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H01;Ma;08:15-10:00;R001/U405a;42;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H02;Ti;14:15-16:00;R001/U257 U257 (Win);30;;43;;36;; Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H02;To;12:15-14:00;R001/U405a;42;;43-48;;36;; Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H02;Ti;14:15-16:00;R001/U405a;42;;44-48;;36;; Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H03;Ti;10:15-12:00;R001/Y338 Y338 (Win);30;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H03;To;14:15-16:00;R001/U149 U6;78;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H03;Ti;10:15-12:00;R008/326;77;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H04;Ti;10:15-12:00;R001/U257 U257 (Win);30;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H04;Pe;10:15-12:00;R001/M240;36;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H04;Ti;10:15-12:00;R001/U405a;42;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H05;Ti;14:15-16:00;R001/U344 U344 (Win);30;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H05;Pe;12:15-14:00;R001/Y228a;39;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H05;Ti;14:15-16:00;R001/Y229a;36;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H06;Ma;12:15-14:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H06;Pe;10:15-12:00;R001/Y229a;36;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H06;Ma;12:15-14:00;R001/M232 M1;72;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H07;Ma;14:15-16:00;R028/R102 R102 IT-luokka (Win);31;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H07;Pe;10:15-12:00;R001/Y228a;39;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H07;Ma;14:15-16:00;R001/Y228a;39;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H08;Ti;12:15-14:00;R001/U257 U257 (Win);30;;43;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H08;To;16:15-18:00;R001/M240;36;;43-48;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H08;Ti;12:15-14:00;R001/Y229a;36;;44-48;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H09;Ti;14:15-16:00;R001/Y342a Y342a (Linux);29;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H09;Pe;14:15-16:00;R001/U405a;42;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H09;Ti;14:15-16:00;R001/Y229c;36;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H10;Ti;14:15-16:00;R001/Y429c-d Y429c-d (Linux);30;;43;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H10;To;14:15-16:00;R001/U405a;42;;43-48;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H10;Ti;14:15-16:00;R001/Y228a;39;;44-48;;36;;Remontissa oleva torstain sali vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H11;Ti;10:15-12:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H11;To;12:15-14:00;R002/160a R1;146;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H11;Ti;10:15-12:00;R003/F239a Auditorio;100;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H12;Ma;16:15-18:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H12;To;16:15-18:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H12;Ma;16:15-18:00;R001/M232 M1;72;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H13;Ti;14:15-16:00;R001/Y344 Y344 (Win);24;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H13;Pe;14:15-16:00;R001/Y405;45;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H13;Ti;14:15-16:00;R001/U406b;36;;44-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H14;Ke;16:15-18:00;R001/U257 U257 (Win);30;;43;;36;;Remontissa oleva perjantain luokka vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H14;Pe;12:15-14:00;R001/U410b;36;;43-48;;36;;Remontissa oleva perjantain luokka vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H14;Ke;16:15-18:00;R001/M240;36;;44-48;;36;;Remontissa oleva perjantain luokka vaihdettu.
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H15;Ti;14:15-16:00;R001/A046 A046 (Win);52;;43;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H15;To;14:15-16:00;R003/F239a Auditorio;100;;43-48;;36;;
+MS-A0003 Matriisilaskenta (ELEC1, ENG1);H15;Ti;14:15-16:00;R003/F239a Auditorio;100;;44-48;;36;;
+;;;;;;;;;;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);L01;To;10:15-12:00;R001/Y203a B-sali;320;Harri Hakula;36-41;411;;Vast.op Harri Hakula;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);L01;Ti;08:15-10:00;R001/Y202a A-sali (Aalto-sali);570;Harri Hakula;37-38;411;;Vast.op Harri Hakula;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);L01;Ti;08:15-10:00;R001/Y203a B-sali;320;Harri Hakula;36, 39-41;411;;Vast.op Harri Hakula;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H01;Ma;08:15-10:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H01;Pe;08:15-10:00;R001/M240;36;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H01;Ma;08:15-10:00;R001/U405a;42;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H02;Ma;16:15-18:00;R001/Y344 Y344 (Win);24;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H02;To;14:15-16:00;R001/Y229a;36;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H02;Ma;16:15-18:00;R001/Y228b;39;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H03;Ma;16:15-18:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H03;To;16:15-18:00;R001/U406b;36;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H03;Ma;16:15-18:00;R001/U406b;36;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H04;Ma;08:15-10:00;R001/Y342a Y342a (Linux);29;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H04;To;12:15-14:00;R001/Y228b;39;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H04;Ma;08:15-10:00;R001/Y228b;39;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H05;Ma;10:15-12:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H05;Pe;08:15-10:00;R001/Y228a;39;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H05;Ma;10:15-12:00;R001/Y228a;39;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H06;Ma;14:15-16:00;R001/Y342a Y342a (Linux);29;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H06;Pe;10:15-12:00;R001/Y229a;36;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H06;Ma;14:15-16:00;R001/Y229a;36;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H07;Ti;12:15-14:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H07;To;16:15-18:00;R001/Y229a;36;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H07;Ti;12:15-14:00;R001/Y229a;36;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H08;Ti;14:15-16:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H08;Pe;12:15-14:00;R001/U406a;35;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H08;Ti;14:15-16:00;R001/Y229a;36;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H09;Ma;15:15-17:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H09;Pe;14:15-16:00;R001/Y228b;39;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H09;Ma;15:15-17:00;R001/Y405;45;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H10;Ti;16:15-18:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H10;To;15:15-17:00;R001/A123 A1;87;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H10;Ti;16:15-18:00;R001/Y228a;39;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H11;Ma;16:15-18:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H11;To;14:15-16:00;R008/215 215 Meyer;134;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H11;Ma;16:15-18:00;R008/326;77;;37-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H12;Ma;14:15-16:00;R001/Y429c-d Y429c-d (Linux);30;;36;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H12;Pe;10:15-12:00;R001/Y313;56;;36-41;;36;;
+MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2);H12;Ma;14:15-16:00;R008/326;77;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0009 Matrisräkning;L01;Ti;08:15-10:00;R001/Y124 E-sali;236;BjÃ¶rn Ivarsson;43-48;106;;Vast.op BjÃ¶rn Ivarsson;
+MS-A0009 Matrisräkning;L01;To;10:15-12:00;R001/U142 U4;185;BjÃ¶rn Ivarsson;43-48;106;;Vast.op BjÃ¶rn Ivarsson;
+MS-A0009 Matrisräkning;H01;Pe;14:15-16:00;R001/Y228a;39;;43-48;;36;;
+MS-A0009 Matrisräkning;H01;Ma;08:15-10:00;R001/Y228a;39;;44-48;;36;;
+MS-A0009 Matrisräkning;H02;Pe;08:15-10:00;R001/A123 A1;87;;43-48;;36;;"=""I think the 16 - 18 slots should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Thu 12 - 14 have two groups scheduled at the same time. -> Fri 8-10 Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Thursdays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0009 Matrisräkning;H02;Ma;14:15-16:00;R001/U149 U6;78;;44-48;;36;;"=""I think the 16 - 18 slots should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Thu 12 - 14 have two groups scheduled at the same time. -> Fri 8-10 Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Thursdays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0009 Matrisräkning;H03;To;12:15-14:00;R001/Y405;45;;43-48;;36;;
+MS-A0009 Matrisräkning;H03;Ma;10:15-12:00;R001/M240;36;;44-48;;36;;
+MS-A0009 Matrisräkning;H04;To;14:15-16:00;R001/U271 U9;60;;43-48;;36;;"=""Mon 16-18 -> 12-14. Thu 16-18 -> 14-16. Remontissa oleva maanantain sali vaihdettu. I think the 16 - 18 slots should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Thu 12 - 14 have two groups scheduled at the same time. -> Fri 8-10 Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Thursdays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0009 Matrisräkning;H04;Ma;12:15-14:00;R001/Y229c;36;;44-48;;36;;"=""Mon 16-18 -> 12-14. Thu 16-18 -> 14-16. Remontissa oleva maanantain sali vaihdettu. I think the 16 - 18 slots should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Thu 12 - 14 have two groups scheduled at the same time. -> Fri 8-10 Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Thursdays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+;;;;;;;;;;;
+MS-A0011 Matrix Algebra;L01;Mon;14:15-16:00;R001/U157 U2;602;Milo Orlich;43-48;224;;Vast.op Milo Orlich;
+MS-A0011 Matrix Algebra;L01;Wed;14:15-16:00;R001/Y203a Hall B;320;Milo Orlich;43-48;224;;Vast.op Milo Orlich;
+MS-A0011 Matrix Algebra;H01;Tue;12:15-14:00;R008/326;77;;43-48;;;;
+MS-A0011 Matrix Algebra;H01;Thu;12:15-14:00;R001/A123 A1;87;;43-48;;;;
+MS-A0011 Matrix Algebra;H02;Tue;10:15-12:00;R001/U149 U6;78;;43-48;;;;
+MS-A0011 Matrix Algebra;H02;Fri;10:15-12:00;R001/U413;70;;43-48;;;;
+MS-A0011 Matrix Algebra;H03;Tue;16:15-18:00;R001/Y228b;39;;43-48;;;;
+MS-A0011 Matrix Algebra;H03;Thu;08:15-10:00;R001/M240;36;;43-48;;;;
+MS-A0011 Matrix Algebra;H04;Mon;16:15-18:00;R001/Y228a;39;;43-48;;;;
+MS-A0011 Matrix Algebra;H04;Fri;14:15-16:00;R001/U147 U5;76;;43-48;;;;
+MS-A0011 Matrix Algebra;H05;Wed;12:15-14:00;R001/Y228a;39;;43-48;;;;
+MS-A0011 Matrix Algebra;H05;Fri;10:15-12:00;R001/A123 A1;87;;43-48;;;;
+MS-A0011 Matrix Algebra;H06;Wed;08:15-10:00;R001/Y229a;36;;43-48;;;;
+MS-A0011 Matrix Algebra;H06;Fri;12:15-14:00;R001/U147 U5;76;;43-48;;;;
+;;;;;;;;;;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);L01;Ti;10:15-12:00;R001/U154 U1 VALMET;105;Sari Rogovin;36-41;101;;Vast.op Sari Rogovin;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);L01;To;10:15-12:00;R001/U154 U1 VALMET;105;Sari Rogovin;36-41;101;;Vast.op Sari Rogovin;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H01;Ma;14:15-16:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H01;Pe;10:15-12:00;R001/U413;70;;36-41;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H01;Ma;14:15-16:00;R008/216;125;;37-41;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H02;Ma;10:15-12:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H02;Pe;16:15-18:00;R001/Y228a;39;;36-41;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H02;Ma;10:15-12:00;R001/M240;36;;37-41;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H03;Ma;10:15-12:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H03;Pe;12:15-14:00;R001/U264 K-RYHMÄ;36;;36-41;;36;;
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM);H03;Ma;10:15-12:00;R001/Y228b;39;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);L01;Ti;14:15-16:00;R001/Y205 C-sali;310;Jonas TÃ¶lle;43-48;255;;Vast.op Jonas TÃ¶lle;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);L01;To;10:15-12:00;R001/Y205 C-sali;310;Jonas TÃ¶lle;43-48;255;;Vast.op Jonas TÃ¶lle;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H01;Ma;08:15-10:00;R001/U257 U257 (Win);30;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H01;Pe;08:15-10:00;R001/Y228a;39;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H01;Ma;08:15-10:00;R001/Y228b;39;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H02;Ma;10:15-12:00;R001/Y344 Y344 (Win);24;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H02;To;14:15-16:00;R001/Y229a;36;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H02;Ma;10:15-12:00;R001/Y405;45;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H03;Ma;14:15-16:00;R001/A046a A046a (Win);24;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H03;Pe;08:15-10:00;R001/U358;50;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H03;Ma;14:15-16:00;R001/Y313;56;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H04;Ti;16:15-18:00;R001/U256 U256 (Win);24;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H04;To;14:15-16:00;R001/Y228b;39;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H04;Ti;16:15-18:00;R001/U405a;42;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H05;Ti;16:15-18:00;R001/U257 U257 (Win);30;;43;;36;; Remontissa oleva sali vaihdettu.
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H05;To;16:15-18:00;R001/Y228a;39;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H05;Ti;16:15-18:00;R001/Y228a;39;;44-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H06;Ke;08:15-10:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H06;Pe;12:15-14:00;R001/U405a;42;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H06;Ke;08:15-10:00;R001/Y228b;39;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H07;Ma;14:15-16:00;R001/U256 U256 (Win);24;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H07;Pe;12:15-14:00;R001/Y228b;39;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H07;Ma;14:15-16:00;R001/M232 M1;72;;44-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H08;Ke;16:15-18:00;R001/Y344 Y344 (Win);24;;43;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H08;Pe;14:15-16:00;R001/U264 K-RYHMÄ;36;;43-48;;36;;
+MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI);H08;Ke;16:15-18:00;R001/Y229c;36;;44-48;;36;;
+;;;;;;;;;;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);L01;Ti;08:15-10:00;R001/Y202a A-sali (Aalto-sali);570;Jarmo Malinen;36;549;;Vast.op Jarmo Malinen;CS-C3120 päällekkäin A-salissa to 9.10.
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);L01;To;10:15-12:00;R001/U157 U2;602;Jarmo Malinen;36-40;549;;Vast.op Jarmo Malinen;CS-C3120 päällekkäin A-salissa to 9.10.
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);L01;Ti;08:15-10:00;R001/U157 U2;602;Jarmo Malinen;37-41;549;;Vast.op Jarmo Malinen;CS-C3120 päällekkäin A-salissa to 9.10.
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);L01;To;10:15-12:00;R002/253 R2;116;Jarmo Malinen;41;549;;Vast.op Jarmo Malinen;CS-C3120 päällekkäin A-salissa to 9.10.
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H01;Ma;08:15-10:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H01;Pe;08:15-10:00;R001/Y229a;36;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H01;Ma;08:15-10:00;R001/Y229a;36;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H02;Ti;10:15-12:00;R001/Y430 Y430 (Win);60;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H02;To;14:15-16:00;R001/U414;70;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H02;Ti;10:15-12:00;R001/U413;70;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H03;Ti;10:15-12:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H03;Pe;10:15-12:00;R001/U141 U3;70;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H03;Ti;10:15-12:00;R002/253 R2;116;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H04;Ti;14:15-16:00;R001/A046 A046 (Win);52;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H04;Pe;12:15-14:00;R001/Y229a;36;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H04;Ti;14:15-16:00;R001/U405a;42;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H05;Ma;10:15-12:00;R001/U256 U256 (Win);24;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H05;Pe;10:15-12:00;R001/U142 U4;185;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H05;Ma;10:15-12:00;R001/Y313;56;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H06;Ma;14:15-16:00;R001/Y344 Y344 (Win);24;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H06;Pe;10:15-12:00;R001/Y229c;36;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H06;Ma;14:15-16:00;R001/U358;50;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H07;Ma;16:15-18:00;R001/Y342a Y342a (Linux);29;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H07;To;16:15-18:00;R001/Y313;56;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H07;Ma;16:15-18:00;R001/Y229a;36;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H08;Ti;12:15-14:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H08;Pe;14:15-16:00;R001/Y228a;39;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H08;Ti;12:15-14:00;R001/U405a;42;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H09;Ti;14:15-16:00;R001/Y338 Y338 (Win);30;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H09;Pe;12:15-14:00;R001/U410b;36;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H09;Ti;14:15-16:00;R001/Y228b;39;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H10;Ti;10:15-12:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H10;To;14:15-16:00;R003/F239a Auditorio;100;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H10;Ti;10:15-12:00;R001/Y313;56;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H11;Ma;10:15-12:00;R001/A046 A046 (Win);52;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H11;To;14:15-16:00;R008/216;125;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H11;Ma;10:15-12:00;R001/Y229c;36;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H12;Ti;12:15-14:00;R001/A046 A046 (Win);52;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H12;Pe;14:15-16:00;R001/U358;50;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H12;Ti;12:15-14:00;R001/Y405;45;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H13;Ti;10:15-12:00;R001/Y338 Y338 (Win);30;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H13;To;16:15-18:00;R001/Y228a;39;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H13;Ti;10:15-12:00;R001/Y229c;36;;37-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H14;Ti;10:15-12:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H14;To;16:15-18:00;R001/Y405;45;;36-41;;36;;
+MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1);H14;Ti;10:15-12:00;R001/Y347;35;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);L01;Ti;08:15-10:00;R001/Y205 C-sali;310;Jarmo Malinen;43-48;256;;Vast.op Jarmo Malinen;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);L01;To;10:15-12:00;R001/Y124 E-sali;236;Jarmo Malinen;43-48;256;;Vast.op Jarmo Malinen;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H01;Ma;08:15-10:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H01;Pe;08:15-10:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H01;Ma;08:15-10:00;R001/M232 M1;72;;44-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H02;Ma;14:15-16:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H02;To;16:15-18:00;R001/Y229c;36;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H02;Ma;14:15-16:00;R001/Y229a;36;;44-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H03;Ma;08:15-10:00;R001/U256 U256 (Win);24;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H03;To;12:15-14:00;R001/U358;50;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H03;Ma;08:15-10:00;R001/U413;70;;44-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H04;Ma;10:15-12:00;R001/U351 U351 (Win);50;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H04;Pe;08:15-10:00;R001/M240;36;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H04;Ma;10:15-12:00;R001/Y347;35;;44-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H05;Ma;14:15-16:00;R001/U344 U344 (Win);30;;43;;36;; Remontissa oleva sali vaihdettu.
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H05;Pe;10:15-12:00;R001/U149 U6;78;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H05;Ma;14:15-16:00;R001/Y405;45;;44-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H06;Ti;10:15-12:00;R001/A046 A046 (Win);52;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H06;To;16:15-18:00;R001/Y229a;36;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H06;Ti;10:15-12:00;R001/Y313;56;;44-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H07;Ma;14:15-16:00;R001/Y338 Y338 (Win);30;;43;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H07;Pe;10:15-12:00;R001/U264 K-RYHMÄ;36;;43-48;;36;;
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2);H07;Ma;14:15-16:00;R001/U264 K-RYHMÄ;36;;44-48;;36;;
+;;;;;;;;;;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);L01;Ti;08:15-10:00;R001/Y205 C-sali;310;Pekka Alestalo;36;174;;Vast.op Pekka Alestalo;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);L01;To;10:15-12:00;R001/Y205 C-sali;310;Pekka Alestalo;36-41;174;;Vast.op Pekka Alestalo;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);L01;To;10:15-12:00;R004/A208d Jeti;200;Pekka Alestalo;43-48;174;;Vast.op Pekka Alestalo;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H01;Ti;12:15-14:00;R001/U358;50;;36-41, 43-48;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H02;Ke;08:15-10:00;R001/Y228a;39;;36-41, 43-48;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H03;Ti;13:15-15:00;R001/M232 M1;72;;36-41;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H03;Ti;13:15-15:00;R001/U142 U4;185;;43-48;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H04;To;13:15-15:00;R001/U410b;36;;36-41;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H04;To;13:15-15:00;R001/U147 U5;76;;43-48;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H05;Pe;12:15-14:00;R001/U154 U1 VALMET;105;;36-41;;36;;
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM);H05;Pe;12:15-14:00;R003/F239a Auditorio;100;;43-48;;36;;
+;;;;;;;;;;;
+MS-A0108 Differentiaali- ja integraalilaskenta 1;L01;Ti;12:15-14:00;R001/A215 A2;87;Jonas TÃ¶lle;09-14;78;;Vast.op Jonas TÃ¶lle;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0108 Differentiaali- ja integraalilaskenta 1;L01;To;12:15-14:00;R001/A215 A2;87;Jonas TÃ¶lle;09-13, 15;78;;Vast.op Jonas TÃ¶lle;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H01;Ti;14:15-16:00;R001/U256 U256 (Win);24;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H01;Ti;14:15-16:00;R001/U405a;42;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H01;To;14:15-16:00;R001/Y229a;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H02;Ke;12:15-14:00;R001/Y342a Y342a (Linux);29;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H02;Ke;12:15-14:00;R001/Y229a;36;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H02;Pe;12:15-14:00;R001/Y229a;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H03;Ke;14:15-16:00;R001/A046 A046 (Win);52;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H03;Pe;14:15-16:00;R001/Y228a;39;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0108 Differentiaali- ja integraalilaskenta 1;H03;Ke;14:15-16:00;R001/U405a;42;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-A0109 Differential- och integralkalkyl 1;L01;Ti;08:15-10:00;R001/Y124 E-sali;236;BjÃ¶rn Ivarsson;36-41;106;;Vast.op BjÃ¶rn Ivarsson;
+MS-A0109 Differential- och integralkalkyl 1;L01;To;10:15-12:00;R001/Y124 E-sali;236;BjÃ¶rn Ivarsson;36-41;106;;Vast.op BjÃ¶rn Ivarsson;
+MS-A0109 Differential- och integralkalkyl 1;H01;Pe;14:15-16:00;R001/Y405;45;;36-41;;36;;
+MS-A0109 Differential- och integralkalkyl 1;H01;Ma;08:15-10:00;R001/Y313;56;;37-41;;36;;
+MS-A0109 Differential- och integralkalkyl 1;H02;Pe;14:15-16:00;R001/U405a;42;;36-41;;36;;"=""Fri 16:15-18:00 -> 14-16.  I think the 16 - 18 slots (particularly on Fridays) should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Mon 8 - 10 and Fri 16 - 18 have two groups scheduled at the same time. Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Fridays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0109 Differential- och integralkalkyl 1;H02;Ma;14:15-16:00;R001/M232 M1;72;;37-41;;36;;"=""Fri 16:15-18:00 -> 14-16.  I think the 16 - 18 slots (particularly on Fridays) should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Mon 8 - 10 and Fri 16 - 18 have two groups scheduled at the same time. Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Fridays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0109 Differential- och integralkalkyl 1;H03;To;16:15-18:00;R001/Y228b;39;;36-41;;36;;"="" I think the 16 - 18 slots (particularly on Fridays) should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Mon 8 - 10 and Fri 16 - 18 have two groups scheduled at the same time. Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Fridays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0109 Differential- och integralkalkyl 1;H03;Ma;16:15-18:00;R001/M232 M1;72;;37-41;;36;;"="" I think the 16 - 18 slots (particularly on Fridays) should be changed. Also it would be good if two exercise groups did not meet at the same time. Here Mon 8 - 10 and Fri 16 - 18 have two groups scheduled at the same time. Finally a comment about possible conflicts with programme calendars. The students are not required to follow a specific group in this course. They are allowed to follow exercises with different groups. For example, they can go with H01 on Monday and H03 on Fridays. Therefore they should be able to adapt their schedules to avoid conflicts even if there are some "",double bookings"",. """
+MS-A0109 Differential- och integralkalkyl 1;H04;To;12:15-14:00;R001/Y228a;39;;36-41;;36;;
+MS-A0109 Differential- och integralkalkyl 1;H04;Ma;14:15-16:00;R001/U406b;36;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0111 Differential and Integral Calculus 1;L01;Mon;10:15-12:00;R037/2005 TU2;300;Milo Orlich;36-41;230;;Vast.op Milo Orlich;
+MS-A0111 Differential and Integral Calculus 1;L01;Wed;10:15-12:00;R001/Y122 Hall D;236;Milo Orlich;36-41;230;;Vast.op Milo Orlich;
+MS-A0111 Differential and Integral Calculus 1;H01;Mon;14:15-16:00;R030/C105 T2;90;;36-41;;36;;Alma media -> U413
+MS-A0111 Differential and Integral Calculus 1;H01;Thu;16:15-18:00;R001/U413;70;;36-41;;36;;Alma media -> U413
+MS-A0111 Differential and Integral Calculus 1;H02;Tue;08:15-10:00;R001/U358;50;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H02;Fri;08:15-10:00;R001/U405a;42;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H03;Tue;16:15-18:00;R001/Y229c;36;;36-41;;36;;Fri 16:15-18:00 -> 14-16
+MS-A0111 Differential and Integral Calculus 1;H03;Fri;14:15-16:00;R001/Y229c;36;;36-41;;36;;Fri 16:15-18:00 -> 14-16
+MS-A0111 Differential and Integral Calculus 1;H04;Tue;14:15-16:00;R002/266;38;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H04;Thu;08:15-10:00;R001/Y228b;39;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H05;Tue;10:15-12:00;R030/C105 T2;90;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H05;Thu;10:15-12:00;R001/M232 M1;72;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H06;Tue;12:15-14:00;R001/Y228b;39;;36-41;;36;;
+MS-A0111 Differential and Integral Calculus 1;H06;Thu;12:15-14:00;R001/Y229c;36;;36-41;;36;;
+;;;;;;;;;;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);L01;Ma;08:15-10:00;R008/216;125;Pekka Alestalo;02;97;;Vast.op Pekka Alestalo;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);L01;To;10:15-12:00;R001/U142 U4;185;Pekka Alestalo;02-07;97;;Vast.op Pekka Alestalo;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);L01;Ti;09:15-11:00;R008/216;125;Pekka Alestalo;03-07;97;;Vast.op Pekka Alestalo;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H01;To;14:15-16:00;R001/M232 M1;72;;02-07;;36;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H01;Ma;12:15-14:00;R001/U141 U3;70;;03-07;;36;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H02;Pe;12:15-14:00;R001/Y229a;36;;02-07;;36;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H02;Ti;12:15-14:00;R001/Y229a;36;;03-07;;36;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H03;To;12:15-14:00;R001/Y228b;39;;02-07;;36;;
+MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM);H03;Ma;14:15-16:00;R001/M240;36;;03-07;;36;;
+;;;;;;;;;;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);L01;Ti;10:15-12:00;R001/Y122 D-sali;236;Oscar Kivinen;36-41;196;;Vast.op Oscar Kivinen;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);L01;To;08:15-10:00;R001/Y124 E-sali;236;Oscar Kivinen;36-41;196;;Vast.op Oscar Kivinen;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H01;Ma;12:15-14:00;R001/Y338 Y338 (Win);30;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H01;Pe;10:15-12:00;R001/M240;36;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H01;Ma;12:15-14:00;R001/U264 K-RYHMÄ;36;;37-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H02;Ma;10:15-12:00;R001/Y338 Y338 (Win);30;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H02;Pe;12:15-14:00;R001/U405a;42;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H02;Ma;10:15-12:00;R001/U264 K-RYHMÄ;36;;37-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H03;Ma;14:15-16:00;R001/Y427a Y427a (Linux);30;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H03;To;12:15-14:00;R001/U358;50;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H03;Ma;14:15-16:00;R001/Y228b;39;;37-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H04;Ti;08:15-10:00;R001/U344 U344 (Win);30;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H04;To;14:15-16:00;R001/U413;70;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H04;Ti;08:15-10:00;R001/Y228a;39;;37-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H05;Ti;12:15-14:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H05;To;16:15-18:00;R001/Y229c;36;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H05;Ti;12:15-14:00;R001/Y229c;36;;37-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H06;Ke;08:15-10:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H06;Pe;08:15-10:00;R001/U358;50;;36-41;;36;;
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI);H06;Ke;08:15-10:00;R001/U405a;42;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);L01;Ti;08:15-10:00;R001/Y122 D-sali;236;Jarmo Malinen;09-14;228;;Vast.op Jarmo Malinen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);L01;To;10:15-12:00;R001/Y122 D-sali;236;Jarmo Malinen;09-13, 15;228;;Vast.op Jarmo Malinen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H01;Ma;16:15-18:00;R001/U257 U257 (Win);30;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H01;Ma;16:15-18:00;R001/U405a;42;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H01;To;12:15-14:00;R001/Y229c;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H02;Ke;16:15-18:00;R001/U344 U344 (Win);30;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H02;Ke;16:15-18:00;R001/U405a;42;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H02;Pe;16:15-18:00;R001/U406b;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H03;Ma;08:15-10:00;R001/U344 U344 (Win);30;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H03;Ma;08:15-10:00;R001/Y228a;39;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H03;Pe;14:15-16:00;R001/Y228b;39;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H04;Ma;16:15-18:00;R001/U344 U344 (Win);30;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H04;Ma;16:15-18:00;R001/Y228a;39;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H04;To;12:15-14:00;R001/Y228b;39;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H05;Ma;16:15-18:00;R001/U351 U351 (Win);50;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H05;Ma;16:15-18:00;R001/M240;36;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H05;To;12:15-14:00;R001/M240;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H06;Ke;14:15-16:00;R001/U351 U351 (Win);50;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H06;Pe;14:15-16:00;R001/M240;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1);H06;Ke;14:15-16:00;R001/Y405;45;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);L01;Ma;08:15-10:00;R001/U157 U2;602;Sari Rogovin;02;328;;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> 5.1.  A-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> U2
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);L01;Ti;08:15-10:00;R001/U157 U2;602;Sari Rogovin;03-07;328;;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> 5.1.  A-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> U2
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);L01;To;10:15-12:00;R001/U157 U2;602;Sari Rogovin;04, 06;328;;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> 5.1.  A-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> U2
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);L01;To;10:15-12:00;R001/Y202a A-sali (Aalto-sali);570;Sari Rogovin;02-03, 05, 07;328;;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> 5.1.  A-sali To 05.02.26 08:00-18:00 Opopäivät 2026 -> U2
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H01;Pe;08:15-10:00;R001/U405a;42;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H01;Ma;08:15-10:00;R001/M240;36;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H02;To;12:15-14:00;R001/Y229c;36;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H02;Ma;12:15-14:00;R001/Y228b;39;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H03;To;14:15-16:00;R001/U264 K-RYHMÄ;36;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H03;Ti;10:15-12:00;R001/U264 K-RYHMÄ;36;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H04;Pe;12:15-14:00;R001/M240;36;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H04;Ti;14:15-16:00;R001/U405a;42;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H05;To;12:15-14:00;R001/Y229a;36;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H05;Ma;12:15-14:00;R001/Y229a;36;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H06;To;14:15-16:00;R001/U405a;42;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H06;Ma;14:15-16:00;R001/Y405;45;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H07;To;12:15-14:00;R001/U405a;42;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H07;Ti;16:15-18:00;R001/U358;50;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H08;Pe;08:15-10:00;R001/U406b;36;;02-07;;36;;Pe remontissa oleva sali vaihdettu.
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H08;Ke;08:15-10:00;R001/M240;36;;03-07;;36;;Pe remontissa oleva sali vaihdettu.
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H09;Pe;12:15-14:00;R001/Y229c;36;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H09;Ke;16:15-18:00;R001/M240;36;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H10;Pe;12:15-14:00;R001/Y405;45;;02-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H10;Ti;14:15-16:00;R001/Y229a;36;;03-07;;36;;
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H11;To;12:15-14:00;R001/Y313;56;;02-07;;36;;To remontissa oleva sali vaihdettu.
+MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2);H11;Ma;12:15-14:00;R001/M240;36;;03-07;;36;;To remontissa oleva sali vaihdettu.
+;;;;;;;;;;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);L01;Ma;10:15-12:00;R037/2005 TU2;300;Jarmo Malinen;02;327;;Vast.op Jarmo Malinen;06.01.2026: Loppiainen / Epiphany -> 5.1.    
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);L01;To;10:15-12:00;R008/213a;266;Jarmo Malinen;02-07;327;;Vast.op Jarmo Malinen;06.01.2026: Loppiainen / Epiphany -> 5.1.    
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);L01;Ti;10:15-12:00;R037/2005 TU2;300;Jarmo Malinen;03-07;327;;Vast.op Jarmo Malinen;06.01.2026: Loppiainen / Epiphany -> 5.1.    
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H01;Ma;10:15-12:00;R001/U351 U351 (Win);50;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H01;Pe;08:15-10:00;R001/U264 K-RYHMÄ;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H01;Ma;10:15-12:00;R001/U358;50;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H02;Ma;12:15-14:00;R001/Y429c-d Y429c-d (Linux);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H02;To;12:15-14:00;R001/U358;50;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H02;Ma;12:15-14:00;R001/U358;50;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H03;Ma;14:15-16:00;R001/U344 U344 (Win);30;;02;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H03;To;12:15-14:00;R001/U147 U5;76;;02-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H03;Ma;14:15-16:00;R001/U271 U9;60;;03-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H04;Ke;14:15-16:00;R001/Y427a Y427a (Linux);30;;02;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H04;Pe;12:15-14:00;R001/U413;70;;02-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H04;Ke;14:15-16:00;R001/U413;70;;03-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H05;Ke;08:15-10:00;R001/A046 A046 (Win);52;;02;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H05;Pe;10:15-12:00;R001/U405a;42;;02-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H05;Ke;08:15-10:00;R001/U405a;42;;03-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H06;Ma;12:15-14:00;R001/U351 U351 (Win);50;;02;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H06;Pe;14:15-16:00;R001/U410b;36;;02-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H06;Ma;12:15-14:00;R001/Y228a;39;;03-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H07;Ma;14:15-16:00;R001/U351 U351 (Win);50;;02;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H07;To;16:15-18:00;R001/M134;30;;02-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H07;Ma;14:15-16:00;R001/Y229a;36;;03-07;;36;;
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H08;Ma;14:15-16:00;R001/Y427a Y427a (Linux);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H08;To;14:15-16:00;R008/326;77;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H08;Ma;14:15-16:00;R001/U149 U6;78;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H09;Ke;14:15-16:00;R001/U344 U344 (Win);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H09;To;14:15-16:00;R001/Y229a;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG);H09;Ti;12:15-14:00;R001/Y228b;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+;;;;;;;;;;;
+MS-A0209 Differential- och integralkalkyl 2;L01;Ma;12:15-14:00;R001/Y124 E-sali;236;BjÃ¶rn Ivarsson;02;95;;Vast.op BjÃ¶rn Ivarsson;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0209 Differential- och integralkalkyl 2;L01;To;10:15-12:00;R008/216;125;BjÃ¶rn Ivarsson;02-07;95;;Vast.op BjÃ¶rn Ivarsson;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0209 Differential- och integralkalkyl 2;L01;Ti;08:15-10:00;R001/Y124 E-sali;236;BjÃ¶rn Ivarsson;03-07;95;;Vast.op BjÃ¶rn Ivarsson;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0209 Differential- och integralkalkyl 2;H01;Pe;14:15-16:00;R001/Y405;45;;02-07;;36;;
+MS-A0209 Differential- och integralkalkyl 2;H01;Ma;08:15-10:00;R001/Y228b;39;;03-07;;36;;
+MS-A0209 Differential- och integralkalkyl 2;H02;Ti;14:15-16:00;R001/Y405;45;;03-07;;36;;Opopäivät 6.2. -> A1
+MS-A0209 Differential- och integralkalkyl 2;H02;Pe;12:15-14:00;R001/A123 A1;87;;06;;36;;Opopäivät 6.2. -> A1
+MS-A0209 Differential- och integralkalkyl 2;H02;Pe;12:15-14:00;R001/U147 U5;76;;02-05, 07;;36;;Opopäivät 6.2. -> A1
+MS-A0209 Differential- och integralkalkyl 2;H03;Pe;16:15-18:00;R001/U405a;42;;02-07;;36;;SS: to 16-18 -> pe 16-18
+MS-A0209 Differential- och integralkalkyl 2;H03;Ti;16:15-18:00;R001/Y229a;36;;03-07;;36;;SS: to 16-18 -> pe 16-18
+;;;;;;;;;;;
+MS-A0211 Differential and Integral Calculus 2;L01;Mon;08:15-10:00;R001/Y122 Hall D;236;Milo Orlich;02;190;;Vast.op Milo Orlich;06.01.2026: Loppiainen / Epiphany -> 5.1.  
+MS-A0211 Differential and Integral Calculus 2;L01;Thu;10:15-12:00;R004/A208d Jeti;200;Milo Orlich;02-07;190;;Vast.op Milo Orlich;06.01.2026: Loppiainen / Epiphany -> 5.1.  
+MS-A0211 Differential and Integral Calculus 2;L01;Tue;08:15-10:00;R001/Y122 Hall D;236;Milo Orlich;03-07;190;;Vast.op Milo Orlich;06.01.2026: Loppiainen / Epiphany -> 5.1.  
+MS-A0211 Differential and Integral Calculus 2;H01;Thu;14:15-16:00;R001/U406b;36;;02-07;;36;;
+MS-A0211 Differential and Integral Calculus 2;H01;Mon;14:15-16:00;R001/U358;50;;03-07;;36;;
+MS-A0211 Differential and Integral Calculus 2;H02;Mon;10:15-12:00;R001/Y228a;39;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H02;Thu;16:15-18:00;R001/Y229c;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H02;Tue;10:15-12:00;R001/Y228a;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H03;Mon;16:15-18:00;R001/M240;36;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H03;Fri;14:15-16:00;R001/Y229c;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H03;Tue;16:15-18:00;R001/M240;36;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0211 Differential and Integral Calculus 2;H04;Wed;08:15-10:00;R001/Y228b;39;;02-07;;36;;
+MS-A0211 Differential and Integral Calculus 2;H04;Fri;08:15-10:00;R001/Y228b;39;;02-07;;36;;
+MS-A0211 Differential and Integral Calculus 2;H05;Mon;16:15-18:00;R001/M232 M1;72;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.  Remontissa oleva tila vaihdettu.
+MS-A0211 Differential and Integral Calculus 2;H05;Thu;16:15-18:00;R001/Y229a;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.  Remontissa oleva tila vaihdettu.
+;;;;;;;;;;;
+MS-A0301 Differentiaali- ja integraalilaskenta 3;L01;Ti;08:15-10:00;R001/Y124 E-sali;236;Pekka Alestalo;09-14;237;;Vast.op Pekka Alestalo;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;L01;To;10:15-12:00;R001/Y124 E-sali;236;Pekka Alestalo;09-13, 15;237;;Vast.op Pekka Alestalo;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H01;Ma;14:15-16:00;R001/U257 U257 (Win);30;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H01;Ma;14:15-16:00;R001/Y229a;36;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H01;To;14:15-16:00;R001/U406b;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H02;Ke;08:15-10:00;R001/Y342a Y342a (Linux);29;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H02;Ke;08:15-10:00;R001/U405a;42;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H02;Pe;14:15-16:00;R001/Y229a;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H03;Ke;10:15-12:00;R001/Y342a Y342a (Linux);29;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H03;Ke;10:15-12:00;R001/M240;36;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H03;Pe;12:15-14:00;R001/Y228b;39;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H04;Ma;14:15-16:00;R001/U344 U344 (Win);30;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H04;Ma;14:15-16:00;R001/M240;36;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H04;To;14:15-16:00;R001/M240;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H05;Ti;10:15-12:00;R001/Y342a Y342a (Linux);29;;09;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H05;Ti;10:15-12:00;R001/U405a;42;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H05;Pe;12:15-14:00;R001/Y228a;39;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H06;Ti;10:15-12:00;R001/U351 U351 (Win);50;;09;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H06;Ti;10:15-12:00;R001/Y228b;39;;10-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H06;To;12:15-14:00;R001/Y229a;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H07;Ma;08:15-10:00;R001/Y344 Y344 (Win);24;;09;;36;;"=""02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  IV-periodin Diff-int-3-kurssilla on kolme laskariryhmää samaan aikaan ma ja to 14-16, mikä aiheuttaa ongelmia assarijaossa ja ehkä opiskelijoillekin.    Tämän vuoksi ryhmän H07 voisi siirtää kokonaan uuteen aikaan ma 8-10, pe 8-10 (näihin aikoihin löytyy varmaankin hyviä luokkia) -> Siirretty  """
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H07;Pe;08:15-10:00;R001/U410b;36;;09-13, 15;;36;;"=""02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  IV-periodin Diff-int-3-kurssilla on kolme laskariryhmää samaan aikaan ma ja to 14-16, mikä aiheuttaa ongelmia assarijaossa ja ehkä opiskelijoillekin.    Tämän vuoksi ryhmän H07 voisi siirtää kokonaan uuteen aikaan ma 8-10, pe 8-10 (näihin aikoihin löytyy varmaankin hyviä luokkia) -> Siirretty  """
+MS-A0301 Differentiaali- ja integraalilaskenta 3;H07;Ma;08:15-10:00;R001/Y405;45;;10-14;;36;;"=""02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  IV-periodin Diff-int-3-kurssilla on kolme laskariryhmää samaan aikaan ma ja to 14-16, mikä aiheuttaa ongelmia assarijaossa ja ehkä opiskelijoillekin.    Tämän vuoksi ryhmän H07 voisi siirtää kokonaan uuteen aikaan ma 8-10, pe 8-10 (näihin aikoihin löytyy varmaankin hyviä luokkia) -> Siirretty  """
+;;;;;;;;;;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;L01;Ma;10:15-12:00;R001/Y122 D-sali;236;BjÃ¶rn Ivarsson;36-41;152;;Vast.op BjÃ¶rn Ivarsson;Bigger hall than M1 not available.
+MS-A0305 Differentiaali- ja integraalilaskenta 3;L01;Ke;12:15-14:00;R001/M232 M1;72;BjÃ¶rn Ivarsson;36-41;152;;Vast.op BjÃ¶rn Ivarsson;Bigger hall than M1 not available.
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H01;Ma;08:15-10:00;R001/Y338 Y338 (Win);30;;36;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H01;Pe;12:15-14:00;R001/Y228a;39;;36-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H01;Ma;08:15-10:00;R001/M232 M1;72;;37-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H02;Ma;12:15-14:00;R001/U257 U257 (Win);30;;36;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H02;Pe;10:15-12:00;R001/U358;50;;36-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H02;Ma;12:15-14:00;R001/U358;50;;37-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H03;Ti;14:15-16:00;R001/U351 U351 (Win);50;;36;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H03;To;08:15-10:00;R001/Y229c;36;;36-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H03;Ti;14:15-16:00;R001/Y229c;36;;37-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H04;Ke;16:15-18:00;R001/Y342a Y342a (Linux);29;;36;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H04;Pe;08:15-10:00;R001/Y228b;39;;36-41;;36;;
+MS-A0305 Differentiaali- ja integraalilaskenta 3;H04;Ke;16:15-18:00;R001/Y228a;39;;37-41;;36;;
+;;;;;;;;;;;
+MS-A0309 Differential- och integralkalkyl 3;L01;Ti;08:15-10:00;R001/Y313;56;BjÃ¶rn Ivarsson;09-14;47;;Vast.op BjÃ¶rn Ivarsson;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0309 Differential- och integralkalkyl 3;L01;To;10:15-12:00;R001/Y313;56;BjÃ¶rn Ivarsson;09-13, 15;47;;Vast.op BjÃ¶rn Ivarsson;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0309 Differential- och integralkalkyl 3;H01;Pe;10:15-12:00;R001/Y229a;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0309 Differential- och integralkalkyl 3;H01;Ke;08:15-10:00;R001/U406b;36;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-A0311 Differential and Integral Calculus 3;L01;Tue;12:15-14:00;R001/U154 U1 VALMET;105;Milo Orlich;09-14;118;;Vast.op Milo Orlich;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;L01;Thu;14:15-16:00;R001/U154 U1 VALMET;105;Milo Orlich;09-13, 15;118;;Vast.op Milo Orlich;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H01;Wed;12:15-14:00;R001/U405a;42;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H01;Fri;12:15-14:00;R001/U405a;42;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H02;Tue;14:15-16:00;R001/Y229c;36;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H02;Fri;12:15-14:00;R001/Y229c;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H03;Fri;14:15-16:00;R001/U405a;42;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0311 Differential and Integral Calculus 3;H03;Wed;14:15-16:00;R001/M240;36;;10-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-A0401 Diskreetin matematiikan perusteet;L01;Ti;14:15-16:00;R001/Y205 C-sali;310;Jukka Mikael Kohonen;36-41;344;;Vast.op Jukka Mikael Kohonen;
+MS-A0401 Diskreetin matematiikan perusteet;L01;To;12:15-14:00;R001/Y205 C-sali;310;Jukka Mikael Kohonen;36-41;344;;Vast.op Jukka Mikael Kohonen;
+MS-A0401 Diskreetin matematiikan perusteet;H01;Ma;08:15-10:00;R001/Y405;45;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H01;Pe;08:15-10:00;R001/Y229c;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H02;Ma;10:15-12:00;R001/Y229a;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H02;To;10:15-12:00;R001/Y229a;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H03;Ma;10:15-12:00;R001/U406b;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H03;To;14:15-16:00;R001/Y228b;39;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H04;Ma;14:15-16:00;R001/U413;70;;36-41;;36;;Ma 06.10.25 09:00-16:00 ARTS Koe kampus -> maanantaisin toinen sali.
+MS-A0401 Diskreetin matematiikan perusteet;H04;Pe;10:15-12:00;R001/Y122 D-sali;236;;36-41;;36;;Ma 06.10.25 09:00-16:00 ARTS Koe kampus -> maanantaisin toinen sali.
+MS-A0401 Diskreetin matematiikan perusteet;H05;Ti;08:15-10:00;R001/Y228b;39;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H05;Pe;12:15-14:00;R001/Y229c;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H06;Ti;16:15-18:00;R001/Y228b;39;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H06;To;14:15-16:00;R001/Y229c;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H07;Ti;16:15-18:00;R001/Y229a;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H07;Pe;14:15-16:00;R001/Y229a;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H08;Ke;16:15-18:00;R001/Y229c;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H08;Pe;16:15-18:00;R001/Y229a;36;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H09;Ma;10:15-12:00;R001/U405a;42;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H09;To;10:15-12:00;R001/Y228a;39;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H10;Ma;10:15-12:00;R001/Y405;45;;36-41;;36;;
+MS-A0401 Diskreetin matematiikan perusteet;H10;To;10:15-12:00;R001/Y405;45;;36-41;;36;;
+;;;;;;;;;;;
+MS-A0402 Foundations of Discrete Mathematics;L01;Tue;14:15-16:00;R001/Y122 Hall D;236;Ragnar Freij;09-14;205;;Vast.op Ragnar Freij;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0402 Foundations of Discrete Mathematics;L01;Thu;12:15-14:00;R001/Y205 Hall C;310;Ragnar Freij;09-13, 15;205;;Vast.op Ragnar Freij;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-A0402 Foundations of Discrete Mathematics;H01;Mon;10:15-12:00;R001/Y228b;39;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H01;Thu;14:15-16:00;R001/U358;50;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H02;Tue;08:15-10:00;R001/M240;36;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H02;Fri;12:15-14:00;R001/M240;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H03;Mon;12:15-14:00;R001/Y228b;39;;09-14;;36;;
+MS-A0402 Foundations of Discrete Mathematics;H03;Wed;14:15-16:00;R001/Y228a;39;;09-14;;36;;
+MS-A0402 Foundations of Discrete Mathematics;H04;Mon;16:15-18:00;R001/Y228b;39;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H04;Thu;16:15-18:00;R001/U358;50;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H05;Mon;14:15-16:00;R001/Y347;35;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H05;Fri;12:15-14:00;R001/Y405;45;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H06;Wed;16:15-18:00;R001/Y228a;39;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0402 Foundations of Discrete Mathematics;H06;Fri;14:15-16:00;R001/Y405;45;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-A0409 Grundkurs i diskret matematik;L01;Ke;08:15-10:00;R001/M234 M3;24;Ragnar Freij;36-41;14;;Vast.op Ragnar Freij;
+MS-A0409 Grundkurs i diskret matematik;L01;To;08:15-10:00;R001/M234 M3;24;Ragnar Freij;36-41;14;;Vast.op Ragnar Freij;
+MS-A0409 Grundkurs i diskret matematik;H01;Ma;16:15-18:00;R001/M234 M3;24;;36-41;;36;;
+MS-A0409 Grundkurs i diskret matematik;H01;To;16:15-18:00;R001/M234 M3;24;;36-41;;36;;
+;;;;;;;;;;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Ma;10:15-12:00;R001/Y205 C-sali;310;Pekka Pere;36-41;174;;Vast.op Pekka Pere;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Pe;10:15-12:00;R001/Y205 C-sali;310;Pekka Pere;36-41;174;;Vast.op Pekka Pere;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;Ma;08:15-10:00;R001/Y228a;39;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;To;08:15-10:00;R001/Y228a;39;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Ma;16:15-18:00;R001/U405a;42;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Ke;14:15-16:00;R001/Y228b;39;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Ma;12:15-14:00;R001/M232 M1;72;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Pe;12:15-14:00;R001/U141 U3;70;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;Ma;14:15-16:00;R001/Y228a;39;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;Pe;12:15-14:00;R001/U119 DELOITTE;50;;36-41;;36;;
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Ma;14:15-16:00;R001/M240;36;;36-41;;36;;Ma 06.10.25 09:00-16:00 ARTS Koe kampus -> kaikille maanantaille toinen luokka.
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Pe;12:15-14:00;R004/A208d Jeti;200;;36-41;;36;;Ma 06.10.25 09:00-16:00 ARTS Koe kampus -> kaikille maanantaille toinen luokka.
+;;;;;;;;;;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Ma;10:15-12:00;R001/Y205 C-sali;310;Jukka Mikael Kohonen;43-48;632;;Vast.op Jukka Mikael Kohonen;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Pe;10:15-12:00;R001/Y205 C-sali;310;Jukka Mikael Kohonen;43-48;632;;Vast.op Jukka Mikael Kohonen;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;Ma;12:15-14:00;R001/Y228b;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;To;12:15-14:00;R001/Y313;56;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Ma;16:15-18:00;R001/Y229c;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Ke;10:15-12:00;R001/Y229a;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Ma;12:15-14:00;R001/Y405;45;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Ke;08:15-10:00;R001/Y405;45;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;Ti;16:15-18:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;Pe;12:15-14:00;R001/U149 U6;78;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Ma;16:15-18:00;R001/Y228b;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Ke;16:15-18:00;R001/Y228b;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H06;Ti;08:15-10:00;R001/Y228a;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H06;To;14:15-16:00;R001/Y229c;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H07;Ti;10:15-12:00;R001/Y229a;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H07;To;08:15-10:00;R001/Y228a;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H08;Ti;10:15-12:00;R001/Y228a;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H08;Pe;12:15-14:00;R001/Y229a;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H09;Ti;12:15-14:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H09;To;12:15-14:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H10;Ti;14:15-16:00;R001/M140 Majakka;33;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H10;To;14:15-16:00;R001/M240;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H11;Ti;14:15-16:00;R001/U358;50;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H11;Pe;14:15-16:00;R001/Y229c;36;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H12;Ma;14:15-16:00;R001/U142 U4;185;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H12;Pe;16:15-18:00;R001/U358;50;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H13;Ti;16:15-18:00;R001/Y229a;36;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H13;To;08:15-10:00;R001/Y228b;39;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H14;Ti;14:15-16:00;R001/M232 M1;72;;43-48;;36;;
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H14;Pe;14:15-16:00;R001/Y229a;36;;43-48;;36;;
+;;;;;;;;;;;
+MS-A0503 First Course in Probability and Statistics;L01;Mon;10:15-12:00;R001/U157 U2;602;Jukka Mikael Kohonen;02-07;543;;Vast.op Jukka Mikael Kohonen;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma (5.1.)
+MS-A0503 First Course in Probability and Statistics;L01;Fri;10:15-12:00;R001/U157 U2;602;Jukka Mikael Kohonen;02-07;543;;Vast.op Jukka Mikael Kohonen;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma (5.1.)
+MS-A0503 First Course in Probability and Statistics;H01;Wed;16:15-18:00;R001/Y229c;36;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H01;Fri;08:15-10:00;R001/Y229c;36;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H02;Mon;12:15-14:00;R001/U405a;42;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H02;Wed;14:15-16:00;R001/M240;36;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H03;Mon;12:15-14:00;R001/U406b;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma 5.1.
+MS-A0503 First Course in Probability and Statistics;H03;Fri;12:15-14:00;R001/Y313;56;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma 5.1.
+MS-A0503 First Course in Probability and Statistics;H04;Mon;14:15-16:00;R001/Y228b;39;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H04;Fri;08:15-10:00;R001/Y229a;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H04;Tue;08:15-10:00;R001/Y228b;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H05;Mon;16:15-18:00;R001/U405a;42;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H05;Thu;12:15-14:00;R001/U141 U3;70;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H05;Tue;12:15-14:00;R001/U405a;42;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H06;Mon;14:15-16:00;R001/U358;50;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H06;Thu;12:15-14:00;R001/M240;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H06;Tue;14:15-16:00;R001/M240;36;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-A0503 First Course in Probability and Statistics;H07;Wed;10:15-12:00;R001/Y228b;39;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H07;Fri;12:15-14:00;R001/U406b;36;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H08;Wed;16:15-18:00;R001/Y228b;39;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H08;Fri;14:15-16:00;R001/Y228b;39;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H09;Wed;10:15-12:00;R001/M240;36;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+MS-A0503 First Course in Probability and Statistics;H09;Fri;14:15-16:00;R001/U264 K-RYHMÄ;36;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+MS-A0503 First Course in Probability and Statistics;H09;Tue;10:15-12:00;R001/Y228b;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> 7.1.
+MS-A0503 First Course in Probability and Statistics;H10;Mon;16:15-18:00;R001/Y229a;36;;02-07;;36;;Loppiainen / Epiphany: alkuperäiselle paikalleen 5.1.
+MS-A0503 First Course in Probability and Statistics;H10;Thu;08:15-10:00;R001/Y229c;36;;02-07;;36;;Loppiainen / Epiphany: alkuperäiselle paikalleen 5.1.
+MS-A0503 First Course in Probability and Statistics;H11;Mon;14:15-16:00;R001/U264 K-RYHMÄ;36;;02-07;;36;;Ensimmäinen kerta takaisin alkuperäiselle paikalle ma 5.1.
+MS-A0503 First Course in Probability and Statistics;H11;Thu;14:15-16:00;R001/M140 Majakka;33;;02-07;;36;;Ensimmäinen kerta takaisin alkuperäiselle paikalle ma 5.1.
+MS-A0503 First Course in Probability and Statistics;H12;Mon;08:15-10:00;R001/Y228a;39;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H12;Thu;16:15-18:00;R001/Y228a;39;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H13;Thu;08:15-10:00;R001/Y228a;39;;02;;36;;06.01.2026: Loppiainen / Epiphany -> to 8.1.
+MS-A0503 First Course in Probability and Statistics;H13;Fri;14:15-16:00;R001/U405a;42;;02-07;;36;;06.01.2026: Loppiainen / Epiphany -> to 8.1.
+MS-A0503 First Course in Probability and Statistics;H13;Tue;16:15-18:00;R001/Y228a;39;;03-07;;36;;06.01.2026: Loppiainen / Epiphany -> to 8.1.
+MS-A0503 First Course in Probability and Statistics;H14;Mon;12:15-14:00;R001/Y229c;36;;02-07;;36;;1. kerta alkuperäiselle paikalle maanantaille.
+MS-A0503 First Course in Probability and Statistics;H14;Fri;12:15-14:00;R001/U264 K-RYHMÄ;36;;02-07;;36;;1. kerta alkuperäiselle paikalle maanantaille.
+MS-A0503 First Course in Probability and Statistics;H15;Wed;08:15-10:00;R001/Y229c;36;;02-07;;36;;
+MS-A0503 First Course in Probability and Statistics;H15;Fri;16:15-18:00;R001/M240;36;;02-07;;36;;
+;;;;;;;;;;;
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Ma;10:15-12:00;R001/Y122 D-sali;236;Pekka Pere;09-14;426;;Vast.op Pekka Pere;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15.
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;L01;Pe;10:15-12:00;R001/Y122 D-sali;236;Pekka Pere;09-13, 15;426;;Vast.op Pekka Pere;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15.
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;Ti;16:15-18:00;R001/Y229a;36;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H01;Pe;14:15-16:00;R001/Y229c;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Ti;08:15-10:00;R001/Y229c;36;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H02;Pe;08:15-10:00;R001/Y229c;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Ti;08:15-10:00;R001/Y228b;39;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H03;Pe;08:15-10:00;R001/U405a;42;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;Ma;12:15-14:00;R001/M240;36;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H04;To;14:15-16:00;R001/U264 K-RYHMÄ;36;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Ti;12:15-14:00;R001/Y229c;36;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H05;Pe;08:15-10:00;R001/Y229a;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H06;Ma;14:15-16:00;R001/U141 U3;70;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H06;To;16:15-18:00;R001/U147 U5;76;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H07;Ma;14:15-16:00;R001/U149 U6;78;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H07;To;08:15-10:00;R001/U147 U5;76;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H08;Ma;14:15-16:00;R001/U119 DELOITTE;50;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H08;Pe;12:15-14:00;R001/U141 U3;70;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H09;Ti;16:15-18:00;R001/U358;50;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H09;Pe;14:15-16:00;R001/U406b;36;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H10;Ma;12:15-14:00;R001/U405a;42;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H10;To;14:15-16:00;R001/Y313;56;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H11;Ke;08:15-10:00;R001/M240;36;;09-14;;36;;
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi;H11;Pe;12:15-14:00;R001/U406b;36;;09-13, 15;;36;;
+;;;;;;;;;;;
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;L01;Ma;10:15-12:00;R001/M232 M1;72;Ragnar Freij;02-07;57;;Vast.op Ragnar Freij;06.01.2026: Loppiainen / Epiphany -> alkuperäiseen maanantaihin  Pe 06.02.26 08:00-18:00 Opopäivät 2026 -> R008/326
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;L01;Pe;10:15-12:00;R008/326;77;Ragnar Freij;02-07;57;;Vast.op Ragnar Freij;06.01.2026: Loppiainen / Epiphany -> alkuperäiseen maanantaihin  Pe 06.02.26 08:00-18:00 Opopäivät 2026 -> R008/326
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;H01;Ke;08:15-10:00;R001/U406b;36;;02-07;;36;;Remontissa oleva tila vaihdettu.
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;H01;Pe;14:15-16:00;R001/U406b;36;;02-07;;36;;Remontissa oleva tila vaihdettu.
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;H02;Ke;16:15-18:00;R001/U406a;35;;02-07;;36;;SS: pienemmät salit riittänevät
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik;H02;Pe;12:15-14:00;R001/U406a;35;;02-07;;36;;SS: pienemmät salit riittänevät
+;;;;;;;;;;;
+MS-C1081 Abstract Algebra;L01;Mon;12:15-14:00;R001/U154 U1 VALMET;105;Kaie Kubjas;02;134;;Vast.op Kaie Kubjas;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1081 Abstract Algebra;L01;Thu;10:15-12:00;R001/U154 U1 VALMET;105;Kaie Kubjas;02-07;134;;Vast.op Kaie Kubjas;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1081 Abstract Algebra;L01;Tue;10:15-12:00;R001/U154 U1 VALMET;105;Kaie Kubjas;03-07;134;;Vast.op Kaie Kubjas;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1081 Abstract Algebra;H01;Thu;16:15-18:00;R001/Y228b;39;;02-07;;36;;
+MS-C1081 Abstract Algebra;H02;Thu;14:15-16:00;R001/M240;36;;02-07;;36;;
+MS-C1081 Abstract Algebra;H03;Fri;12:15-14:00;R001/U405a;42;;02-07;;;;
+MS-C1081 Abstract Algebra;H04;Fri;14:15-16:00;R001/Y229a;36;;02-07;;36;;
+;;;;;;;;;;;
+MS-C1300 Complex Analysis;L01;Mon;12:15-14:00;R001/U147 U5;76;Kalle KytÃ¶lÃ¤;43-48;134;;Vast.op Kalle KytÃ¶lÃ¤;
+MS-C1300 Complex Analysis;L01;Thu;10:15-12:00;R001/M232 M1;72;Kalle KytÃ¶lÃ¤;43-48;134;;Vast.op Kalle KytÃ¶lÃ¤;
+MS-C1300 Complex Analysis;H01;Tue;08:15-10:00;R001/U405a;42;;43-48;;36;;
+MS-C1300 Complex Analysis;H01;Thu;14:15-16:00;R001/M232 M1;72;;43-48;;36;;
+MS-C1300 Complex Analysis;H02;Wed;12:15-14:00;R001/U414;70;;43-48;;36;;Remontissa oleva sali vaihdettu.
+MS-C1300 Complex Analysis;H02;Fri;10:15-12:00;R001/U358;50;;43-48;;36;;Remontissa oleva sali vaihdettu.
+MS-C1300 Complex Analysis;H03;Wed;14:15-16:00;R001/Y228b;39;;43-48;;36;;
+MS-C1300 Complex Analysis;H03;Fri;12:15-14:00;R001/Y405;45;;43-48;;36;;
+;;;;;;;;;;;
+MS-C1342 Linear Algebra;L01;Tue;12:15-14:00;R001/U157 U2;602;Vanni Noferini;17-22;528;;Vast.op Vanni Noferini;2025-2026 Spring V
+MS-C1342 Linear Algebra;L01;Wed;10:15-12:00;R001/U157 U2;602;Vanni Noferini;17-22;528;;Vast.op Vanni Noferini;2025-2026 Spring V
+MS-C1342 Linear Algebra;H01;Wed;08:15-10:00;R001/Y228a;39;;17-22;;36;;01.05.2026: Vappu / the first of May -> To 30.4.
+MS-C1342 Linear Algebra;H01;Thu;08:15-10:00;R001/U405a;42;;18;;36;;01.05.2026: Vappu / the first of May -> To 30.4.
+MS-C1342 Linear Algebra;H01;Fri;08:15-10:00;R001/U405a;42;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> To 30.4.
+MS-C1342 Linear Algebra;H02;Tue;08:15-10:00;R001/U410b;36;;17-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.
+MS-C1342 Linear Algebra;H02;Wed;12:15-14:00;R001/Y228b;39;;20;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.
+MS-C1342 Linear Algebra;H02;Thu;12:15-14:00;R001/U358;50;;17-19, 21-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.
+MS-C1342 Linear Algebra;H03;Mon;14:15-16:00;R001/U405a;42;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H03;Thu;10:15-12:00;R001/Y228b;39;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H03;Fri;10:15-12:00;R001/Y228b;39;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H04;Tue;10:15-12:00;R001/Y313;56;;17-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.  01.05.2026: Vappu / the first of May -> alkuperäiselle paikalle to
+MS-C1342 Linear Algebra;H04;Wed;16:15-18:00;R001/Y313;56;;20;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.  01.05.2026: Vappu / the first of May -> alkuperäiselle paikalle to
+MS-C1342 Linear Algebra;H04;Thu;10:15-12:00;R001/Y313;56;;17-19, 21-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Wed 13.5.  01.05.2026: Vappu / the first of May -> alkuperäiselle paikalle to
+MS-C1342 Linear Algebra;H05;Tue;16:15-18:00;R001/U405a;42;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H05;Thu;14:15-16:00;R001/Y229c;36;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H05;Fri;10:15-12:00;R001/Y229c;36;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H06;Tue;14:15-16:00;R001/U405a;42;;17-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H06;Fri;16:15-18:00;R001/Y405;45;;20;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H06;Thu;12:15-14:00;R001/Y405;45;;17-19, 21-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H07;Wed;08:15-10:00;R001/Y229c;36;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H07;Thu;08:15-10:00;R001/U358;50;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H07;Fri;08:15-10:00;R001/U358;50;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H08;Mon;10:15-12:00;R001/U358;50;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H08;Thu;16:15-18:00;R001/Y228a;39;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H08;Fri;14:15-16:00;R001/Y228a;39;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.4.
+MS-C1342 Linear Algebra;H09;Mon;14:15-16:00;R001/U410b;36;;17-22;;36;;01.05.2026: Vappu / the first of May -> Wed 29.4.
+MS-C1342 Linear Algebra;H09;Wed;16:15-18:00;R001/Y228a;39;;18;;36;;01.05.2026: Vappu / the first of May -> Wed 29.4.
+MS-C1342 Linear Algebra;H09;Fri;10:15-12:00;R001/Y228a;39;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Wed 29.4.
+MS-C1342 Linear Algebra;H10;Tue;14:15-16:00;R001/U358;50;;17-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H10;Fri;12:15-14:00;R001/U405a;42;;20;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H10;Thu;10:15-12:00;R001/U405a;42;;17-19, 21-22;;36;;14.05.2026: Helatorstai / Ascension Day -> Fri 15.5.
+MS-C1342 Linear Algebra;H11;Tue;14:15-16:00;R001/Y228a;39;;17-22;;36;;01.05.2026: Vappu / the first of May -> Wed 29.04.
+MS-C1342 Linear Algebra;H11;Wed;12:15-14:00;R001/U264 K-RYHMÄ;36;;18;;36;;01.05.2026: Vappu / the first of May -> Wed 29.04.
+MS-C1342 Linear Algebra;H11;Fri;10:15-12:00;R001/U264 K-RYHMÄ;36;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Wed 29.04.
+MS-C1342 Linear Algebra;H12;Tue;14:15-16:00;R001/M240;36;;17-22;;36;;01.05.2026: Vappu / the first of May -> Tue 28.04.   14.05.2026: Helatorstai / Ascension Day -> Wed 13.05.   
+MS-C1342 Linear Algebra;H12;Wed;16:15-18:00;R008/202;36;;18, 20;;36;;01.05.2026: Vappu / the first of May -> Tue 28.04.   14.05.2026: Helatorstai / Ascension Day -> Wed 13.05.   
+MS-C1342 Linear Algebra;H12;Thu;10:15-12:00;R008/202;36;;17, 19, 21-22;;36;;01.05.2026: Vappu / the first of May -> Tue 28.04.   14.05.2026: Helatorstai / Ascension Day -> Wed 13.05.   
+MS-C1342 Linear Algebra;H13;Tue;10:15-12:00;R001/M240;36;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H13;Thu;14:15-16:00;R001/U264 K-RYHMÄ;36;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H13;Fri;14:15-16:00;R001/U264 K-RYHMÄ;36;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04.
+MS-C1342 Linear Algebra;H14;Wed;14:15-16:00;R001/Y228a;39;;17-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04. 
+MS-C1342 Linear Algebra;H14;Fri;10:15-12:00;R001/U405a;42;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04. 
+MS-C1342 Linear Algebra;H14;Thu;16:15-18:00;R001/U405a;42;;18;;36;;01.05.2026: Vappu / the first of May -> Thu 30.04. 
+;;;;;;;;;;;
+MS-C1343 Linear Algebra;L01;Ma;14:15-16:00;R001/Y205 C-sali;310;Antti Hannukainen;43-48;125;;Vast.op Antti Hannukainen;
+MS-C1343 Linear Algebra;L01;To;12:15-14:00;R001/Y205 C-sali;310;Antti Hannukainen;43-48;125;;Vast.op Antti Hannukainen;
+MS-C1343 Linear Algebra;H01;Ti;16:15-18:00;R001/Y405;45;;43-48;;36;;
+MS-C1343 Linear Algebra;H01;Pe;10:15-12:00;R001/Y313;56;;43-48;;36;;
+MS-C1343 Linear Algebra;H02;Ke;12:15-14:00;R001/Y405;45;;43-48;;36;;
+MS-C1343 Linear Algebra;H02;Pe;12:15-14:00;R004/A208d Jeti;200;;43-48;;36;;
+MS-C1343 Linear Algebra;H03;Ma;16:15-18:00;R001/U147 U5;76;;43-48;;36;;
+MS-C1343 Linear Algebra;H03;To;16:15-18:00;R001/U141 U3;70;;43-48;;36;;
+MS-C1343 Linear Algebra;H04;Ke;16:15-18:00;R001/U141 U3;70;;43-48;;36;;
+MS-C1343 Linear Algebra;H04;Pe;14:15-16:00;R001/U149 U6;78;;43-48;;36;;
+;;;;;;;;;;;
+MS-C1350 Partial Differential Equations;L01;Tue;10:15-12:00;R001/U142 U4;185;Riikka Korte;36-41;180;;Vast.op Riikka Korte;1. Löytyisikö luennoille ensimmäiseen jaksoon järkevä liitutaulullinen sali niin että se olisi sama joka viikolla? -> Ei löydy, mutta koko periodille löytyi.  
+MS-C1350 Partial Differential Equations;L01;Tue;10:15-12:00;R001/Y122 Hall D;236;Riikka Korte;43-48;180;;Vast.op Riikka Korte;1. Löytyisikö luennoille ensimmäiseen jaksoon järkevä liitutaulullinen sali niin että se olisi sama joka viikolla? -> Ei löydy, mutta koko periodille löytyi.  
+MS-C1350 Partial Differential Equations;H01;Wed;12:15-14:00;R001/Y229c;36;;36-41, 43-48;;36;;Laskareissa toimisi paremmin luokat, joissa ei ole kiinteät pöydät eli Y313 ei ole ihan täydellinen, mutta toki silläkin pärjätään.. -> Y229c
+MS-C1350 Partial Differential Equations;H02;Wed;16:15-18:00;R045/1572 Noether;36;;36-41, 43-48;;36;;2. Laskareissa toimisi paremmin luokat, joissa ei ole kiinteät pöydät eli Y313 ei ole ihan täydellinen, mutta toki silläkin pärjätään.. -> R045/1572 Noether
+MS-C1350 Partial Differential Equations;H03;Thu;14:15-16:00;R001/Y347;35;;36-41;;36;;2. Laskareissa toimisi paremmin luokat, joissa ei ole kiinteät pöydät eli Y313 ei ole ihan täydellinen, mutta toki silläkin pärjätään.. -> U410b, Y347 (pieni?)
+MS-C1350 Partial Differential Equations;H03;Thu;14:15-16:00;R001/U410b;36;;43-48;;36;;2. Laskareissa toimisi paremmin luokat, joissa ei ole kiinteät pöydät eli Y313 ei ole ihan täydellinen, mutta toki silläkin pärjätään.. -> U410b, Y347 (pieni?)
+MS-C1350 Partial Differential Equations;H04;Wed;12:15-14:00;R001/M240;36;;36-41;;36;;
+MS-C1350 Partial Differential Equations;H04;Wed;12:15-14:00;R001/Y228b;39;;43-48;;36;;
+MS-C1350 Partial Differential Equations;H05;Fri;14:15-16:00;R001/U406b;36;;36-41, 43-48;;36;;2. Laskareissa toimisi paremmin luokat, joissa ei ole kiinteät pöydät eli Y313 ei ole ihan täydellinen, mutta toki silläkin pärjätään.. -> U406b 
+;;;;;;;;;;;
+MS-C1420 Fourier-analyysi;L01;Ke;08:15-10:00;R001/U157 U2;602;Ville Turunen;36-37;485;;Vast.op Ville Turunen;U2 ja E-sali ovat hyvin eri kokoisia, ovatko sopivat?
+MS-C1420 Fourier-analyysi;L01;Pe;08:15-10:00;R001/U157 U2;602;Ville Turunen;36-41;485;;Vast.op Ville Turunen;U2 ja E-sali ovat hyvin eri kokoisia, ovatko sopivat?
+MS-C1420 Fourier-analyysi;L01;Ke;08:15-10:00;R001/Y124 E-sali;236;Ville Turunen;38-41;485;;Vast.op Ville Turunen;U2 ja E-sali ovat hyvin eri kokoisia, ovatko sopivat?
+MS-C1420 Fourier-analyysi;H01;Ma;08:15-10:00;R001/U149 U6;78;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H01;To;10:15-12:00;R001/Y229c;36;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H02;Ke;10:15-12:00;R001/Y228b;39;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H02;Pe;10:15-12:00;R001/Y228b;39;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H03;Ma;16:15-18:00;R001/U358;50;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H03;To;14:15-16:00;R001/M232 M1;72;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H04;Ti;16:15-18:00;R001/U405a;42;;36-41;;36;;Remontissa oleva tila -> U413
+MS-C1420 Fourier-analyysi;H04;Pe;12:15-14:00;R001/U413;70;;36-41;;36;;Remontissa oleva tila -> U413
+MS-C1420 Fourier-analyysi;H05;Ti;10:15-12:00;R008/213a;266;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H05;Pe;12:15-14:00;R001/U149 U6;78;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H06;Ma;14:15-16:00;R001/Y313;56;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H06;Ke;12:15-14:00;R001/Y405;45;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H07;Ke;10:15-12:00;R001/A123 A1;87;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H07;Pe;10:15-12:00;R037/1171 TU3;36;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H08;Ti;10:15-12:00;R002/160a R1;146;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H08;Pe;12:15-14:00;R001/Y122 D-sali;236;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H09;Ti;14:15-16:00;R008/326;77;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H09;To;14:15-16:00;R001/Y228a;39;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H10;Ti;14:15-16:00;R001/U142 U4;185;;36-41;;36;;Tila remontissa -> U4
+MS-C1420 Fourier-analyysi;H10;Pe;10:15-12:00;R008/326;77;;36-41;;36;;Tila remontissa -> U4
+MS-C1420 Fourier-analyysi;H11;Ma;12:15-14:00;R001/Y405;45;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H11;Ke;14:15-16:00;R001/Y405;45;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H12;Ti;12:15-14:00;R001/U413;70;;36-41;;36;;
+MS-C1420 Fourier-analyysi;H12;To;12:15-14:00;R001/Y405;45;;36-41;;36;;
+;;;;;;;;;;;
+MS-C1530 Curves and Surfaces;L01;Tue;10:15-12:00;R001/M232 M1;72;Kirsi Peltonen;36-41;59;;Vast.op Kirsi Peltonen;
+MS-C1530 Curves and Surfaces;L01;Wed;10:15-12:00;R001/U141 U3;70;Kirsi Peltonen;36-41;59;;Vast.op Kirsi Peltonen;
+MS-C1530 Curves and Surfaces;H01;Fri;10:15-12:00;R001/M141;33;;36-41;;;;
+MS-C1530 Curves and Surfaces;H02;Fri;12:15-14:00;R001/M237;33;;36-41;;;;
+;;;;;;;;;;;
+MS-C1541 Metric Spaces;L01;Mon;10:15-12:00;R001/Y124 Hall E;236;Sari Rogovin;02-07;153;160;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle maanantaille 5.1.
+MS-C1541 Metric Spaces;L01;Wed;14:15-16:00;R001/Y122 Hall D;236;Sari Rogovin;02-07;153;160;Vast.op Sari Rogovin;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle maanantaille 5.1.
+MS-C1541 Metric Spaces;H01;Thu;12:15-14:00;R001/U410b;36;;02-07;;36;;
+MS-C1541 Metric Spaces;H02;Thu;16:15-18:00;R001/U406b;36;;02-07;;36;;
+MS-C1541 Metric Spaces;H03;Thu;14:15-16:00;R001/U147 U5;76;;02-07;;36;;
+MS-C1541 Metric Spaces;H04;Fri;10:15-12:00;R001/Y229a;36;;02-07;;36;;
+MS-C1541 Metric Spaces;H05;Fri;12:15-14:00;R001/Y228b;39;;02-07;;36;;
+;;;;;;;;;;;
+MS-C1620 Statistical Inference;L01;Thu;08:15-10:00;R001/U157 U2;602;Pekka Pere;02-07, 09-13, 15;434;;Vast.op Pekka Pere;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C1620 Statistical Inference;H01;Mon;16:15-18:00;R001/Y427a Y427a (Linux);30;;02-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H02;Mon;10:15-12:00;R001/Y344 Y344 (Win);24;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H02;Tue;10:15-12:00;R001/Y344 Y344 (Win);24;;03-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H03;Mon;10:15-12:00;R001/Y338 Y338 (Win);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H03;Tue;10:15-12:00;R001/Y338 Y338 (Win);30;;03-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H04;Wed;10:15-12:00;R001/U344 U344 (Win);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> ke 7.1.
+MS-C1620 Statistical Inference;H04;Tue;12:15-14:00;R001/U257 U257 (Win);30;;03-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> ke 7.1.
+MS-C1620 Statistical Inference;H05;Mon;14:15-16:00;R001/Y429c-d Y429c-d (Linux);30;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H05;Tue;14:15-16:00;R001/U344 U344 (Win);30;;03-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H06;Mon;16:15-18:00;R001/Y344 Y344 (Win);24;;02;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H06;Tue;16:15-18:00;R001/Y344 Y344 (Win);24;;03-07, 09-14;;36;;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C1620 Statistical Inference;H07;Wed;08:15-10:00;R001/Y344 Y344 (Win);24;;02-07, 09-14;;36;;
+MS-C1620 Statistical Inference;H08;Wed;10:15-12:00;R001/Y344 Y344 (Win);24;;02-07, 09-14;;36;;
+MS-C1620 Statistical Inference;H09;Wed;12:15-14:00;R001/Y344 Y344 (Win);24;;02-07, 09-14;;36;;
+MS-C1620 Statistical Inference;H10;Wed;16:15-18:00;R001/Y344 Y344 (Win);24;;02-07, 09-14;;36;;
+MS-C1620 Statistical Inference;H11;Thu;16:15-18:00;R001/Y429c-d Y429c-d (Linux);30;;02-07, 09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C1620 Statistical Inference;H12;Fri;08:15-10:00;R001/Y427a Y427a (Linux);30;;02-07, 09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C1620 Statistical Inference;H13;Fri;14:15-16:00;R001/U344 U344 (Win);30;;02-07, 09-13;;36;;"=""03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15 Pe 10.04.26 08:00-21:00 ""BOI 2026"" -> Y338"""
+MS-C1620 Statistical Inference;H13;Fri;14:15-16:00;R001/Y338 Y338 (Win);30;;15;;36;;"=""03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15 Pe 10.04.26 08:00-21:00 ""BOI 2026"" -> Y338"""
+;;;;;;;;;;;
+MS-C1650 Numerical Analysis;L01;Tue;14:15-16:00;R001/A123 A1;87;Jonas TÃ¶lle;17-22;81;;Vast.op Jonas TÃ¶lle;14.05.2026: Helatorstai / Ascension Day -> Pe 15.05.
+MS-C1650 Numerical Analysis;L01;Fri;14:15-16:00;R001/U154 U1 VALMET;105;Jonas TÃ¶lle;20;81;;Vast.op Jonas TÃ¶lle;14.05.2026: Helatorstai / Ascension Day -> Pe 15.05.
+MS-C1650 Numerical Analysis;L01;Thu;14:15-16:00;R001/U154 U1 VALMET;105;Jonas TÃ¶lle;17-19, 21-22;81;;Vast.op Jonas TÃ¶lle;14.05.2026: Helatorstai / Ascension Day -> Pe 15.05.
+MS-C1650 Numerical Analysis;H01;Wed;12:15-14:00;R001/U358;50;;17-22;;36;;
+MS-C1650 Numerical Analysis;H02;Thu;16:15-18:00;R001/Y229c;36;;18;;36;;01.05.2026: Vappu / the first of May -> To 30.4.
+MS-C1650 Numerical Analysis;H02;Fri;12:15-14:00;R001/Y229c;36;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> To 30.4.
+MS-C1650 Numerical Analysis;H03;Wed;10:15-12:00;R001/Y405;45;;18;;36;;01.05.2026: Vappu / the first of May -> Ke 29.04.
+MS-C1650 Numerical Analysis;H03;Fri;10:15-12:00;R001/Y405;45;;17, 19-22;;36;;01.05.2026: Vappu / the first of May -> Ke 29.04.
+;;;;;;;;;;;
+MS-C2105 Introduction to Optimization;L01;Wed;10:15-12:00;R001/Y202a Hall A (Aalto Hall);570;Harri Hakula;09-14;318;;Vast.op Harri Hakula;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-C2105 Introduction to Optimization;L01;Thu;14:15-16:00;R001/Y202a Hall A (Aalto Hall);570;Harri Hakula;09-13, 15;318;;Vast.op Harri Hakula;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  
+MS-C2105 Introduction to Optimization;H01;Mon;12:15-14:00;R001/Y342a Y342a (Linux);29;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H01;Thu;08:15-10:00;R001/Y344 Y344 (Win);24;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H02;Tue;10:15-12:00;R001/U344 U344 (Win);30;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H02;Thu;10:15-12:00;R001/Y344 Y344 (Win);24;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H03;Tue;10:15-12:00;R001/U257 U257 (Win);30;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H03;Thu;12:15-14:00;R001/Y342a Y342a (Linux);29;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H04;Wed;10:15-12:00;R001/U344 U344 (Win);30;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H04;Fri;08:15-10:00;R001/Y338 Y338 (Win);30;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H05;Wed;12:15-14:00;R001/A046 A046 (Win);52;;09-14;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H05;Fri;10:15-12:00;R001/A046 A046 (Win);52;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H06;Tue;12:15-14:00;R001/Y430 Y430 (Win);60;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H06;Thu;12:15-14:00;R001/Y430 Y430 (Win);60;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H07;Tue;12:15-14:00;R001/U351 U351 (Win);50;;09-14;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2105 Introduction to Optimization;H07;Thu;10:15-12:00;R001/A046 A046 (Win);52;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A01;Ti;12:15-15:00;R001/A046a A046a (Win);24;Kai Virtanen;36-41, 43-48;15;36;Vast.op Kai Virtanen;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A02;To;12:15-15:00;R001/Y342a Y342a (Linux);29;Kai Virtanen;36-41;2;36;Vast.op Kai Virtanen;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A02;To;12:15-15:00;R001/A046a A046a (Win);24;Kai Virtanen;43-48;2;36;Vast.op Kai Virtanen;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A03;Pe;12:15-15:00;R001/U344 U344 (Win);30;Kai Virtanen;36-41;3;36;Vast.op Kai Virtanen;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A03;Pe;12:15-15:00;R001/Y344 Y344 (Win);24;Kai Virtanen;43-48;3;36;Vast.op Kai Virtanen;
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A04;Ma;14:15-17:00;R001/Y430 Y430 (Win);60;Kai Virtanen;02;11;36;Vast.op Kai Virtanen;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A04;Ti;12:15-15:00;R001/Y430 Y430 (Win);60;Kai Virtanen;03-07;11;36;Vast.op Kai Virtanen;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A04;Ti;12:15-15:00;R001/A046 A046 (Win);52;Kai Virtanen;09-14;11;36;Vast.op Kai Virtanen;06.01.2026: Loppiainen / Epiphany -> 5.1.
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A05;To;12:15-15:00;R001/A046 A046 (Win);52;Kai Virtanen;02-07;10;36;Vast.op Kai Virtanen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A05;To;12:15-15:00;R001/Y338 Y338 (Win);30;Kai Virtanen;09-13, 15;10;36;Vast.op Kai Virtanen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-C2107 Sovelletun matematiikan tietokonetyöt;A06;Pe;12:15-15:00;R037/1621 AS5 (Win);27;Kai Virtanen;02-07, 09-13, 15;7;36;Vast.op Kai Virtanen;
+;;;;;;;;;;;
+MS-C2110 Introduction to Operations Research;L01;Tue;14:15-16:00;R001/M232 M1;72;Philine Schiewe;09-14;71;;Vast.op Philine Schiewe;Teacher*s comments: Lecture Tue: Please change room to a lecture hall in Otakaari 1. -> M1  
+MS-C2110 Introduction to Operations Research;L01;Wed;14:15-16:00;R001/Y124 Hall E;236;Philine Schiewe;09-14;71;;Vast.op Philine Schiewe;Teacher*s comments: Lecture Tue: Please change room to a lecture hall in Otakaari 1. -> M1  
+MS-C2110 Introduction to Operations Research;H01;Mon;12:15-14:00;R001/U257 U257 (Win);30;;09-14;;;;3 of 8 exercise classes are from 16.15 to 18.00. It would be great if one or two of them could be earlier in the day. -> Mon 12:15-14:00  02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15  
+MS-C2110 Introduction to Operations Research;H01;Thu;10:15-12:00;R001/A046a A046a (Win);24;;09-13, 15;;;;3 of 8 exercise classes are from 16.15 to 18.00. It would be great if one or two of them could be earlier in the day. -> Mon 12:15-14:00  02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15  
+MS-C2110 Introduction to Operations Research;H02;Tue;16:15-18:00;R001/U344 U344 (Win);30;;09-14;;;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15
+MS-C2110 Introduction to Operations Research;H02;Fri;10:15-12:00;R001/Y427a Y427a (Linux);30;;09-13, 15;;;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15
+MS-C2110 Introduction to Operations Research;H03;Mon;12:15-14:00;R001/U344 U344 (Win);30;;09-14;;;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15  
+MS-C2110 Introduction to Operations Research;H03;Fri;12:15-14:00;R001/Y342a Y342a (Linux);29;;09-13, 15;;;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15  
+MS-C2110 Introduction to Operations Research;H04;Tue;08:15-10:00;R001/A046 A046 (Win);52;;09-14;;;;3 of 8 exercise classes are from 16.15 to 18.00. It would be great if one or two of them could be earlier in the day. -> 10-12  02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15
+MS-C2110 Introduction to Operations Research;H04;Thu;10:15-12:00;R001/Y427a Y427a (Linux);30;;09-13, 15;;;;3 of 8 exercise classes are from 16.15 to 18.00. It would be great if one or two of them could be earlier in the day. -> 10-12  02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> week 15
+;;;;;;;;;;;
+MS-C2111 Stochastic Processes;L01;Mon;12:15-14:00;R001/Y205 Hall C;310;Jukka Mikael Kohonen;43-48;233;;Vast.op Jukka Mikael Kohonen;
+MS-C2111 Stochastic Processes;L01;Wed;10:15-12:00;R001/Y122 Hall D;236;Jukka Mikael Kohonen;43-48;233;;Vast.op Jukka Mikael Kohonen;
+MS-C2111 Stochastic Processes;H01;Mon;14:15-16:00;R001/Y229c;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H01;Thu;12:15-14:00;R001/U410b;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H02;Tue;14:15-16:00;R001/U149 U6;78;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-C2111 Stochastic Processes;H02;Fri;14:15-16:00;R001/Y228b;39;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-C2111 Stochastic Processes;H03;Tue;12:15-14:00;R001/Y229c;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H03;Thu;10:15-12:00;R001/Y228b;39;;43-48;;36;;
+MS-C2111 Stochastic Processes;H04;Wed;08:15-10:00;R001/Y229c;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H04;Fri;12:15-14:00;R001/Y229c;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H05;Tue;16:15-18:00;R001/Y229c;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H05;Fri;16:15-18:00;R001/Y229a;36;;43-48;;36;;
+MS-C2111 Stochastic Processes;H06;Tue;08:15-10:00;R001/Y229c;36;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-C2111 Stochastic Processes;H06;Fri;10:15-12:00;R001/U405a;42;;43-48;;36;; Remontissa oleva sali vaihdettu.
+MS-C2111 Stochastic Processes;H07;Tue;14:15-16:00;R001/Y228b;39;;43-48;;36;;
+MS-C2111 Stochastic Processes;H07;Fri;14:15-16:00;R001/U358;50;;43-48;;36;;
+;;;;;;;;;;;
+MS-C2128 Prediction and Time Series Analysis;L01;Mon;10:15-12:00;R001/Y122 Hall D;236;Pekka Pere;43-48;163;;Vast.op Pekka Pere;
+MS-C2128 Prediction and Time Series Analysis;L01;Wed;12:15-14:00;R001/Y122 Hall D;236;Pekka Pere;43-48;163;;Vast.op Pekka Pere;
+MS-C2128 Prediction and Time Series Analysis;H01;Mon;14:15-16:00;R001/U147 U5;76;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;H02;Tue;10:15-12:00;R001/M232 M1;72;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;H03;Wed;08:15-10:00;R001/U142 U4;185;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;H04;Wed;14:15-16:00;R001/Y122 Hall D;236;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A01;Thu;12:15-14:00;R001/Y342a Y342a (Linux);29;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A02;Thu;14:15-16:00;R001/Y122 Hall D;236;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A03;Fri;10:15-12:00;R001/U142 U4;185;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A04;Fri;12:15-14:00;R001/U142 U4;185;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A05;Thu;08:15-10:00;R001/U344 U344 (Win);30;;43-48;;36;;
+MS-C2128 Prediction and Time Series Analysis;A06;Thu;16:15-18:00;R001/U344 U344 (Win);30;;43-48;;36;;
+;;;;;;;;;;;
+MS-C2133 Operaatiotutkimuksen laboratoriotyöt I;L01;Ma;14:15-16:00;R001/U257 U257 (Win);30;Kai Virtanen;02-07;46;;Vast.op Kai Virtanen;Teacher*s comments: Kaikki ryhmät tulee olla Windows-luokissa -> OK
+MS-C2133 Operaatiotutkimuksen laboratoriotyöt I;L01;Ke;12:15-14:00;R001/U257 U257 (Win);30;Kai Virtanen;02-07, 09-14;46;;Vast.op Kai Virtanen;Teacher*s comments: Kaikki ryhmät tulee olla Windows-luokissa -> OK
+MS-C2133 Operaatiotutkimuksen laboratoriotyöt I;L01;Ma;14:15-16:00;R001/Y344 Y344 (Win);24;Kai Virtanen;09-14, 17-22;46;;Vast.op Kai Virtanen;Teacher*s comments: Kaikki ryhmät tulee olla Windows-luokissa -> OK
+MS-C2133 Operaatiotutkimuksen laboratoriotyöt I;L01;Ke;12:15-14:00;R001/Y344 Y344 (Win);24;Kai Virtanen;17-22;46;;Vast.op Kai Virtanen;Teacher*s comments: Kaikki ryhmät tulee olla Windows-luokissa -> OK
+;;;;;;;;;;;
+MS-E1010 Tieteen filosofia D;L01;To;14:15-16:00;R001/M141;33;Ilpo Halonen;36-41, 43-48;30;;Vast.op Ilpo Halonen;2025-2026 Syksy I - II    Completion methods: Participation in teaching - Exam -  
+MS-E1010 Tieteen filosofia D;L01;Ma;14:15-16:00;R001/M141;33;Ilpo Halonen;36-41, 43-48;30;;Vast.op Ilpo Halonen;2025-2026 Syksy I - II    Completion methods: Participation in teaching - Exam -  
+;;;;;;;;;;;
+MS-E1050 Graph Theory D;L01;Thu;16:15-18:00;R045/1572 Noether;36;Ragnar Freij;36-41;33;;Vast.op Ragnar Freij;Löytyykö myöhemmin parempaa salia perjantaille?
+MS-E1050 Graph Theory D;L01;Fri;10:15-12:00;R001/U147 U5;76;Ragnar Freij;36-37;33;;Vast.op Ragnar Freij;Löytyykö myöhemmin parempaa salia perjantaille?
+MS-E1050 Graph Theory D;L01;Fri;10:15-12:00;R001/A123 A1;87;Ragnar Freij;38-41;33;;Vast.op Ragnar Freij;Löytyykö myöhemmin parempaa salia perjantaille?
+MS-E1050 Graph Theory D;H01;Mon;10:15-12:00;R008/202;36;;36-41;;36;;Remontissa oleva sali vaihdettu.
+;;;;;;;;;;;
+MS-E1052 Combinatorial Network Analysis D;L01;Mon;14:15-16:00;R001/M234 M3;24;Vanni Noferini;43-48;21;;Vast.op Vanni Noferini;Teaching Period: 2024-2025 No teaching  2025-2026 Autumn II
+MS-E1052 Combinatorial Network Analysis D;P01;Thu;14:15-16:00;R001/M233 M2;24;;43-48;;;;
+;;;;;;;;;;;
+MS-E1110 Number Theory D;L01;Tue;10:15-12:00;R001/M140 Majakka;33;Camilla Hollanti;43-48;23;;Vast.op Camilla Hollanti;
+MS-E1110 Number Theory D;L01;Wed;10:15-12:00;R001/M237;33;Camilla Hollanti;43-48;23;;Vast.op Camilla Hollanti;
+MS-E1110 Number Theory D;H01;Mon;10:15-12:00;R001/M134;30;;43-48;;36;;
+;;;;;;;;;;;
+MS-E1142 Computational Algebraic Geometry D;L01;Tue;10:15-12:00;R001/Y405;45;Kaie Kubjas;17-22;38;;Vast.op Kaie Kubjas;Teaching Period: 2024-2025 No teaching, 2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> 13.5.  
+MS-E1142 Computational Algebraic Geometry D;L01;Wed;10:15-12:00;R001/Y405;45;Kaie Kubjas;20;38;;Vast.op Kaie Kubjas;Teaching Period: 2024-2025 No teaching, 2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> 13.5.  
+MS-E1142 Computational Algebraic Geometry D;L01;Thu;10:15-12:00;R001/Y405;45;Kaie Kubjas;17-19, 21-22;38;;Vast.op Kaie Kubjas;Teaching Period: 2024-2025 No teaching, 2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> 13.5.  
+MS-E1142 Computational Algebraic Geometry D;A01;Fri;12:15-14:00;R001/Y342a Y342a (Linux);29;;17, 19-22;;;;01.05.2026: Vappu / the first of May -> 30.4.
+MS-E1142 Computational Algebraic Geometry D;A01;Thu;12:15-14:00;R001/Y342a Y342a (Linux);29;;18;;;;01.05.2026: Vappu / the first of May -> 30.4.
+;;;;;;;;;;;
+MS-E1145 Algebraic Geometry D;L01;Wed;12:15-14:00;R001/Y313;56;Oscar Kivinen;36-41, 43-48;;;Vast.op Oscar Kivinen;Uusi kurssi, mutta 2024-2025 No teaching, 2025-2026 Autumn I - II   Teaching methods: lectures and exercises.    
+MS-E1145 Algebraic Geometry D;H01;Fri;14:15-16:00;R001/U410b;36;;36-41, 43-48;;;;
+;;;;;;;;;;;
+MS-E1200 Lie Groups and Lie Algebras D;L01;Mon;10:15-12:00;R001/Y346;30;;09-14;25;;Vast.op Kalle KytÃ¶lÃ¤;
+MS-E1200 Lie Groups and Lie Algebras D;L01;Wed;10:15-12:00;R001/M140 Majakka;33;;09-14;25;;Vast.op Kalle KytÃ¶lÃ¤;
+MS-E1200 Lie Groups and Lie Algebras D;H01;Wed;14:15-16:00;R001/U344 U344 (Win);30;;09-14;;;;
+;;;;;;;;;;;
+MS-E1210 Sobolev Spaces D;I01;Mon;08:15-08:30;R999/VT1;0;Juha Kinnunen;36;;;Vast.op Juha Kinnunen;"="" Teacher*s comments: Itseopiskelu 1.8.-31.7.    Completion methods: Independent study -     Registration selection criteria (en): takes place in Sisu (sisu.aalto.fi). Participants are asked to contact the responsible teacher before registering. The course can be taken individually or as a group. The course can be started anytime and the schedule is discussed case by case."""
+;;;;;;;;;;;
+MS-E1215 Elliptic Partial Differential Equations D;I01;Mon;23:00-23:15;R999/VT1;0;Juha Kinnunen;36;;;Vast.op Juha Kinnunen;"="" Teacher*s comments: Itseopiskelu 1.8.-31.7.    Completion methods: Independent study -     Registration selection criteria (en): takes place in Sisu (sisu.aalto.fi). Participants are asked to contact the responsible teacher before registering. The course can be taken individually or as a group. The course can be started anytime and the schedule is discussed case by case."""
+;;;;;;;;;;;
+MS-E1280 Measure and Integral D;L01;Mon;10:15-12:00;R001/M234 M3;24;Juha Kinnunen;43-48;57;;Vast.op Juha Kinnunen;
+MS-E1280 Measure and Integral D;L01;Thu;10:15-12:00;R001/M234 M3;24;Juha Kinnunen;43-48;57;;Vast.op Juha Kinnunen;
+MS-E1280 Measure and Integral D;H01;Fri;10:15-12:00;R001/U262 KPMG;30;;43-48;;36;;
+;;;;;;;;;;;
+MS-E1281 Real Analysis D;L01;Mon;10:15-12:00;R001/M234 M3;24;;09-14;21;;Vast.op Juha Kinnunen;2025-2026 Spring IV.   02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1281 Real Analysis D;L01;Thu;10:15-12:00;R001/M134;30;;09-13, 15;21;;Vast.op Juha Kinnunen;2025-2026 Spring IV.   02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1281 Real Analysis D;H01;Fri;10:15-12:00;R001/M134;30;;09-13, 15;;;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E1288 Analysis Seminar D;S01;Wed;10:15-12:00;R001/M233 M2;24;Juha Kinnunen;09-14;15;;Vast.op Juha Kinnunen;"=""08.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> poistettu   Teacher*s comments: SS: ei ilmoittautumista Sisussa, ilmoittautuminen opettajalle.    Registration selection criteria (en): Participants are asked to contact the responsible teacher before registering."""
+MS-E1288 Analysis Seminar D;S01;Wed;10:15-12:00;R001/M234 M3;24;Juha Kinnunen;39-50, 02-08, 16, 18-23;15;;Vast.op Juha Kinnunen;"=""08.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> poistettu   Teacher*s comments: SS: ei ilmoittautumista Sisussa, ilmoittautuminen opettajalle.    Registration selection criteria (en): Participants are asked to contact the responsible teacher before registering."""
+;;;;;;;;;;;
+MS-E1423 Fourier Theory D;L01;Mon;12:15-14:00;R001/Y405;45;Tuomas HytÃ¶nen;02;33;;Vast.op Tuomas HytÃ¶nen;06.01.2026: Loppiainen / Epiphany -> 5.1.  Pienempi sali.
+MS-E1423 Fourier Theory D;L01;Thu;12:15-14:00;R001/Y405;45;Tuomas HytÃ¶nen;02-07;33;;Vast.op Tuomas HytÃ¶nen;06.01.2026: Loppiainen / Epiphany -> 5.1.  Pienempi sali.
+MS-E1423 Fourier Theory D;L01;Tue;12:15-14:00;R001/Y405;45;Tuomas HytÃ¶nen;03-07;33;;Vast.op Tuomas HytÃ¶nen;06.01.2026: Loppiainen / Epiphany -> 5.1.  Pienempi sali.
+MS-E1423 Fourier Theory D;H01;Fri;12:15-14:00;R001/Y228a;39;;02-07;;;;
+;;;;;;;;;;;
+MS-E1461 Hilbert Spaces D;L01;Mon;12:15-14:00;R001/M234 M3;24;Ville Turunen;36-41;46;;Vast.op Ville Turunen;
+MS-E1461 Hilbert Spaces D;L01;Wed;14:15-16:00;R001/M234 M3;24;Ville Turunen;36-41;46;;Vast.op Ville Turunen;
+MS-E1461 Hilbert Spaces D;H01;Fri;12:15-14:00;R001/Y405;45;;36-41;;36;;
+;;;;;;;;;;;
+MS-E1531 Differential Geometry D;L01;Mon;10:15-12:00;R001/Y346;30;;02;29;;;06.01.2026: Loppiainen / Epiphany -> 5.1.  Teacher*s comments : 2025-2026 Spring III. 
+MS-E1531 Differential Geometry D;L01;Thu;10:15-12:00;R001/M134;30;;02-07;29;;;06.01.2026: Loppiainen / Epiphany -> 5.1.  Teacher*s comments : 2025-2026 Spring III. 
+MS-E1531 Differential Geometry D;L01;Tue;10:15-12:00;R001/Y346;30;;03-07;29;;;06.01.2026: Loppiainen / Epiphany -> 5.1.  Teacher*s comments : 2025-2026 Spring III. 
+MS-E1531 Differential Geometry D;H01;Fri;10:15-12:00;R001/M237;33;;02-07;;36;;
+;;;;;;;;;;;
+MS-E1600 Probability Theory D;L01;Mon;10:15-12:00;R008/216;125;Lasse LeskelÃ¤;36-41;82;;Vast.op Lasse LeskelÃ¤;"=""""MS-E1600 -kurssille on merkitty puolet luennoista Konetekniikan rakennukseen. Olisiko mahdollista saada kaikki luennot Otakaari 1:een?  Mielestäni on luontevaa, että säännöllisesti opetettavilla matematiikan kursseilla on etuajo-oikeus Otakaari 1:n saleihin."" Tilat ovat yhteisvarattavia, eikä etuajo-oikeuksia ole. Tällä hetkellä ei ole vapaana luentosalia tai tarpeeksi isoa luokkaa."""
+MS-E1600 Probability Theory D;L01;Wed;10:15-12:00;R001/A215 A2;87;Lasse LeskelÃ¤;36-41;82;;Vast.op Lasse LeskelÃ¤;"=""""MS-E1600 -kurssille on merkitty puolet luennoista Konetekniikan rakennukseen. Olisiko mahdollista saada kaikki luennot Otakaari 1:een?  Mielestäni on luontevaa, että säännöllisesti opetettavilla matematiikan kursseilla on etuajo-oikeus Otakaari 1:n saleihin."" Tilat ovat yhteisvarattavia, eikä etuajo-oikeuksia ole. Tällä hetkellä ei ole vapaana luentosalia tai tarpeeksi isoa luokkaa."""
+MS-E1600 Probability Theory D;H01;Thu;12:15-14:00;R001/U141 U3;70;;36-41;;36;;
+;;;;;;;;;;;
+MS-E1603 Random Graphs and Network Statistics D;L01;Mon;12:15-14:00;R001/M233 M2;24;;17-22;19;;Vast.op Lasse LeskelÃ¤;2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> ke 13.5.
+MS-E1603 Random Graphs and Network Statistics D;L01;Wed;12:15-14:00;R001/M233 M2;24;;20;19;;Vast.op Lasse LeskelÃ¤;2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> ke 13.5.
+MS-E1603 Random Graphs and Network Statistics D;L01;Thu;12:15-14:00;R001/M233 M2;24;;17-19, 21-22;19;;Vast.op Lasse LeskelÃ¤;2025-2026 Spring V  14.05.2026: Helatorstai / Ascension Day -> ke 13.5.
+MS-E1603 Random Graphs and Network Statistics D;H01;Thu;14:15-16:00;R001/M233 M2;24;;17-19, 21-22;;;;14.05.2026: Helatorstai / Ascension Day -> ke 13.5.
+MS-E1603 Random Graphs and Network Statistics D;H01;Wed;16:15-18:00;R001/M233 M2;24;;20;;;;14.05.2026: Helatorstai / Ascension Day -> ke 13.5.
+;;;;;;;;;;;
+MS-E1623 How to lie with statistics? D;L01;Mon;10:15-12:00;R001/Y313;56;Pauliina Ilmonen;43-48;42;;Vast.op Pauliina Ilmonen;
+MS-E1623 How to lie with statistics? D;L01;Wed;10:15-12:00;R001/Y313;56;Pauliina Ilmonen;43-48;42;;Vast.op Pauliina Ilmonen;
+;;;;;;;;;;;
+MS-E1624 High-Dimensional Statistics D;L01;Tue;10:15-12:00;R001/Y405;45;Lasse LeskelÃ¤;09-14;33;;Vast.op Lasse LeskelÃ¤;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1624 High-Dimensional Statistics D;L01;Thu;12:15-14:00;R001/U406b;36;Lasse LeskelÃ¤;09-13, 15;33;;Vast.op Lasse LeskelÃ¤;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1624 High-Dimensional Statistics D;H01;Thu;14:15-16:00;R001/Y229c;36;;09-13, 15;;;Vast.op Lasse LeskelÃ¤;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E1651 Numerical Matrix Computations D;L01;Tue;10:15-12:00;R001/U271 U9;60;Antti Hannukainen;36-41;50;;Vast.op Antti Hannukainen;Pysyykö toinen kurssi A1-salissa? Kaikille keskiviikoille ei löydy hyvää salia.
+MS-E1651 Numerical Matrix Computations D;L01;Wed;12:15-14:00;R001/Y228b;39;Antti Hannukainen;36;50;;Vast.op Antti Hannukainen;Pysyykö toinen kurssi A1-salissa? Kaikille keskiviikoille ei löydy hyvää salia.
+MS-E1651 Numerical Matrix Computations D;L01;Wed;12:15-14:00;R001/A123 A1;87;Antti Hannukainen;37-41;50;;Vast.op Antti Hannukainen;Pysyykö toinen kurssi A1-salissa? Kaikille keskiviikoille ei löydy hyvää salia.
+MS-E1651 Numerical Matrix Computations D;H01;Fri;10:15-12:00;R001/U405a;42;;36-41;;36;;
+;;;;;;;;;;;
+MS-E1652 Computational Methods for Differential Equations D;L01;Mon;12:15-14:00;R001/U358;50;;43-48;52;;Vast.op Nuutti HyvÃ¶nen;Teaching Period: 2024-2025 No teaching, 2025-2026 Autumn II. Luento- ja harjoitusajat lisätty edellisen toteutuksen mukaisesti.
+MS-E1652 Computational Methods for Differential Equations D;L01;Wed;12:15-14:00;R001/M232 M1;72;;43-48;52;;Vast.op Nuutti HyvÃ¶nen;Teaching Period: 2024-2025 No teaching, 2025-2026 Autumn II. Luento- ja harjoitusajat lisätty edellisen toteutuksen mukaisesti.
+MS-E1652 Computational Methods for Differential Equations D;H01;Thu;10:15-12:00;R001/M240;36;;43-48;;;;
+;;;;;;;;;;;
+MS-E1653 Finite Element Method D;L01;Thu;10:15-12:00;R001/U344 U344 (Win);30;Antti Hannukainen;04-05;34;;Vast.op Antti Hannukainen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1653 Finite Element Method D;L01;Wed;12:15-14:00;R001/U344 U344 (Win);30;Antti Hannukainen;05;34;;Vast.op Antti Hannukainen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1653 Finite Element Method D;L01;Wed;12:15-14:00;R001/M233 M2;24;Antti Hannukainen;02-04, 06-07, 09-14;34;;Vast.op Antti Hannukainen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1653 Finite Element Method D;L01;Thu;10:15-12:00;R001/M233 M2;24;Antti Hannukainen;02-03, 06-07, 09-13, 15;34;;Vast.op Antti Hannukainen;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E1654 Computational Inverse Problems D;L01;Mon;14:15-16:00;R001/M234 M3;24;Nuutti HyvÃ¶nen;09-14;50;;Vast.op Nuutti HyvÃ¶nen;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1654 Computational Inverse Problems D;L01;Fri;12:15-14:00;R001/M234 M3;24;Nuutti HyvÃ¶nen;09-13, 15;50;;Vast.op Nuutti HyvÃ¶nen;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E1654 Computational Inverse Problems D;H01;Fri;14:15-16:00;R001/M233 M2;24;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E2112 Multivariate Statistical Analysis D;L01;Mon;12:15-14:00;R001/Y122 Hall D;236;Pauliina Ilmonen;02-07, 09-14;155;;Vast.op Pauliina Ilmonen;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma 5.1.
+MS-E2112 Multivariate Statistical Analysis D;H01;Thu;12:15-14:00;R002/160a R1;146;;02-07;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  To 05.02.26 08:00-18:00 Opopäivät 2026 -> R1
+MS-E2112 Multivariate Statistical Analysis D;H01;Thu;12:15-14:00;R001/Y124 Hall E;236;;09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  To 05.02.26 08:00-18:00 Opopäivät 2026 -> R1
+MS-E2112 Multivariate Statistical Analysis D;H02;Thu;16:00-18:00;R001/U154 U1 VALMET;105;;02-07, 09-13, 15;;36;;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E2112 Multivariate Statistical Analysis D;H03;Fri;10:15-12:00;R001/U257 U257 (Win);30;;02-07;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E2112 Multivariate Statistical Analysis D;H03;Fri;10:15-12:00;R001/Y338 Y338 (Win);30;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E2112 Multivariate Statistical Analysis D;H04;Fri;12:15-14:00;R001/Y427a Y427a (Linux);30;;02-07;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+MS-E2112 Multivariate Statistical Analysis D;H04;Fri;12:15-14:00;R001/Y338 Y338 (Win);30;;09-13, 15;;36;;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E2114 Investment Science D;L01;Mon;10:15-12:00;R001/U141 U3;70;Fernando Dias;36-40;67;;Vast.op Fernando Dias;Mon 06.10.25 09:00-16:00 ARTS Koe kampus -> U358 (50 seats)
+MS-E2114 Investment Science D;L01;Mon;10:15-12:00;R001/U358;50;Fernando Dias;41;67;;Vast.op Fernando Dias;Mon 06.10.25 09:00-16:00 ARTS Koe kampus -> U358 (50 seats)
+MS-E2114 Investment Science D;L01;Mon;10:15-12:00;R001/U154 U1 VALMET;105;Fernando Dias;43-48;67;;Vast.op Fernando Dias;Mon 06.10.25 09:00-16:00 ARTS Koe kampus -> U358 (50 seats)
+MS-E2114 Investment Science D;H01;Tue;14:15-16:00;R001/U414;70;;36-41, 43-48;;36;;
+;;;;;;;;;;;
+MS-E2117 Riskianalyysi D;L01;Ma;14:15-16:00;R002/253 R2;116;Tuomas Raivio;02;111;;Vast.op Tuomas Raivio;06.01.2026: Loppiainen / Epiphany -> 5.1.  Siirretty isompaan saliin.
+MS-E2117 Riskianalyysi D;L01;Ti;14:15-16:00;R002/253 R2;116;Tuomas Raivio;03-07;111;;Vast.op Tuomas Raivio;06.01.2026: Loppiainen / Epiphany -> 5.1.  Siirretty isompaan saliin.
+MS-E2117 Riskianalyysi D;L01;Ti;14:15-16:00;R008/215 215 Meyer;134;Tuomas Raivio;09-14;111;;Vast.op Tuomas Raivio;06.01.2026: Loppiainen / Epiphany -> 5.1.  Siirretty isompaan saliin.
+MS-E2117 Riskianalyysi D;H01;Ti;16:15-18:00;R001/A123 A1;87;;04-07, 09-14;;36;;Siirretty isompaan saliin.
+;;;;;;;;;;;
+MS-E2120 Suomalaisen yhteiskunnan resilienssi D;L01;Ti;14:15-16:00;R001/M234 M3;24;Tuomas Raivio;36-41, 43-48;24;;Vast.op Tuomas Raivio;
+;;;;;;;;;;;
+MS-E2121 Linear Optimization D;L01;Thu;14:15-16:00;R004/A208d Jeti;200;Fabricio Oliveira;06;151;;Vast.op Fabricio Oliveira;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  To 05.02.26 08:00-18:00 Opopäivät 2026 -> Jeti
+MS-E2121 Linear Optimization D;L01;Thu;14:15-16:00;R001/Y124 Hall E;236;Fabricio Oliveira;02-05, 07, 09-13, 15;151;;Vast.op Fabricio Oliveira;02.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15  To 05.02.26 08:00-18:00 Opopäivät 2026 -> Jeti
+MS-E2121 Linear Optimization D;H01;Mon;10:15-12:00;R001/A046 A046 (Win);52;;02-07, 09-14;;75;;06.01.2026: Loppiainen / Epiphany -> alkuperäiselle paikalle ma.
+MS-E2121 Linear Optimization D;H02;Fri;16:15-18:00;R001/Y313;56;;02;;75;;06.01.2026: Loppiainen / Epiphany -> 9.1.
+MS-E2121 Linear Optimization D;H02;Tue;12:15-14:00;R001/Y313;56;;03-07, 09-14;;75;;06.01.2026: Loppiainen / Epiphany -> 9.1.
+;;;;;;;;;;;
+MS-E2122 Nonlinear Optimization D;L01;Thu;14:15-16:00;R008/213a;266;Fernando Dias;36-41, 43-48;103;;Vast.op Fernando Dias;
+MS-E2122 Nonlinear Optimization D;H01;Wed;12:15-14:00;R001/U405a;42;;36-37, 39;;;;
+MS-E2122 Nonlinear Optimization D;H01;Wed;12:15-14:00;R001/U119 DELOITTE;50;;38, 40-41;;;;
+MS-E2122 Nonlinear Optimization D;H01;Wed;12:15-14:00;R001/U149 U6;78;;43-48;;;;
+;;;;;;;;;;;
+MS-E2132 Laboratory Assignments in Operations Research II D;A01;Mon;14:15-16:00;R001/Y338 Y338 (Win);30;Kai Virtanen;36-41;36;;Vast.op Kai Virtanen; Teacher*s comments: Viikkojen 43-48 maanantairyhmä pitää olla Windows-luokassa niinkuin kaikki muutkin ryhmät.  -> Y344 oli vapaana.  
+MS-E2132 Laboratory Assignments in Operations Research II D;A01;Wed;14:15-16:00;R001/Y344 Y344 (Win);24;Kai Virtanen;36-41, 43-48;36;;Vast.op Kai Virtanen; Teacher*s comments: Viikkojen 43-48 maanantairyhmä pitää olla Windows-luokassa niinkuin kaikki muutkin ryhmät.  -> Y344 oli vapaana.  
+MS-E2132 Laboratory Assignments in Operations Research II D;A01;Mon;14:15-16:00;R001/Y344 Y344 (Win);24;Kai Virtanen;43-48;36;;Vast.op Kai Virtanen; Teacher*s comments: Viikkojen 43-48 maanantairyhmä pitää olla Windows-luokassa niinkuin kaikki muutkin ryhmät.  -> Y344 oli vapaana.  
+;;;;;;;;;;;
+MS-E2135 Decision Analysis D;L01;Thu;10:15-12:00;R001/Y122 Hall D;236;Ahti Salo;36-41;92;;Vast.op Ahti Salo;
+MS-E2135 Decision Analysis D;L01;Thu;10:15-12:00;R001/U154 U1 VALMET;105;Ahti Salo;43-48;92;;Vast.op Ahti Salo;
+MS-E2135 Decision Analysis D;H01;Tue;12:15-14:00;R002/253 R2;116;;36-41, 43-48;;;;
+;;;;;;;;;;;
+MS-E2145 Combinatorial Optimization D;L01;Mon;14:15-16:00;R009/228;40;Fernando Dias;02-07, 09-14;40;;Vast.op Fernando Dias;1. luento alkuperäiselle paikalle ma. Pienempään saliin.
+MS-E2145 Combinatorial Optimization D;H01;Wed;10:15-12:00;R001/Y228a;39;;02-07, 09-14;;;;06.01.2026: Loppiainen / Epiphany -> kokonaan keskiviikkoon
+;;;;;;;;;;;
+MS-E2147 Optimization in Public Transport D;L01;Wed;10:15-12:00;R001/Y405;45;Philine Schiewe;36-41, 43-48;16;;Vast.op Philine Schiewe;
+MS-E2147 Optimization in Public Transport D;H01;Fri;12:15-14:00;R001/M233 M2;24;Philine Schiewe;36-41, 43-48;;;Vast.op Philine Schiewe;
+;;;;;;;;;;;
+MS-E2148 Dynamic Optimization D;L01;Wed;12:15-14:00;R001/U147 U5;76;Jonas TÃ¶lle;02-07;71;;Vast.op Jonas TÃ¶lle;
+MS-E2148 Dynamic Optimization D;L01;Thu;10:15-12:00;R001/U147 U5;76;Jonas TÃ¶lle;02-07;71;;Vast.op Jonas TÃ¶lle;
+MS-E2148 Dynamic Optimization D;H01;Wed;14:15-16:00;R001/Y229a;36;;02-07;;36;;
+MS-E2148 Dynamic Optimization D;H01;Fri;10:15-12:00;R001/Y229c;36;;02-07;;36;;
+;;;;;;;;;;;
+MS-E2150 Discrete Event Simulation D;L01;Mon;14:15-16:00;R001/M237;33;Risto Lahdelma;09-14;;;Vast.op Risto Lahdelma;2025-2026 Spring IV. Osallistuja-arvio ei tiedossa.
+MS-E2150 Discrete Event Simulation D;L01;Wed;14:15-16:00;R001/M237;33;Risto Lahdelma;09-14;;;Vast.op Risto Lahdelma;2025-2026 Spring IV. Osallistuja-arvio ei tiedossa.
+MS-E2150 Discrete Event Simulation D;H01;Fri;14:15-16:00;R001/M134;30;Risto Lahdelma;09-13, 15;;;Vast.op Risto Lahdelma;03.04.2026: Kevätloma (ei opetusta) / winter holidays (no teaching) -> vko 15
+;;;;;;;;;;;
+MS-E2160 Stochastic Programming and Robust Optimization D;L01;Tue;10:15-12:00;R001/M234 M3;24;Fabricio Oliveira;36-41;23;;Vast.op Fabricio Oliveira;
+MS-E2160 Stochastic Programming and Robust Optimization D;L01;Tue;10:15-12:00;R001/M134;30;Fabricio Oliveira;43-48;23;;Vast.op Fabricio Oliveira;
+MS-E2160 Stochastic Programming and Robust Optimization D;H01;Thu;12:15-14:00;R001/M234 M3;24;Fabricio Oliveira;36-41, 43-48;;;Vast.op Fabricio Oliveira;
+;;;;;;;;;;;
+MS-E2177 Seminar on Case Studies in Operations Research (V) D;L01;Fri;12:15-15:00;R001/Y344 Y344 (Win);24;Ahti Salo;02;33;;Vast.op Ahti Salo;2025-2026 Spring III - V  
+;;;;;;;;;;;
+MS-E2191 Graduate Seminar on Operations Research (V) D;L01;Fri;09:15-12:00;R001/U121a;20;;36-41, 43-48;;15;;"=""Registration selection criteria (en): The number of participants is limited to 15. If need be, students majoring in Systems and Operations Research are favored.  Opettaja? Ahti Salo,Fabricio Pinheiro de Oliveira,Fernando Cunha Dias,Kai Virtanen,Philine Schiewe,Risto Lahdelma"""
+;;;;;;;;;;;
+SCI-C2801 Tulevaisuusajattelu ja skenaariot, TUTU 1;L01;Ke;12:15-14:00;R001/U402;23;Mikko Juhani Dufva;02-07;23;;Vast.op Mikko Juhani Dufva;
+SCI-C2801 Tulevaisuusajattelu ja skenaariot, TUTU 1;L01;To;12:15-14:00;R001/U262 KPMG;30;Mikko Juhani Dufva;02-07;23;;Vast.op Mikko Juhani Dufva;
+;;;;;;;;;;;
+SCI-E2802 Tulevaisuudentutkimuksen menetelmät, TUTUS2 D;L01;To;12:15-14:00;R001/U359b;14;;37-48;9;;Vast.op Ahti Salo;"=""2024-2025 ei opetusta. 2025-2026 Syksy I-II. Luentoajat kopioitu 2023-2024 Kevät IV, jolloin kesti 1 periodin. Siksi nyt vain 2 h/vko.   Registration selection criteria (fi): Osa tulevaisuudentutkimuksen opintokokonaisuutta ja Aallon sivuainetta. Minimiosallistujamäärä jolla kurssi järjestetään on 8 opiskelijaa. https//tva.utu.fi/opiskelu/tulevaisuudentutkimuksen-opintokokonaisuus/ https//www.aalto.fi/fi/sivuaineet/tulevaisuudentutkimus    Registration selection criteria (sv): Kursen hör till studiehelheten i framtidsforskning och biämnet vid Aalto. Minimideltagarantalet för att kursen ska ordnas är 8 studerande. https//tva.utu.fi/opiskelu/tulevaisuudentutkimuksen-opintokokonaisuus/ https//www.aalto.fi/fi/sivuaineet/tulevaisuudentutkimus    Registration selection criteria (en): Part of study module in futures studies and minor subject at Aalto. The course will be offered if there are at least 8 registered students. https//tva.utu.fi/opiskelu/tulevaisuudentutkimuksen-opintokokonaisuus/ https//www.aalto.fi/fi/sivuaineet/tulevaisuudentutkimus"""
