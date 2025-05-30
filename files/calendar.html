@@ -413,9 +413,14 @@
   // Initial setup
   loadCoursesFromFile('courses.txt');
   populateTimeLabels();
-  renderCalendar();
-  updateCourseList();
   populateCourseDropdown();
+  updateCourseList();
+  renderCalendar();
+  populateTimeLabels();
+  populateCourseDropdown();
+  updateCourseList();
+  renderCalendar();
+  
   document.addEventListener('click', (e) => {
   const tooltip = document.getElementById('tooltip');
   if (!e.target.classList.contains('event')) {
