@@ -259,8 +259,8 @@
         const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
 
         for (const line of lines) {
-          const [nameline, lecturecode, day, time, room, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
-          if (!nameline || !day || !time || !weeksStr) continue;
+          const [nameline, lecturecode, day, timeStr, room, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
+          if (!nameline || !day || !timeStr || !weeksStr) continue;
 
           const [code, ...nameParts] = nameline.trim().split(' ');
           const courseName = nameParts.join(' ');
