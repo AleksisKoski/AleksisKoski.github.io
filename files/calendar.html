@@ -200,6 +200,9 @@
 			<strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
     			<em>${e.name}</em><br>
     			Type: ${e.type}<br>
+    			Room: ${e.room}<br>
+    			Code: ${e.sesCode}<br>
+    			Lecturer: ${e.person}<br>
     			${e.date} ${e.time}
   		`;
  		tooltip.style.display = 'block';
@@ -275,7 +278,7 @@
         const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
 
         for (const line of lines) {
-          const [nameline, lecturecode, day, timeStr, room, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
+          const [nameline, lecturecode, day, timeStr, roomStr, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
           if (!nameline || !day || !timeStr || !weeksStr) continue;
 
           const [code, ...nameParts] = nameline.trim().split(' ');
@@ -314,7 +317,10 @@
                   type: sesType,
                   date: sesDate,
                   time: `${h}:00`,
-                  name: courseName
+                  name: courseName,
+                  room: roomStr,
+                  sesCode: lecturecode,
+                  person: lecturer
                 });
               }
           }
