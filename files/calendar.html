@@ -51,9 +51,7 @@
 
   <select id="multiCourseSelect">
     <option value="">-- Add Multiple Courses --</option>
-    <option value="MS-A">Add all MS-A courses</option>
-    <option value="MS-C">Add all MS-C courses</option>
-    <option value="MS-E">Add all MS-E courses</option>
+    <option value="CS">Add all CS courses</option>
     <option value="ALL">Add all courses</option>
   </select>
 
@@ -380,17 +378,9 @@
   };
   multiSelect.onchange = () => {
     const mode = multiSelect.value;
-    if (mode === "MS-A") {
+    if (mode === "CS") {
       Courses.forEach(c => {
-        if (c.code.startsWith("MS-A")) addedCourses.add(c.code);
-      });
-    } elseif (mode === "MS-C") {
-      Courses.forEach(c => {
-        if (c.code.startsWith("MS-C")) addedCourses.add(c.code);
-      });
-    } if (mode === "MS-E") {
-      Courses.forEach(c => {
-        if (c.code.startsWith("MS-E")) addedCourses.add(c.code);
+        if (c.code.startsWith("CS")) addedCourses.add(c.code);
       });
     } else if (mode === "ALL") {
       Courses.forEach(c => addedCourses.add(c.code));
