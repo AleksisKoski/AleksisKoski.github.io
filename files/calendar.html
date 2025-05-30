@@ -264,6 +264,7 @@
     courseSelect.innerHTML = `<option value="">-- Add a Course --</option>`;
     Courses.forEach(course => {
       if (!addedCourses.has(course.code)) {
+	console.log(course.code)
         const opt = document.createElement('option');
         opt.value = course.code;
         opt.textContent = `${course.code} - ${course.name}`;
@@ -343,7 +344,7 @@
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
-                console.log(w,h,year,day,sesType,sesDate,courseName);
+                // console.log(w,h,year,day,sesType,sesDate,courseName);
                 
                 // Store session
                 course.instances.push({
@@ -416,11 +417,7 @@
   populateCourseDropdown();
   updateCourseList();
   renderCalendar();
-  populateTimeLabels();
-  populateCourseDropdown();
-  updateCourseList();
-  renderCalendar();
-  
+
   document.addEventListener('click', (e) => {
   const tooltip = document.getElementById('tooltip');
   if (!e.target.classList.contains('event')) {
