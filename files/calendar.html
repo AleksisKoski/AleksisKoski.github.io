@@ -300,52 +300,50 @@
     });
   }
   
-  function loadCoursesFromFile(filename) {
-    fetch(filename)
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to load course data');
-        return response.text();
-      })
-      .then(text => {
-        const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+    function loadCoursesFromFile(filename) {
+      return fetch(filename)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to load course data');
+          return response.text();
+        })
+        .then(text => {
+          const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
 
-        for (const line of lines) {
-          const [nameline, lecturecode, day, timeStr, roomStr, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
-          if (!nameline || !day || !timeStr || !weeksStr) continue;
+          for (const line of lines) {
+            const [nameline, lecturecode, day, timeStr, roomStr, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
+            if (!nameline || !day || !timeStr || !weeksStr) continue;
 
-          const [code, ...nameParts] = nameline.trim().split(' ');
-          const courseName = nameParts.join(' ');
+            const [code, ...nameParts] = nameline.trim().split(' ');
+            const courseName = nameParts.join(' ');
 
-          let course = Courses.find(c => c.code === code);
-          if (!course) {
-            course = {
-              code,
-              name: courseName,
-              color: presetColors[colorIndex % presetColors.length],
-              instances: []
-            };
-            Courses.push(course);
-            colorIndex++;
-          }
+            let course = Courses.find(c => c.code === code);
+            if (!course) {
+              course = {
+                code,
+                name: courseName,
+                color: presetColors[colorIndex % presetColors.length],
+                instances: []
+              };
+              Courses.push(course);
+              colorIndex++;
+            }
 
-          const [startTime, endTime] = timeStr.split('-');
-          const startHour = parseInt(startTime.split(':')[0], 10);
-          const endHour = parseInt(endTime.split(':')[0], 10);
-          let sesType = "exercise";
-          if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
-          
-          const weeks = parseWeekList(weeksStr);
+            const [startTime, endTime] = timeStr.split('-');
+            const startHour = parseInt(startTime.split(':')[0], 10);
+            const endHour = parseInt(endTime.split(':')[0], 10);
+            let sesType = "exercise";
+            if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
 
-          for (const w of weeks) {
+            const weeks = parseWeekList(weeksStr);
+
+            for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
                 let year = 2025;
-                if (w < 30){
+                if (w < 30) {
                   year++;
                 }
-                let sesDate = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
-                // console.log(w,h,year,day,sesType,sesDate,courseName);
-                
-                // Store session
+                let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
+
                 course.instances.push({
                   type: sesType,
                   date: sesDate,
@@ -356,11 +354,10 @@
                   person: lecturer
                 });
               }
+            }
           }
-
-        }
-      })
-      .catch(err => console.error('Error loading course data:', err));
+        })
+        .catch(err => console.error('Error loading course data:', err));
     }
 
   // Event Handlers
