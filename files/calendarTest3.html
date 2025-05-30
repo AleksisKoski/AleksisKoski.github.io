@@ -432,14 +432,14 @@
   };
 
   // Initial setup
-  loadCoursesFromFile('courses.txt').then(() => {
-      const periods = [
+  const periods = [
         [36, 37, 38, 39, 40, 41, 42],  // I
         [43, 44, 45, 46, 47, 48, 49],  // II
         [2, 3, 4, 5, 6, 7, 8],        // III
         [9, 10, 11, 12, 13, 14, 15],   // IV
         [16, 17, 18, 19, 20, 21, 22, 23] // V (7 weeks, adjust to 6 if needed)
-      ];
+  ];
+  loadCoursesFromFile('courses.txt').then(() => {
       console.log(getPeriodRoman(36, periods));
       populateTimeLabels();
       populateCourseDropdown();
