@@ -178,11 +178,13 @@
     document.querySelectorAll('.day-column').forEach(el => el.remove());
 
     const days = getWeekDates(currentWeekStart);
+    console.log("hi");
     let week = getWeekNumber(currentWeekStart);
+    console.log(week);
 	let period = getPeriodRoman(week);
+    console.log(period);
 	// let year = currentWeekStart.getFullYear();
 	
-    console.log(week,period);
 	if (period != null){ weekDisplay.textContent = `Week ${week} Period ${period}`;
     } else { weekDisplay.textContent = `Week ${week}`; }
 
@@ -438,7 +440,7 @@
         [9, 10, 11, 12, 13, 14, 15],   // IV
         [16, 17, 18, 19, 20, 21, 22, 23] // V (7 weeks, adjust to 6 if needed)
       ];
-	  console.log(periods);
+      console.log(currentWeekStart);
       populateTimeLabels();
       populateCourseDropdown();
       updateCourseList();
