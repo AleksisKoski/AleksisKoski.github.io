@@ -51,7 +51,9 @@
 
   <select id="multiCourseSelect">
     <option value="">-- Add Multiple Courses --</option>
-    <option value="CS">Add all CS courses</option>
+    <option value="MS-A">Add all MS-A courses</option>
+    <option value="MS-C">Add all MS-C courses</option>
+    <option value="MS-E">Add all MS-E courses</option>
     <option value="ALL">Add all courses</option>
   </select>
 
@@ -74,13 +76,21 @@
   const toggleExercisesBtn = document.getElementById('toggleExercises');
   const activeCoursesDiv = document.getElementById('activeCourses');
   const weekDisplay = document.getElementById('weekDisplay');
-  let currentWeekStart = new Date('2025-05-26');
+  let currentWeekStart = new Date('2025-09-01');
   const addedCourses = new Set();
   let hideExercises = false;
   let activeTooltipTarget = null;
   const presetColors = [
-  '#FF5733', '#33C3FF', '#9B59B6', '#2ECC71', '#F1C40F',
-  '#E67E22', '#1ABC9C', '#E74C3C', '#34495E', '#7F8C8D'
+    '#FF5733', '#33C3FF', '#9B59B6', '#2ECC71', '#F1C40F',
+    '#E67E22', '#1ABC9C', '#E74C3C', '#34495E', '#7F8C8D',
+    '#8E44AD', '#2980B9', '#27AE60', '#F39C12', '#D35400',
+    '#16A085', '#C0392B', '#2C3E50', '#BDC3C7', '#95A5A6',
+    '#D91E18', '#663399', '#FF69B4', '#6A5ACD', '#00CED1',
+    '#3CB371', '#BDB76B', '#DAA520', '#A52A2A', '#5F9EA0',
+    '#DC143C', '#00BFFF', '#7FFF00', '#FF4500', '#ADFF2F',
+    '#20B2AA', '#9370DB', '#48D1CC', '#8B0000', '#FFA500',
+    '#40E0D0', '#9932CC', '#B22222', '#32CD32', '#FF1493',
+    '#1E90FF', '#FF6347', '#66CDAA', '#9ACD32', '#4169E1'
   ];
   let colorIndex = 0;
   const finnishWeekdayMap = {
@@ -370,9 +380,17 @@
   };
   multiSelect.onchange = () => {
     const mode = multiSelect.value;
-    if (mode === "CS") {
+    if (mode === "MS-A") {
       Courses.forEach(c => {
-        if (c.code.startsWith("CS")) addedCourses.add(c.code);
+        if (c.code.startsWith("MS-A")) addedCourses.add(c.code);
+      });
+    } elseif (mode === "MS-C") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-C")) addedCourses.add(c.code);
+      });
+    } if (mode === "MS-E") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-E")) addedCourses.add(c.code);
       });
     } else if (mode === "ALL") {
       Courses.forEach(c => addedCourses.add(c.code));
