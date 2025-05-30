@@ -110,6 +110,24 @@
 
     return `${y}-${m}-${d}`;
   }
+  
+  function parseWeekList(weeksStr) {
+    const weekList = [];
+
+    const parts = weeksStr.split(',').map(s => s.trim());
+    for (const part of parts) {
+      if (part.includes('-')) {
+        const [start, end] = part.split('-').map(Number);
+        for (let w = start; w <= end; w++) {
+          weekList.push(w);
+        }
+      } else {
+        weekList.push(Number(part));
+      }
+    }
+
+    return weekList;
+  }
 
   function getWeekDates(startDate) {
     return Array.from({ length: 5 }, (_, i) => {
@@ -296,22 +314,23 @@
             colorIndex++;
           }
 
-          const [startWeek, endWeek] = weeksStr.split('-').map(Number);
           const [startTime, endTime] = timeStr.split('-');
           const startHour = parseInt(startTime.split(':')[0], 10);
           const endHour = parseInt(endTime.split(':')[0], 10);
           let sesType = "exercise";
           if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
-          console.log(startWeek,endWeek,startHour,endHour);
+          
+          const weeks = parseWeekList(weeksStr);
 
-          for (let w = startWeek; w <= endWeek; w++) {
+          for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
                 let year = 2025;
                 if (w < 30){
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
-				console.log(w,h,sesType,sesDate,courseName);
+				//console.log(w,h,sesType,sesDate,courseName);
+                
                 // Store session
                 course.instances.push({
                   type: sesType,
