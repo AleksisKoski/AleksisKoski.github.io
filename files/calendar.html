@@ -219,7 +219,7 @@
       group.forEach((e, i) => {
         const div = document.createElement('div');
         div.className = 'event';
-        div.innerHTML = `${e.code} ${e.name}<br>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}`;
+        div.innerHTML = `${e.code}<br>${e.name}<br>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}`;
 	div.onclick = (eClick) => {
  		const tooltip = document.getElementById('tooltip');
 		if (activeTooltipTarget != null) {
@@ -233,7 +233,7 @@
 			<strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
     			Type: ${e.type}<br>
     			Room: ${e.room}<br>
-    			Code: ${e.sesCode}<br>
+    			Session: ${e.sesCode}<br>
     			Lecturer: ${e.person}<br>
     			${e.date} ${e.time}
   		`;
