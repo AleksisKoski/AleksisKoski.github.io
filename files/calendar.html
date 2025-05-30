@@ -295,8 +295,9 @@
           const [startTime, endTime] = timeStr.split('-');
           const startHour = parseInt(startTime.split(':')[0], 10);
           const endHour = parseInt(endTime.split(':')[0], 10);
-	  let sesType = "exercise";
-	  if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
+          let sesType = "exercise";
+          if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
+          console.log(startWeek,endWeek,startHour,endHour);
 
           for (let w = startWeek; w <= endWeek; w++) {
               for (let h = startHour; h < endHour; h++) {
@@ -305,7 +306,7 @@
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
-
+				console.log(w,h,sesType,sesDate,courseName);
                 // Store session
                 course.instances.push({
                   type: sesType,
