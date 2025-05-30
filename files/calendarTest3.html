@@ -42,8 +42,8 @@
 
 <div class="controls">
   <button id="prevWeek">Previous week</button>
-  <span class="week-display" id="weekDisplay"></span>
   <button id="nextWeek">Next week</button>
+  <span class="week-display" id="weekDisplay"></span>
 
   <select id="courseSelect">
     <option value="">-- Add a Course --</option>
@@ -157,9 +157,11 @@
   }
 
   function getWeekNumber(date) {
-    const firstJan = new Date(date.getFullYear(), 0, 1);
-    const days = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
-    return Math.ceil((days + firstJan.getDay() + 1) / 7);
+	  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	  const dayNum = d.getUTCDay() || 7;
+	  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+	  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+	  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   }
   
   function getPeriodRoman(week, periods) {
