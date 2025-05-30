@@ -427,10 +427,12 @@
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
-				const weekIndex = weekList.indexOf(w);
+				
+				let weekIndex = weekList.indexOf(w);
 				if (index !== -1 && sesType == "lecture") {
 				  sessionCount[weekIndex] += 1;
 				}
+				
                 course.instances.push({
                   type: sesType,
                   date: sesDate,
@@ -501,6 +503,7 @@
       updateCourseList();
       renderCalendar();
 	  const periods = findTop5Periods(weekList, sessionCount);
+	  console.log(periods);
   });
 
   document.addEventListener('click', (e) => {
