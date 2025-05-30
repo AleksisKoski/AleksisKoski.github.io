@@ -261,10 +261,10 @@
   }
 
   function populateCourseDropdown() {
+    console.log("hello2")
     courseSelect.innerHTML = `<option value="">-- Add a Course --</option>`;
     Courses.forEach(course => {
       if (!addedCourses.has(course.code)) {
-	console.log(course.code)
         const opt = document.createElement('option');
         opt.value = course.code;
         opt.textContent = `${course.code} - ${course.name}`;
@@ -412,6 +412,7 @@
   };
 
   // Initial setup
+  console.log("hello1")
   loadCoursesFromFile('courses.txt');
   populateTimeLabels();
   populateCourseDropdown();
