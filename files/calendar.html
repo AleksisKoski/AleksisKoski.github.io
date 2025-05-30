@@ -414,8 +414,8 @@
   loadCoursesFromFile('courses.txt');
   populateTimeLabels();
   renderCalendar();
-  populateCourseDropdown();
   updateCourseList();
+  populateCourseDropdown();
   document.addEventListener('click', (e) => {
   const tooltip = document.getElementById('tooltip');
   if (!e.target.classList.contains('event')) {
