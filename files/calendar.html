@@ -95,18 +95,20 @@
   ];
   
   function getDateFromISOWeek(year, week, weekdayIndex) {
-  // weekdayIndex: 0 = Monday, ..., 4 = Friday
+    const simple = new Date(year, 0, 1 + (week - 1) * 7);
 
-  const simple = new Date(year, 0, 1 + (week - 1) * 7);
+    const dayOfWeek = simple.getDay();
+    const isoWeekStart = new Date(simple);
+    const diff = (dayOfWeek <= 4 ? dayOfWeek - 1 : dayOfWeek - 8); // Align with Monday
+    isoWeekStart.setDate(simple.getDate() - diff);
 
-  const dayOfWeek = simple.getDay();
-  const isoWeekStart = new Date(simple);
-  const diff = (dayOfWeek <= 4 ? dayOfWeek - 1 : dayOfWeek - 8); // Align with Monday
-  isoWeekStart.setDate(simple.getDate() - diff);
+    isoWeekStart.setDate(isoWeekStart.getDate() + weekdayIndex);
 
-  isoWeekStart.setDate(isoWeekStart.getDate() + weekdayIndex);
+    const y = isoWeekStart.getFullYear();
+    const m = String(isoWeekStart.getMonth() + 1).padStart(2, '0'); // months are 0-based
+    const d = String(isoWeekStart.getDate()).padStart(2, '0');
 
-  return isoWeekStart;
+    return `${y}-${m}-${d}`;
   }
 
   function getWeekDates(startDate) {
