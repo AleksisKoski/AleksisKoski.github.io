@@ -93,6 +93,21 @@
 
   let Courses = [
   ];
+  
+  function getDateFromISOWeek(year, week, weekdayIndex) {
+  // weekdayIndex: 0 = Monday, ..., 4 = Friday
+
+  const simple = new Date(year, 0, 1 + (week - 1) * 7);
+
+  const dayOfWeek = simple.getDay();
+  const isoWeekStart = new Date(simple);
+  const diff = (dayOfWeek <= 4 ? dayOfWeek - 1 : dayOfWeek - 8); // Align with Monday
+  isoWeekStart.setDate(simple.getDate() - diff);
+
+  isoWeekStart.setDate(isoWeekStart.getDate() + weekdayIndex);
+
+  return isoWeekStart;
+  }
 
   function getWeekDates(startDate) {
     return Array.from({ length: 5 }, (_, i) => {
@@ -249,7 +264,6 @@
   }
   
   function loadCoursesFromFile(filename) {
-  	console.log("hello");
     fetch(filename)
       .then(response => {
         if (!response.ok) throw new Error('Failed to load course data');
