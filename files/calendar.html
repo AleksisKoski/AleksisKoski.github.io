@@ -304,12 +304,12 @@
                 if (w < 30){
                   year++;
                 }
-                date = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
+                let sesDate = getDateFromISOWeek(year,w,finnishWeekdayMap[day])
 
                 // Store session
                 course.instances.push({
                   type: sesType,
-                  date,
+                  date: sesDate,
                   time: `${h}:00`,
                   name: courseName
                 });
