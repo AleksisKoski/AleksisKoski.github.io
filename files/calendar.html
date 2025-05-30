@@ -248,7 +248,11 @@
       });
     }
   }
-
+	
+  function fixEncodingIssues(str) {
+    return str.replace(/Ã¶/g, 'ö').replace(/Ã¤/g, 'ä');
+  }
+	
   function populateTimeLabels() {
     const timeLabels = document.querySelector('.time-labels');
     timeLabels.innerHTML = '<div class="day-header">Time</div>';
@@ -351,7 +355,7 @@
                   name: courseName,
                   room: roomStr,
                   sesCode: lecturecode,
-                  person: lecturer
+                  person: fixEncodingIssues(lecturer)
                 });
               }
             }
