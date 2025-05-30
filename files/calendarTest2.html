@@ -180,10 +180,10 @@
     const days = getWeekDates(currentWeekStart);
     let week = getWeekNumber(currentWeekStart);
 	let period = getPeriodRoman(week);
-	let year = currentWeekStart.getFullYear();
+	// let year = currentWeekStart.getFullYear();
 	
-	if (period){ weekDisplay.textContent = `${year}: Week ${week} (Period ${period})`; }
-	else { weekDisplay.textContent = `${year}: Week ${week}`; }
+	if (period != null){ weekDisplay.textContent = `Week ${week} Period ${period}`; }
+	else { weekDisplay.textContent = `Week ${week}`; }
 
     days.forEach(day => {
       const col = document.createElement('div');
