@@ -262,7 +262,7 @@
 
   function populateCourseDropdown() {
     courseSelect.innerHTML = `<option value="">-- Add a Course --</option>`;
-    console.log("initializing dropdown")
+    console.log("Courses:", Courses);
     Courses.forEach(course => {
       console.log("Hi im a course",course.name)
       if (!addedCourses.has(course.code)) {
@@ -364,6 +364,10 @@
         }
       })
       .catch(err => console.error('Error loading course data:', err));
+      populateTimeLabels();
+      populateCourseDropdown();
+      updateCourseList();
+      renderCalendar();
     }
 
   // Event Handlers
@@ -415,10 +419,6 @@
 
   // Initial setup
   loadCoursesFromFile('courses.txt');
-  populateTimeLabels();
-  populateCourseDropdown();
-  updateCourseList();
-  renderCalendar();
 
   document.addEventListener('click', (e) => {
   const tooltip = document.getElementById('tooltip');
