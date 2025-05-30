@@ -295,6 +295,8 @@
           const [startTime, endTime] = timeStr.split('-');
           const startHour = parseInt(startTime.split(':')[0], 10);
           const endHour = parseInt(endTime.split(':')[0], 10);
+		  let sesType = "exercise";
+		  if (str.startsWith('L') || str.startsWith('S')) { sesType = "lecture"; }
 
           for (let w = startWeek; w <= endWeek; w++) {
               for (let h = startHour; h < endHour; h++) {
@@ -306,7 +308,7 @@
 
                 // Store session
                 course.instances.push({
-                  type,
+                  type: sesType,
                   date,
                   time: `${h}:00`,
                   name: courseName
