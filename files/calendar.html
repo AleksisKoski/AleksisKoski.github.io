@@ -349,7 +349,7 @@
 		const cookie = getCookie("courseFlags");
 		
 		let count = 0;
-		if (cookie.length != Courses.length){console.log("Incorrect cookie length, deleting cookie."); return;}
+		if (!cookie || cookie.length != Courses.length){console.log("Incorrect or missing cookie."); return;}
 		Courses.forEach(course => {
 			if (!addedCourses.has(course.code) && cookie[count] === "1"){
 				addedCourses.add(course.code);
