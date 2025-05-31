@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <title>Interactive Weekly Calendar</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; }
+	html, body {
+	  height: 100%;
+	  margin: 0;
+	}
+    body { font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column;}
     .calendar { display: grid; grid-template-columns: 80px repeat(5, 1fr); }
     .time-labels, .day-column { display: flex; flex-direction: column; }
     .day-header {
@@ -69,10 +73,23 @@
 	.small-bottom-margin {
 	  margin-bottom: 6px;
 	}
+	.page-footer {
+	  text-align: center;
+	  padding: 10px;
+	  font-size: 0.9em;
+	  color: #666;
+	  background-color: #f2f2f2;
+	  position: relative;
+	  bottom: 0;
+	  width: 100%;
+	}
+	main {
+	  flex: 1; /* This pushes the footer down */
+	}
   </style>
 </head>
 <body>
-
+<main>
 <div class="controls">
   <button id="prevWeek">Previous week</button>
   <button id="nextWeek">Next week</button>
@@ -104,6 +121,10 @@
 </div>
 
 <div class="course-list" id="activeCourses"></div>
+</main>
+<footer class="page-footer">
+  Created by Aleksis Koski, 2025
+</footer>
 
 <script>
   const hours = Array.from({ length: 10 }, (_, i) => `${8 + i}:00`);
@@ -289,12 +310,10 @@
 	// assign by start date
 	function assignPeriodsToCourses(courses, periods) {
 	  courses.forEach(course => {
-		const lectureWeeks = course.instances
-		  .filter(inst => inst.type === "lecture")
-		  .map(inst => inst.week);
+		const allWeeks = course.instances.map(inst => inst.week);
 
 		const overlapCounts = periods.map(period =>
-		  lectureWeeks.filter(week => period.includes(week)).length
+		  allWeeks.filter(week => period.includes(week)).length
 		);
 
 		let firstIndex = 0;
@@ -420,7 +439,8 @@
 			activeTooltipTarget = div;
 			tooltip.innerHTML = `
 			  <strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
-			  Type: ${e.type}<br>
+			  Time: ${e.timeStr}<br>
+			  Type: ${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>
 			  Room: ${e.room}<br>
 			  <!-- Session: ${e.sesCode}<br> -->
 			  Lecturer: ${e.person !== '' ? e.person : '-'}<br>
@@ -452,7 +472,8 @@
     hours.forEach(time => {
       const div = document.createElement('div');
       div.className = 'time-label';
-      div.textContent = time;
+      const [h, m] = time.split(':').map(Number);
+	  div.textContent = `${new Date(0, 0, 0, h, m + 15).getHours()}:${new Date(0, 0, 0, h, m + 15).getMinutes().toString().padStart(2, '0')}`;
       timeLabels.appendChild(div);
     });
   }
@@ -522,9 +543,10 @@
 			btn.style.color = 'green';
 			btn.style.marginLeft = '8px';
 			btn.onclick = () => {
-			  courses.forEach(course => {
-				if (!addedCourses.has(course.code) && course.periodIndex == periodIndex){
+			  Courses.forEach(course => {
+				if (!addedCourses.has(course.code) && course.periods[periodIndex] === 1){
 					addedCourses.add(course.code);
+					console.log(course.name,course.periods);
 				}
 			  });
 				renderCalendar();
@@ -541,8 +563,8 @@
 			btn2.style.color = 'red';
 			btn2.style.marginLeft = '8px';
 			btn2.onclick = () => {
-			  courses.forEach(course => {
-				if (addedCourses.has(course.code) && course.periodIndex == periodIndex){
+			  Courses.forEach(course => {
+				if (addedCourses.has(course.code) && course.periods[periodIndex] === 1){
 					addedCourses.delete(course.code);
 				}
 			  });
@@ -631,6 +653,8 @@
                 color: presetColors[colorIndex % presetColors.length],
                 instances: [],
 				periodIndex: 0,
+				sessionCount: 0,
+				allowed: false,
 				periods: [0,0,0,0,0]
               };
               Courses.push(course);
@@ -639,7 +663,14 @@
 
             const [startTime, endTime] = timeStr.split('-');
             const startHour = parseInt(startTime.split(':')[0], 10);
-            const endHour = parseInt(endTime.split(':')[0], 10);
+            const [endHourStr, endMinuteStr] = endTime.split(':');
+			let endHour = parseInt(endHourStr, 10);
+			const endMinute = parseInt(endMinuteStr, 10);
+
+			// Round up if minutes > 29
+			if (endMinute > 29) {
+			  endHour += 1;
+			}
             let sesType = "exercise";
             if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
 
@@ -647,6 +678,9 @@
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
+				if (h > 7 && h < 18){course.sessionCount += 1;} // only sessions between 8 and 18 count
+				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
+				
                 let year = startYear;
                 if (w < 30) {
                   year++;
@@ -663,6 +697,7 @@
                   date: sesDate,
 				  week: w,
                   time: `${h}:00`,
+				  timeStr: timeStr,
                   name: courseName,
                   room: roomStr,
                   sesCode: lecturecode,
@@ -671,6 +706,7 @@
               }
             }
           }
+		  Courses = Courses.filter(course => course.allowed);
         })
         .catch(err => console.error('Error loading course data:', err));
     }
