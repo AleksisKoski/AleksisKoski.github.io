@@ -101,8 +101,11 @@
   <select id="multiCourseSelect">
     <option value="">-- Add/Remove Multiple Courses --</option>
     <option value="MS-A">Add all MS-A courses</option>
+	<option value="MS-AR">Remove all MS-A courses</option>
     <option value="MS-C">Add all MS-C courses</option>
+    <option value="MS-CR">Remove all MS-C courses</option>
     <option value="MS-E">Add all MS-E courses</option>
+    <option value="MS-ER">Remove all MS-E courses</option>
     <option value="ALL">Add all courses</option>
     <option value="ALLR">Remove all courses</option>
   </select>
@@ -386,6 +389,13 @@
 	  const allmsEAdded = Courses.every(c => addedCourses.has(c.code) || !c.code.startsWith("MS-E"));
 
 	  msEOption.hidden = allmsEAdded;
+	  
+	  const msAROption = [...multiSelect.options].find(opt => opt.value === "MS-AR");
+	  msAROption.hidden = !allmsAAdded;
+	  const msCROption = [...multiSelect.options].find(opt => opt.value === "MS-CR");
+	  msCROption.hidden = !allmsCAdded;
+	  const msEROption = [...multiSelect.options].find(opt => opt.value === "MS-ER");
+	  msEROption.hidden = !allmsEAdded;
 	}
 
   function renderCalendar() {
@@ -644,6 +654,7 @@
 			const chip = document.createElement('div');
 			chip.className = 'course-chip';
 
+			
 			const colorBox = document.createElement('span');
 			colorBox.className = 'color-box';
 			colorBox.style.backgroundColor = course.color;
@@ -677,6 +688,17 @@
 			}
 
 			chip.append(colorBox, label, removeBtn);
+			
+			chip.style.borderRadius = '0';
+			if (course.code.startsWith('MS-A')) {
+				chip.style.backgroundColor = '#f2f2f2'; // Replace with desired color
+			} else if (course.code.startsWith('MS-C')) {
+				chip.style.backgroundColor = '#e8e8e8'; // Replace with desired color
+			} else if (course.code.startsWith('MS-E')) {
+				chip.style.backgroundColor = '#dcdcdc'; // Replace with desired color
+			} else {
+				chip.style.backgroundColor = '#cfcfcf'; // Replace with desired color
+			}
 			periodContainer.appendChild(chip);
 		  });
 	  }
@@ -809,6 +831,18 @@
       Courses.forEach(c => addedCourses.add(c.code));
     } else if (mode === "ALLR") {
       Courses.forEach(c => addedCourses.delete(c.code));
+    } else if (mode === "MS-AR") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-A")) addedCourses.delete(c.code);
+      });
+    } else if (mode === "MS-CR") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-C")) addedCourses.delete(c.code);
+      });
+    } else if (mode === "MS-ER") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-E")) addedCourses.delete(c.code);
+      });
     }
     renderCalendar();
     <!-- populateCourseDropdown(); -->
