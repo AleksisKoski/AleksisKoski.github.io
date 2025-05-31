@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Weekly Calendar</title>
+  <title>MS Interactive Course Calendar</title>
   <style>
 	html, body {
 	  height: 100%;
@@ -127,6 +127,9 @@
 </footer>
 
 <script>
+  let currentWeekStart = new Date('2025-09-01'); // change per year
+  
+  
   const hours = Array.from({ length: 10 }, (_, i) => `${8 + i}:00`);
   const calendarContainer = document.querySelector('.calendar');
   <!-- const courseSelect = document.getElementById('courseSelect'); -->
@@ -134,7 +137,6 @@
   const toggleExercisesBtn = document.getElementById('toggleExercises');
   const activeCoursesDiv = document.getElementById('activeCourses');
   const weekDisplay = document.getElementById('weekDisplay');
-  let currentWeekStart = new Date('2025-09-01');
   const startYear = currentWeekStart.getFullYear();
   const addedCourses = new Set();
   let hideExercises = true;
@@ -637,7 +639,9 @@
         })
         .then(text => {
           const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
-
+		  
+		  lines.shift();
+		  
           for (const line of lines) {
             const [nameline, lecturecode, day, timeStr, roomStr, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
             if (!nameline || !day || !timeStr || !weeksStr) continue;
