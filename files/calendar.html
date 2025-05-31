@@ -336,7 +336,6 @@
 	function updateCourseCookie(Courses, addedCoursesSet) {
 		const binaryString = Courses.map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
-		console.log(document.cookie);
 	}
 	
 	function getCookie(name) {
