@@ -110,7 +110,7 @@
   <button id="toggleExercises">Show Exercises</button>
 </div>
 
-<div style="margin-top: 0px; margin-bottom: 8px">
+<div style="margin-top: 0px; margin-bottom: 8px; font-size: 1.5em;">
   <span class="week-display" id="weekDisplay"></span>
 </div>
 
@@ -353,7 +353,6 @@
 		Courses.forEach(course => {
 			if (!addedCourses.has(course.code) && cookie[count] === "1"){
 				addedCourses.add(course.code);
-				console.log(course.name,course.periods);
 			}
 			count += 1;
 		});
@@ -461,10 +460,11 @@
 		`;
 		div.onclick = (eClick) => {
 			const tooltip = document.getElementById('tooltip');
+			
 			if (activeTooltipTarget == div) {
 				tooltip.style.display = 'none';
-					activeTooltipTarget = null;
-					return;
+				activeTooltipTarget = null;
+				return;
 			}
 
 			activeTooltipTarget = div;
@@ -473,17 +473,41 @@
 			  Time: ${e.timeStr}<br>
 			  Type: ${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>
 			  Room: ${e.room}<br>
-			  <!-- Session: ${e.sesCode}<br> -->
 			  Lecturer: ${e.person !== '' ? e.person : '-'}<br>
-			  <!-- ${e.date} ${e.time}<br> -->
 			  Periods: ${Courses.find(c => c.code === e.code).periods
 				.map((val, idx) => val > 0 ? `P${romanNumerals[idx]}` : null)
 				.filter(p => p !== null)
 				.join(', ')}
+			  <button id="course-close-btn" data-course="${e.code}" style="
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
+				color: red;
+				font-weight: bold;
+				font-size: 0.8em;
+				padding: 2px 6px;
+				pointer-events: auto;
+				cursor: pointer;">✕</button>
 			`;
 			tooltip.style.display = 'block';
 			tooltip.style.left = `${eClick.pageX + 10}px`;
 			tooltip.style.top = `${eClick.pageY + 10}px`;
+			
+			document.getElementById("course-close-btn").onclick = (e) => {
+				e.stopPropagation();
+				closeBtn = document.getElementById("course-close-btn");
+				const closeCode = closeBtn.dataset.course;
+				
+				tooltip.style.display = 'none';
+				activeTooltipTarget = null;
+				
+				if (addedCourses.has(closeCode)){
+					addedCourses.delete(closeCode);
+					renderCalendar();
+					updateMultiSelectOptions();
+					updateCourseList();
+				}
+			};
 			};
 			div.style.backgroundColor = e.color;
 			div.style.width = `calc(${width}% - 2px)`;
@@ -521,6 +545,7 @@
       <!-- } -->
     <!-- }); -->
   <!-- } -->
+  
 
   function updateCourseList() {
 	activeCoursesDiv.innerHTML = '';
@@ -763,6 +788,9 @@
       <!-- updateCourseList(); -->
     <!-- } -->
   <!-- }; -->
+  
+  
+  
   multiSelect.onchange = () => {
     const mode = multiSelect.value;
     if (mode === "MS-A") {
