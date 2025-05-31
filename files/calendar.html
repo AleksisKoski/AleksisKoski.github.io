@@ -279,7 +279,6 @@
   }
   
   function getPeriodRoman(week, periods) {
-
 	  for (let i = 0; i < periods.length; i++) {
 		if (periods[i].includes(week)) {
 		  if (periods[i].indexOf(week) == periods[i].length-1){
@@ -338,7 +337,9 @@
 	
 	function updateCourseCookie(Courses, addedCoursesSet) {
 		const binaryString = Courses.map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
+		const weekStartString = currentWeekStart.toISOString().split('T')[0]; // e.g., "2025-09-01"
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
+		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
 	}
 	
 	function getCookie(name) {
@@ -349,12 +350,45 @@
 	}
 
 	function populateAddedCourses() {
-		const cookie = getCookie("courseFlags");
-		
+		const flagsCookie = getCookie("courseFlags");
+		const weekStartCookie = getCookie("weekStart");
+
+		// Update currentWeekStart if cookie is present and valid
+		if (weekStartCookie) {
+			const parsedDate = new Date(weekStartCookie);
+			if (isNaN(parsedDate)) {
+				console.warn("Invalid weekStart cookie value.");
+			} else if (parsedDate.getDay() !== 1) {
+				console.error("weekStart cookie does not fall on a Monday.");
+			} else {
+				const year = parsedDate.getFullYear();
+				const month = parsedDate.getMonth(); // 0 = Jan, 11 = Dec
+				let valid = false;
+
+				if (year === startYear && month >= 7 && month <= 11) {
+					// August (7) to December (11) of startYear
+					valid = true;
+				} else if (year === startYear + 1 && month >= 0 && month <= 6) {
+					// January (0) to July (6) of startYear + 1
+					valid = true;
+				}
+
+				if (!valid) {
+					console.error("weekStart cookie is outside the valid academic year range.");
+				} else {
+					currentWeekStart = parsedDate;
+				}
+			}
+		}
+
+		if (!flagsCookie || flagsCookie.length !== Courses.length) {
+			console.log("Incorrect or missing courseFlags cookie.");
+			return;
+		}
+
 		let count = 0;
-		if (!cookie || cookie.length != Courses.length){console.log("Incorrect or missing cookie."); return;}
 		Courses.forEach(course => {
-			if (!addedCourses.has(course.code) && cookie[count] === "1"){
+			if (!addedCourses.has(course.code) && flagsCookie[count] === "1") {
 				addedCourses.add(course.code);
 			}
 			count += 1;
@@ -436,6 +470,7 @@
     Courses.forEach(course => {
       if (!addedCourses.has(course.code)) return;
       course.instances.forEach(instance => {
+		console.log(days,instance.date);
         if (hideExercises && instance.type === "exercise") return;
         if (days.some(d => d.iso === instance.date)) {
           events.push({ ...instance, code: course.code, color: course.color });
@@ -691,13 +726,13 @@
 			
 			chip.style.borderRadius = '0';
 			if (course.code.startsWith('MS-A')) {
-				chip.style.backgroundColor = '#f2f2f2'; // Replace with desired color
+				chip.style.backgroundColor = '#f3f3f3'; // Replace with desired color
 			} else if (course.code.startsWith('MS-C')) {
-				chip.style.backgroundColor = '#e8e8e8'; // Replace with desired color
+				chip.style.backgroundColor = '#e3e3e3'; // Replace with desired color
 			} else if (course.code.startsWith('MS-E')) {
-				chip.style.backgroundColor = '#dcdcdc'; // Replace with desired color
+				chip.style.backgroundColor = '#d3d3d3'; // Replace with desired color
 			} else {
-				chip.style.backgroundColor = '#cfcfcf'; // Replace with desired color
+				chip.style.backgroundColor = '#c3c3c3'; // Replace with desired color
 			}
 			periodContainer.appendChild(chip);
 		  });
@@ -762,7 +797,7 @@
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
 				
                 let year = startYear;
-                if (w < 30) {
+                if (w < 30) { // the year depends on if we are in fall or spring semester, if spring add 1. 30 seems to be okay here as a border
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
