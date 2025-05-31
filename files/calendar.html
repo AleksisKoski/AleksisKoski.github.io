@@ -333,6 +333,33 @@
 	  });
 	}
 	
+	function updateCourseCookie(Courses, addedCoursesSet) {
+		const binaryString = Courses.map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
+		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
+		console.log(document.cookie);
+	}
+	
+	function getCookie(name) {
+		const value = `; ${document.cookie}`;
+		const parts = value.split(`; ${name}=`);
+		if (parts.length === 2) return parts.pop().split(';').shift();
+		return null;
+	}
+
+	function populateAddedCourses() {
+		const cookie = getCookie("courseFlags");
+		
+		let count = 0;
+		if (cookie.length != Courses.length){console.log("Incorrect cookie length, deleting cookie."); return;}
+		Courses.forEach(course => {
+			if (!addedCourses.has(course.code) && cookie[count] === "1"){
+				addedCourses.add(course.code);
+				console.log(course.name,course.periods);
+			}
+			count += 1;
+		});
+	}
+	
 	function updateMultiSelectOptions() {
 	  const allOption = [...multiSelect.options].find(opt => opt.value === "ALL");
 	  const allAdded = Courses.every(c => addedCourses.has(c.code));
@@ -364,6 +391,9 @@
 	}
 
   function renderCalendar() {
+    //update cookies while we're at it
+	updateCourseCookie(Courses, addedCourses);
+	
     document.querySelectorAll('.day-column').forEach(el => el.remove());
 
     const days = getWeekDates(currentWeekStart);
@@ -531,6 +561,7 @@
 			btn3.onclick = () => {
 			  periodShow[periodIndex] = !periodShow[periodIndex];
 			  renderCalendar();
+			  updateMultiSelectOptions();
 			  updateCourseList();
 			};
 
@@ -548,7 +579,6 @@
 			  Courses.forEach(course => {
 				if (!addedCourses.has(course.code) && course.periods[periodIndex] === 1){
 					addedCourses.add(course.code);
-					console.log(course.name,course.periods);
 				}
 			  });
 				renderCalendar();
@@ -770,6 +800,9 @@
   loadCoursesFromFile('courses.txt').then(() => {
 	  periodsList = findPeriods(weekCounts);
 	  assignPeriodsToCourses(Courses,periodsList);
+	  
+	  // add courses from cookie
+	  populateAddedCourses();
 	  
       populateTimeLabels();
       <!-- populateCourseDropdown(); -->
