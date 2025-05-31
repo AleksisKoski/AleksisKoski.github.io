@@ -13,6 +13,7 @@
     }
     .time-label, .timeslot {
       height: 60px; border: 1px solid #ccc; box-sizing: border-box;
+	  user-select: none; /* Prevent text selection */
       position: relative;
     }
     .time-label { text-align: right; padding: 5px 10px; font-size: 0.9em; }
@@ -120,7 +121,6 @@
   const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
   let periodShow = [true,true,true,true,true];
   
-  let testVar = 0;
   
   const presetColors = [
     '#B22222', '#8B0000', '#A52A2A', '#800000', '#5F9EA0',
@@ -265,7 +265,29 @@
 	  return null; // week not in any period
   }
   
-  function assignPeriodsToCourses(courses, periods) {
+  <!-- function assignPeriodsToCourses(courses, periods) { -->
+	  <!-- courses.forEach(course => { -->
+		<!-- const lectureWeeks = course.instances -->
+		  <!-- .filter(inst => inst.type === "lecture") -->
+		  <!-- .map(inst => inst.week); -->
+
+		<!-- const overlapCounts = periods.map(period => -->
+		  <!-- lectureWeeks.filter(week => period.includes(week)).length -->
+		<!-- ); -->
+
+		<!-- let maxIndex = 0; -->
+		<!-- for (let i = 1; i < overlapCounts.length; i++) { -->
+		  <!-- if (overlapCounts[i] > overlapCounts[maxIndex]) { -->
+			<!-- maxIndex = i; -->
+		  <!-- } -->
+		<!-- } -->
+
+		<!-- course.periodIndex = maxIndex; -->
+	  <!-- }); -->
+	<!-- } -->
+	
+	// assign by start date
+	function assignPeriodsToCourses(courses, periods) {
 	  courses.forEach(course => {
 		const lectureWeeks = course.instances
 		  .filter(inst => inst.type === "lecture")
@@ -275,14 +297,18 @@
 		  lectureWeeks.filter(week => period.includes(week)).length
 		);
 
-		let maxIndex = 0;
-		for (let i = 1; i < overlapCounts.length; i++) {
-		  if (overlapCounts[i] > overlapCounts[maxIndex]) {
-			maxIndex = i;
+		let firstIndex = 0;
+		let firstCheck = 1;
+		for (let i = 0; i < 5; i++) {
+		  if (overlapCounts[i] > 0) {
+			if (firstCheck === 1){
+			firstIndex = i;
+			firstCheck = 0;
+			}
+			course.periods[i] = 1;
 		  }
 		}
-
-		course.periodIndex = maxIndex;
+		course.periodIndex = firstIndex;
 	  });
 	}
 	
@@ -296,7 +322,6 @@
 	  
 	  const removeAllOption = [...multiSelect.options].find(opt => opt.value === "ALLR");
 	  const anyAdded = Courses.some(c => addedCourses.has(c.code));
-	  console.log("hey",anyAdded);
 
 	  if (allOption) allOption.hidden = allAdded;
 	  if (removeAllOption) removeAllOption.hidden = !anyAdded;
@@ -318,7 +343,6 @@
 	}
 
   function renderCalendar() {
-  	console.log(testVar);
     document.querySelectorAll('.day-column').forEach(el => el.remove());
 
     const days = getWeekDates(currentWeekStart);
@@ -380,35 +404,43 @@
       group.forEach((e, i) => {
         const div = document.createElement('div');
         div.className = 'event';
-        div.innerHTML = `${e.code}<br>${e.name}<br>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}`;
-	div.onclick = (eClick) => {
- 		const tooltip = document.getElementById('tooltip');
-		if (activeTooltipTarget != null) {
-			tooltip.style.display = 'none';
-    			activeTooltipTarget = null;
-    			return;
- 		}
+        div.innerHTML = `
+		  <strong>${e.code}</strong><br>
+		  <strong>${e.name}</strong><br>
+		  <strong>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}</strong>
+		`;
+		div.onclick = (eClick) => {
+			const tooltip = document.getElementById('tooltip');
+			if (activeTooltipTarget == div) {
+				tooltip.style.display = 'none';
+					activeTooltipTarget = null;
+					return;
+			}
 
-  		activeTooltipTarget = div;
- 		tooltip.innerHTML = `
-			<strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
-    			Type: ${e.type}<br>
-    			Room: ${e.room}<br>
-    			Session: ${e.sesCode}<br>
-    			Lecturer: ${e.person}<br>
-    			${e.date} ${e.time}
-  		`;
- 		tooltip.style.display = 'block';
-  		tooltip.style.left = `${eClick.pageX + 10}px`;
-  		tooltip.style.top = `${eClick.pageY + 10}px`;
-		};
-        div.style.backgroundColor = e.color;
-        div.style.width = `calc(${width}% - 2px)`;
-        div.style.left = `calc(${width * i}% + 1px)`;
-        slot.appendChild(div);
-      });
-    }
-  }
+			activeTooltipTarget = div;
+			tooltip.innerHTML = `
+			  <strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
+			  Type: ${e.type}<br>
+			  Room: ${e.room}<br>
+			  <!-- Session: ${e.sesCode}<br> -->
+			  Lecturer: ${e.person !== '' ? e.person : '-'}<br>
+			  <!-- ${e.date} ${e.time}<br> -->
+			  Periods: ${Courses.find(c => c.code === e.code).periods
+				.map((val, idx) => val > 0 ? `P${romanNumerals[idx]}` : null)
+				.filter(p => p !== null)
+				.join(', ')}
+			`;
+			tooltip.style.display = 'block';
+			tooltip.style.left = `${eClick.pageX + 10}px`;
+			tooltip.style.top = `${eClick.pageY + 10}px`;
+			};
+			div.style.backgroundColor = e.color;
+			div.style.width = `calc(${width}% - 2px)`;
+			div.style.left = `calc(${width * i}% + 1px)`;
+			slot.appendChild(div);
+		  });
+		}
+	  }
 	
   function fixEncodingIssues(str) {
     return str.replace(/Ã¶/g, 'ö').replace(/Ã¤/g, 'ä');
@@ -497,6 +529,7 @@
 			  });
 				renderCalendar();
 				<!-- populateCourseDropdown(); -->
+				updateMultiSelectOptions();
 				updateCourseList();
 			};
 			
@@ -515,6 +548,7 @@
 			  });
 				renderCalendar();
 				<!-- populateCourseDropdown(); -->
+				updateMultiSelectOptions();
 				updateCourseList();
 			};
 
@@ -549,6 +583,7 @@
 					addedCourses.add(course.code);
 					renderCalendar();
 					<!-- populateCourseDropdown(); -->
+					updateMultiSelectOptions();
 					updateCourseList();
 				};
 			} else {
@@ -558,6 +593,7 @@
 					addedCourses.delete(course.code);
 					renderCalendar();
 					<!-- populateCourseDropdown(); -->
+					updateMultiSelectOptions();
 					updateCourseList();
 				};
 			}
@@ -594,7 +630,8 @@
                 name: courseName,
                 color: presetColors[colorIndex % presetColors.length],
                 instances: [],
-				periodIndex: 0
+				periodIndex: 0,
+				periods: [0,0,0,0,0]
               };
               Courses.push(course);
               colorIndex++;
@@ -678,6 +715,7 @@
     }
     renderCalendar();
     <!-- populateCourseDropdown(); -->
+	updateMultiSelectOptions(); 
     updateCourseList();
     multiSelect.value = "";
   };
@@ -695,17 +733,19 @@
 	  
       populateTimeLabels();
       <!-- populateCourseDropdown(); -->
+	  updateMultiSelectOptions();
       updateCourseList();
       renderCalendar();
   });
 
-  document.addEventListener('click', (e) => {
-  const tooltip = document.getElementById('tooltip');
-  if (!e.target.classList.contains('event')) {
-    tooltip.style.display = 'none';
-    activeTooltipTarget = null;
-    }
-  });
+	document.addEventListener('click', (e) => {
+	  const tooltip = document.getElementById('tooltip');
+	  
+	  if (!e.target.closest('.event')) {
+		tooltip.style.display = 'none';
+		activeTooltipTarget = null;
+	  }
+	});
 </script>
 <div id="tooltip" style="
   position: absolute;
