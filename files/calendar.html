@@ -86,6 +86,38 @@
 	main {
 	  flex: 1; /* This pushes the footer down */
 	}
+	#addCustomPopup {
+      position: absolute;
+      top: 70px;
+      left: 20px;
+      padding: 16px;
+      border: 1px solid #ccc;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      display: none;
+      z-index: 1000;
+    }
+
+    .tooltip-field {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .tooltip-field label {
+      width: 60px;
+    }
+
+    .tooltip-field input {
+      flex: 1;
+    }
+	#errorPopup {
+      display: none;
+      background-color: #fdd;
+      color: #a00;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #a00;
+    }
   </style>
 </head>
 <body>
@@ -111,7 +143,22 @@
   </select>
 
   <button id="toggleExercises">Show Exercises</button>
+  <button id="addCustom">Add Custom</button>
+  
+  <div id="addCustomPopup">
+	Add custom course/event:<br><br>
+    <div class="tooltip-field"><label>Code:</label><input type="text" id="fieldCode"></div>
+    <div class="tooltip-field"><label>Name:</label><input type="text" id="fieldName"></div>
+    <div class="tooltip-field"><label>Type:</label><input type="text" id="fieldType"></div>
+    <div class="tooltip-field"><label>Day:</label><input type="text" id="fieldDay"></div>
+    <div class="tooltip-field"><label>Time:</label><input type="text" id="fieldTime"></div>
+    <div class="tooltip-field"><label>Weeks:</label><input type="text" id="fieldWeeks"></div>
+    <button id="confirmAdd">Confirm</button>
+    <div id="errorPopup">Error: Missing or incorrect input by user.</div>
+  </div>
 </div>
+
+
 
 <div style="margin-top: 0px; margin-bottom: 8px; font-size: 1.5em;">
   <span class="week-display" id="weekDisplay"></span>
@@ -138,6 +185,9 @@
   <!-- const courseSelect = document.getElementById('courseSelect'); -->
   const multiSelect = document.getElementById('multiCourseSelect');
   const toggleExercisesBtn = document.getElementById('toggleExercises');
+  const addCustomBtn = document.getElementById('addCustom');
+  const errorPopup = document.getElementById('errorPopup');
+  
   const activeCoursesDiv = document.getElementById('activeCourses');
   const weekDisplay = document.getElementById('weekDisplay');
   const startYear = currentWeekStart.getFullYear();
@@ -182,7 +232,12 @@
     'Tue': 1, // Tuesday
     'Wed': 2, // Wednesday
     'Thu': 3, // Thursday
-    'Fri': 4  // Friday
+    'Fri': 4,  // Friday
+    'Monday': 0, // Monday
+    'Tuesday': 1, // Tuesday
+    'Wednesday': 2, // Wednesday
+    'Thursday': 3, // Thursday
+    'Friday': 4  // Friday
   };
 
   let Courses = [
@@ -255,18 +310,57 @@
     const weekList = [];
 
     const parts = weeksStr.split(',').map(s => s.trim());
+	
+	const isValidInteger = n =>
+		Number.isInteger(n) && n >= 1 && n <= 52;
+	
     for (const part of parts) {
       if (part.includes('-')) {
         const [start, end] = part.split('-').map(Number);
+		
+		if (isNaN(start) || isNaN(end)) return [];
+		if (!isValidInteger(start) || !isValidInteger(end) || start >= end) return [];
+		
         for (let w = start; w <= end; w++) {
           weekList.push(w);
         }
       } else {
-        weekList.push(Number(part));
+		const start = Number(part);
+		if (isNaN(start) || !isValidInteger(start)) return [];
+        weekList.push(start);
       }
     }
 
     return weekList;
+  }
+  
+  function parseDayList(dayStr) {
+    const daysList = [];
+
+    const parts = dayStr.split(',').map(s => s.trim());
+
+	
+    for (const part of parts) {
+      if (part.includes('-')) {
+        const [startStr, endStr] = part.split('-');
+		
+		if (!finnishWeekdayMap.hasOwnProperty(startStr)) return [];
+		const start = finnishWeekdayMap[startStr];
+		
+		if (!finnishWeekdayMap.hasOwnProperty(endStr)) return [];
+		const end = finnishWeekdayMap[endStr];
+		
+		if (start >= end) return [];
+		
+        for (let w = start; w <= end; w++) {
+          daysList.push(w);
+        }
+      } else {
+		if (!finnishWeekdayMap.hasOwnProperty(part)) return [];
+        daysList.push(finnishWeekdayMap[part]);
+      }
+    }
+    return daysList;
   }
 
   function getWeekDates(startDate) {
@@ -275,7 +369,7 @@
       date.setDate(date.getDate() + i);
       return {
         date,
-        iso: date.toISOString().split('T')[0],
+        iso: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
         display: `${date.getDate()}.${date.getMonth() + 1} ${date.toLocaleDateString('en-GB', { weekday: 'short' })}`
       };
     });
@@ -347,8 +441,13 @@
 	}
 	
 	function updateCourseCookie(Courses, addedCoursesSet) {
-		const binaryString = Courses.map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
-		const weekStartString = currentWeekStart.toISOString().split('T')[0]; // e.g., "2025-09-01"
+		const binaryString = Courses.filter(c => !c.isCustom).map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
+
+		const year = currentWeekStart.getFullYear();
+		const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
+		const day = String(currentWeekStart.getDate()).padStart(2, '0');
+		const weekStartString = `${year}-${month}-${day}`; // e.g., "2025-09-01"
+		
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
 		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
 	}
@@ -442,6 +541,108 @@
 	  const msEROption = [...multiSelect.options].find(opt => opt.value === "MS-ER");
 	  msEROption.hidden = !allmsEAdded;
 	}
+	
+	
+	// adding custom course:
+    function handleAdd() {
+      const code = document.getElementById('fieldCode').value.trim();
+      let courseName = document.getElementById('fieldName').value.trim();
+      const sesType = document.getElementById('fieldType').value.trim();
+      const dayStr = document.getElementById('fieldDay').value.trim();
+      const timeStr = document.getElementById('fieldTime').value.trim();
+      const weeksStr = document.getElementById('fieldWeeks').value.trim();
+	  
+	  let isError = false;
+	  let errorMSG = "Error: Unknown error.";
+	  
+	  if (!code) {errorMSG = "Error: Missing course code."; isError = true;}
+	  if (!dayStr) {errorMSG = "Error: Missing day (Mon-Fri)."; isError = true;}
+	  if (!timeStr) {errorMSG = "Error: Missing time (e.g. 10-12)."; isError = true;}
+	  if (!weeksStr) {errorMSG = "Error: Missing weeks (e.g. 44,46-47)."; isError = true;}
+
+      let course = Courses.find(c => c.code === code);
+	  let foundCourse = true;
+      if (!course) {
+		if (!courseName) {errorMSG = "Error: Missing course name."; isError = true;}
+		foundCourse = false;
+        course = {
+            code,
+            name: courseName,
+            color: presetColors[Courses.length % presetColors.length],
+            instances: [],
+			periodIndex: 0,
+			sessionCount: 0,
+			isCustom: true,
+			allowed: true,
+			periods: [0,0,0,0,0]
+            };
+        } else {courseName = course.name;}
+	
+	  const days = parseDayList(dayStr);
+	  if (days.length === 0) {errorMSG = "Error: Wrong format for days (e.g. Tue,Thu-Fri)."; isError = true;}
+	  
+      const [startTime, endTime] = timeStr.split('-');
+      const startHour = parseInt(startTime, 10);
+      let endHour = 0;
+	  
+	  if (!endTime){
+		isError = true;
+		errorMSG = "Error: Wrong format for time (e.g. 10-12).";
+	  } else {
+		endHour = parseInt(endTime, 10);
+	  }
+	  
+	  const isValidHour = n =>
+		Number.isInteger(n) && n >= 8 && n <= 18;
+	  
+	  if (!isValidHour(startHour) || !isValidHour(endHour) || startHour >= endHour){errorMSG = "Error: Time out of bounds or otherwise wrong."; isError = true;}
+
+      const weeks = parseWeekList(weeksStr);
+	  if (weeks.length === 0) {errorMSG = "Error: Wrong format for weeks (e.g. 44,46-47)."; isError = true;}
+	  
+	  if (!isError) {
+		for (const day of days){
+			for (const w of weeks) {
+				for (let h = startHour; h < endHour; h++) {
+					let year = startYear;
+					if (w < 30) { // the year depends on if we are in fall or spring semester, if spring add 1. 30 seems to be okay here as a border
+					  year++;
+					}
+					let sesDate = getDateFromISOWeek(year, w, day);
+					course.instances.push({
+					  type: sesType,
+					  date: sesDate,
+					  week: w,
+					  time: `${h}:00`,
+					  timeStr: timeStr,
+					  name: courseName,
+					  room: "",
+					  sesCode: "",
+					  person: ""
+					});
+				}
+			}
+		}
+		if (!foundCourse){
+			assignPeriodsToCourses([course],periodsList);
+			Courses.push(course);
+			}
+		addedCourses.add(course.code);
+        addCustomPopup.style.display = 'none';
+        errorPopup.style.display = 'none';
+		renderCalendar();
+		updateMultiSelectOptions();
+		updateCourseList();
+		
+		// clear fields
+		['fieldCode', 'fieldName', 'fieldType', 'fieldDay', 'fieldTime', 'fieldWeeks'].forEach(id => {
+		  document.getElementById(id).value = '';
+		});
+      } else {
+		errorPopup.textContent = errorMSG;
+        errorPopup.style.display = 'block';
+      }
+    }
 
   function renderCalendar() {
     //update cookies while we're at it
@@ -453,6 +654,7 @@
     let week = getWeekNumber(currentWeekStart);
 	let period = getPeriodRoman(week, periodsList);
 	let year = currentWeekStart.getFullYear();
+	
 	
 	if (period != null){ weekDisplay.textContent = `${year}: Week ${week} (Period ${period})`;
     } else { weekDisplay.textContent = `${year}: Week ${week}`; }
@@ -481,7 +683,6 @@
     Courses.forEach(course => {
       if (!addedCourses.has(course.code)) return;
       course.instances.forEach(instance => {
-		console.log(days,instance.date);
         if (hideExercises && instance.type === "exercise") return;
         if (days.some(d => d.iso === instance.date)) {
           events.push({ ...instance, code: course.code, color: course.color });
@@ -527,9 +728,9 @@
 			tooltip.innerHTML = `
 			  <strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
 			  Time: ${e.timeStr}<br>
-			  Type: ${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>
-			  Room: ${e.room}<br>
-			  Lecturer: ${e.person !== '' ? e.person : '-'}<br>
+			  ${e.type !== '' ? `${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>` : ''}
+			  ${e.room !== '' ? `Room: ${e.room}<br>` : ''}
+			  ${e.person !== '' ? `Lecturer: ${e.person}<br>` : ''}
 			  Periods: ${Courses.find(c => c.code === e.code).periods
 				.map((val, idx) => val > 0 ? `P${romanNumerals[idx]}` : null)
 				.filter(p => p !== null)
@@ -572,7 +773,7 @@
 		  });
 		}
 	  }
-	
+
   function fixEncodingIssues(str) {
     return str.replace(/Ã¶/g, 'ö').replace(/Ã¤/g, 'ä');
   }
@@ -742,6 +943,8 @@
 				chip.style.backgroundColor = '#e3e3e3'; // Replace with desired color
 			} else if (course.code.startsWith('MS-E')) {
 				chip.style.backgroundColor = '#d3d3d3'; // Replace with desired color
+			} else if (course.isCustom) {
+				chip.style.backgroundColor = '#b5dfff'; // Replace with desired color
 			} else {
 				chip.style.backgroundColor = '#c3c3c3'; // Replace with desired color
 			}
@@ -780,6 +983,7 @@
                 instances: [],
 				periodIndex: 0,
 				sessionCount: 0,
+				isCustom: false,
 				allowed: false,
 				periods: [0,0,0,0,0]
               };
@@ -901,6 +1105,35 @@
     toggleExercisesBtn.textContent = hideExercises ? "Show Exercises" : "Hide Exercises";
     renderCalendar();
   };
+  
+  // add custom course
+  addCustomBtn.addEventListener('click', (e) => {
+    const tooltipWidth = addCustomPopup.offsetWidth;
+	const tooltipHeight = addCustomPopup.offsetHeight;
+	let x = e.clientX;
+	let y = e.clientY;
+
+	if (x + tooltipWidth > window.innerWidth) {
+		x = window.innerWidth - tooltipWidth - 10;
+	}
+
+	if (y + tooltipHeight > window.innerHeight) {
+		y = window.innerHeight - tooltipHeight - 10;
+	}
+	addCustomPopup.style.left = `${x}px`;
+	addCustomPopup.style.top = `${y}px`;
+
+    addCustomPopup.style.display = 'block';
+    errorPopup.style.display = 'none';
+  });
+  
+  document.getElementById('confirmAdd').addEventListener('click', () => {handleAdd();});
+
+  document.addEventListener('click', (e) => {
+    if (!addCustomPopup.contains(e.target) && e.target !== addCustomBtn) {
+		addCustomPopup.style.display = 'none';
+    }
+  });
 
   // Initial setup
 
