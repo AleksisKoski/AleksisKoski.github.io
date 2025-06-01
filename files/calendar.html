@@ -686,7 +686,7 @@
     Courses.forEach(course => {
       if (!addedCourses.has(course.code)) return;
       course.instances.forEach(instance => {
-        if (hideExercises && instance.type === "exercise") return;
+        if (hideExercises && instance.type.toLowerCase() === "exercise") return;
         if (days.some(d => d.iso === instance.date)) {
           events.push({ ...instance, code: course.code, color: course.color });
         }
@@ -1037,7 +1037,7 @@
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
                 
                 const index = myWeeks.indexOf(w);
-				if (index !== -1 && sesType == "lecture") {
+				if (index !== -1 && sesType.toLowerCase() == "lecture") {
 				  weekCounts[index] += 1;
 				}
 
