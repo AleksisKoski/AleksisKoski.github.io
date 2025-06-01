@@ -450,7 +450,7 @@
 		
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
 		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
-		document.cookie = `customCourses=${customCourseData.join('/')}; path=/; max-age=15552000`;
+		document.cookie = `customCourses=${customCourseData.join('<')}; path=/; max-age=15552000`;
 	}
 	
 	function getCookie(name) {
@@ -506,9 +506,9 @@
 			count += 1;
 		});
 		
-		if (!customCookie) {console.log("Incorrect or missing customCourses cookie."); return;}
+		if (!customCookie) {console.log("Empty/missing customCourses data."); return;}
 		
-		const customCoursesFromCookie = customCookie.split('/');
+		const customCoursesFromCookie = customCookie.split('<');
 		customCoursesFromCookie.forEach(s => {if (s != "") handleAdd(s);});
 	}
 	
@@ -575,10 +575,11 @@
 			periodIndex: 0,
 			sessionCount: 0,
 			isCustom: true,
+			hasAddedData: false,
 			allowed: true,
 			periods: [0,0,0,0,0]
             };
-        } else {courseName = course.name;}
+        } else {courseName = course.name; course.hasAddedData = true;}
 	
 	  const days = parseDayList(dayStr);
 	  if (days.length === 0) {errorMSG = "Error: Wrong format for days (e.g. Tue,Thu-Fri)."; isError = true;}
@@ -618,6 +619,7 @@
 					  time: `${h}:00`,
 					  timeStr: timeStr,
 					  name: courseName,
+					  isAddedData: foundCourse,
 					  room: "",
 					  sesCode: "",
 					  person: ""
@@ -937,6 +939,30 @@
 				};
 			}
 			chip.append(colorBox, label, removeBtn);
+			if (course.hasAddedData){
+				const resetBtn = document.createElement('button');
+				resetBtn.style.fontWeight = 'bold';
+				resetBtn.classList.add('size-fixed');
+				resetBtn.textContent = 'Reset';
+				resetBtn.style.width = 'auto';
+					resetBtn.onclick = () => {
+						course.instances = course.instances.filter(e => !e.isAddedData);
+						course.hasAddedData = false;
+						let seen = !course.isCustom;
+						customCourseData = customCourseData.filter(entry => {
+						  if (!entry.startsWith(course.code)) return true;
+						  if (!seen) {
+							seen = true;
+							return true; // keep the first matching entry
+						  }
+						  return false; // remove subsequent ones
+						});
+						renderCalendar();
+						updateMultiSelectOptions();
+						updateCourseList();
+					};
+				chip.append(resetBtn);
+			} 
 			if (course.isCustom){
 				const delBtn = document.createElement('button');
 				delBtn.style.fontWeight = 'bold';
@@ -1003,6 +1029,7 @@
 				periodIndex: 0,
 				sessionCount: 0,
 				isCustom: false,
+				hasAddedData: false,
 				allowed: false,
 				periods: [0,0,0,0,0]
               };
@@ -1048,6 +1075,7 @@
                   time: `${h}:00`,
 				  timeStr: timeStr,
                   name: courseName,
+				  isAddedData: false,
                   room: roomStr,
                   sesCode: lecturecode,
                   person: fixEncodingIssues(lecturer)
@@ -1154,9 +1182,9 @@
     const timeStr = document.getElementById('fieldTime').value.trim();
     const weeksStr = document.getElementById('fieldWeeks').value.trim();
 	
-	if ([code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('>')) || [code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('/')))
+	if ([code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('>')) || [code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('<')))
 	{
-		errorPopup.textContent = "Error: Characters > and / are not allowed.";
+		errorPopup.textContent = "Error: Characters > and < are not allowed.";
         errorPopup.style.display = 'block';
 	}
 	else {
