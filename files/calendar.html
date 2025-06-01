@@ -1153,7 +1153,14 @@
     const timeStr = document.getElementById('fieldTime').value.trim();
     const weeksStr = document.getElementById('fieldWeeks').value.trim();
 	
-	handleAdd(`${code}>${courseName}>${sesType}>${dayStr}>${timeStr}>${weeksStr}`);
+	if ([code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('>')) || [code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('/')))
+	{
+		errorPopup.textContent = "Error: Characters > and / are not allowed.";
+        errorPopup.style.display = 'block';
+	}
+	else {
+		handleAdd(`${code}>${courseName}>${sesType}>${dayStr}>${timeStr}>${weeksStr}`);
+	}
 	});
 
   document.addEventListener('click', (e) => {
