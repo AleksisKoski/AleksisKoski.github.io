@@ -597,7 +597,7 @@
 	  const isValidHour = n =>
 		Number.isInteger(n) && n >= 8 && n <= 18;
 	  
-	  if (!isValidHour(startHour) || !isValidHour(endHour) || startHour >= endHour){errorMSG = "Error: Time out of bounds or otherwise wrong."; isError = true;}
+	  if (!isValidHour(startHour) || !isValidHour(endHour) || startHour >= endHour){errorMSG = "Error: Time out of bounds or otherwise wrong (e.g. 10-12)."; isError = true;}
 
       const weeks = parseWeekList(weeksStr);
 	  if (weeks.length === 0) {errorMSG = "Error: Wrong format for weeks (e.g. 44,46-47)."; isError = true;}
