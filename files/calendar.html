@@ -507,6 +507,8 @@
 			count += 1;
 		});
 		
+		if (!customCookie) {console.log("Incorrect or missing customCourses cookie."); return;}
+		
 		const customCoursesFromCookie = customCookie.split('/');
 		customCoursesFromCookie.forEach(s => {if (s != "") handleAdd(s);});
 	}
