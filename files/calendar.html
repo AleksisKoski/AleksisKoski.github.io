@@ -147,19 +147,30 @@
   const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
   let periodShow = [true,true,true,true,true];
   
+  function generateMutedColors(count = 100) {
+	  const colors = [];
+	  const goldenRatio = 0.618033988749895;
+	  let hue = 0.2;
+
+	  for (let i = 0; i < count; i++) {
+		hue += goldenRatio;
+		hue %= 1;
+
+		// Use HSL with:
+		// - Saturation: 40% (muted)
+		// - Lightness: 35% (dark enough for white text)
+		const h = Math.floor(hue * 360);
+		const s = 20 + 10*(i % 4);
+		const l = 30;
+
+		colors.push(`hsl(${h}, ${s}%, ${l}%)`);
+	  }
+
+	  return colors;
+  }
+
+  const presetColors = generateMutedColors();
   
-  const presetColors = [
-    '#B22222', '#8B0000', '#A52A2A', '#800000', '#5F9EA0',
-    '#2F4F4F', '#008B8B', '#006400', '#556B2F', '#483D8B',
-    '#191970', '#00008B', '#000080', '#4B0082', '#2E8B57',
-    '#228B22', '#6B8E23', '#8B4513', '#7B68EE', '#6A5ACD',
-    '#483C32', '#3B3B3B', '#2C3E50', '#34495E', '#1C2833',
-    '#273746', '#512E5F', '#4A235A', '#154360', '#0E6251',
-    '#145A32', '#7F8C8D', '#5D6D7E', '#616A6B', '#4D5656',
-    '#424949', '#1B2631', '#1F618D', '#196F3D', '#784212',
-    '#7D6608', '#512E05', '#6E2C00', '#78281F', '#633974',
-    '#4A235A', '#1B4F72', '#145A32', '#4D5656', '#2E4053'
-  ];
   let colorIndex = 0;
   const finnishWeekdayMap = {
     'Ma': 0, // Monday
