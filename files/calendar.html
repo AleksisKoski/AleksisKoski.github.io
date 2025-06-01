@@ -196,6 +196,7 @@
   let activeTooltipTarget = null;
   const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
   let periodShow = [true,true,true,true,true];
+  let customCourseData = [];
   
   function generateMutedColors(count = 100) {
 	  const colors = [];
@@ -288,7 +289,6 @@
 	  return periods;
 	}
 
-  
   function getDateFromISOWeek(year, week, weekdayIndex) {
     const simple = new Date(year, 0, 1 + (week - 1) * 7);
 
@@ -450,6 +450,8 @@
 		
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
 		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
+		console.log(customCourseData,customCourseData.join('/'));
+		document.cookie = `customCourses=${customCourseData.join('/')}; path=/; max-age=15552000`;
 	}
 	
 	function getCookie(name) {
@@ -459,9 +461,10 @@
 		return null;
 	}
 
-	function populateAddedCourses() {
+	function loadCookies() {
 		const flagsCookie = getCookie("courseFlags");
 		const weekStartCookie = getCookie("weekStart");
+		const customCookie = getCookie("customCourses");
 
 		// Update currentWeekStart if cookie is present and valid
 		if (weekStartCookie) {
@@ -503,6 +506,9 @@
 			}
 			count += 1;
 		});
+		
+		const customCoursesFromCookie = customCookie.split('/');
+		customCoursesFromCookie.forEach(s => {if (s != "") handleAdd(s);});
 	}
 	
 	function updateMultiSelectOptions() {
@@ -544,13 +550,8 @@
 	
 	
 	// adding custom course:
-    function handleAdd() {
-      const code = document.getElementById('fieldCode').value.trim();
-      let courseName = document.getElementById('fieldName').value.trim();
-      const sesType = document.getElementById('fieldType').value.trim();
-      const dayStr = document.getElementById('fieldDay').value.trim();
-      const timeStr = document.getElementById('fieldTime').value.trim();
-      const weeksStr = document.getElementById('fieldWeeks').value.trim();
+    function handleAdd(inputStr) {
+	  let [code, courseName, sesType, dayStr, timeStr, weeksStr] = inputStr.split('>');
 	  
 	  let isError = false;
 	  let errorMSG = "Error: Unknown error.";
@@ -628,6 +629,7 @@
 			Courses.push(course);
 			}
 		addedCourses.add(course.code);
+		customCourseData.push(inputStr);
         addCustomPopup.style.display = 'none';
         errorPopup.style.display = 'none';
 		renderCalendar();
@@ -933,8 +935,24 @@
 					updateCourseList();
 				};
 			}
-
 			chip.append(colorBox, label, removeBtn);
+			if (course.isCustom){
+				const delBtn = document.createElement('button');
+				delBtn.style.fontWeight = 'bold';
+				delBtn.classList.add('size-fixed');
+				delBtn.textContent = 'Delete';
+				delBtn.style.width = 'auto';
+					delBtn.onclick = () => {
+						addedCourses.delete(course.code);
+						Courses = Courses.filter(c => c.code != course.code);
+						customCourseData = customCourseData.filter(entry => !entry.startsWith(course.code));
+						renderCalendar();
+						updateMultiSelectOptions();
+						updateCourseList();
+					};
+				chip.append(delBtn);
+			} 
+
 			
 			chip.style.borderRadius = '0';
 			if (course.code.startsWith('MS-A')) {
@@ -1127,7 +1145,16 @@
     errorPopup.style.display = 'none';
   });
   
-  document.getElementById('confirmAdd').addEventListener('click', () => {handleAdd();});
+  document.getElementById('confirmAdd').addEventListener('click', () => {
+    const code = document.getElementById('fieldCode').value.trim();
+    const courseName = document.getElementById('fieldName').value.trim();
+    const sesType = document.getElementById('fieldType').value.trim();
+    const dayStr = document.getElementById('fieldDay').value.trim();
+    const timeStr = document.getElementById('fieldTime').value.trim();
+    const weeksStr = document.getElementById('fieldWeeks').value.trim();
+	
+	handleAdd(`${code}>${courseName}>${sesType}>${dayStr}>${timeStr}>${weeksStr}`);
+	});
 
   document.addEventListener('click', (e) => {
     if (!addCustomPopup.contains(e.target) && e.target !== addCustomBtn) {
@@ -1142,7 +1169,7 @@
 	  assignPeriodsToCourses(Courses,periodsList);
 	  
 	  // add courses from cookie
-	  populateAddedCourses();
+	  loadCookies();
 	  
       populateTimeLabels();
       <!-- populateCourseDropdown(); -->
