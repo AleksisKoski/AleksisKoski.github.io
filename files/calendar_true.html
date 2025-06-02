@@ -140,6 +140,10 @@
     <option value="MS-ER">Remove all MS-E courses</option>
     <option value="ALL">Add all courses</option>
     <option value="ALLR">Remove all courses</option>
+    <option value="PHYS">Fetch all PHYS courses</option>
+    <option value="PHYSD">Delete all PHYS courses</option>
+    <option value="CS">Fetch all CS courses</option>
+    <option value="CSD">Delete all CS courses</option>
   </select>
 
   <button id="toggleExercises">Show Exercises</button>
@@ -214,7 +218,7 @@
 		const s = 20 + 10*(i % 4);
 		const l = 30;
 
-		colors.push(`hsl(${h}, ${s}%, ${l}%)`);
+		colors.push([h,s,l]);
 	  }
 
 	  return colors;
@@ -243,6 +247,8 @@
 
   let Courses = [
   ];
+  let allCourses = [];
+  let allowedUnits = ["MS", "custom"];
   
   let periodsList = [];
   
@@ -420,8 +426,8 @@
 	  });
 	}
 	
-	function updateCourseCookie(Courses, addedCoursesSet) {
-		const binaryString = Courses.filter(c => !c.isCustom).map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
+	function updateCourseCookie(courses, addedCoursesSet) {
+		const binaryString = courses.filter(c => !c.isCustom).map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
 
 		const year = currentWeekStart.getFullYear();
 		const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
@@ -431,6 +437,7 @@
 		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
 		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
 		document.cookie = `customCourses=${customCourseData.join('<')}; path=/; max-age=15552000`;
+		document.cookie = `allowedUnits=${allowedUnits.join('>')}; path=/; max-age=15552000`;
 	}
 	
 	function getCookie(name) {
@@ -473,23 +480,50 @@
 			}
 		}
 
-		if (!flagsCookie || flagsCookie.length !== Courses.length) {
+		if (!flagsCookie || flagsCookie.length !== allCourses.length) {
 			console.log("Incorrect or missing courseFlags cookie.");
 			return;
 		}
-
-		let count = 0;
-		Courses.forEach(course => {
-			if (!addedCourses.has(course.code) && flagsCookie[count] === "1") {
+		
+		let index = 0;
+		allCourses.forEach(course => {
+			if (!addedCourses.has(course.code) && flagsCookie[index] === "1") {
 				addedCourses.add(course.code);
 			}
-			count += 1;
+			index++;
 		});
 		
 		if (!customCookie) {console.log("Empty/missing customCourses data."); return;}
 		
 		const customCoursesFromCookie = customCookie.split('<');
 		customCoursesFromCookie.forEach(s => {if (s != "") handleAdd(s);});
+	}
+	
+	function loadUnitCookie(){
+		const unitCookie = getCookie("allowedUnits");
+		if (!unitCookie){console.log("Missing allowedUnits cookie.");
+		} else {
+			allowedUnits = unitCookie.split('>');
+			if (!allowedUnits.includes("MS")){
+				allowedUnits.push("MS");
+			}
+			if (!allowedUnits.includes("custom")){
+				allowedUnits.push("custom");
+			}
+			allowedUnits = allowedUnits.filter(u => ["MS","custom","PHYS","CS"].includes(u));
+		}
+	}
+	
+	function HSLtoCol(hslArray, nameType) {
+		let [h, s, l] = hslArray;
+		if (nameType == "PHYS") {
+			s = s-15;
+			l = 50;
+		} else if (nameType == "CS"){
+			s = 15;
+			l = 20;
+		}
+		return `hsl(${h}, ${s}%, ${l}%)`
 	}
 	
 	function updateMultiSelectOptions() {
@@ -521,12 +555,15 @@
 
 	  msEOption.hidden = allmsEAdded;
 	  
-	  const msAROption = [...multiSelect.options].find(opt => opt.value === "MS-AR");
-	  msAROption.hidden = !allmsAAdded;
-	  const msCROption = [...multiSelect.options].find(opt => opt.value === "MS-CR");
-	  msCROption.hidden = !allmsCAdded;
-	  const msEROption = [...multiSelect.options].find(opt => opt.value === "MS-ER");
-	  msEROption.hidden = !allmsEAdded;
+	  [...multiSelect.options].find(opt => opt.value === "MS-AR").hidden = !allmsAAdded;
+	  [...multiSelect.options].find(opt => opt.value === "MS-CR").hidden = !allmsCAdded;
+	  [...multiSelect.options].find(opt => opt.value === "MS-ER").hidden = !allmsEAdded;
+	  
+	  [...multiSelect.options].find(opt => opt.value === "PHYS").hidden = allowedUnits.includes("PHYS");
+	  [...multiSelect.options].find(opt => opt.value === "PHYSD").hidden = !allowedUnits.includes("PHYS");
+	  
+	  [...multiSelect.options].find(opt => opt.value === "CS").hidden = allowedUnits.includes("CS");
+	  [...multiSelect.options].find(opt => opt.value === "CSD").hidden = !allowedUnits.includes("CS");
 	}
 	
 	
@@ -550,10 +587,11 @@
         course = {
             code,
             name: courseName,
-            color: presetColors[Courses.length % presetColors.length],
+            color: HSLtoCol(presetColors[Courses.length % presetColors.length],"custom"), 
             instances: [],
 			periodIndex: 0,
 			sessionCount: 0,
+			unit: "custom",
 			isCustom: true,
 			hasAddedData: false,
 			allowed: true,
@@ -631,7 +669,7 @@
 
   function renderCalendar() {
     //update cookies while we're at it
-	updateCourseCookie(Courses, addedCourses);
+	updateCourseCookie(allCourses, addedCourses);
 	
     document.querySelectorAll('.day-column').forEach(el => el.remove());
 
@@ -964,10 +1002,16 @@
 				chip.style.backgroundColor = '#e3e3e3'; // Replace with desired color
 			} else if (course.code.startsWith('MS-E')) {
 				chip.style.backgroundColor = '#d3d3d3'; // Replace with desired color
+			} else if (course.code.startsWith('MS-E')) {
+				chip.style.backgroundColor = '#d3d3d3'; // Replace with desired color
+			} else if (course.code.startsWith('PHYS')) {
+				chip.style.backgroundColor = '#c3c3c3'; // Replace with desired color
+			} else if (course.code.startsWith('CS')) {
+				chip.style.backgroundColor = '#b3b3b3'; // Replace with desired color
 			} else if (course.isCustom) {
 				chip.style.backgroundColor = '#b5dfff'; // Replace with desired color
 			} else {
-				chip.style.backgroundColor = '#c3c3c3'; // Replace with desired color
+				chip.style.backgroundColor = '#a3a3a3'; // Replace with desired color
 			}
 			periodContainer.appendChild(chip);
 		  });
@@ -978,6 +1022,7 @@
   }
   
     function loadCoursesFromFile(filename) {
+	  loadUnitCookie();
       return fetch(filename)
         .then(response => {
           if (!response.ok) throw new Error('Failed to load course data');
@@ -999,7 +1044,8 @@
 			let lecturer = lineData[26];
 			const weeksStr = lineData[11];
             if (!nameline || !day || !startTime || !endTime || !weeksStr) continue;
-			if (!nameline.startsWith("MS-")) continue;
+			const nameType = nameline.split('-')[0];
+			if (!["MS", "PHYS", "CS"].includes(nameType)) continue;
 			
 			if (lecturer){
 				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
@@ -1008,21 +1054,22 @@
             const [code, ...nameParts] = nameline.trim().split(' ');
             const courseName = nameParts.join(' ');
 
-            let course = Courses.find(c => c.code === code);
+            let course = allCourses.find(c => c.code === code);
             if (!course) {
               course = {
                 code,
                 name: courseName,
-                color: presetColors[colorIndex % presetColors.length],
+                color: HSLtoCol(presetColors[allCourses.length % presetColors.length],nameType),
                 instances: [],
 				periodIndex: 0,
 				sessionCount: 0,
+				unit: nameType,
 				isCustom: false,
 				hasAddedData: false,
 				allowed: false,
 				periods: [0,0,0,0,0]
               };
-              Courses.push(course);
+              allCourses.push(course);
               colorIndex++;
             }
 
@@ -1036,28 +1083,35 @@
 			  endHour += 1;
 			}
             let sesType = "exercise";
-            if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
+            if (lecturecode.startsWith('L')) { sesType = "lecture";
+            } else if (lecturecode.startsWith('S')) { sesType = "seminar"; }
+			
+			if (lecturecode.startsWith("E") || lecturecode.startsWith("T") || lecturecode.startsWith("K")){
+				console.log("Omitting suspected exam: ", code, courseName, lecturecode, "Hours:", startTime, endTime, "Day:", day, "Weeks:", weeksStr);
+				continue;
+			}
 
             const weeks = parseWeekList(weeksStr);
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
-				if (h > 7 && h < 18 && (day in finnishWeekdayMap)){course.sessionCount += 1;
+				if (h > 7 && h < 18 && (day in finnishWeekdayMap)){ // only sessions between 8 and 18 on mon-fri count
+					course.sessionCount += 1;
+					const index = myWeeks.indexOf(w);
+					if (index !== -1 && sesType.toLowerCase() == "lecture" && nameType == "MS") {
+					  weekCounts[index] += 1; // those sessions are logged to weekCounts to populate periods
+					}
 				} else {
-					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour: ", h, "Day: ", day, "Weeks: ", weeksStr);
-				} // only sessions between 8 and 18 on mon-fri count
+					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour:", h, "Day:", day, "Weeks:", weeksStr);
+				} 
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
+
 				
                 let year = startYear;
                 if (w < 30) { // the year depends on if we are in fall or spring semester, if spring add 1. 30 seems to be okay here as a border
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
-                
-                const index = myWeeks.indexOf(w);
-				if (index !== -1 && sesType.toLowerCase() == "lecture") {
-				  weekCounts[index] += 1;
-				}
 
                 course.instances.push({
                   type: sesType,
@@ -1075,7 +1129,11 @@
             }
 			
           }
-		  Courses = Courses.filter(course => course.allowed);
+		  allCourses.sort((a, b) => { // sort so MS is on top
+			const priority = { MS: 0, CS: 2, PHYS: 1, custom: 3 };
+			return (priority[a.unit] ?? 99) - (priority[b.unit] ?? 99);
+		  });
+		  Courses = allCourses.filter(course => (course.allowed && allowedUnits.includes(course.unit)));
         })
         .catch(err => console.error('Error loading course data:', err));
     }
@@ -1121,7 +1179,20 @@
       Courses.forEach(c => {
         if (c.code.startsWith("MS-E")) addedCourses.delete(c.code);
       });
+    } else if (mode === "PHYS") {
+	  if (!allowedUnits.includes("PHYS")){allowedUnits.push("PHYS")}
+	  Courses = allCourses.filter(course => course.allowed && allowedUnits.includes(course.unit)).concat(Courses.filter(course => course.unit === "custom" || course.isCustom === true));
+    } else if (mode === "CS") {
+	  if (!allowedUnits.includes("CS")){allowedUnits.push("CS")}
+	  Courses = allCourses.filter(course => course.allowed && allowedUnits.includes(course.unit)).concat(Courses.filter(course => course.unit === "custom" || course.isCustom === true));
+    } else if (mode === "PHYSD") {
+	  allowedUnits = allowedUnits.filter(u => u !== "PHYS");
+	  Courses = allCourses.filter(course => course.allowed && allowedUnits.includes(course.unit)).concat(Courses.filter(course => course.unit === "custom" || course.isCustom === true));
+    } else if (mode === "CSD") {
+	  allowedUnits = allowedUnits.filter(u => u !== "CS");
+	  Courses = allCourses.filter(course => course.allowed && allowedUnits.includes(course.unit)).concat(Courses.filter(course => course.unit === "custom" || course.isCustom === true));
     }
+	assignPeriodsToCourses(Courses,periodsList);
     renderCalendar();
     <!-- populateCourseDropdown(); -->
 	updateMultiSelectOptions(); 
