@@ -1109,7 +1109,7 @@
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
                 
                 const index = myWeeks.indexOf(w);
-				if (index !== -1 && sesType.toLowerCase() == "lecture") {
+				if (index !== -1 && sesType.toLowerCase() == "lecture" && nameType == "MS") {
 				  weekCounts[index] += 1;
 				}
 
