@@ -999,14 +999,14 @@
 		  
           for (const line of lines) {
             const lineData = line.split(';');
-			nameline = lineData[1];
-			lecturecode = lineData[2];
-			day = lineData[3];
-			startTime = lineData[4];
-			endTime = lineData[5];
-			roomStr = lineData[7];
-			lecturerStr = lineData[26];
-			weeksStr = lineData[11];
+			const nameline = lineData[1];
+			const lecturecode = lineData[2];
+			const day = lineData[3];
+			const startTime = lineData[4];
+			const endTime = lineData[5];
+			const roomStr = lineData[7];
+			let lecturer = lineData[26];
+			const weeksStr = lineData[11];
             if (!nameline || !day || !timeStr || !weeksStr) continue;
 			if (!nameline.startsWith("MS-")) continue;
 			
