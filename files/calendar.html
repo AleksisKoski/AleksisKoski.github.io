@@ -1036,7 +1036,8 @@
 			  endHour += 1;
 			}
             let sesType = "exercise";
-            if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
+            if (lecturecode.startsWith('L')) { sesType = "lecture";
+            } else if (lecturecode.startsWith('S')) { sesType = "seminar"; }
 			
 			if (lecturecode.startsWith("E") || lecturecode.startsWith("T") || lecturecode.startsWith("K")){
 				console.log("Omitting suspected exam: ", code, courseName, lecturecode, "Hours:", startTime, endTime, "Day:", day, "Weeks:", weeksStr);
