@@ -825,10 +825,8 @@
 			jumpBtn.style.marginLeft = '8px';
 			jumpBtn.style.width = 'auto';
 			jumpBtn.onclick = () => {
-				currentWeekStart = getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0);
+				currentWeekStart.setDate(getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0));
 				renderCalendar();
-				updateMultiSelectOptions();
-				updateCourseList();
 			};
 		
 			const btn = document.createElement('button');
