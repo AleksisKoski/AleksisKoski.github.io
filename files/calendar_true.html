@@ -794,19 +794,6 @@
       timeLabels.appendChild(div);
     });
   }
-
-  <!-- function populateCourseDropdown() { -->
-	<!-- updateMultiSelectOptions(); -->
-    <!-- courseSelect.innerHTML = `<option value="">-- Add a Course --</option>`; -->
-    <!-- Courses.forEach(course => { -->
-      <!-- if (!addedCourses.has(course.code)) { -->
-        <!-- const opt = document.createElement('option'); -->
-        <!-- opt.value = course.code; -->
-        <!-- opt.textContent = `${course.code} - ${course.name} - P${romanNumerals[course.periodIndex]}`; -->
-        <!-- courseSelect.appendChild(opt); -->
-      <!-- } -->
-    <!-- }); -->
-  <!-- } -->
   
 
   function updateCourseList() {
@@ -868,7 +855,6 @@
 				}
 			  });
 				renderCalendar();
-				<!-- populateCourseDropdown(); -->
 				updateMultiSelectOptions();
 				updateCourseList();
 			};
@@ -887,7 +873,6 @@
 				}
 			  });
 				renderCalendar();
-				<!-- populateCourseDropdown(); -->
 				updateMultiSelectOptions();
 				updateCourseList();
 			};
@@ -1013,8 +998,21 @@
 		  lines.shift();
 		  
           for (const line of lines) {
-            const [nameline, lecturecode, day, timeStr, roomStr, roomsize, lecturer, weeksStr, studentnum, people, info] = line.split(';');
+            const lineData = line.split(';');
+			nameline = lineData[1];
+			lecturecode = lineData[2];
+			day = lineData[3];
+			startTime = lineData[4];
+			endTime = lineData[5];
+			roomStr = lineData[7];
+			lecturerStr = lineData[26];
+			weeksStr = lineData[11];
             if (!nameline || !day || !timeStr || !weeksStr) continue;
+			if (!nameline.startsWith("MS-")) continue;
+			
+			if (lecturer){
+				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
+			}
 
             const [code, ...nameParts] = nameline.trim().split(' ');
             const courseName = nameParts.join(' ');
@@ -1037,7 +1035,6 @@
               colorIndex++;
             }
 
-            const [startTime, endTime] = timeStr.split('-');
             const startHour = parseInt(startTime.split(':')[0], 10);
             const [endHourStr, endMinuteStr] = endTime.split(':');
 			let endHour = parseInt(endHourStr, 10);
@@ -1097,17 +1094,6 @@
     currentWeekStart.setDate(currentWeekStart.getDate() + 7);
     renderCalendar();
   };
-  <!-- courseSelect.onchange = () => { -->
-    <!-- const code = courseSelect.value; -->
-    <!-- if (code && !addedCourses.has(code)) { -->
-      <!-- addedCourses.add(code); -->
-      <!-- courseSelect.value = ''; -->
-      <!-- renderCalendar(); -->
-      <!-- populateCourseDropdown(); -->
-      <!-- updateCourseList(); -->
-    <!-- } -->
-  <!-- }; -->
-  
   
   
   multiSelect.onchange = () => {
@@ -1200,7 +1186,7 @@
 
   // Initial setup
 
-  loadCoursesFromFile('courses.txt').then(() => {
+  loadCoursesFromFile('courses2.txt').then(() => {
 	  periodsList = findPeriods(weekCounts);
 	  assignPeriodsToCourses(Courses,periodsList);
 	  
@@ -1208,7 +1194,6 @@
 	  loadCookies();
 	  
       populateTimeLabels();
-      <!-- populateCourseDropdown(); -->
 	  updateMultiSelectOptions();
       updateCourseList();
       renderCalendar();
