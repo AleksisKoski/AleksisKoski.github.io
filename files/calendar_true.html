@@ -1007,7 +1007,7 @@
 			const roomStr = lineData[7];
 			let lecturer = lineData[26];
 			const weeksStr = lineData[11];
-            if (!nameline || !day || !timeStr || !weeksStr) continue;
+            if (!nameline || !day || !startTime || !endTime || !weeksStr) continue;
 			if (!nameline.startsWith("MS-")) continue;
 			
 			console.log(nameline, lecturecode, day, startTime, endTime, roomStr, lecturer, weeksStr);
