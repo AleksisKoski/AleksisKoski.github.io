@@ -1,1 +1,1226 @@
-<!doctypehtml><html lang=en><meta charset=UTF-8><title>MS Interactive Course Calendar</title><style>body,html{height:100%;margin:0}body{font-family:sans-serif;margin:0;padding:0;display:flex;flex-direction:column}.calendar{display:grid;grid-template-columns:80px repeat(5,1fr)}.day-column,.time-labels{display:flex;flex-direction:column}.day-header{height:40px;text-align:center;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ccc;line-height:40px}.time-label,.timeslot{height:60px;border:1px solid #ccc;box-sizing:border-box;user-select:none;position:relative}.time-label{text-align:right;padding:5px 10px;font-size:.9em}.day-column{border-left:1px solid #000}.event{position:absolute;height:90%;top:5%;font-size:.75em;overflow:hidden;color:#fff;padding:2px;box-sizing:border-box;border-radius:3px;white-space:nowrap}.controls,.course-list{margin:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.course-chip{display:flex;align-items:center;background:#eee;border-radius:4px;padding:4px 8px;gap:6px}.color-box{width:12px;height:12px;display:inline-block;border-radius:2px}button{padding:4px 4px}select{padding:4px}.week-display{font-weight:700;margin:0 10px}.course-list{display:flex;align-items:flex-start;flex-wrap:wrap;gap:8px}button.size-fixed{width:24px;height:24px;display:flex;justify-content:center;align-items:center;font-family:monospace,sans-serif;font-size:16px;padding:0;cursor:pointer}button.size-fixed-two{width:24px;height:24px;display:inline-flex;justify-content:center;align-items:center;vertical-align:middle;font-family:monospace,sans-serif;font-size:16px;padding:0;cursor:pointer}.small-bottom-margin{margin-bottom:6px}.page-footer{text-align:center;padding:10px;font-size:.9em;color:#666;background-color:#f2f2f2;position:relative;bottom:0;width:100%}main{flex:1}#addCustomPopup{position:absolute;top:70px;left:20px;padding:16px;border:1px solid #ccc;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.2);display:none;z-index:1000}.tooltip-field{display:flex;margin-bottom:8px}.tooltip-field label{width:60px}.tooltip-field input{flex:1}#errorPopup{display:none;background-color:#fdd;color:#a00;padding:10px;margin-top:10px;border:1px solid #a00}</style><main><div class=controls><button id=prevWeek>Previous week</button> <button id=nextWeek>Next week</button> <select id=multiCourseSelect><option value="">-- Add/Remove Multiple Courses --<option value=MS-A>Add all MS-A courses<option value=MS-AR>Remove all MS-A courses<option value=MS-C>Add all MS-C courses<option value=MS-CR>Remove all MS-C courses<option value=MS-E>Add all MS-E courses<option value=MS-ER>Remove all MS-E courses<option value=ALL>Add all courses<option value=ALLR>Remove all courses</select> <button id=toggleExercises>Show Exercises</button> <button id=addCustom>Add Custom</button><div id=addCustomPopup>Add custom course/event:<br><br><div class=tooltip-field><label>Code:</label><input id=fieldCode></div><div class=tooltip-field><label>Name:</label><input id=fieldName></div><div class=tooltip-field><label>Type:</label><input id=fieldType></div><div class=tooltip-field><label>Day:</label><input id=fieldDay></div><div class=tooltip-field><label>Time:</label><input id=fieldTime></div><div class=tooltip-field><label>Weeks:</label><input id=fieldWeeks></div><button id=confirmAdd>Confirm</button><div id=errorPopup>Error: Missing or incorrect input by user.</div></div></div><div style=margin-top:0;margin-bottom:8px;font-size:1.5em><span class=week-display id=weekDisplay></span></div><div class=calendar><div class=time-labels><div class=day-header>Time</div></div></div><div class=course-list id=activeCourses></div></main><footer class=page-footer>Created by Aleksis Koski, 2025</footer><script>let currentWeekStart=new Date("2025-09-01");const hours=Array.from({length:10},((e,t)=>`${8+t}:00`)),calendarContainer=document.querySelector(".calendar"),multiSelect=document.getElementById("multiCourseSelect"),toggleExercisesBtn=document.getElementById("toggleExercises"),addCustomBtn=document.getElementById("addCustom"),errorPopup=document.getElementById("errorPopup"),activeCoursesDiv=document.getElementById("activeCourses"),weekDisplay=document.getElementById("weekDisplay"),startYear=currentWeekStart.getFullYear(),addedCourses=new Set;let hideExercises=!0,activeTooltipTarget=null;const romanNumerals=["I","II","III","IV","V"];let periodShow=[!0,!0,!0,!0,!0],customCourseData=[];function generateMutedColors(e=100){const t=[];let o=.2;for(let s=0;s<e;s++){o+=.618033988749895,o%=1;const e=Math.floor(360*o),r=20+s%4*10,n=30;t.push(`hsl(${e}, ${r}%, ${n}%)`)}return t}const presetColors=generateMutedColors();let colorIndex=0;const finnishWeekdayMap={Ma:0,Ti:1,Ke:2,To:3,Pe:4,Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Monday:0,Tuesday:1,Wednesday:2,Thursday:3,Friday:4};let Courses=[],periodsList=[];function generate52Weeks(e){let t=new Date(e,7,1);for(;1!==t.getDay();)t.setDate(t.getDate()-1);const o=[];for(let e=0;e<52;e++){const e=getWeekNumber(t);o.push(e),t.setDate(t.getDate()+7)}return o}const myWeeks=generate52Weeks(startYear);let weekCounts=new Array(52).fill(0);function findPeriods(e){const t=[];let o=[];for(let s=0;s<e.length;s++)if(e[s]>=14)o.push(myWeeks[s]);else if(o.length>0){if(o.length>=4&&(o.push(myWeeks[s]),t.push(o),5===t.length))break;o=[]}return t}function getDateFromISOWeek(e,t,o){const s=new Date(e,0,1+7*(t-1)),r=s.getDay(),n=new Date(s),d=r<=4?r-1:r-8;n.setDate(s.getDate()-d),n.setDate(n.getDate()+o);return`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`}function parseWeekList(e){const t=[],o=e.split(",").map((e=>e.trim())),s=e=>Number.isInteger(e)&&e>=1&&e<=52;for(const e of o)if(e.includes("-")){const[o,r]=e.split("-").map(Number);if(isNaN(o)||isNaN(r))return[];if(!s(o)||!s(r)||o>=r)return[];for(let e=o;e<=r;e++)t.push(e)}else{const o=Number(e);if(isNaN(o)||!s(o))return[];t.push(o)}return t}function parseDayList(e){const t=[],o=e.split(",").map((e=>e.trim()));for(const e of o)if(e.includes("-")){const[o,s]=e.split("-");if(!finnishWeekdayMap.hasOwnProperty(o))return[];const r=finnishWeekdayMap[o];if(!finnishWeekdayMap.hasOwnProperty(s))return[];const n=finnishWeekdayMap[s];if(r>=n)return[];for(let e=r;e<=n;e++)t.push(e)}else{if(!finnishWeekdayMap.hasOwnProperty(e))return[];t.push(finnishWeekdayMap[e])}return t}function getWeekDates(e){return Array.from({length:5},((t,o)=>{const s=new Date(e);return s.setDate(s.getDate()+o),{date:s,iso:`${s.getFullYear()}-${String(s.getMonth()+1).padStart(2,"0")}-${String(s.getDate()).padStart(2,"0")}`,display:`${s.getDate()}.${s.getMonth()+1} ${s.toLocaleDateString("en-GB",{weekday:"short"})}`}}))}function getWeekNumber(e){const t=new Date(Date.UTC(e.getFullYear(),e.getMonth(),e.getDate())),o=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-o);const s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-s)/864e5+1)/7)}function getPeriodRoman(e,t){for(let o=0;o<t.length;o++)if(t[o].includes(e))return t[o].indexOf(e)==t[o].length-1?romanNumerals[o]+", exam week":romanNumerals[o];return null}function assignPeriodsToCourses(e,t){e.forEach((e=>{const o=e.instances.map((e=>e.week)),s=t.map((e=>o.filter((t=>e.includes(t))).length));let r=0,n=1;for(let t=0;t<5;t++)s[t]>0&&(1===n&&(r=t,n=0),e.periods[t]=1);e.periodIndex=r}))}function updateCourseCookie(e,t){const o=e.filter((e=>!e.isCustom)).map((e=>t.has(e.code)?"1":"0")).join(""),s=`${currentWeekStart.getFullYear()}-${String(currentWeekStart.getMonth()+1).padStart(2,"0")}-${String(currentWeekStart.getDate()).padStart(2,"0")}`;document.cookie=`courseFlags=${o}; path=/; max-age=15552000`,document.cookie=`weekStart=${s}; path=/; max-age=15552000`,document.cookie=`customCourses=${customCourseData.join("<")}; path=/; max-age=15552000`}function getCookie(e){const t=`; ${document.cookie}`.split(`; ${e}=`);return 2===t.length?t.pop().split(";").shift():null}function loadCookies(){const e=getCookie("courseFlags"),t=getCookie("weekStart"),o=getCookie("customCourses");if(t){const e=new Date(t);if(isNaN(e))console.warn("Invalid weekStart cookie value.");else if(1!==e.getDay())console.error("weekStart cookie does not fall on a Monday.");else{const t=e.getFullYear(),o=e.getMonth();let s=!1;(t===startYear&&o>=7&&o<=11||t===startYear+1&&o>=0&&o<=6)&&(s=!0),s?currentWeekStart=e:console.error("weekStart cookie is outside the valid academic year range.")}}if(!e||e.length!==Courses.length)return void console.log("Incorrect or missing courseFlags cookie.");let s=0;if(Courses.forEach((t=>{addedCourses.has(t.code)||"1"!==e[s]||addedCourses.add(t.code),s+=1})),!o)return void console.log("Empty/missing customCourses data.");o.split("<").forEach((e=>{""!=e&&handleAdd(e)}))}function updateMultiSelectOptions(){const e=[...multiSelect.options].find((e=>"ALL"===e.value)),t=Courses.every((e=>addedCourses.has(e.code)));e&&(e.hidden=t);const o=[...multiSelect.options].find((e=>"ALLR"===e.value)),s=Courses.some((e=>addedCourses.has(e.code)));e&&(e.hidden=t),o&&(o.hidden=!s);const r=[...multiSelect.options].find((e=>"MS-A"===e.value)),n=Courses.every((e=>addedCourses.has(e.code)||!e.code.startsWith("MS-A")));r.hidden=n;const d=[...multiSelect.options].find((e=>"MS-C"===e.value)),a=Courses.every((e=>addedCourses.has(e.code)||!e.code.startsWith("MS-C")));d.hidden=a;const i=[...multiSelect.options].find((e=>"MS-E"===e.value)),l=Courses.every((e=>addedCourses.has(e.code)||!e.code.startsWith("MS-E")));i.hidden=l;[...multiSelect.options].find((e=>"MS-AR"===e.value)).hidden=!n;[...multiSelect.options].find((e=>"MS-CR"===e.value)).hidden=!a;[...multiSelect.options].find((e=>"MS-ER"===e.value)).hidden=!l}function handleAdd(e){let[t,o,s,r,n,d]=e.split(">"),a=!1,i="Error: Unknown error.";t||(i="Error: Missing course code.",a=!0),r||(i="Error: Missing day (Mon-Fri).",a=!0),n||(i="Error: Missing time (e.g. 10-12).",a=!0),d||(i="Error: Missing weeks (e.g. 44,46-47).",a=!0);let l=Courses.find((e=>e.code===t)),c=!0;l?(o=l.name,l.hasAddedData=!0):(o||(i="Error: Missing course name.",a=!0),c=!1,l={code:t,name:o,color:presetColors[Courses.length%presetColors.length],instances:[],periodIndex:0,sessionCount:0,isCustom:!0,hasAddedData:!1,allowed:!0,periods:[0,0,0,0,0]});const u=parseDayList(r);0===u.length&&(i="Error: Wrong format for days (e.g. Tue,Thu-Fri).",a=!0);const[p,m]=n.split("-"),C=parseInt(p,10);let f=0;m?f=parseInt(m,10):(a=!0,i="Error: Wrong format for time (e.g. 10-12).");const h=e=>Number.isInteger(e)&&e>=8&&e<=18;(!h(C)||!h(f)||C>=f)&&(i="Error: Time out of bounds or otherwise wrong (e.g. 10-12).",a=!0);const g=parseWeekList(d);if(0===g.length&&(i="Error: Wrong format for weeks (e.g. 44,46-47).",a=!0),a)errorPopup.textContent=i,errorPopup.style.display="block";else{for(const e of u)for(const t of g)for(let r=C;r<f;r++){let d=startYear;t<30&&d++;let a=getDateFromISOWeek(d,t,e);l.instances.push({type:s,date:a,week:t,time:`${r}:00`,timeStr:n,name:o,isAddedData:c,room:"",sesCode:"",person:""})}c||(assignPeriodsToCourses([l],periodsList),Courses.push(l)),addedCourses.add(l.code),customCourseData.push(e),addCustomPopup.style.display="none",errorPopup.style.display="none",renderCalendar(),updateMultiSelectOptions(),updateCourseList(),["fieldCode","fieldName","fieldType","fieldDay","fieldTime","fieldWeeks"].forEach((e=>{document.getElementById(e).value=""}))}}function renderCalendar(){updateCourseCookie(Courses,addedCourses),document.querySelectorAll(".day-column").forEach((e=>e.remove()));const e=getWeekDates(currentWeekStart);let t=getWeekNumber(currentWeekStart),o=getPeriodRoman(t,periodsList),s=currentWeekStart.getFullYear();weekDisplay.textContent=null!=o?`${s}: Week ${t} (Period ${o})`:`${s}: Week ${t}`,e.forEach((e=>{const t=document.createElement("div");t.className="day-column",t.dataset.date=e.iso;const o=document.createElement("div");o.className="day-header",o.textContent=e.display,t.appendChild(o),hours.forEach((e=>{const o=document.createElement("div");o.className="timeslot",o.dataset.time=e,t.appendChild(o)})),calendarContainer.appendChild(t)}));const r=[];Courses.forEach((t=>{addedCourses.has(t.code)&&t.instances.forEach((o=>{hideExercises&&"exercise"===o.type.toLowerCase()||e.some((e=>e.iso===o.date))&&r.push({...o,code:t.code,color:t.color})}))}));const n={};r.forEach((e=>{const t=`${e.date}_${e.time}`;n[t]||(n[t]=[]),n[t].push(e)}));for(const[e,t]of Object.entries(n)){const[o,s]=e.split("_"),r=document.querySelector(`.day-column[data-date="${o}"]`);if(!r)continue;const n=Array.from(r.children).find((e=>e.classList.contains("timeslot")&&e.dataset.time===s));if(!n)continue;const d=100/t.length;t.forEach(((e,t)=>{const o=document.createElement("div");o.className="event",o.innerHTML=`\n\t\t  <strong>${e.code}</strong><br>\n\t\t  <strong>${e.name}</strong><br>\n\t\t  <strong>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}</strong>\n\t\t`,o.onclick=t=>{const s=document.getElementById("tooltip");if(activeTooltipTarget==o)return s.style.display="none",void(activeTooltipTarget=null);activeTooltipTarget=o,s.innerHTML=`\n\t\t\t  <strong>${e.code}</strong> - ${Courses.find((t=>t.code===e.code)).name}<br>\n\t\t\t  Time: ${e.timeStr}<br>\n\t\t\t  ${""!==e.type?`${e.type.charAt(0).toUpperCase()+e.type.slice(1)}<br>`:""}\n\t\t\t  ${""!==e.room?`Room: ${e.room}<br>`:""}\n\t\t\t  ${""!==e.person?`Lecturer: ${e.person}<br>`:""}\n\t\t\t  Periods: ${Courses.find((t=>t.code===e.code)).periods.map(((e,t)=>e>0?`P${romanNumerals[t]}`:null)).filter((e=>null!==e)).join(", ")}\n\t\t\t  <button id="course-close-btn" data-course="${e.code}" style="\n\t\t\t\tposition: absolute;\n\t\t\t\tbottom: 5px;\n\t\t\t\tright: 5px;\n\t\t\t\tcolor: red;\n\t\t\t\tfont-weight: bold;\n\t\t\t\tfont-size: 0.8em;\n\t\t\t\tpadding: 2px 6px;\n\t\t\t\tpointer-events: auto;\n\t\t\t\tcursor: pointer;">✕</button>\n\t\t\t`,s.style.display="block",s.style.left=`${t.pageX+10}px`,s.style.top=`${t.pageY+10}px`,document.getElementById("course-close-btn").onclick=e=>{e.stopPropagation(),closeBtn=document.getElementById("course-close-btn");const t=closeBtn.dataset.course;s.style.display="none",activeTooltipTarget=null,addedCourses.has(t)&&(addedCourses.delete(t),renderCalendar(),updateMultiSelectOptions(),updateCourseList())}},o.style.backgroundColor=e.color,o.style.width=`calc(${d}% - 2px)`,o.style.left=`calc(${d*t}% + 1px)`,n.appendChild(o)}))}}function fixEncodingIssues(e){return e.replace(/Ã¶/g,"ö").replace(/Ã¤/g,"ä")}function populateTimeLabels(){const e=document.querySelector(".time-labels");e.innerHTML='<div class="day-header">Time</div>',hours.forEach((t=>{const o=document.createElement("div");o.className="time-label";const[s,r]=t.split(":").map(Number);o.textContent=`${new Date(0,0,0,s,r+15).getHours()}:${new Date(0,0,0,s,r+15).getMinutes().toString().padStart(2,"0")}`,e.appendChild(o)}))}function updateCourseList(){activeCoursesDiv.innerHTML="";const e=new Map;for(let t=0;t<5;t++)e.set(t,[]);Courses.forEach((t=>{const o=t.periodIndex??0;e.get(o).push(t)}));for(let[t,o]of e){if(0===o.length)continue;const e=document.createElement("div");e.className="period-group";const s=document.createElement("h4");s.classList.add("small-bottom-margin"),s.textContent="";const r=document.createElement("button");if(r.style.fontWeight="bold",r.classList.add("size-fixed-two"),r.textContent=`Period ${romanNumerals[t]}`,r.style.marginLeft="0px",r.style.width="100px",r.onclick=()=>{periodShow[t]=!periodShow[t],renderCalendar(),updateMultiSelectOptions(),updateCourseList()},s.appendChild(r),periodShow[t]){const e=document.createElement("button");e.style.fontWeight="bold",e.classList.add("size-fixed-two"),e.textContent="+",e.style.color="green",e.style.marginLeft="8px",e.onclick=()=>{Courses.forEach((e=>{addedCourses.has(e.code)||1!==e.periods[t]||addedCourses.add(e.code)})),renderCalendar(),updateMultiSelectOptions(),updateCourseList()};const o=document.createElement("button");o.style.fontWeight="bold",o.classList.add("size-fixed-two"),o.textContent="✕",o.style.color="red",o.style.marginLeft="8px",o.onclick=()=>{Courses.forEach((e=>{addedCourses.has(e.code)&&1===e.periods[t]&&addedCourses.delete(e.code)})),renderCalendar(),updateMultiSelectOptions(),updateCourseList()},s.appendChild(e),s.appendChild(o)}e.appendChild(s),periodShow[t]&&o.forEach((t=>{const o=document.createElement("div");o.className="course-chip";const s=document.createElement("span");s.className="color-box",s.style.backgroundColor=t.color;const r=document.createElement("span");r.textContent=`${t.code} - ${t.name}`;const n=document.createElement("button");if(n.style.fontWeight="bold",n.classList.add("size-fixed"),addedCourses.has(t.code)?(n.textContent="✕",n.style.color="red",n.onclick=()=>{addedCourses.delete(t.code),renderCalendar(),updateMultiSelectOptions(),updateCourseList()}):(n.textContent="+",n.style.color="green",n.onclick=()=>{addedCourses.add(t.code),renderCalendar(),updateMultiSelectOptions(),updateCourseList()}),o.append(s,r,n),t.hasAddedData){const e=document.createElement("button");e.style.fontWeight="bold",e.classList.add("size-fixed"),e.textContent="Reset",e.style.width="auto",e.onclick=()=>{t.instances=t.instances.filter((e=>!e.isAddedData)),t.hasAddedData=!1;let e=!t.isCustom;customCourseData=customCourseData.filter((o=>!o.startsWith(t.code)||!e&&(e=!0,!0))),renderCalendar(),updateMultiSelectOptions(),updateCourseList()},o.append(e)}if(t.isCustom){const e=document.createElement("button");e.style.fontWeight="bold",e.classList.add("size-fixed"),e.textContent="Delete",e.style.width="auto",e.onclick=()=>{addedCourses.delete(t.code),Courses=Courses.filter((e=>e.code!=t.code)),customCourseData=customCourseData.filter((e=>!e.startsWith(t.code))),renderCalendar(),updateMultiSelectOptions(),updateCourseList()},o.append(e)}o.style.borderRadius="0",t.code.startsWith("MS-A")?o.style.backgroundColor="#f3f3f3":t.code.startsWith("MS-C")?o.style.backgroundColor="#e3e3e3":t.code.startsWith("MS-E")?o.style.backgroundColor="#d3d3d3":t.isCustom?o.style.backgroundColor="#b5dfff":o.style.backgroundColor="#c3c3c3",e.appendChild(o)})),activeCoursesDiv.appendChild(e)}}function loadCoursesFromFile(e){return fetch(e).then((e=>{if(!e.ok)throw new Error("Failed to load course data");return e.text()})).then((e=>{const t=e.split("\n").map((e=>e.trim())).filter((e=>""!==e));t.shift();for(const e of t){const[t,o,s,r,n,d,a,i,l,c,u]=e.split(";");if(!(t&&s&&r&&i))continue;const[p,...m]=t.trim().split(" "),C=m.join(" ");let f=Courses.find((e=>e.code===p));f||(f={code:p,name:C,color:presetColors[colorIndex%presetColors.length],instances:[],periodIndex:0,sessionCount:0,isCustom:!1,hasAddedData:!1,allowed:!1,periods:[0,0,0,0,0]},Courses.push(f),colorIndex++);const[h,g]=r.split("-"),y=parseInt(h.split(":")[0],10),[k,S]=g.split(":");let E=parseInt(k,10);parseInt(S,10)>29&&(E+=1);let W="exercise";(o.startsWith("L")||o.startsWith("S"))&&(W="lecture");const M=parseWeekList(i);for(const e of M)for(let t=y;t<E;t++){t>7&&t<18&&(f.sessionCount+=1),f.sessionCount>1&&(f.allowed=!0);let d=startYear;e<30&&d++;let i=getDateFromISOWeek(d,e,finnishWeekdayMap[s]);const l=myWeeks.indexOf(e);-1!==l&&"lecture"==W.toLowerCase()&&(weekCounts[l]+=1),f.instances.push({type:W,date:i,week:e,time:`${t}:00`,timeStr:r,name:C,isAddedData:!1,room:n,sesCode:o,person:fixEncodingIssues(a)})}}Courses=Courses.filter((e=>e.allowed))})).catch((e=>console.error("Error loading course data:",e)))}document.getElementById("prevWeek").onclick=()=>{currentWeekStart.setDate(currentWeekStart.getDate()-7),renderCalendar()},document.getElementById("nextWeek").onclick=()=>{currentWeekStart.setDate(currentWeekStart.getDate()+7),renderCalendar()},multiSelect.onchange=()=>{const e=multiSelect.value;"MS-A"===e?Courses.forEach((e=>{e.code.startsWith("MS-A")&&addedCourses.add(e.code)})):"MS-C"===e?Courses.forEach((e=>{e.code.startsWith("MS-C")&&addedCourses.add(e.code)})):"MS-E"===e?Courses.forEach((e=>{e.code.startsWith("MS-E")&&addedCourses.add(e.code)})):"ALL"===e?Courses.forEach((e=>addedCourses.add(e.code))):"ALLR"===e?Courses.forEach((e=>addedCourses.delete(e.code))):"MS-AR"===e?Courses.forEach((e=>{e.code.startsWith("MS-A")&&addedCourses.delete(e.code)})):"MS-CR"===e?Courses.forEach((e=>{e.code.startsWith("MS-C")&&addedCourses.delete(e.code)})):"MS-ER"===e&&Courses.forEach((e=>{e.code.startsWith("MS-E")&&addedCourses.delete(e.code)})),renderCalendar(),updateMultiSelectOptions(),updateCourseList(),multiSelect.value=""},toggleExercisesBtn.onclick=()=>{hideExercises=!hideExercises,toggleExercisesBtn.textContent=hideExercises?"Show Exercises":"Hide Exercises",renderCalendar()},addCustomBtn.addEventListener("click",(e=>{const t=addCustomPopup.offsetWidth,o=addCustomPopup.offsetHeight;let s=e.clientX,r=e.clientY;s+t>window.innerWidth&&(s=window.innerWidth-t-10),r+o>window.innerHeight&&(r=window.innerHeight-o-10),addCustomPopup.style.left=`${s}px`,addCustomPopup.style.top=`${r}px`,addCustomPopup.style.display="block",errorPopup.style.display="none"})),document.getElementById("confirmAdd").addEventListener("click",(()=>{const e=document.getElementById("fieldCode").value.trim(),t=document.getElementById("fieldName").value.trim(),o=document.getElementById("fieldType").value.trim(),s=document.getElementById("fieldDay").value.trim(),r=document.getElementById("fieldTime").value.trim(),n=document.getElementById("fieldWeeks").value.trim();[e,t,o,s,r,n].some((e=>e.includes(">")))||[e,t,o,s,r,n].some((e=>e.includes("<")))?(errorPopup.textContent="Error: Characters > and < are not allowed.",errorPopup.style.display="block"):handleAdd(`${e}>${t}>${o}>${s}>${r}>${n}`)})),document.addEventListener("click",(e=>{addCustomPopup.contains(e.target)||e.target===addCustomBtn||(addCustomPopup.style.display="none")})),loadCoursesFromFile("courses.txt").then((()=>{periodsList=findPeriods(weekCounts),assignPeriodsToCourses(Courses,periodsList),loadCookies(),populateTimeLabels(),updateMultiSelectOptions(),updateCourseList(),renderCalendar()})),document.addEventListener("click",(e=>{const t=document.getElementById("tooltip");e.target.closest(".event")||(t.style.display="none",activeTooltipTarget=null)}));</script><div id=tooltip style="position:absolute;display:none;background:#fff;border:1px solid #ccc;padding:6px 10px;font-size:.8em;box-shadow:0 2px 6px rgba(0,0,0,.2);border-radius:4px;pointer-events:none;z-index:1000"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MS Interactive Course Calendar</title>
+  <style>
+	html, body {
+	  height: 100%;
+	  margin: 0;
+	}
+    body { font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column;}
+    .calendar { display: grid; grid-template-columns: 80px repeat(5, 1fr); }
+    .time-labels, .day-column { display: flex; flex-direction: column; }
+    .day-header {
+      height: 40px; text-align: center; font-weight: bold;
+      background: #f0f0f0; border-bottom: 1px solid #ccc; line-height: 40px;
+    }
+    .time-label, .timeslot {
+      height: 60px; border: 1px solid #ccc; box-sizing: border-box;
+	  user-select: none; /* Prevent text selection */
+      position: relative;
+    }
+    .time-label { text-align: right; padding: 5px 10px; font-size: 0.9em; }
+    .day-column { border-left: 1px solid #000; }
+    .event {
+      position: absolute; height: 90%; top: 5%;
+      font-size: 0.75em; overflow: hidden; color: #fff;
+      padding: 2px; box-sizing: border-box;
+      border-radius: 3px; white-space: nowrap;
+    }
+    .controls, .course-list {
+      margin: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .course-chip {
+      display: flex; align-items: center; background: #eee;
+      border-radius: 4px; padding: 4px 8px; gap: 6px;
+    }
+    .color-box {
+      width: 12px; height: 12px; display: inline-block; border-radius: 2px;
+    }
+    button { padding: 4px 4px; }
+    select { padding: 4px; }
+    .week-display { font-weight: bold; margin: 0 10px; }
+	.course-list {
+	  display: flex;
+	  align-items: flex-start; /* Align children to the top */
+	  flex-wrap: wrap;         /* Allow wrapping if needed */
+	  gap: 8px;               /* Optional spacing */
+	}
+	button.size-fixed {
+	  width: 24px;        /* fixed width */
+	  height: 24px;       /* fixed height */
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-family: monospace, sans-serif; /* consistent character width */
+	  font-size: 16px;
+	  padding: 0;
+	  cursor: pointer;
+	}
+	button.size-fixed-two {
+	  width: 24px;        /* fixed width */
+	  height: 24px;       /* fixed height */
+	  display: inline-flex;
+	  justify-content: center;
+	  align-items: center;
+	  vertical-align: middle;
+	  font-family: monospace, sans-serif; /* consistent character width */
+	  font-size: 16px;
+	  padding: 0;
+	  cursor: pointer;
+	}
+	.small-bottom-margin {
+	  margin-bottom: 6px;
+	}
+	.page-footer {
+	  text-align: center;
+	  padding: 10px;
+	  font-size: 0.9em;
+	  color: #666;
+	  background-color: #f2f2f2;
+	  position: relative;
+	  bottom: 0;
+	  width: 100%;
+	}
+	main {
+	  flex: 1; /* This pushes the footer down */
+	}
+	#addCustomPopup {
+      position: absolute;
+      top: 70px;
+      left: 20px;
+      padding: 16px;
+      border: 1px solid #ccc;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      display: none;
+      z-index: 1000;
+    }
+
+    .tooltip-field {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .tooltip-field label {
+      width: 60px;
+    }
+
+    .tooltip-field input {
+      flex: 1;
+    }
+	#errorPopup {
+      display: none;
+      background-color: #fdd;
+      color: #a00;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #a00;
+    }
+  </style>
+</head>
+<body>
+<main>
+<div class="controls">
+  <button id="prevWeek">Previous week</button>
+  <button id="nextWeek">Next week</button>
+
+  <!-- <select id="courseSelect"> -->
+    <!-- <option value="">-- Add a Course --</option> -->
+  <!-- </select> -->
+
+  <select id="multiCourseSelect">
+    <option value="">-- Add/Remove Multiple Courses --</option>
+    <option value="MS-A">Add all MS-A courses</option>
+	<option value="MS-AR">Remove all MS-A courses</option>
+    <option value="MS-C">Add all MS-C courses</option>
+    <option value="MS-CR">Remove all MS-C courses</option>
+    <option value="MS-E">Add all MS-E courses</option>
+    <option value="MS-ER">Remove all MS-E courses</option>
+    <option value="ALL">Add all courses</option>
+    <option value="ALLR">Remove all courses</option>
+  </select>
+
+  <button id="toggleExercises">Show Exercises</button>
+  <button id="addCustom">Add Custom</button>
+  
+  <div id="addCustomPopup">
+	Add custom course/event:<br><br>
+    <div class="tooltip-field"><label>Code:</label><input type="text" id="fieldCode"></div>
+    <div class="tooltip-field"><label>Name:</label><input type="text" id="fieldName"></div>
+    <div class="tooltip-field"><label>Type:</label><input type="text" id="fieldType"></div>
+    <div class="tooltip-field"><label>Day:</label><input type="text" id="fieldDay"></div>
+    <div class="tooltip-field"><label>Time:</label><input type="text" id="fieldTime"></div>
+    <div class="tooltip-field"><label>Weeks:</label><input type="text" id="fieldWeeks"></div>
+    <button id="confirmAdd">Confirm</button>
+    <div id="errorPopup">Error: Missing or incorrect input by user.</div>
+  </div>
+</div>
+
+
+
+<div style="margin-top: 0px; margin-bottom: 8px; font-size: 1.5em;">
+  <span class="week-display" id="weekDisplay"></span>
+</div>
+
+<div class="calendar">
+  <div class="time-labels">
+    <div class="day-header">Time</div>
+  </div>
+</div>
+
+<div class="course-list" id="activeCourses"></div>
+</main>
+<footer class="page-footer">
+  Created by Aleksis Koski, 2025
+</footer>
+
+<script>
+  let currentWeekStart = new Date('2025-09-01'); // change per year
+  
+  
+  const hours = Array.from({ length: 10 }, (_, i) => `${8 + i}:00`);
+  const calendarContainer = document.querySelector('.calendar');
+  <!-- const courseSelect = document.getElementById('courseSelect'); -->
+  const multiSelect = document.getElementById('multiCourseSelect');
+  const toggleExercisesBtn = document.getElementById('toggleExercises');
+  const addCustomBtn = document.getElementById('addCustom');
+  const errorPopup = document.getElementById('errorPopup');
+  
+  const activeCoursesDiv = document.getElementById('activeCourses');
+  const weekDisplay = document.getElementById('weekDisplay');
+  const startYear = currentWeekStart.getFullYear();
+  const addedCourses = new Set();
+  let hideExercises = true;
+  let activeTooltipTarget = null;
+  const romanNumerals = ['I', 'II', 'III', 'IV', 'V'];
+  let periodShow = [true,true,true,true,true];
+  let customCourseData = [];
+  
+  function generateMutedColors(count = 100) {
+	  const colors = [];
+	  const goldenRatio = 0.618033988749895;
+	  let hue = 0.2;
+
+	  for (let i = 0; i < count; i++) {
+		hue += goldenRatio;
+		hue %= 1;
+
+		// Use HSL with:
+		// - Saturation: 40% (muted)
+		// - Lightness: 35% (dark enough for white text)
+		const h = Math.floor(hue * 360);
+		const s = 20 + 10*(i % 4);
+		const l = 30;
+
+		colors.push(`hsl(${h}, ${s}%, ${l}%)`);
+	  }
+
+	  return colors;
+  }
+
+  const presetColors = generateMutedColors();
+  
+  let colorIndex = 0;
+  const finnishWeekdayMap = {
+    'Ma': 0, // Monday
+    'Ti': 1, // Tuesday
+    'Ke': 2, // Wednesday
+    'To': 3, // Thursday
+    'Pe': 4,  // Friday
+    'Mon': 0, // Monday
+    'Tue': 1, // Tuesday
+    'Wed': 2, // Wednesday
+    'Thu': 3, // Thursday
+    'Fri': 4,  // Friday
+    'Monday': 0, // Monday
+    'Tuesday': 1, // Tuesday
+    'Wednesday': 2, // Wednesday
+    'Thursday': 3, // Thursday
+    'Friday': 4  // Friday
+  };
+
+  let Courses = [
+  ];
+  
+  let periodsList = [];
+  
+  // period dynamic finding
+  function generate52Weeks(startYear) {
+	  let date = new Date(startYear, 7, 1); // August 1st
+	  while (date.getDay() !== 1) { // Find Monday
+		date.setDate(date.getDate() - 1);
+	  }
+
+	  const weeks = [];
+	  for (let i = 0; i < 52; i++) {
+		const isoWeek = getWeekNumber(date);
+		weeks.push(isoWeek);
+		date.setDate(date.getDate() + 7);
+	  }
+
+	  return weeks;
+	}
+
+	const myWeeks = generate52Weeks(startYear);
+	let weekCounts = new Array(52).fill(0);
+	
+	function findPeriods(data) {
+	  const threshold = 14;
+	  const minLength = 4;
+
+	  const periods = [];
+	  let current = [];
+
+	  for (let i = 0; i < data.length; i++) {
+		if (data[i] >= threshold) {
+		  current.push(myWeeks[i]);
+		} else if (current.length > 0) {
+		  if (current.length >= minLength) {
+			current.push(myWeeks[i]);
+			periods.push(current);
+			if (periods.length === 5) break;
+		  }
+		  current = [];
+		}
+	  }
+
+	  return periods;
+	}
+
+  function getDateFromISOWeek(year, week, weekdayIndex) {
+    const simple = new Date(year, 0, 1 + (week - 1) * 7);
+
+    const dayOfWeek = simple.getDay();
+    const isoWeekStart = new Date(simple);
+    const diff = (dayOfWeek <= 4 ? dayOfWeek - 1 : dayOfWeek - 8); // Align with Monday
+    isoWeekStart.setDate(simple.getDate() - diff);
+
+    isoWeekStart.setDate(isoWeekStart.getDate() + weekdayIndex);
+
+    const y = isoWeekStart.getFullYear();
+    const m = String(isoWeekStart.getMonth() + 1).padStart(2, '0'); // months are 0-based
+    const d = String(isoWeekStart.getDate()).padStart(2, '0');
+
+    return `${y}-${m}-${d}`;
+  }
+  
+  function parseWeekList(weeksStr) {
+    const weekList = [];
+
+    const parts = weeksStr.split(',').map(s => s.trim());
+	
+	const isValidInteger = n =>
+		Number.isInteger(n) && n >= 1 && n <= 52;
+	
+    for (const part of parts) {
+      if (part.includes('-')) {
+        const [start, end] = part.split('-').map(Number);
+		
+		if (isNaN(start) || isNaN(end)) return [];
+		if (!isValidInteger(start) || !isValidInteger(end) || start >= end) return [];
+		
+        for (let w = start; w <= end; w++) {
+          weekList.push(w);
+        }
+      } else {
+		const start = Number(part);
+		if (isNaN(start) || !isValidInteger(start)) return [];
+        weekList.push(start);
+      }
+    }
+
+    return weekList;
+  }
+  
+  function parseDayList(dayStr) {
+    const daysList = [];
+
+    const parts = dayStr.split(',').map(s => s.trim());
+
+	
+    for (const part of parts) {
+      if (part.includes('-')) {
+        const [startStr, endStr] = part.split('-');
+		
+		if (!finnishWeekdayMap.hasOwnProperty(startStr)) return [];
+		const start = finnishWeekdayMap[startStr];
+		
+		if (!finnishWeekdayMap.hasOwnProperty(endStr)) return [];
+		const end = finnishWeekdayMap[endStr];
+		
+		if (start >= end) return [];
+		
+        for (let w = start; w <= end; w++) {
+          daysList.push(w);
+        }
+      } else {
+		if (!finnishWeekdayMap.hasOwnProperty(part)) return [];
+        daysList.push(finnishWeekdayMap[part]);
+      }
+    }
+    return daysList;
+  }
+
+  function getWeekDates(startDate) {
+    return Array.from({ length: 5 }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      return {
+        date,
+        iso: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+        display: `${date.getDate()}.${date.getMonth() + 1} ${date.toLocaleDateString('en-GB', { weekday: 'short' })}`
+      };
+    });
+  }
+
+  function getWeekNumber(date) {
+	  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	  const dayNum = d.getUTCDay() || 7;
+	  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+	  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+	  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  }
+  
+  function getPeriodRoman(week, periods) {
+	  for (let i = 0; i < periods.length; i++) {
+		if (periods[i].includes(week)) {
+		  if (periods[i].indexOf(week) == periods[i].length-1){
+			return romanNumerals[i] + ', exam week';
+		  } else {return romanNumerals[i];}
+		}
+	  }
+
+	  return null; // week not in any period
+  }
+  
+  <!-- function assignPeriodsToCourses(courses, periods) { -->
+	  <!-- courses.forEach(course => { -->
+		<!-- const lectureWeeks = course.instances -->
+		  <!-- .filter(inst => inst.type === "lecture") -->
+		  <!-- .map(inst => inst.week); -->
+
+		<!-- const overlapCounts = periods.map(period => -->
+		  <!-- lectureWeeks.filter(week => period.includes(week)).length -->
+		<!-- ); -->
+
+		<!-- let maxIndex = 0; -->
+		<!-- for (let i = 1; i < overlapCounts.length; i++) { -->
+		  <!-- if (overlapCounts[i] > overlapCounts[maxIndex]) { -->
+			<!-- maxIndex = i; -->
+		  <!-- } -->
+		<!-- } -->
+
+		<!-- course.periodIndex = maxIndex; -->
+	  <!-- }); -->
+	<!-- } -->
+	
+	// assign by start date
+	function assignPeriodsToCourses(courses, periods) {
+	  courses.forEach(course => {
+		const allWeeks = course.instances.map(inst => inst.week);
+
+		const overlapCounts = periods.map(period =>
+		  allWeeks.filter(week => period.includes(week)).length
+		);
+
+		let firstIndex = 0;
+		let firstCheck = 1;
+		for (let i = 0; i < 5; i++) {
+		  if (overlapCounts[i] > 0) {
+			if (firstCheck === 1){
+			firstIndex = i;
+			firstCheck = 0;
+			}
+			course.periods[i] = 1;
+		  }
+		}
+		course.periodIndex = firstIndex;
+	  });
+	}
+	
+	function updateCourseCookie(Courses, addedCoursesSet) {
+		const binaryString = Courses.filter(c => !c.isCustom).map(c => addedCoursesSet.has(c.code) ? "1" : "0").join("");
+
+		const year = currentWeekStart.getFullYear();
+		const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
+		const day = String(currentWeekStart.getDate()).padStart(2, '0');
+		const weekStartString = `${year}-${month}-${day}`; // e.g., "2025-09-01"
+		
+		document.cookie = `courseFlags=${binaryString}; path=/; max-age=15552000`;
+		document.cookie = `weekStart=${weekStartString}; path=/; max-age=15552000`;
+		document.cookie = `customCourses=${customCourseData.join('<')}; path=/; max-age=15552000`;
+	}
+	
+	function getCookie(name) {
+		const value = `; ${document.cookie}`;
+		const parts = value.split(`; ${name}=`);
+		if (parts.length === 2) return parts.pop().split(';').shift();
+		return null;
+	}
+
+	function loadCookies() {
+		const flagsCookie = getCookie("courseFlags");
+		const weekStartCookie = getCookie("weekStart");
+		const customCookie = getCookie("customCourses");
+
+		// Update currentWeekStart if cookie is present and valid
+		if (weekStartCookie) {
+			const parsedDate = new Date(weekStartCookie);
+			if (isNaN(parsedDate)) {
+				console.warn("Invalid weekStart cookie value.");
+			} else if (parsedDate.getDay() !== 1) {
+				console.error("weekStart cookie does not fall on a Monday.");
+			} else {
+				const year = parsedDate.getFullYear();
+				const month = parsedDate.getMonth(); // 0 = Jan, 11 = Dec
+				let valid = false;
+
+				if (year === startYear && month >= 7 && month <= 11) {
+					// August (7) to December (11) of startYear
+					valid = true;
+				} else if (year === startYear + 1 && month >= 0 && month <= 6) {
+					// January (0) to July (6) of startYear + 1
+					valid = true;
+				}
+
+				if (!valid) {
+					console.error("weekStart cookie is outside the valid academic year range.");
+				} else {
+					currentWeekStart = parsedDate;
+				}
+			}
+		}
+
+		if (!flagsCookie || flagsCookie.length !== Courses.length) {
+			console.log("Incorrect or missing courseFlags cookie.");
+			return;
+		}
+
+		let count = 0;
+		Courses.forEach(course => {
+			if (!addedCourses.has(course.code) && flagsCookie[count] === "1") {
+				addedCourses.add(course.code);
+			}
+			count += 1;
+		});
+		
+		if (!customCookie) {console.log("Empty/missing customCourses data."); return;}
+		
+		const customCoursesFromCookie = customCookie.split('<');
+		customCoursesFromCookie.forEach(s => {if (s != "") handleAdd(s);});
+	}
+	
+	function updateMultiSelectOptions() {
+	  const allOption = [...multiSelect.options].find(opt => opt.value === "ALL");
+	  const allAdded = Courses.every(c => addedCourses.has(c.code));
+
+	  if (allOption) {
+		allOption.hidden = allAdded;
+	  }
+	  
+	  const removeAllOption = [...multiSelect.options].find(opt => opt.value === "ALLR");
+	  const anyAdded = Courses.some(c => addedCourses.has(c.code));
+
+	  if (allOption) allOption.hidden = allAdded;
+	  if (removeAllOption) removeAllOption.hidden = !anyAdded;
+	  
+	  const msAOption = [...multiSelect.options].find(opt => opt.value === "MS-A");
+	  const allmsAAdded = Courses.every(c => addedCourses.has(c.code) || !c.code.startsWith("MS-A"));
+
+	  msAOption.hidden = allmsAAdded;
+	  
+	  const msCOption = [...multiSelect.options].find(opt => opt.value === "MS-C");
+	  const allmsCAdded = Courses.every(c => addedCourses.has(c.code) || !c.code.startsWith("MS-C"));
+
+	  msCOption.hidden = allmsCAdded;
+	  
+	  const msEOption = [...multiSelect.options].find(opt => opt.value === "MS-E");
+	  const allmsEAdded = Courses.every(c => addedCourses.has(c.code) || !c.code.startsWith("MS-E"));
+
+	  msEOption.hidden = allmsEAdded;
+	  
+	  const msAROption = [...multiSelect.options].find(opt => opt.value === "MS-AR");
+	  msAROption.hidden = !allmsAAdded;
+	  const msCROption = [...multiSelect.options].find(opt => opt.value === "MS-CR");
+	  msCROption.hidden = !allmsCAdded;
+	  const msEROption = [...multiSelect.options].find(opt => opt.value === "MS-ER");
+	  msEROption.hidden = !allmsEAdded;
+	}
+	
+	
+	// adding custom course:
+    function handleAdd(inputStr) {
+	  let [code, courseName, sesType, dayStr, timeStr, weeksStr] = inputStr.split('>');
+	  
+	  let isError = false;
+	  let errorMSG = "Error: Unknown error.";
+	  
+	  if (!code) {errorMSG = "Error: Missing course code."; isError = true;}
+	  if (!dayStr) {errorMSG = "Error: Missing day (Mon-Fri)."; isError = true;}
+	  if (!timeStr) {errorMSG = "Error: Missing time (e.g. 10-12)."; isError = true;}
+	  if (!weeksStr) {errorMSG = "Error: Missing weeks (e.g. 44,46-47)."; isError = true;}
+
+      let course = Courses.find(c => c.code === code);
+	  let foundCourse = true;
+      if (!course) {
+		if (!courseName) {errorMSG = "Error: Missing course name."; isError = true;}
+		foundCourse = false;
+        course = {
+            code,
+            name: courseName,
+            color: presetColors[Courses.length % presetColors.length],
+            instances: [],
+			periodIndex: 0,
+			sessionCount: 0,
+			isCustom: true,
+			hasAddedData: false,
+			allowed: true,
+			periods: [0,0,0,0,0]
+            };
+        } else {courseName = course.name; course.hasAddedData = true;}
+	
+	  const days = parseDayList(dayStr);
+	  if (days.length === 0) {errorMSG = "Error: Wrong format for days (e.g. Tue,Thu-Fri)."; isError = true;}
+	  
+      const [startTime, endTime] = timeStr.split('-');
+      const startHour = parseInt(startTime, 10);
+      let endHour = 0;
+	  
+	  if (!endTime){
+		isError = true;
+		errorMSG = "Error: Wrong format for time (e.g. 10-12).";
+	  } else {
+		endHour = parseInt(endTime, 10);
+	  }
+	  
+	  const isValidHour = n =>
+		Number.isInteger(n) && n >= 8 && n <= 18;
+	  
+	  if (!isValidHour(startHour) || !isValidHour(endHour) || startHour >= endHour){errorMSG = "Error: Time out of bounds or otherwise wrong (e.g. 10-12)."; isError = true;}
+
+      const weeks = parseWeekList(weeksStr);
+	  if (weeks.length === 0) {errorMSG = "Error: Wrong format for weeks (e.g. 44,46-47)."; isError = true;}
+	  
+	  if (!isError) {
+		for (const day of days){
+			for (const w of weeks) {
+				for (let h = startHour; h < endHour; h++) {
+					let year = startYear;
+					if (w < 30) { // the year depends on if we are in fall or spring semester, if spring add 1. 30 seems to be okay here as a border
+					  year++;
+					}
+					let sesDate = getDateFromISOWeek(year, w, day);
+					course.instances.push({
+					  type: sesType,
+					  date: sesDate,
+					  week: w,
+					  time: `${h}:00`,
+					  timeStr: timeStr,
+					  name: courseName,
+					  isAddedData: foundCourse,
+					  room: "",
+					  sesCode: "",
+					  person: ""
+					});
+				}
+			}
+		}
+		if (!foundCourse){
+			assignPeriodsToCourses([course],periodsList);
+			Courses.push(course);
+			}
+		addedCourses.add(course.code);
+		customCourseData.push(inputStr);
+        addCustomPopup.style.display = 'none';
+        errorPopup.style.display = 'none';
+		renderCalendar();
+		updateMultiSelectOptions();
+		updateCourseList();
+		
+		// clear fields
+		['fieldCode', 'fieldName', 'fieldType', 'fieldDay', 'fieldTime', 'fieldWeeks'].forEach(id => {
+		  document.getElementById(id).value = '';
+		});
+      } else {
+		errorPopup.textContent = errorMSG;
+        errorPopup.style.display = 'block';
+      }
+    }
+
+  function renderCalendar() {
+    //update cookies while we're at it
+	updateCourseCookie(Courses, addedCourses);
+	
+    document.querySelectorAll('.day-column').forEach(el => el.remove());
+
+    const days = getWeekDates(currentWeekStart);
+    let week = getWeekNumber(currentWeekStart);
+	let period = getPeriodRoman(week, periodsList);
+	let year = currentWeekStart.getFullYear();
+	
+	
+	if (period != null){ weekDisplay.textContent = `${year}: Week ${week} (Period ${period})`;
+    } else { weekDisplay.textContent = `${year}: Week ${week}`; }
+
+    days.forEach(day => {
+      const col = document.createElement('div');
+      col.className = 'day-column';
+      col.dataset.date = day.iso;
+
+      const header = document.createElement('div');
+      header.className = 'day-header';
+      header.textContent = day.display;
+      col.appendChild(header);
+
+      hours.forEach(time => {
+        const slot = document.createElement('div');
+        slot.className = 'timeslot';
+        slot.dataset.time = time;
+        col.appendChild(slot);
+      });
+
+      calendarContainer.appendChild(col);
+    });
+
+    const events = [];
+    Courses.forEach(course => {
+      if (!addedCourses.has(course.code)) return;
+      course.instances.forEach(instance => {
+        if (hideExercises && instance.type.toLowerCase() === "exercise") return;
+        if (days.some(d => d.iso === instance.date)) {
+          events.push({ ...instance, code: course.code, color: course.color });
+        }
+      });
+    });
+
+    const slotGroups = {};
+    events.forEach(e => {
+      const key = `${e.date}_${e.time}`;
+      if (!slotGroups[key]) slotGroups[key] = [];
+      slotGroups[key].push(e);
+    });
+
+    for (const [key, group] of Object.entries(slotGroups)) {
+      const [date, time] = key.split('_');
+      const col = document.querySelector(`.day-column[data-date="${date}"]`);
+      if (!col) continue;
+      const slot = Array.from(col.children).find(
+        el => el.classList.contains('timeslot') && el.dataset.time === time
+      );
+      if (!slot) continue;
+
+      const width = 100 / group.length;
+      group.forEach((e, i) => {
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.innerHTML = `
+		  <strong>${e.code}</strong><br>
+		  <strong>${e.name}</strong><br>
+		  <strong>${e.type.charAt(0).toUpperCase()}${e.type.slice(1)}</strong>
+		`;
+		div.onclick = (eClick) => {
+			const tooltip = document.getElementById('tooltip');
+			
+			if (activeTooltipTarget == div) {
+				tooltip.style.display = 'none';
+				activeTooltipTarget = null;
+				return;
+			}
+
+			activeTooltipTarget = div;
+			tooltip.innerHTML = `
+			  <strong>${e.code}</strong> - ${Courses.find(c => c.code === e.code).name}<br>
+			  Time: ${e.timeStr}<br>
+			  ${e.type !== '' ? `${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>` : ''}
+			  ${e.room !== '' ? `Room: ${e.room}<br>` : ''}
+			  ${e.person !== '' ? `Lecturer: ${e.person}<br>` : ''}
+			  Periods: ${Courses.find(c => c.code === e.code).periods
+				.map((val, idx) => val > 0 ? `P${romanNumerals[idx]}` : null)
+				.filter(p => p !== null)
+				.join(', ')}
+			  <button id="course-close-btn" data-course="${e.code}" style="
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
+				color: red;
+				font-weight: bold;
+				font-size: 0.8em;
+				padding: 2px 6px;
+				pointer-events: auto;
+				cursor: pointer;">✕</button>
+			`;
+			tooltip.style.display = 'block';
+			tooltip.style.left = `${eClick.pageX + 10}px`;
+			tooltip.style.top = `${eClick.pageY + 10}px`;
+			
+			document.getElementById("course-close-btn").onclick = (e) => {
+				e.stopPropagation();
+				closeBtn = document.getElementById("course-close-btn");
+				const closeCode = closeBtn.dataset.course;
+				
+				tooltip.style.display = 'none';
+				activeTooltipTarget = null;
+				
+				if (addedCourses.has(closeCode)){
+					addedCourses.delete(closeCode);
+					renderCalendar();
+					updateMultiSelectOptions();
+					updateCourseList();
+				}
+			};
+			};
+			div.style.backgroundColor = e.color;
+			div.style.width = `calc(${width}% - 2px)`;
+			div.style.left = `calc(${width * i}% + 1px)`;
+			slot.appendChild(div);
+		  });
+		}
+	  }
+
+  function fixEncodingIssues(str) {
+    return str.replace(/Ã¶/g, 'ö').replace(/Ã¤/g, 'ä');
+  }
+	
+  function populateTimeLabels() {
+    const timeLabels = document.querySelector('.time-labels');
+    timeLabels.innerHTML = '<div class="day-header">Time</div>';
+    hours.forEach(time => {
+      const div = document.createElement('div');
+      div.className = 'time-label';
+      const [h, m] = time.split(':').map(Number);
+	  div.textContent = `${new Date(0, 0, 0, h, m + 15).getHours()}:${new Date(0, 0, 0, h, m + 15).getMinutes().toString().padStart(2, '0')}`;
+      timeLabels.appendChild(div);
+    });
+  }
+  
+
+  function updateCourseList() {
+	activeCoursesDiv.innerHTML = '';
+
+	const coursesByPeriod = new Map();
+	for (let i = 0; i < 5; i++) {
+	  coursesByPeriod.set(i, []);
+	}
+
+	Courses.forEach(course => {
+	  const period = course.periodIndex ?? 0;
+	  coursesByPeriod.get(period).push(course);
+	});
+
+	for (let [periodIndex, courses] of coursesByPeriod) {
+	  if (courses.length === 0) continue;
+
+	  // Wrap each period group
+	  const periodContainer = document.createElement('div');
+	  periodContainer.className = 'period-group'; // optional for styling
+
+	  const periodHeader = document.createElement('h4');
+	  periodHeader.classList.add('small-bottom-margin');
+	  periodHeader.textContent = '';
+	  		const btn3 = document.createElement('button');
+			btn3.style.fontWeight = 'bold';
+			
+			btn3.classList.add('size-fixed-two');
+			<!-- if (periodShow[periodIndex]){ -->
+				<!-- btn3.textContent = 'Hide'; -->
+			<!-- } -->
+			<!-- else {btn3.textContent = 'Show';} -->
+			btn3.textContent = `Period ${romanNumerals[periodIndex]}`;
+			btn3.style.marginLeft = '0px';
+			btn3.style.width = '100px';
+
+			btn3.onclick = () => {
+			  periodShow[periodIndex] = !periodShow[periodIndex];
+			  renderCalendar();
+			  updateMultiSelectOptions();
+			  updateCourseList();
+			};
+
+			periodHeader.appendChild(btn3);
+	  
+		if (periodShow[periodIndex]){
+			const btn = document.createElement('button');
+			btn.style.fontWeight = 'bold';
+			
+			btn.classList.add('size-fixed-two');
+			btn.textContent = '+';
+			btn.style.color = 'green';
+			btn.style.marginLeft = '8px';
+			btn.onclick = () => {
+			  Courses.forEach(course => {
+				if (!addedCourses.has(course.code) && course.periods[periodIndex] === 1){
+					addedCourses.add(course.code);
+				}
+			  });
+				renderCalendar();
+				updateMultiSelectOptions();
+				updateCourseList();
+			};
+			
+			const btn2 = document.createElement('button');
+			btn2.style.fontWeight = 'bold';
+			
+			btn2.classList.add('size-fixed-two');
+			btn2.textContent = '✕';
+			btn2.style.color = 'red';
+			btn2.style.marginLeft = '8px';
+			btn2.onclick = () => {
+			  Courses.forEach(course => {
+				if (addedCourses.has(course.code) && course.periods[periodIndex] === 1){
+					addedCourses.delete(course.code);
+				}
+			  });
+				renderCalendar();
+				updateMultiSelectOptions();
+				updateCourseList();
+			};
+
+			// Append the button inside the header
+			periodHeader.appendChild(btn);
+			periodHeader.appendChild(btn2);
+		}
+		
+
+	  periodContainer.appendChild(periodHeader);
+	  
+	  
+		if (periodShow[periodIndex]){
+		  courses.forEach(course => {
+			const chip = document.createElement('div');
+			chip.className = 'course-chip';
+
+			
+			const colorBox = document.createElement('span');
+			colorBox.className = 'color-box';
+			colorBox.style.backgroundColor = course.color;
+
+			const label = document.createElement('span');
+			label.textContent = `${course.code} - ${course.name}`;
+
+			const removeBtn = document.createElement('button');
+			removeBtn.style.fontWeight = 'bold';
+			removeBtn.classList.add('size-fixed');
+			if (!addedCourses.has(course.code)){
+				removeBtn.textContent = '+';
+				removeBtn.style.color = 'green';
+				removeBtn.onclick = () => {
+					addedCourses.add(course.code);
+					renderCalendar();
+					<!-- populateCourseDropdown(); -->
+					updateMultiSelectOptions();
+					updateCourseList();
+				};
+			} else {
+				removeBtn.textContent = '✕';
+				removeBtn.style.color = 'red';
+				removeBtn.onclick = () => {
+					addedCourses.delete(course.code);
+					renderCalendar();
+					<!-- populateCourseDropdown(); -->
+					updateMultiSelectOptions();
+					updateCourseList();
+				};
+			}
+			chip.append(colorBox, label, removeBtn);
+			if (course.hasAddedData){
+				const resetBtn = document.createElement('button');
+				resetBtn.style.fontWeight = 'bold';
+				resetBtn.classList.add('size-fixed');
+				resetBtn.textContent = 'Reset';
+				resetBtn.style.width = 'auto';
+					resetBtn.onclick = () => {
+						course.instances = course.instances.filter(e => !e.isAddedData);
+						course.hasAddedData = false;
+						let seen = !course.isCustom;
+						customCourseData = customCourseData.filter(entry => {
+						  if (!entry.startsWith(course.code)) return true;
+						  if (!seen) {
+							seen = true;
+							return true; // keep the first matching entry
+						  }
+						  return false; // remove subsequent ones
+						});
+						renderCalendar();
+						updateMultiSelectOptions();
+						updateCourseList();
+					};
+				chip.append(resetBtn);
+			} 
+			if (course.isCustom){
+				const delBtn = document.createElement('button');
+				delBtn.style.fontWeight = 'bold';
+				delBtn.classList.add('size-fixed');
+				delBtn.textContent = 'Delete';
+				delBtn.style.width = 'auto';
+					delBtn.onclick = () => {
+						addedCourses.delete(course.code);
+						Courses = Courses.filter(c => c.code != course.code);
+						customCourseData = customCourseData.filter(entry => !entry.startsWith(course.code));
+						renderCalendar();
+						updateMultiSelectOptions();
+						updateCourseList();
+					};
+				chip.append(delBtn);
+			} 
+
+			
+			chip.style.borderRadius = '0';
+			if (course.code.startsWith('MS-A')) {
+				chip.style.backgroundColor = '#f3f3f3'; // Replace with desired color
+			} else if (course.code.startsWith('MS-C')) {
+				chip.style.backgroundColor = '#e3e3e3'; // Replace with desired color
+			} else if (course.code.startsWith('MS-E')) {
+				chip.style.backgroundColor = '#d3d3d3'; // Replace with desired color
+			} else if (course.isCustom) {
+				chip.style.backgroundColor = '#b5dfff'; // Replace with desired color
+			} else {
+				chip.style.backgroundColor = '#c3c3c3'; // Replace with desired color
+			}
+			periodContainer.appendChild(chip);
+		  });
+	  }
+
+	  activeCoursesDiv.appendChild(periodContainer);
+	}
+  }
+  
+    function loadCoursesFromFile(filename) {
+      return fetch(filename)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to load course data');
+          return response.text();
+        })
+        .then(text => {
+          const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+		  
+		  lines.shift();
+		  
+          for (const line of lines) {
+            const lineData = line.split(';');
+			const nameline = lineData[1];
+			const lecturecode = lineData[2];
+			const day = lineData[3];
+			const startTime = lineData[4];
+			const endTime = lineData[5];
+			const roomStr = lineData[7];
+			let lecturer = lineData[26];
+			const weeksStr = lineData[11];
+            if (!nameline || !day || !startTime || !endTime || !weeksStr) continue;
+			if (!nameline.startsWith("MS-")) continue;
+			
+			console.log(nameline, lecturecode, day, startTime, endTime, roomStr, lecturer, weeksStr);
+			
+			if (lecturer){
+				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
+			}
+
+            const [code, ...nameParts] = nameline.trim().split(' ');
+            const courseName = nameParts.join(' ');
+
+            let course = Courses.find(c => c.code === code);
+            if (!course) {
+              course = {
+                code,
+                name: courseName,
+                color: presetColors[colorIndex % presetColors.length],
+                instances: [],
+				periodIndex: 0,
+				sessionCount: 0,
+				isCustom: false,
+				hasAddedData: false,
+				allowed: false,
+				periods: [0,0,0,0,0]
+              };
+              Courses.push(course);
+              colorIndex++;
+            }
+
+            const startHour = parseInt(startTime.split(':')[0], 10);
+            const [endHourStr, endMinuteStr] = endTime.split(':');
+			let endHour = parseInt(endHourStr, 10);
+			const endMinute = parseInt(endMinuteStr, 10);
+
+			// Round up if minutes > 29
+			if (endMinute > 29) {
+			  endHour += 1;
+			}
+            let sesType = "exercise";
+            if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
+
+            const weeks = parseWeekList(weeksStr);
+
+            for (const w of weeks) {
+              for (let h = startHour; h < endHour; h++) {
+				if (h > 7 && h < 18){course.sessionCount += 1;} // only sessions between 8 and 18 count
+				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
+				
+                let year = startYear;
+                if (w < 30) { // the year depends on if we are in fall or spring semester, if spring add 1. 30 seems to be okay here as a border
+                  year++;
+                }
+                let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
+                
+                const index = myWeeks.indexOf(w);
+				if (index !== -1 && sesType.toLowerCase() == "lecture") {
+				  weekCounts[index] += 1;
+				}
+
+                course.instances.push({
+                  type: sesType,
+                  date: sesDate,
+				  week: w,
+                  time: `${h}:00`,
+				  timeStr: `${startTime}-${endTime}`,
+                  name: courseName,
+				  isAddedData: false,
+                  room: roomStr,
+                  sesCode: lecturecode,
+                  person: fixEncodingIssues(lecturer)
+                });
+              }
+            }
+          }
+		  Courses = Courses.filter(course => course.allowed);
+        })
+        .catch(err => console.error('Error loading course data:', err));
+    }
+
+  // Event Handlers
+  document.getElementById('prevWeek').onclick = () => {
+    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+    renderCalendar();
+  };
+  document.getElementById('nextWeek').onclick = () => {
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    renderCalendar();
+  };
+  
+  
+  multiSelect.onchange = () => {
+    const mode = multiSelect.value;
+    if (mode === "MS-A") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-A")) addedCourses.add(c.code);
+      });
+    } else if (mode === "MS-C") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-C")) addedCourses.add(c.code);
+      });
+    } else if (mode === "MS-E") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-E")) addedCourses.add(c.code);
+      });
+    } else if (mode === "ALL") {
+      Courses.forEach(c => addedCourses.add(c.code));
+    } else if (mode === "ALLR") {
+      Courses.forEach(c => addedCourses.delete(c.code));
+    } else if (mode === "MS-AR") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-A")) addedCourses.delete(c.code);
+      });
+    } else if (mode === "MS-CR") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-C")) addedCourses.delete(c.code);
+      });
+    } else if (mode === "MS-ER") {
+      Courses.forEach(c => {
+        if (c.code.startsWith("MS-E")) addedCourses.delete(c.code);
+      });
+    }
+    renderCalendar();
+    <!-- populateCourseDropdown(); -->
+	updateMultiSelectOptions(); 
+    updateCourseList();
+    multiSelect.value = "";
+  };
+  toggleExercisesBtn.onclick = () => {
+    hideExercises = !hideExercises;
+    toggleExercisesBtn.textContent = hideExercises ? "Show Exercises" : "Hide Exercises";
+    renderCalendar();
+  };
+  
+  // add custom course
+  addCustomBtn.addEventListener('click', (e) => {
+    const tooltipWidth = addCustomPopup.offsetWidth;
+	const tooltipHeight = addCustomPopup.offsetHeight;
+	let x = e.clientX;
+	let y = e.clientY;
+
+	if (x + tooltipWidth > window.innerWidth) {
+		x = window.innerWidth - tooltipWidth - 10;
+	}
+
+	if (y + tooltipHeight > window.innerHeight) {
+		y = window.innerHeight - tooltipHeight - 10;
+	}
+	addCustomPopup.style.left = `${x}px`;
+	addCustomPopup.style.top = `${y}px`;
+
+    addCustomPopup.style.display = 'block';
+    errorPopup.style.display = 'none';
+  });
+  
+  document.getElementById('confirmAdd').addEventListener('click', () => {
+    const code = document.getElementById('fieldCode').value.trim();
+    const courseName = document.getElementById('fieldName').value.trim();
+    const sesType = document.getElementById('fieldType').value.trim();
+    const dayStr = document.getElementById('fieldDay').value.trim();
+    const timeStr = document.getElementById('fieldTime').value.trim();
+    const weeksStr = document.getElementById('fieldWeeks').value.trim();
+	
+	if ([code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('>')) || [code, courseName, sesType, dayStr, timeStr, weeksStr].some(s => s.includes('<')))
+	{
+		errorPopup.textContent = "Error: Characters > and < are not allowed.";
+        errorPopup.style.display = 'block';
+	}
+	else {
+		handleAdd(`${code}>${courseName}>${sesType}>${dayStr}>${timeStr}>${weeksStr}`);
+	}
+	});
+
+  document.addEventListener('click', (e) => {
+    if (!addCustomPopup.contains(e.target) && e.target !== addCustomBtn) {
+		addCustomPopup.style.display = 'none';
+    }
+  });
+
+  // Initial setup
+
+  loadCoursesFromFile('courses2.txt').then(() => {
+	  periodsList = findPeriods(weekCounts);
+	  assignPeriodsToCourses(Courses,periodsList);
+	  
+	  // add courses from cookie
+	  loadCookies();
+	  
+      populateTimeLabels();
+	  updateMultiSelectOptions();
+      updateCourseList();
+      renderCalendar();
+  });
+
+	document.addEventListener('click', (e) => {
+	  const tooltip = document.getElementById('tooltip');
+	  
+	  if (!e.target.closest('.event')) {
+		tooltip.style.display = 'none';
+		activeTooltipTarget = null;
+	  }
+	});
+</script>
+<div id="tooltip" style="
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  font-size: 0.8em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+"></div>
+</body>
+</html>
