@@ -1001,8 +1001,6 @@
             if (!nameline || !day || !startTime || !endTime || !weeksStr) continue;
 			if (!nameline.startsWith("MS-")) continue;
 			
-			console.log(nameline, lecturecode, day, startTime, endTime, roomStr, lecturer, weeksStr);
-			
 			if (lecturer){
 				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
 			}
@@ -1040,12 +1038,12 @@
             let sesType = "exercise";
             if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
 
-            const weeks = parseWeekList(weeksStr);
-			console.log(weeks);
+
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
-				if (h > 7 && h < 18){course.sessionCount += 1;} // only sessions between 8 and 18 count
+				if (h > 7 && h < 18 && finnishWeekdayMap.hasOwnProperty[day]){course.sessionCount += 1;
+				} else {console.log("Session data out of bounds for: ", code, courseName, lecturecode);} // only sessions between 8 and 18 on mon-fri count
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
 				
                 let year = startYear;
@@ -1073,6 +1071,7 @@
                 });
               }
             }
+			
           }
 		  Courses = Courses.filter(course => course.allowed);
         })
