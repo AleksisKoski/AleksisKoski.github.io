@@ -1038,7 +1038,7 @@
             let sesType = "exercise";
             if (lecturecode.startsWith('L') || lecturecode.startsWith('S')) { sesType = "lecture"; }
 
-
+            const weeks = parseWeekList(weeksStr);
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
