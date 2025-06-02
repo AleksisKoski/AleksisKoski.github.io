@@ -579,7 +579,7 @@
 	  if (!timeStr) {errorMSG = "Error: Missing time (e.g. 10-12)."; isError = true;}
 	  if (!weeksStr) {errorMSG = "Error: Missing weeks (e.g. 44,46-47)."; isError = true;}
 
-      let course = Courses.find(c => c.code === code);
+      let course = allCourses.find(c => c.code === code);
 	  let foundCourse = true;
       if (!course) {
 		if (!courseName) {errorMSG = "Error: Missing course name."; isError = true;}
