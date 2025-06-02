@@ -1042,7 +1042,7 @@
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
-				if (h > 7 && h < 18 && (day === "Mon" || day == "Tue" || day == "Wed" || day == "Thu" || day == "Fri"){course.sessionCount += 1;
+				if (h > 7 && h < 18 && (day === "Mon" || day == "Tue" || day == "Wed" || day == "Thu" || day == "Fri")){course.sessionCount += 1;
 				} else {
 					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour: ", h, "Day: ", day, "Weeks: ", weeksStr);
 				} // only sessions between 8 and 18 on mon-fri count
