@@ -1043,7 +1043,7 @@
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
 				if (h > 7 && h < 18 && finnishWeekdayMap.hasOwnProperty[day]){course.sessionCount += 1;
-				} else {console.log("Session data out of bounds for: ", code, courseName, lecturecode);} // only sessions between 8 and 18 on mon-fri count
+				} else {console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour: ", h, "Day: ", day, "Weeks: ", weeksStr);} // only sessions between 8 and 18 on mon-fri count
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
 				
                 let year = startYear;
