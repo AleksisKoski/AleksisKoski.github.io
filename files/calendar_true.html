@@ -825,11 +825,7 @@
 			jumpBtn.style.marginLeft = '8px';
 			jumpBtn.style.width = 'auto';
 			jumpBtn.onclick = () => {
-				console.log(startYear,periodIndex,periodsList);
-				console.log(getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0));
-				console.log(currentWeekStart);
-				currentWeekStart.setDate(getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0));
-				console.log(currentWeekStart);
+				currentWeekStart = new Date(getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0));
 				renderCalendar();
 				updateMultiSelectOptions();
 				updateCourseList();
