@@ -344,10 +344,10 @@
       if (part.includes('-')) {
         const [startStr, endStr] = part.split('-');
 		
-		if (!finnishWeekdayMap.hasOwnProperty(startStr)) return [];
+		if (!(startStr in finnishWeekdayMap)) return [];
 		const start = finnishWeekdayMap[startStr];
 		
-		if (!finnishWeekdayMap.hasOwnProperty(endStr)) return [];
+		if (!(endStr in finnishWeekdayMap)) return [];
 		const end = finnishWeekdayMap[endStr];
 		
 		if (start >= end) return [];
@@ -356,7 +356,7 @@
           daysList.push(w);
         }
       } else {
-		if (!finnishWeekdayMap.hasOwnProperty(part)) return [];
+		if (!(part in finnishWeekdayMap)) return [];
         daysList.push(finnishWeekdayMap[part]);
       }
     }
@@ -394,27 +394,7 @@
 
 	  return null; // week not in any period
   }
-  
-  <!-- function assignPeriodsToCourses(courses, periods) { -->
-	  <!-- courses.forEach(course => { -->
-		<!-- const lectureWeeks = course.instances -->
-		  <!-- .filter(inst => inst.type === "lecture") -->
-		  <!-- .map(inst => inst.week); -->
 
-		<!-- const overlapCounts = periods.map(period => -->
-		  <!-- lectureWeeks.filter(week => period.includes(week)).length -->
-		<!-- ); -->
-
-		<!-- let maxIndex = 0; -->
-		<!-- for (let i = 1; i < overlapCounts.length; i++) { -->
-		  <!-- if (overlapCounts[i] > overlapCounts[maxIndex]) { -->
-			<!-- maxIndex = i; -->
-		  <!-- } -->
-		<!-- } -->
-
-		<!-- course.periodIndex = maxIndex; -->
-	  <!-- }); -->
-	<!-- } -->
 	
 	// assign by start date
 	function assignPeriodsToCourses(courses, periods) {
@@ -823,13 +803,9 @@
 			btn3.style.fontWeight = 'bold';
 			
 			btn3.classList.add('size-fixed-two');
-			<!-- if (periodShow[periodIndex]){ -->
-				<!-- btn3.textContent = 'Hide'; -->
-			<!-- } -->
-			<!-- else {btn3.textContent = 'Show';} -->
 			btn3.textContent = `Period ${romanNumerals[periodIndex]}`;
 			btn3.style.marginLeft = '0px';
-			btn3.style.width = '100px';
+			btn3.style.width = 'auto';
 
 			btn3.onclick = () => {
 			  periodShow[periodIndex] = !periodShow[periodIndex];
@@ -841,6 +817,20 @@
 			periodHeader.appendChild(btn3);
 	  
 		if (periodShow[periodIndex]){
+			const jumpBtn = document.createElement('button');
+			jumpBtn.style.fontWeight = 'bold';
+			
+			jumpBtn.classList.add('size-fixed-two');
+			jumpBtn.textContent = 'Jump';
+			jumpBtn.style.marginLeft = '8px';
+			jumpBtn.style.width = 'auto';
+			jumpBtn.onclick = () => {
+				currentWeekStart = new Date(getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0));
+				renderCalendar();
+				updateMultiSelectOptions();
+				updateCourseList();
+			};
+		
 			const btn = document.createElement('button');
 			btn.style.fontWeight = 'bold';
 			
@@ -878,6 +868,7 @@
 			};
 
 			// Append the button inside the header
+			periodHeader.appendChild(jumpBtn);
 			periodHeader.appendChild(btn);
 			periodHeader.appendChild(btn2);
 		}
@@ -1010,8 +1001,6 @@
             if (!nameline || !day || !startTime || !endTime || !weeksStr) continue;
 			if (!nameline.startsWith("MS-")) continue;
 			
-			console.log(nameline, lecturecode, day, startTime, endTime, roomStr, lecturer, weeksStr);
-			
 			if (lecturer){
 				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
 			}
@@ -1053,7 +1042,10 @@
 
             for (const w of weeks) {
               for (let h = startHour; h < endHour; h++) {
-				if (h > 7 && h < 18){course.sessionCount += 1;} // only sessions between 8 and 18 count
+				if (h > 7 && h < 18 && (day in finnishWeekdayMap)){course.sessionCount += 1;
+				} else {
+					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour: ", h, "Day: ", day, "Weeks: ", weeksStr);
+				} // only sessions between 8 and 18 on mon-fri count
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
 				
                 let year = startYear;
@@ -1081,6 +1073,7 @@
                 });
               }
             }
+			
           }
 		  Courses = Courses.filter(course => course.allowed);
         })
