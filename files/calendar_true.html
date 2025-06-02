@@ -394,27 +394,7 @@
 
 	  return null; // week not in any period
   }
-  
-  <!-- function assignPeriodsToCourses(courses, periods) { -->
-	  <!-- courses.forEach(course => { -->
-		<!-- const lectureWeeks = course.instances -->
-		  <!-- .filter(inst => inst.type === "lecture") -->
-		  <!-- .map(inst => inst.week); -->
 
-		<!-- const overlapCounts = periods.map(period => -->
-		  <!-- lectureWeeks.filter(week => period.includes(week)).length -->
-		<!-- ); -->
-
-		<!-- let maxIndex = 0; -->
-		<!-- for (let i = 1; i < overlapCounts.length; i++) { -->
-		  <!-- if (overlapCounts[i] > overlapCounts[maxIndex]) { -->
-			<!-- maxIndex = i; -->
-		  <!-- } -->
-		<!-- } -->
-
-		<!-- course.periodIndex = maxIndex; -->
-	  <!-- }); -->
-	<!-- } -->
 	
 	// assign by start date
 	function assignPeriodsToCourses(courses, periods) {
@@ -823,13 +803,9 @@
 			btn3.style.fontWeight = 'bold';
 			
 			btn3.classList.add('size-fixed-two');
-			<!-- if (periodShow[periodIndex]){ -->
-				<!-- btn3.textContent = 'Hide'; -->
-			<!-- } -->
-			<!-- else {btn3.textContent = 'Show';} -->
 			btn3.textContent = `Period ${romanNumerals[periodIndex]}`;
 			btn3.style.marginLeft = '0px';
-			btn3.style.width = '100px';
+			btn3.style.width = 'auto';
 
 			btn3.onclick = () => {
 			  periodShow[periodIndex] = !periodShow[periodIndex];
@@ -841,6 +817,20 @@
 			periodHeader.appendChild(btn3);
 	  
 		if (periodShow[periodIndex]){
+			const jumpBtn = document.createElement('button');
+			jumpBtn.style.fontWeight = 'bold';
+			
+			jumpBtn.classList.add('size-fixed-two');
+			jumpBtn.textContent = 'Jump';
+			jumpBtn.style.marginLeft = '8px';
+			jumpBtn.style.width = 'auto';
+			jumpBtn.onclick = () => {
+				currentWeekStart = getDateFromISOWeek(startYear + (periodIndex > 1 ? 1 : 0), periodsList[periodIndex][0], 0);
+				renderCalendar();
+				updateMultiSelectOptions();
+				updateCourseList();
+			};
+		
 			const btn = document.createElement('button');
 			btn.style.fontWeight = 'bold';
 			
@@ -878,6 +868,7 @@
 			};
 
 			// Append the button inside the header
+			periodHeader.appendChild(jumpBtn);
 			periodHeader.appendChild(btn);
 			periodHeader.appendChild(btn2);
 		}
