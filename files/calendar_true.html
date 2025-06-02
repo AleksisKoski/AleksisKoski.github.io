@@ -1010,6 +1010,8 @@
             if (!nameline || !day || !timeStr || !weeksStr) continue;
 			if (!nameline.startsWith("MS-")) continue;
 			
+			console.log(nameline, lecturecode, day, startTime, endTime, roomStr, lecturer, weeksStr);
+			
 			if (lecturer){
 				lecturer = ((s) => { const [l,f] = s.split('|')[0].split('=')[1].split(',').map(x => x.trim()); return `${f} ${l}`; })(lecturer);
 			}
