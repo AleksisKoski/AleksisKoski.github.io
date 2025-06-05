@@ -205,7 +205,7 @@
   function generateMutedColors(count = 100) {
 	  const colors = [];
 	  const goldenRatio = 0.618033988749895;
-	  let hue = 0.2;
+	  let hue = 0.1;
 
 	  for (let i = 0; i < count; i++) {
 		hue += goldenRatio;
@@ -481,6 +481,11 @@
 		}
 
 		if (!flagsCookie || flagsCookie.length !== allCourses.length) {
+			Courses.forEach(course => {
+				if (!addedCourses.has(course.code)) {
+					addedCourses.add(course.code);
+				}
+			});
 			console.log("Incorrect or missing courseFlags cookie.");
 			return;
 		}
