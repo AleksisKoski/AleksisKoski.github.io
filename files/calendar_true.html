@@ -118,6 +118,31 @@
       margin-top: 10px;
       border: 1px solid #a00;
     }
+    #updateModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+    }
+    .close-btn {
+      margin-top: 15px;
+      padding: 5px 10px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -160,6 +185,14 @@
     <button id="confirmAdd">Confirm</button>
     <div id="errorPopup">Error: Missing or incorrect input by user.</div>
   </div>
+  
+  <div id="updateModal">
+	  <div class="modal-content">
+		<h2>Recent Updates</h2>
+		<p id="updateText">Loading...</p>
+		<button class="close-btn" onclick="closeModal()">Close</button>
+	  </div>
+	</div>
 </div>
 
 
@@ -251,6 +284,51 @@
   let allowedUnits = ["MS", "custom"];
   
   let periodsList = [];
+  
+  
+  // recent updates popup
+  function closeModal() {
+    document.getElementById('updateModal').style.display = 'none';
+  }
+
+	function checkForUpdates() {
+	  return fetch('update.txt', { cache: 'no-store' })
+		.then(response => {
+		  if (!response.ok) throw new Error('HTTP ' + response.status);
+		  return response.text();
+		})
+		.then(data => {
+			const lines = data.trim().split('\n');
+			const versionLine = lines[0] || '';
+			console.log('First line:', JSON.stringify(versionLine));
+			const versionMatch = versionLine.match(/^\s*version:\s*(.+?)\s*$/i);
+			if (!versionMatch) {
+			  console.warn('Version line malformed or missing');
+			  return;
+			}
+
+		  const latestVersion = versionMatch[1].trim();
+		  const seenVersion = localStorage.getItem('lastSeenVersion');
+		  
+		  console.log(latestVersion,seenVersion);
+		  
+		  if (!seenVersion){
+			localStorage.setItem('lastSeenVersion', latestVersion);
+			return;
+		  }
+
+		  if (seenVersion !== latestVersion) {
+			let updateText = lines.slice(1).join('\n').trim();
+			updateText = updateText.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+
+			// Replace line breaks with <br>
+			document.getElementById('updateText').innerHTML = updateText.replace(/\n/g, '<br>') || '(No update details provided)';
+			document.getElementById('updateModal').style.display = 'flex';
+			localStorage.setItem('lastSeenVersion', latestVersion);
+		  }
+		})
+		.catch(err => console.error('Update check failed:', err));
+	}
   
   // period dynamic finding
   function generate52Weeks(startYear) {
@@ -1026,9 +1104,9 @@
 	}
   }
   
-    function loadCoursesFromFile(filename) {
+	function loadCoursesFromFile(filename) {
 	  loadUnitCookie();
-      return fetch(filename)
+      return fetch(filename, { cache: 'no-store' })
         .then(response => {
           if (!response.ok) throw new Error('Failed to load course data');
           return response.text();
@@ -1257,18 +1335,22 @@
 
   // Initial setup
 
-  loadCoursesFromFile('courses2.txt').then(() => {
-	  periodsList = findPeriods(weekCounts);
-	  assignPeriodsToCourses(Courses,periodsList);
-	  
-	  // add courses from cookie
-	  loadCookies();
-	  
-      populateTimeLabels();
-	  updateMultiSelectOptions();
-      updateCourseList();
-      renderCalendar();
-  });
+	window.addEventListener('load', () => {
+	  checkForUpdates()
+		.then(() => loadCoursesFromFile('courses.txt'))
+		.then(() => {
+		  periodsList = findPeriods(weekCounts);
+		  assignPeriodsToCourses(Courses,periodsList);
+		  
+		  // add courses from cookie
+		  loadCookies();
+		  
+		  populateTimeLabels();
+		  updateMultiSelectOptions();
+		  updateCourseList();
+		  renderCalendar();
+		});
+	});
 
 	document.addEventListener('click', (e) => {
 	  const tooltip = document.getElementById('tooltip');

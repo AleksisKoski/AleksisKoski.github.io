@@ -1,0 +1,13 @@
+version: 1.1
+**Course data updated on:**
+
+06.06.2025
+
+**Added courses:**
+
+-
+
+**Changed courses:**
+
+L01 CS-A1110 Ohjelmointi 1
+P03 PHYS-A0111 Mekaniikka (TFM)
