@@ -5,23 +5,36 @@ version: 1.2
 
 **Added courses:**
 
--
+CS-A1120 Ohjelmointi 2
+CS-A1140 Tietorakenteet ja algoritmit
+CS-C3240 Machine Learning
+CS-E4920 Portfolio in Software and Service Engineering
+JOIN.sv.kand Ruotsinkielinen tekniikan alan kandidaattiseminaari
+MS-A0001 Matriisilaskenta
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
+MS-C1343 Lineaarialgebra
+MS-E2177 Seminar on Case Studies in Operations Research D
+MS-E2191 Graduate Seminar on Operations Research D
+PHYS-A0130 Sähkömagnetismi (TFM)
+PHYS-C0210 Kvanttimekaniikka 1
+PHYS-C0230 Klassinen dynamiikka
+PHYS-E0430 Magnetism and Spintronics D
+SCI-C2801 Tulevaisuusajattelu ja skenaariot
+SCI-E2802 Tulevaisuudentutkimuksen menetelmät D
+TU-A1100 Tuotantotalous
+TU-C2040 Strategian kenttätyö
+TU-E4060 Design & Innovation in Context D
 
 **Changed courses:**
 
-I01 CS-A0100 Tietokone työvälineenä
-L01 CS-A1110 Ohjelmointi 1
-XXA01 CS-A1110 Ohjelmointi 1
-L01,in_English CS-A1120 Ohjelmointi 2
-L02_suomeksi CS-A1120 Ohjelmointi 2
-XXA04 CS-A1120 Ohjelmointi 2
-XXA05 CS-A1120 Ohjelmointi 2
-L01_Eng CS-A1140 Tietorakenteet ja algoritmit
-H01 CS-A1155 Databases for Data Science
-En osallistu harjoituksiin MS-A0001 Matriisilaskenta
-ET04 MS-A0001 Matriisilaskenta
-ET02 MS-A0108 Differentiaali- ja integraalilaskenta 1
-XXH21 TU-A1100 Tuotantotalous
-XXH22 TU-A1100 Tuotantotalous
-XXH23 TU-A1100 Tuotantotalous
-T05 TU-A1100 Tuotantotalous
+CS-C2170 Modern and Emerging Programming Languages
+MS-A0002 Matriisilaskenta (SCI)
+MS-A0011 Matrix Algebra
+MS-A0108 Differentiaali- ja integraalilaskenta 1
+MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI)
+MS-A0211 Differential and Integral Calculus 2
+MS-A0305 Differentiaali- ja integraalilaskenta 3
+MS-A0311 Differential and Integral Calculus 3
+MS-C1620 Statistical Inference
+MS-C2111 Stochastic Processes
+TU-E6010 Philosophy D
