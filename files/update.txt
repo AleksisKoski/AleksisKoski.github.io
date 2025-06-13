@@ -1,7 +1,7 @@
-version: 1.1
+version: 1.2
 **Course data updated on:**
 
-06.06.2025
+13.06.2025
 
 **Added courses:**
 
@@ -9,5 +9,19 @@ version: 1.1
 
 **Changed courses:**
 
+I01 CS-A0100 Tietokone työvälineenä
 L01 CS-A1110 Ohjelmointi 1
-P03 PHYS-A0111 Mekaniikka (TFM)
+XXA01 CS-A1110 Ohjelmointi 1
+L01,in_English CS-A1120 Ohjelmointi 2
+L02_suomeksi CS-A1120 Ohjelmointi 2
+XXA04 CS-A1120 Ohjelmointi 2
+XXA05 CS-A1120 Ohjelmointi 2
+L01_Eng CS-A1140 Tietorakenteet ja algoritmit
+H01 CS-A1155 Databases for Data Science
+En osallistu harjoituksiin MS-A0001 Matriisilaskenta
+ET04 MS-A0001 Matriisilaskenta
+ET02 MS-A0108 Differentiaali- ja integraalilaskenta 1
+XXH21 TU-A1100 Tuotantotalous
+XXH22 TU-A1100 Tuotantotalous
+XXH23 TU-A1100 Tuotantotalous
+T05 TU-A1100 Tuotantotalous
