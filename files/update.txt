@@ -1,40 +1,44 @@
 version: 1.2
 **Course data updated on:**
 
-13.06.2025
+14.06.2025
 
 **Added courses:**
 
+PHYS-E0430 Magnetism and Spintronics D
+
+**Changed courses:**
+
 CS-A1120 Ohjelmointi 2
 CS-A1140 Tietorakenteet ja algoritmit
+CS-C2170 Modern and Emerging Programming Languages
+CS-C3140 Operating Systems
 CS-C3240 Machine Learning
 CS-E4920 Portfolio in Software and Service Engineering
 JOIN.sv.kand Ruotsinkielinen tekniikan alan kandidaattiseminaari
 MS-A0001 Matriisilaskenta
-MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
-MS-C1343 Lineaarialgebra
-MS-E2177 Seminar on Case Studies in Operations Research D
-MS-E2191 Graduate Seminar on Operations Research D
-PHYS-A0130 Sähkömagnetismi (TFM)
-PHYS-C0210 Kvanttimekaniikka 1
-PHYS-C0230 Klassinen dynamiikka
-PHYS-E0430 Magnetism and Spintronics D
-SCI-C2801 Tulevaisuusajattelu ja skenaariot
-SCI-E2802 Tulevaisuudentutkimuksen menetelmät D
-TU-A1100 Tuotantotalous
-TU-C2040 Strategian kenttätyö
-TU-E4060 Design & Innovation in Context D
-
-**Changed courses:**
-
-CS-C2170 Modern and Emerging Programming Languages
 MS-A0002 Matriisilaskenta (SCI)
 MS-A0011 Matrix Algebra
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
 MS-A0108 Differentiaali- ja integraalilaskenta 1
 MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI)
 MS-A0211 Differential and Integral Calculus 2
 MS-A0305 Differentiaali- ja integraalilaskenta 3
 MS-A0311 Differential and Integral Calculus 3
+MS-C1343 Lineaarialgebra
 MS-C1620 Statistical Inference
 MS-C2111 Stochastic Processes
+MS-E1110 Number Theory D
+MS-E2121 Linear Optimization D
+MS-E2135 Decision Analysis D
+MS-E2177 Seminar on Case Studies in Operations Research D
+MS-E2191 Graduate Seminar on Operations Research D
+PHYS-A0130 Sähkömagnetismi (TFM)
+PHYS-C0210 Kvanttimekaniikka 1
+PHYS-C0230 Klassinen dynamiikka
+SCI-C2801 Tulevaisuusajattelu ja skenaariot
+SCI-E2802 Tulevaisuudentutkimuksen menetelmät D
+TU-A1100 Tuotantotalous
+TU-C2040 Strategian kenttätyö
+TU-E4060 Design & Innovation in Context D
 TU-E6010 Philosophy D
