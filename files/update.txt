@@ -1,7 +1,7 @@
 version: 1.2
 **Course data updated on:**
 
-14.06.2025
+16.06.2025
 
 **Added courses:**
 
@@ -15,7 +15,6 @@ CS-C2170 Modern and Emerging Programming Languages
 CS-C3140 Operating Systems
 CS-C3240 Machine Learning
 CS-E4920 Portfolio in Software and Service Engineering
-JOIN.sv.kand Ruotsinkielinen tekniikan alan kandidaattiseminaari
 MS-A0001 Matriisilaskenta
 MS-A0002 Matriisilaskenta (SCI)
 MS-A0011 Matrix Algebra
@@ -36,9 +35,3 @@ MS-E2191 Graduate Seminar on Operations Research D
 PHYS-A0130 Sähkömagnetismi (TFM)
 PHYS-C0210 Kvanttimekaniikka 1
 PHYS-C0230 Klassinen dynamiikka
-SCI-C2801 Tulevaisuusajattelu ja skenaariot
-SCI-E2802 Tulevaisuudentutkimuksen menetelmät D
-TU-A1100 Tuotantotalous
-TU-C2040 Strategian kenttätyö
-TU-E4060 Design & Innovation in Context D
-TU-E6010 Philosophy D
