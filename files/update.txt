@@ -1,13 +1,26 @@
-version: 1.4
+version: 1.5
 **Course data updated on:**
 
-04.07.2025
+06.08.2025
 
 **Added courses:**
 
--
+PHYS-EV0005 Quantum Chemistry Methods for Physicists
 
 **Changed courses:**
 
-PHYS-A0111 Mekaniikka (TFM)
-PHYS-E0461 Introduction to plasma physics for fusion and space applications D
+CS-A1120 Programming 2
+CS-A1140 Data Structures and Algorithms
+CS-C3240 Machine Learning D
+CS-C3250 Data Science Project
+CS-E4920 Portfolio in Software and Service Engineering (V)
+MS-A0001 Matrix Algebra
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
+MS-A0409 Grundkurs i diskret matematik
+MS-C1343 Linear Algebra
+MS-E2177 Seminar on Case Studies in Operations Research (V) D
+MS-E2191 Graduate Seminar on Operations Research (V) D
+PHYS-A0130 Sähkömagentismi (TFM)
+PHYS-C0210 Kvanttimekaniikka
+PHYS-C0230 Klassinen dynamiikka D
