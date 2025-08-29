@@ -214,7 +214,7 @@
 <div class="course-list" id="activeCourses"></div>
 </main>
 <footer class="page-footer">
-  Created by Aleksis Koski, 2025
+  Created by Aleksis Koski, 2025 | Last update: <span id="update-date">loading…</span>
 </footer>
 
 <script>
@@ -304,6 +304,8 @@
 		.then(data => {
 			const lines = data.trim().split('\n');
 			const versionLine = lines[0] || '';
+			const updateDate = lines[3] || '';
+			document.getElementById('update-date').textContent = updateDate || 'unknown';
 			const versionMatch = versionLine.match(/^\s*version:\s*(.+?)\s*$/i);
 			if (!versionMatch) {
 			  console.warn('Version line malformed or missing');
@@ -839,6 +841,7 @@
 			  ${e.type !== '' ? `${e.type.charAt(0).toUpperCase() + e.type.slice(1)}<br>` : ''}
 			  ${e.room !== '' ? `Room: ${e.room}<br>` : ''}
 			  ${e.person !== '' ? `Lecturer: ${e.person}<br>` : ''}
+			  ${e.sesCode !== '' ? `Session code: ${e.sesCode}<br>` : ''}
 			  Periods: ${Courses.find(c => c.code === e.code).periods
 				.map((val, idx) => val > 0 ? `P${romanNumerals[idx]}` : null)
 				.filter(p => p !== null)
