@@ -1,25 +1,18 @@
-version: 1.6
+version: 1.8
 **Course data updated on:**
 
-26.08.2025
+29.08.2025
 
 **Added courses:**
 
--
+CS-E500010 Seminar in Software and Service Engineering D: AI for Software Engineering --- The Death of a Profession?
 
 **Changed courses:**
 
-CS-C3240 Machine Learning D
-CS-E4650 Methods of Data Mining D
-MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM)
+CS-E4660 Advanced Topics in Software Systems D
+CS-E4850 Computer Vision D
 MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1)
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
 MS-A0111 Differential and Integral Calculus 1
-MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI)
-MS-A0401 Diskreetin matematiikan perusteet
-MS-C1420 Fourier-analyysi
-MS-E1050 Graph Theory D
-MS-E1600 Probability Theory D
-MS-E2114 Investment Science D
-MS-E2120 Suomalaisen yhteiskunnan resilienssi D
-PHYS-C0360 Säteilyfysiikka ja -turvallisuus
-PHYS-EV0005 Quantum Chemistry Methods for Physicists
+MS-A0305 Differentiaali- ja integraalilaskenta 3
+MS-E1651 Numerical Matrix Computations D
