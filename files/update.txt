@@ -1,18 +1,14 @@
-version: 1.8
+version: 1.9
 **Course data updated on:**
 
-29.08.2025
+03.09.2025
 
 **Added courses:**
 
-CS-E500010 Seminar in Software and Service Engineering D: AI for Software Engineering --- The Death of a Profession?
+-
 
 **Changed courses:**
 
-CS-E4660 Advanced Topics in Software Systems D
-CS-E4850 Computer Vision D
-MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1)
-MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
-MS-A0111 Differential and Integral Calculus 1
-MS-A0305 Differentiaali- ja integraalilaskenta 3
-MS-E1651 Numerical Matrix Computations D
+PHYS-C0110 Mechanics
+PHYS-C0258 Quantum Labs
+PHYS-E0460 Introduction to Reactor Physics D
