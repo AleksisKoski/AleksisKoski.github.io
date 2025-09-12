@@ -1,14 +1,15 @@
-version: 1.9
+version: 1.10
 **Course data updated on:**
 
-03.09.2025
+12.09.2025
 
 **Added courses:**
 
--
+MS-EV0020 Introduction to Equilibrium Modelling with Applications
 
 **Changed courses:**
 
-PHYS-C0110 Mechanics
-PHYS-C0258 Quantum Labs
-PHYS-E0460 Introduction to Reactor Physics D
+CS-C4040 Teknillisen psykologian tutkimusprojekti
+MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
+MS-A0111 Differential and Integral Calculus 1
+PHYS-E0410 Quantum Mechanics 2 D
