@@ -1,15 +1,28 @@
-version: 1.10
+version: 1.11
 **Course data updated on:**
 
-12.09.2025
+11.10.2025
 
 **Added courses:**
 
-MS-EV0020 Introduction to Equilibrium Modelling with Applications
+PHYS-EV0007 Machine Learning from and for Quantum Science
 
 **Changed courses:**
 
-CS-C4040 Teknillisen psykologian tutkimusprojekti
+CS-A1111 Ohjelmoinnin peruskurssi Y1
+CS-A1120 Programming 2
+CS-C3140 Operating Systems
+CS-C3240 Machine Learning D
+CS-E3220 Declarative Programming D
+CS-E4265 Multimedia Systems D
+CS-E4595 Competitive Programming D
+CS-E4650 Methods of Data Mining D
+CS-E4700 Logic and Hard Computational Problems D
+CS-E4920 Portfolio in Software and Service Engineering (V)
+CS-E5012 Research Methods: AI-based Data Synthesis & Analysis D
+CS-E5775 Complex Systems D
+MS-A0011 Matrix Algebra
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
 MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
-MS-A0111 Differential and Integral Calculus 1
-PHYS-E0410 Quantum Mechanics 2 D
+PHYS-C0258 Quantum Labs
+PHYS-E0460 Introduction to Reactor Physics D
