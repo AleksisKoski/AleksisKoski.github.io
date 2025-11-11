@@ -1,28 +1,22 @@
-version: 1.11
+version: 1.12
 **Course data updated on:**
 
-11.10.2025
+11.11.2025
 
 **Added courses:**
 
-PHYS-EV0007 Machine Learning from and for Quantum Science
+-
 
 **Changed courses:**
 
 CS-A1111 Ohjelmoinnin peruskurssi Y1
-CS-A1120 Programming 2
-CS-C3140 Operating Systems
-CS-C3240 Machine Learning D
-CS-E3220 Declarative Programming D
-CS-E4265 Multimedia Systems D
-CS-E4595 Competitive Programming D
-CS-E4650 Methods of Data Mining D
-CS-E4700 Logic and Hard Computational Problems D
-CS-E4920 Portfolio in Software and Service Engineering (V)
-CS-E5012 Research Methods: AI-based Data Synthesis & Analysis D
-CS-E5775 Complex Systems D
+CS-C3310 Studio: Ihmisten ja organisaatioiden tutkimus
+CS-E5220 User Interface Construction D
 MS-A0011 Matrix Algebra
-MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
-MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
-PHYS-C0258 Quantum Labs
-PHYS-E0460 Introduction to Reactor Physics D
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
+MS-C1300 Complex Analysis
+MS-C2128 Prediction and Time Series Analysis
+MS-E2117 Riskianalyysi D
+PHYS-C0240 Materiaalifysiikka
+PHYS-C0360 Säteilyfysiikka ja -turvallisuus
+PHYS-E0554 Nanoelectronics D
