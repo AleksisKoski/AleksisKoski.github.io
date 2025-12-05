@@ -1,22 +1,38 @@
-version: 1.12
+version: 1.13
 **Course data updated on:**
 
-11.11.2025
+05.12.2025
 
 **Added courses:**
 
--
+PHYS-E0423 Surface Physics D
 
 **Changed courses:**
 
 CS-A1111 Ohjelmoinnin peruskurssi Y1
-CS-C3310 Studio: Ihmisten ja organisaatioiden tutkimus
-CS-E5220 User Interface Construction D
-MS-A0011 Matrix Algebra
+CS-A1120 Ohjelmointi 2
+CS-A1140 Tietorakenteet ja algoritmit
+CS-A1160 Beginner's Python for Engineers
+CS-C1180 Verkkojulkaisemisen perusteet
+CS-C2120 Ohjelmointistudio 2: projekti
+CS-C3240 Machine Learning
+CS-C4020 Cognitive Psychology
+CS-E4800 Artificial Intelligence D
+CS-E4920 Portfolio in Software and Service Engineering
+MS-A0001 Matriisilaskenta
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
 MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
-MS-C1300 Complex Analysis
-MS-C2128 Prediction and Time Series Analysis
-MS-E2117 Riskianalyysi D
-PHYS-C0240 Materiaalifysiikka
-PHYS-C0360 Säteilyfysiikka ja -turvallisuus
-PHYS-E0554 Nanoelectronics D
+MS-A0503 First Course in Probability and Statistics
+MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
+MS-A0509 Grundkurs i sannolikhetskalkyl och statistik
+MS-C1343 Lineaarialgebra
+MS-E1624 High-Dimensional Statistics D
+MS-E2121 Linear Optimization D
+MS-E2177 Seminar on Case Studies in Operations Research D
+MS-E2191 Graduate Seminar on Operations Research D
+MS-EV0002 Introduction to R programming
+PHYS-A0130 Sähkömagnetismi (TFM)
+PHYS-A0140 Aineen rakenne (TFM)
+PHYS-C0210 Kvanttimekaniikka 1
+PHYS-C0230 Klassinen dynamiikka
