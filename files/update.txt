@@ -1,53 +1,43 @@
-version: 1.14
+version: 1.15
 **Course data updated on:**
 
-05.01.2026
+13.01.2026
 
 **Added courses:**
 
-CS-E400210 Special Course in Computer Science: Introduction to Mathematical Reasoning for Computer Scientists
-CS-E400211 Special Course in Computer Science D: Embodied Intelligence
-CS-E400212 Special Course in Computer Science D: Algorithms and Society
-CS-E407524 Special Course in Machine Learning, Data Science and Artificial Intelligence D: Causal Inference
-CS-E433001 Special Course in Information Security D
-CS-E433003 Special Course in Information Security D: Mobile Phone Forensics
-CS-E4350 Security Engineering D
-CS-E4380 Special Course: Advanced Cryptography D
-CS-E4875 Research Project in Machine Learning, Data Science and Artificial Intelligence D
-CS-E50008 Seminar in Software and Service Engineering D: Industry Digitalization
-CS-E5050 Special Course in Information Networks D
-CS-E505001 Special Course in Information Networks D: Algorithmic Systems and Society
-CS-E505002 Special Course in Information Networks D: Politics in Human-Computer Interaction
-CS-E505003 Special Course in Information Networks D: Political Economy of Digital Markets
-CS-E5250 Data-Driven Concept Design D
-CS-E577005 Special Course in Complex Systems D: Computational Theories of the Brain
-MS-C1001 Shapes in Action
-MS-E1000 Crystal Flowers in Halls of Mirrors: Mathematics Meets Art and Architecture D
-MS-E1011 Tieteen historia D
-MS-E1082 Special course: Advanced Topics in Algebra D
-MS-E1111 Galois Theory D
-MS-E1150 Matrix Theory D
-MS-E1426 Harmonic Analysis D
-MS-E1462 Banach Spaces D
-MS-E1604 Brownian motion and stochastic analysis D
-MS-E1622 Algebraic Methods in Data Science D
-MS-E2155  System Dynamics Simulation D
-MS-E2160 Stochastic Programming and Robust Optimization D
-MS-EV0025 Algorithms for Solving Equilibrium Problems
-MS-EV0032 Category Theory
-PHYS-E0436 Modern Optics V D
-PHYS-E0556 Superconductivity D
-PHYS-E6571 Fuel Cells and Hydrogen Technology D
+CS-C3300 Muotoiluantropologia
+CS-E4876 Multidisciplinary Research Projects in Machine Learning, Data Science and Artificial Intelligence D
+CS-E4920 Portfolio in Software and Service Engineering
+CS-E500010 Seminar in Software and Service Engineering D: AI for Software Engineering --- The Death of a Profession?
+MS-C1530 Curves and Surfaces
+MS-E1052 Combinatorial Network Analysis D
+MS-E1142 Computational Algebraic Geometry D
+MS-E1145 Algebraic Geometry D
+MS-E1281 Real Analysis D
+MS-E1531 Differential Geometry D
+MS-E1603 Random Graphs and Network Statistics D
+MS-E1652 Computational Methods for Differential Equations D
+MS-E1688 Special course: Advanced Cryptography D
+MS-EV0002 Introduction to R programming
+PHYS-C0258 Quantum Labs
+PHYS-E0423 Surface Physics D
+PHYS-E0430 Magnetism and Spintronics D
+PHYS-E0432 Quantum Many-Body Physics 2 D
+PHYS-E0450 Quantum Optics D
+PHYS-E0467 Experimental reactor physics D
+PHYS-E0554 Nanoelectronics D
+PHYS-EV0005 Quantum Chemistry Methods for Physicists
+PHYS-EV0007 Machine Learning from and for Quantum Science
 
 **Changed courses:**
 
 CS-A1110 Ohjelmointi 1
 CS-A1111 Ohjelmoinnin peruskurssi Y1
-CS-A1120 Programming 2
+CS-A1120 Ohjelmointi 2
 CS-A1121 Ohjelmoinnin peruskurssi Y2
 CS-A1123 Basics in Programming Y2
 CS-A1130 Tietotekniikka sovelluksissa
-CS-A1140 Data Structures and Algorithms
+CS-A1140 Tietorakenteet ja algoritmit
 CS-A1150 Tietokannat
 CS-A1155 Databases for Data Science
 CS-A1160 Beginner's Python for Engineers
@@ -68,7 +58,7 @@ CS-C3140 Operating Systems
 CS-C3150 Software Engineering
 CS-C3170 Web Software Development
 CS-C3180 Software Design and Modelling
-CS-C3240 Machine Learning D
+CS-C3240 Machine Learning
 CS-C3250 Data Science Project
 CS-C3260 Practical Quantum Computing
 CS-C3310 Studio: Ihmisten ja organisaatioiden tutkimus
@@ -137,7 +127,7 @@ CS-E5775 Complex Systems D
 CS-E5795 Computational Methods in Stochastics D
 CS-E5885 Modeling Biological Networks D
 CS-L9000 Introduction to Doctoral Studies in Computer Science
-MS-A0001 Matrix Algebra
+MS-A0001 Matriisilaskenta
 MS-A0002 Matriisilaskenta (SCI)
 MS-A0003 Matriisilaskenta (ELEC1, ENG1)
 MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2)
@@ -146,7 +136,7 @@ MS-A0011 Matrix Algebra
 MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM)
 MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI)
 MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1)
-MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
 MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
 MS-A0108 Differentiaali- ja integraalilaskenta 1
 MS-A0109 Differential- och integralkalkyl 1
@@ -173,7 +163,7 @@ MS-A0509 Grundkurs i sannolikhetskalkyl och statistik
 MS-C1081 Abstract Algebra
 MS-C1300 Complex Analysis
 MS-C1342 Linear Algebra
-MS-C1343 Linear Algebra
+MS-C1343 Lineaarialgebra
 MS-C1350 Partial Differential Equations
 MS-C1420 Fourier-analyysi
 MS-C1541 Metric Spaces
@@ -194,6 +184,7 @@ MS-E1288 Analysis Seminar D
 MS-E1423 Fourier Theory D
 MS-E1542 General Topology D
 MS-E1600 Probability Theory D
+MS-E1604 Brownian motion and stochastic analysis D
 MS-E1624 High-Dimensional Statistics D
 MS-E1651 Numerical Matrix Computations D
 MS-E1653 Finite Element Method D
@@ -208,12 +199,12 @@ MS-E2132 Laboratory Assignments in Operations Research II D
 MS-E2135 Decision Analysis D
 MS-E2145 Combinatorial Optimization D
 MS-E2150 Discrete Event Simulation D
-MS-E2177 Seminar on Case Studies in Operations Research (V) D
-MS-E2191 Graduate Seminar on Operations Research (V) D
+MS-E2177 Seminar on Case Studies in Operations Research D
+MS-E2191 Graduate Seminar on Operations Research D
 MS-EV0020 Introduction to Equilibrium Modelling with Applications
 PHYS-A0111 Mekaniikka (TFM)
 PHYS-A0120 Termodynamiikka (TFM)
-PHYS-A0130 Sähkömagentismi (TFM)
+PHYS-A0130 Sähkömagnetismi (TFM)
 PHYS-A0140 Aineen rakenne (TFM)
 PHYS-A1111 Mekaniikka
 PHYS-A1121 Termodynamiikka
@@ -221,9 +212,9 @@ PHYS-A1131 Sähkömagnetismi
 PHYS-A1141 Aineen rakenne
 PHYS-C0110 Mechanics
 PHYS-C0200 Johdatus kokeelliseen fysiikkaan
-PHYS-C0210 Kvanttimekaniikka
+PHYS-C0210 Kvanttimekaniikka 1
 PHYS-C0220 Termodynamiikka ja statistinen fysiikka
-PHYS-C0230 Klassinen dynamiikka D
+PHYS-C0230 Klassinen dynamiikka
 PHYS-C0240 Materiaalifysiikka
 PHYS-C0253 Quantum Mechanics 1
 PHYS-C0254 Quantum Circuits
