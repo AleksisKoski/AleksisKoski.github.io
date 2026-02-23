@@ -1,243 +1,43 @@
-version: 1.15
+version: 1.16
 **Course data updated on:**
 
-13.01.2026
+23.02.2026
 
 **Added courses:**
 
-CS-C3300 Muotoiluantropologia
-CS-E4876 Multidisciplinary Research Projects in Machine Learning, Data Science and Artificial Intelligence D
-CS-E4920 Portfolio in Software and Service Engineering
-CS-E500010 Seminar in Software and Service Engineering D: AI for Software Engineering --- The Death of a Profession?
-MS-C1530 Curves and Surfaces
-MS-E1052 Combinatorial Network Analysis D
-MS-E1142 Computational Algebraic Geometry D
-MS-E1145 Algebraic Geometry D
-MS-E1281 Real Analysis D
-MS-E1531 Differential Geometry D
-MS-E1603 Random Graphs and Network Statistics D
-MS-E1652 Computational Methods for Differential Equations D
-MS-E1688 Special course: Advanced Cryptography D
-MS-EV0002 Introduction to R programming
-PHYS-C0258 Quantum Labs
-PHYS-E0423 Surface Physics D
-PHYS-E0430 Magnetism and Spintronics D
-PHYS-E0432 Quantum Many-Body Physics 2 D
-PHYS-E0450 Quantum Optics D
-PHYS-E0467 Experimental reactor physics D
-PHYS-E0554 Nanoelectronics D
-PHYS-EV0005 Quantum Chemistry Methods for Physicists
-PHYS-EV0007 Machine Learning from and for Quantum Science
+MS-EV0034 Algebraic Geometry II
 
 **Changed courses:**
 
-CS-A1110 Ohjelmointi 1
-CS-A1111 Ohjelmoinnin peruskurssi Y1
-CS-A1120 Ohjelmointi 2
-CS-A1121 Ohjelmoinnin peruskurssi Y2
-CS-A1123 Basics in Programming Y2
-CS-A1130 Tietotekniikka sovelluksissa
-CS-A1140 Tietorakenteet ja algoritmit
-CS-A1150 Tietokannat
+CS-A1120 Programming 2
+CS-A1140 Data Structures and Algorithms
 CS-A1155 Databases for Data Science
-CS-A1160 Beginner's Python for Engineers
-CS-C1000 Introduction to Artificial Intelligence
-CS-C1180 Verkkojulkaisemisen perusteet
-CS-C2000 Ihminen havaitsijana
-CS-C2100 Ohjelmointistudio 1
-CS-C2105 Programming Studio A
-CS-C2120 Ohjelmointistudio 2: projekti
-CS-C2130 Software Project 1
-CS-C2140 Software Project 2
-CS-C2160 Theory of Computation
-CS-C2161 Laskennan teoria
-CS-C2170 Modern and Emerging Programming Languages
-CS-C3100 Computer Graphics
-CS-C3130 Information Security
-CS-C3140 Operating Systems
-CS-C3150 Software Engineering
-CS-C3170 Web Software Development
-CS-C3180 Software Design and Modelling
-CS-C3240 Machine Learning
-CS-C3250 Data Science Project
-CS-C3260 Practical Quantum Computing
-CS-C3310 Studio: Ihmisten ja organisaatioiden tutkimus
-CS-C4015 Johdatus teknilliseen psykologiaan
+CS-C3240 Machine Learning D
 CS-C4020 Cognitive Psychology
-CS-C4030 Sosiaalipsykologia
-CS-C4040 Teknillisen psykologian tutkimusprojekti
-CS-C4470 Informaatiomanipulaatio 
-CS-E3220 Declarative Programming D
-CS-E3900 USchool Intro D
-CS-E4000 Seminar in Computer Science D
-CS-E4190 Cloud Software and Systems D
-CS-E4265 Multimedia Systems D
-CS-E4270 Device-Agnostic Design D
-CS-E4300 Network Security D
-CS-E4340 Cryptography D
-CS-E4370 Applied Cryptography D
-CS-E4390 Cybersecurity Management D
-CS-E4400 Design of WWW Services D
-CS-E4410 Semantic Web D
-CS-E4450 Explorative Information Visualization D
-CS-E4500 Advanced Course in Algorithms D
-CS-E4510 Distributed Algorithms D
-CS-E4530 Computational Complexity Theory D
 CS-E4565 Combinatorics of Computation D
-CS-E4580 Programming Parallel Computers D
-CS-E4595 Competitive Programming D
-CS-E4640 Big Data Platforms D
-CS-E4645 Research Project on Data Intensive Computing D
-CS-E4650 Methods of Data Mining D
-CS-E4660 Advanced Topics in Software Systems D
-CS-E4700 Logic and Hard Computational Problems D
-CS-E4715 Supervised Machine Learning D
-CS-E4720 Computational Geometry D
-CS-E4730 Computational Social Science D
-CS-E4740 Federated Learning D
-CS-E4760 Platform Security D
-CS-E4770 Designing and Building Scalable Web Applications D
-CS-E4800 Artificial Intelligence D
-CS-E4825 Probabilistic Machine Learning D
 CS-E4840 Information Visualization D
-CS-E4850 Computer Vision D
-CS-E4890 Deep Learning D
 CS-E4891 Deep Generative Models D
-CS-E4895 Gaussian Processes D
-CS-E4900 User-Centered Methods for Product and Service Design D
-CS-E4910 Software Project 3 D
+CS-E4920 Portfolio in Software and Service Engineering (V)
 CS-E4930 Software Processes and Projects D
-CS-E4940 Requirements Engineering D
 CS-E4950 Software Architectures D
-CS-E4960 Software Testing and Quality Assurance D
-CS-E5010 Research Methods: Foundations D
-CS-E5011  Research Methods: Case Studies & Design Science D
-CS-E5012 Research Methods: AI-based Data Synthesis & Analysis D
-CS-E5220 User Interface Construction D
 CS-E5230 Collaborative Evaluation of Interactive Systems D
-CS-E5252 Creative Digital Concept Design
-CS-E5480 Digital Ethics D
-CS-E5600 Aesthetics D
-CS-E5690 Audio Programming Project D
-CS-E5700 Hands-on Network Analysis D
-CS-E5710 Bayesian Data Analysis D
-CS-E5740 Complex Networks D
-CS-E5755 Nonlinear Dynamics and Chaos D
-CS-E5775 Complex Systems D
-CS-E5795 Computational Methods in Stochastics D
-CS-E5885 Modeling Biological Networks D
-CS-L9000 Introduction to Doctoral Studies in Computer Science
-MS-A0001 Matriisilaskenta
-MS-A0002 Matriisilaskenta (SCI)
-MS-A0003 Matriisilaskenta (ELEC1, ENG1)
-MS-A0004 Matriisilaskenta (CHEM,ELEC2, ENG2)
-MS-A0009 Matrisräkning
-MS-A0011 Matrix Algebra
-MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM)
-MS-A0102 Differentiaali- ja integraalilaskenta 1 (SCI)
-MS-A0103 Differentiaali- ja integraalilaskenta 1 (ELEC1, ENG1)
-MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
-MS-A0107 Differentiaali- ja integraalilaskenta 1 (CHEM)
-MS-A0108 Differentiaali- ja integraalilaskenta 1
-MS-A0109 Differential- och integralkalkyl 1
-MS-A0111 Differential and Integral Calculus 1
-MS-A0201 Differentiaali- ja integraalilaskenta 2 (TFM)
-MS-A0202 Differentiaali- ja integraalilaskenta 2 (SCI)
-MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1)
-MS-A0204 Differentiaali- ja integraalilaskenta 2 (CHEM, ELEC2)
-MS-A0205 Differentiaali- ja integraalilaskenta 2 (ENG)
-MS-A0209 Differential- och integralkalkyl 2
-MS-A0211 Differential and Integral Calculus 2
-MS-A0301 Differentiaali- ja integraalilaskenta 3
-MS-A0305 Differentiaali- ja integraalilaskenta 3
-MS-A0309 Differential- och integralkalkyl 3
+MS-A0001 Matrix Algebra
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
 MS-A0311 Differential and Integral Calculus 3
-MS-A0401 Diskreetin matematiikan perusteet
-MS-A0402 Foundations of Discrete Mathematics
-MS-A0409 Grundkurs i diskret matematik
-MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
-MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
-MS-A0503 First Course in Probability and Statistics
-MS-A0504 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
-MS-A0509 Grundkurs i sannolikhetskalkyl och statistik
-MS-C1081 Abstract Algebra
-MS-C1300 Complex Analysis
-MS-C1342 Linear Algebra
-MS-C1343 Lineaarialgebra
-MS-C1350 Partial Differential Equations
-MS-C1420 Fourier-analyysi
-MS-C1541 Metric Spaces
+MS-C1343 Linear Algebra
 MS-C1620 Statistical Inference
-MS-C1650 Numerical Analysis
 MS-C2105 Introduction to Optimization
 MS-C2107 Sovelletun matematiikan tietokonetyöt
-MS-C2110 Introduction to Operations Research
-MS-C2111 Stochastic Processes
-MS-C2128 Prediction and Time Series Analysis
 MS-C2133 Operaatiotutkimuksen laboratoriotyöt I
-MS-E1010 Tieteen filosofia D
-MS-E1050 Graph Theory D
-MS-E1110 Number Theory D
 MS-E1200 Lie Groups and Lie Algebras D
-MS-E1280 Measure and Integral D
-MS-E1288 Analysis Seminar D
 MS-E1423 Fourier Theory D
+MS-E1531 Differential Geometry D
 MS-E1542 General Topology D
-MS-E1600 Probability Theory D
-MS-E1604 Brownian motion and stochastic analysis D
-MS-E1624 High-Dimensional Statistics D
-MS-E1651 Numerical Matrix Computations D
-MS-E1653 Finite Element Method D
-MS-E1654 Computational Inverse Problems D
 MS-E2112 Multivariate Statistical Analysis D
-MS-E2114 Investment Science D
-MS-E2117 Riskianalyysi D
-MS-E2120 Suomalaisen yhteiskunnan resilienssi D
-MS-E2121 Linear Optimization D
-MS-E2122 Nonlinear Optimization D
-MS-E2132 Laboratory Assignments in Operations Research II D
-MS-E2135 Decision Analysis D
-MS-E2145 Combinatorial Optimization D
-MS-E2150 Discrete Event Simulation D
-MS-E2177 Seminar on Case Studies in Operations Research D
-MS-E2191 Graduate Seminar on Operations Research D
+MS-E2177 Seminar on Case Studies in Operations Research (V) D
+MS-E2191 Graduate Seminar on Operations Research (V) D
 MS-EV0020 Introduction to Equilibrium Modelling with Applications
-PHYS-A0111 Mekaniikka (TFM)
-PHYS-A0120 Termodynamiikka (TFM)
-PHYS-A0130 Sähkömagnetismi (TFM)
-PHYS-A0140 Aineen rakenne (TFM)
-PHYS-A1111 Mekaniikka
-PHYS-A1121 Termodynamiikka
-PHYS-A1131 Sähkömagnetismi
-PHYS-A1141 Aineen rakenne
-PHYS-C0110 Mechanics
-PHYS-C0200 Johdatus kokeelliseen fysiikkaan
-PHYS-C0210 Kvanttimekaniikka 1
-PHYS-C0220 Termodynamiikka ja statistinen fysiikka
-PHYS-C0230 Klassinen dynamiikka
-PHYS-C0240 Materiaalifysiikka
-PHYS-C0253 Quantum Mechanics 1
-PHYS-C0254 Quantum Circuits
-PHYS-C0256 Thermodynamics and Statistical Physics
-PHYS-C0360 Säteilyfysiikka ja -turvallisuus
-PHYS-C0370 Maailman pelastamisen perusteet: näkökulma fysiikasta
+PHYS-A0130 Sähkömagentismi (TFM)
+PHYS-C0210 Kvanttimekaniikka
+PHYS-C0230 Klassinen dynamiikka D
 PHYS-C1380 Multi-disciplinary energy perspectives
-PHYS-C6360 Johdatus ydinenergiatekniikkaan
-PHYS-C9381 Energialukutaito: ydinkysymyksiä ja -vastauksia energiasta
-PHYS-E0410 Quantum Mechanics 2 D
-PHYS-E0412 Computational Physics D
-PHYS-E0415 Statistical Mechanics D
-PHYS-E0422 Soft Condensed Matter Physics D
-PHYS-E0431 Quantum Many-Body Physics 1 D
-PHYS-E0434 Advanced Quantum Materials D
-PHYS-E0437 Laser Physics D
-PHYS-E0460 Introduction to Reactor Physics D
-PHYS-E0461 Introduction to plasma physics for fusion and space applications D
-PHYS-E0463 Fusion Energy Technology D
-PHYS-E0510 Advanced Computational Methods in Physics D
-PHYS-E0525 Microscopy of Nanomaterials D
-PHYS-E0527 Applied X-ray Scattering Techniques in Materials Science D
-PHYS-E0555 Low Temperature Physics and Cryogenics D
-PHYS-E0562 Nuclear Engineering, advanced course D
-PHYS-E6570 Solar Energy Engineering D
-PHYS-E6575 Experimental Methods in Physics D
