@@ -1,43 +1,12 @@
-version: 1.16
+version: 1.18
 **Course data updated on:**
 
-23.02.2026
+24.02.2026
 
 **Added courses:**
 
-MS-EV0034 Algebraic Geometry II
+-
 
 **Changed courses:**
 
-CS-A1120 Programming 2
-CS-A1140 Data Structures and Algorithms
-CS-A1155 Databases for Data Science
-CS-C3240 Machine Learning D
-CS-C4020 Cognitive Psychology
-CS-E4565 Combinatorics of Computation D
-CS-E4840 Information Visualization D
-CS-E4891 Deep Generative Models D
-CS-E4920 Portfolio in Software and Service Engineering (V)
-CS-E4930 Software Processes and Projects D
-CS-E4950 Software Architectures D
-CS-E5230 Collaborative Evaluation of Interactive Systems D
-MS-A0001 Matrix Algebra
-MS-A0104 Differentiaali- ja integraalilaskenta 1 (CHEM,ELEC2, ENG2)
 MS-A0311 Differential and Integral Calculus 3
-MS-C1343 Linear Algebra
-MS-C1620 Statistical Inference
-MS-C2105 Introduction to Optimization
-MS-C2107 Sovelletun matematiikan tietokonetyöt
-MS-C2133 Operaatiotutkimuksen laboratoriotyöt I
-MS-E1200 Lie Groups and Lie Algebras D
-MS-E1423 Fourier Theory D
-MS-E1531 Differential Geometry D
-MS-E1542 General Topology D
-MS-E2112 Multivariate Statistical Analysis D
-MS-E2177 Seminar on Case Studies in Operations Research (V) D
-MS-E2191 Graduate Seminar on Operations Research (V) D
-MS-EV0020 Introduction to Equilibrium Modelling with Applications
-PHYS-A0130 Sähkömagentismi (TFM)
-PHYS-C0210 Kvanttimekaniikka
-PHYS-C0230 Klassinen dynamiikka D
-PHYS-C1380 Multi-disciplinary energy perspectives
