@@ -1155,6 +1155,7 @@
 				isCustom: false,
 				hasAddedData: false,
 				allowed: false,
+				loggedPerWeek: false,
 				periods: [0,0,0,0,0]
               };
               allCourses.push(course);
@@ -1182,11 +1183,12 @@
             const weeks = parseWeekList(weeksStr);
 
             for (const w of weeks) {
+			  course.loggedPerWeek = false;
               for (let h = startHour; h < endHour; h++) {
 				if (h > 7 && h < 18 && (day in finnishWeekdayMap)){ // only sessions between 8 and 18 on mon-fri count
 					course.sessionCount += 1;
 					const index = myWeeks.indexOf(w);
-					if (index !== -1 && sesType.toLowerCase() == "lecture" && nameType == "MS") {
+					if (index !== -1 && sesType.toLowerCase() == "lecture" && nameType == "MS" && !course.loggedPerWeek) {
 					  weekCounts[index] += 1; // those sessions are logged to weekCounts to populate periods
 					}
 				} else {
