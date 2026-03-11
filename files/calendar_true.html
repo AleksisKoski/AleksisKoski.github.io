@@ -1190,6 +1190,7 @@
 					const index = myWeeks.indexOf(w);
 					if (index !== -1 && sesType.toLowerCase() == "lecture" && nameType == "MS" && !course.loggedPerWeek) {
 					  weekCounts[index] += 1; // those sessions are logged to weekCounts to populate periods
+					  course.loggedPerWeek = true;
 					}
 				} else {
 					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour:", h, "Day:", day, "Weeks:", weeksStr);
@@ -1202,7 +1203,8 @@
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
-
+				
+				if (course.courseName == "MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1)"){console.log(w);}
                 course.instances.push({
                   type: sesType,
                   date: sesDate,
