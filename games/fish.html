@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fishing Minigame</title>
+  <style>
+    body {
+      margin: 0;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let WIDTH, HEIGHT;
+
+const bg = new Image();
+const barImg = new Image();
+const fishImg = new Image();
+
+bg.src = "sd_bg.png";
+barImg.src = "sd_bar.png";
+fishImg.src = "sd_fish.png";
+
+Promise.all([
+  new Promise(r => bg.onload = r),
+  new Promise(r => barImg.onload = r),
+  new Promise(r => fishImg.onload = r)
+]).then(start);
+
+const GRAVITY = 0.4;
+const CLICK_FORCE = -6;
+
+const TOP_BOUNCE = 0.8;
+const BOTTOM_BOUNCE = 0.4;
+
+const FISH_MOVE_INTERVAL = 2500;
+const FISH_SPEED = 1.4;
+
+const PROGRESS_UP_SPEED = 0.20;
+const PROGRESS_DOWN_SPEED = 0.35;
+
+let y, velocity;
+
+let fishY, fishTargetY;
+let lastFishMove = 0;
+
+let progress = 0;
+
+let mouseDown = false;
+
+
+window.addEventListener("mousedown", () => mouseDown = true);
+window.addEventListener("mouseup", () => mouseDown = false);
+
+window.addEventListener("touchstart", (e) => {
+  mouseDown = true;
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener("touchend", () => {
+  mouseDown = false;
+});
+
+window.addEventListener("keydown", e => {
+  if (e.key === "c") mouseDown = true;
+});
+
+window.addEventListener("keyup", e => {
+  if (e.key === "c") mouseDown = false;
+});
+
+
+function randomFishTarget() {
+  const margin = BAR_HEIGHT * 0.1;
+  return Math.random() * (
+    (BAR_BOTTOM - margin - FISH_HEIGHT) - (BAR_TOP + margin)
+  ) + (BAR_TOP + margin);
+}
+
+
+let lastTime = performance.now();
+
+function loop(now) {
+  const dt = now - lastTime;
+  lastTime = now;
+  const dtSeconds = dt / 1000;
+
+  update(dt, dtSeconds, now);
+  draw();
+
+  requestAnimationFrame(loop);
+}
+
+
+function update(dt, dtSeconds, now) {
+
+  // INPUT
+  if (mouseDown) {
+    velocity += CLICK_FORCE * 0.12;
+  }
+
+  // PHYSICS
+  velocity += GRAVITY;
+  y += velocity;
+
+  if (y < BAR_TOP) {
+    y = BAR_TOP;
+    velocity *= -TOP_BOUNCE;
+  }
+
+  if (y + BLOCK_HEIGHT > BAR_BOTTOM) {
+    y = BAR_BOTTOM - BLOCK_HEIGHT;
+    velocity *= -BOTTOM_BOUNCE;
+  }
+
+  // FISH TARGET CHANGE
+  if (now - lastFishMove > FISH_MOVE_INTERVAL) {
+    fishTargetY = randomFishTarget();
+    lastFishMove = now;
+  }
+
+  // FISH MOVEMENT
+  if (Math.abs(fishTargetY - fishY) > 1) {
+    const dir = fishTargetY > fishY ? 1 : -1;
+    fishY += dir * FISH_SPEED;
+  }
+
+  const fishCenter = fishY + FISH_HEIGHT / 2;
+  const barTop = y;
+  const barBottom = y + BLOCK_HEIGHT;
+
+  const fishOnBar = fishCenter >= barTop && fishCenter <= barBottom;
+
+  if (fishOnBar) {
+    progress += PROGRESS_UP_SPEED * dtSeconds;
+  } else {
+    progress -= PROGRESS_DOWN_SPEED * dtSeconds;
+  }
+
+  progress = Math.max(0, Math.min(1, progress));
+}
+
+
+function draw() {
+  ctx.fillStyle = "magenta";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+  ctx.drawImage(bg, 0, 0);
+
+  // Player bar
+  ctx.drawImage(barImg, BAR_X + 17, y);
+
+  // Fish
+  ctx.drawImage(
+    fishImg,
+    BAR_X + BAR_WIDTH / 2 - FISH_WIDTH / 2 + 11,
+    fishY
+  );
+
+  // Progress bar
+  const BAR_W = 14;
+  const BAR_H = 576;
+
+  const barX = WIDTH - BAR_W - 25;
+  const barY = HEIGHT - BAR_H - 27;
+
+  const fillHeight = BAR_H * progress;
+
+  let r, g, b;
+
+  if (progress < 0.5) {
+    const t = progress / 0.5;
+    r = 255;
+    g = 255 * t;
+    b = 0;
+  } else {
+    const t = (progress - 0.5) / 0.5;
+    r = 255 * (1 - t);
+    g = 255;
+    b = 0;
+  }
+
+  ctx.fillStyle = `rgb(${r},${g},${b})`;
+
+  if (fillHeight > 0) {
+    ctx.fillRect(
+      barX,
+      barY + BAR_H - fillHeight,
+      BAR_W,
+      fillHeight
+    );
+  }
+}
+
+
+function start() {
+  WIDTH = bg.width;
+  HEIGHT = bg.height;
+
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
+
+  BAR_X = WIDTH / 2 - 25;
+  BAR_WIDTH = 50;
+  BAR_HEIGHT = HEIGHT - 50;
+  BAR_TOP = HEIGHT - BAR_HEIGHT - 20;
+  BAR_BOTTOM = BAR_TOP + BAR_HEIGHT - 14;
+
+  BLOCK_WIDTH = barImg.width;
+  BLOCK_HEIGHT = barImg.height;
+
+  FISH_WIDTH = fishImg.width;
+  FISH_HEIGHT = fishImg.height;
+
+  y = BAR_BOTTOM - BLOCK_HEIGHT;
+  velocity = 0;
+
+  fishY = randomFishTarget();
+  fishTargetY = randomFishTarget();
+  lastFishMove = performance.now();
+  console.log("hi")
+  requestAnimationFrame(loop);
+}
+</script>
+
+</body>
+</html>
