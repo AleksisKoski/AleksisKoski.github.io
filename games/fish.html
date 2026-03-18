@@ -160,7 +160,7 @@ function update(dt, dtSeconds, now) {
 
   const fishOnBar = fishCenter >= barTop && fishCenter <= barBottom;
 
-  if (fishOnBar and !showGreat) {
+  if (fishOnBar && !showGreat) {
     progress += PROGRESS_UP_SPEED * dtSeconds;
   } else {
     progress -= (1 + 2*showGreat) * PROGRESS_DOWN_SPEED * dtSeconds;
