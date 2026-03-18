@@ -34,10 +34,14 @@ bg.src = "sd_bg.png";
 barImg.src = "sd_bar.png";
 fishImg.src = "sd_fish.png";
 
+const greatImg = new Image();
+greatImg.src = "sd_great.png";
+
 Promise.all([
   new Promise(r => bg.onload = r),
   new Promise(r => barImg.onload = r),
-  new Promise(r => fishImg.onload = r)
+  new Promise(r => fishImg.onload = r),
+  new Promise(r => greatImg.onload = r)
 ]).then(start);
 
 const GRAVITY = 0.4;
@@ -60,6 +64,16 @@ let lastFishMove = 0;
 let progress = 0;
 
 let mouseDown = false;
+
+let showGreat = false;
+let greatStartTime = 0;
+let lastGreatTime = -Infinity;
+
+const GREAT_DURATION = 1200;   // 2 seconds
+const GREAT_COOLDOWN = 4000;  // 10 seconds
+
+let greatOffsetY = 0;
+let greatPos = 0;
 
 
 window.addEventListener("mousedown", () => mouseDown = true);
@@ -151,6 +165,29 @@ function update(dt, dtSeconds, now) {
   }
 
   progress = Math.max(0, Math.min(1, progress));
+  
+  if (
+  progress >= 1 &&
+  now - lastGreatTime > GREAT_COOLDOWN &&
+  !showGreat
+) {
+  showGreat = true;
+  greatPos = fishY;
+  greatStartTime = now;
+  lastGreatTime = now;
+  greatOffsetY = 0;
+}
+
+if (showGreat) {
+  const elapsed = now - greatStartTime;
+
+  // move upward over time
+  greatOffsetY = (elapsed / GREAT_DURATION) * 30;
+
+  if (elapsed > GREAT_DURATION) {
+    showGreat = false;
+  }
+}
 }
 
 
@@ -204,6 +241,12 @@ function draw() {
       fillHeight
     );
   }
+  if (showGreat) {
+  const x = BAR_X + BAR_WIDTH / 2 - greatImg.width / 2 + 11;
+  const yPos = greatPos - greatOffsetY;
+
+  ctx.drawImage(greatImg, x, yPos);
+}
 }
 
 
