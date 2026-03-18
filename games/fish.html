@@ -50,8 +50,8 @@ const CLICK_FORCE = -6;
 const TOP_BOUNCE = 0.8;
 const BOTTOM_BOUNCE = 0.4;
 
-const FISH_MOVE_INTERVAL = 2500;
-const FISH_SPEED = 1.4;
+let FISH_MOVE_INTERVAL = 2500;
+let FISH_SPEED = 1.4;
 
 const PROGRESS_UP_SPEED = 0.16;
 const PROGRESS_DOWN_SPEED = 0.30;
@@ -186,6 +186,9 @@ if (showGreat) {
 
   if (elapsed > GREAT_DURATION) {
     showGreat = false;
+    progress = 0;
+    FISH_MOVE_INTERVAL = FISH_MOVE_INTERVAL * 0.9;
+    FISH_SPEED = FISH_SPEED*1.1;
   }
 }
 }
