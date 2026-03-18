@@ -52,7 +52,9 @@ const BOTTOM_BOUNCE = 0.4;
 
 let FISH_MOVE_INTERVAL = 2500;
 let RANDOM_FISH_INTERVAL = 2500;
-let FISH_SPEED = 1.4;
+let FISH_SPEED = 0.0;
+let fishAccel = 0.06;
+let fishTopSpd = 1.4;
 
 const PROGRESS_UP_SPEED = 0.16;
 const PROGRESS_DOWN_SPEED = 0.30;
@@ -62,6 +64,7 @@ let y, velocity;
 let fishY, fishTargetY;
 let fishTargetSign;
 let lastFishMove = 0;
+let firstMove = true;
 
 let progress = 0;
 let fishCaught = 0;
@@ -144,7 +147,8 @@ function update(dt, dtSeconds, now) {
   }
 
   // FISH TARGET CHANGE
-  if (now - lastFishMove > RANDOM_FISH_INTERVAL) {
+  if (now - lastFishMove > RANDOM_FISH_INTERVAL || firstMove) {
+	firstMove = false;
     fishTargetY = randomFishTarget();
     if (fishTargetY > fishY) {fishTargetSign = 1;
     } else {fishTargetSign = -1;}
@@ -154,9 +158,12 @@ function update(dt, dtSeconds, now) {
 
   // FISH MOVEMENT
   if (Math.abs(fishTargetY - fishY) > 1 && (fishTargetY-fishY)*fishTargetSign >= 0) {
+	if (FISH_SPEED < fishTopSpd){
+		FISH_SPEED = Math.min(FISH_SPEED+fishAccel,fishTopSpd);
+	}
     const dir = fishTargetY > fishY ? 1 : -1;
     fishY += dir * FISH_SPEED;
-  }
+  } else {FISH_SPEED = 0.0;}
 
   const fishCenter = fishY + FISH_HEIGHT / 2;
   const barTop = y;
@@ -194,8 +201,9 @@ if (showGreat) {
   if (elapsed > GREAT_DURATION) {
     showGreat = false;
     progress = 0;
-    FISH_MOVE_INTERVAL *= 0.9;
-    FISH_SPEED *= 1.1;
+    FISH_MOVE_INTERVAL *= 0.91;
+    fishTopSpd *= 1.1;
+    fishAccel *= 1.1;
   }
 }
 }
@@ -291,10 +299,9 @@ function start() {
   y = BAR_BOTTOM - BLOCK_HEIGHT;
   velocity = 0;
 
-  fishY = randomFishTarget();
+  fishY = (BAR_BOTTOM)*0.3;
   fishTargetY = randomFishTarget();
   lastFishMove = performance.now();
-  console.log("hi")
   requestAnimationFrame(loop);
 }
 </script>
