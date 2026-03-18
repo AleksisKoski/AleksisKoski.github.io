@@ -64,6 +64,7 @@ let fishTargetSign;
 let lastFishMove = 0;
 
 let progress = 0;
+let fishCaught = 0;
 
 let mouseDown = false;
 
@@ -176,6 +177,7 @@ function update(dt, dtSeconds, now) {
   now - lastGreatTime > GREAT_COOLDOWN &&
   !showGreat
 ) {
+  fishCaught += 1;
   showGreat = true;
   greatPos = fishY;
   greatStartTime = now;
@@ -252,8 +254,11 @@ function draw() {
   if (showGreat) {
   const x = BAR_X + BAR_WIDTH / 2 - greatImg.width / 2 + 11;
   const yPos = greatPos - greatOffsetY;
-
-  ctx.drawImage(greatImg, x, yPos);
+  ctx.drawImage(
+    greatImg,
+    0, 29*Math.min(Math.floor(fishCaught/2),7), 138, 29,          // crop area
+    x, yPos, 138, 29   // where + size
+  );
 }
 }
 
