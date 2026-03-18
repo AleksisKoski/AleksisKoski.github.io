@@ -160,10 +160,10 @@ function update(dt, dtSeconds, now) {
 
   const fishOnBar = fishCenter >= barTop && fishCenter <= barBottom;
 
-  if (fishOnBar) {
+  if (fishOnBar and !showGreat) {
     progress += PROGRESS_UP_SPEED * dtSeconds;
   } else {
-    progress -= PROGRESS_DOWN_SPEED * dtSeconds;
+    progress -= (1 + 2*showGreat) * PROGRESS_DOWN_SPEED * dtSeconds;
   }
 
   progress = Math.max(0, Math.min(1, progress));
