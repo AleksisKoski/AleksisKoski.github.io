@@ -51,6 +51,7 @@ const TOP_BOUNCE = 0.8;
 const BOTTOM_BOUNCE = 0.4;
 
 let FISH_MOVE_INTERVAL = 2500;
+let RANDOM_FISH_INTERVAL = 2500;
 let FISH_SPEED = 1.4;
 
 const PROGRESS_UP_SPEED = 0.16;
@@ -141,13 +142,14 @@ function update(dt, dtSeconds, now) {
   }
 
   // FISH TARGET CHANGE
-  if (now - lastFishMove > FISH_MOVE_INTERVAL) {
+  if (now - lastFishMove > RANDOM_FISH_INTERVAL) {
     fishTargetY = randomFishTarget();
     lastFishMove = now;
+    RANDOM_FISH_INTERVAL = FISH_MOVE_INTERVAL*(0.7+0.6*Math.random())
   }
 
   // FISH MOVEMENT
-  if (Math.abs(fishTargetY - fishY) > 1) {
+  if (Math.abs(fishTargetY - fishY) > 2) {
     const dir = fishTargetY > fishY ? 1 : -1;
     fishY += dir * FISH_SPEED;
   }
@@ -187,8 +189,8 @@ if (showGreat) {
   if (elapsed > GREAT_DURATION) {
     showGreat = false;
     progress = 0;
-    FISH_MOVE_INTERVAL = FISH_MOVE_INTERVAL * 0.9;
-    FISH_SPEED = FISH_SPEED*1.1;
+    FISH_MOVE_INTERVAL *= 0.9;
+    FISH_SPEED *= 1.1;
   }
 }
 }
