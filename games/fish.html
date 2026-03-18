@@ -60,6 +60,7 @@ const PROGRESS_DOWN_SPEED = 0.30;
 let y, velocity;
 
 let fishY, fishTargetY;
+let fishTargetSign;
 let lastFishMove = 0;
 
 let progress = 0;
@@ -144,12 +145,14 @@ function update(dt, dtSeconds, now) {
   // FISH TARGET CHANGE
   if (now - lastFishMove > RANDOM_FISH_INTERVAL) {
     fishTargetY = randomFishTarget();
+    if (fishTargetY > fishY) {fishTargetSign = 1;
+    } else {fishTargetSign = -1;}
     lastFishMove = now;
     RANDOM_FISH_INTERVAL = FISH_MOVE_INTERVAL*(0.7+0.6*Math.random())
   }
 
   // FISH MOVEMENT
-  if (Math.abs(fishTargetY - fishY) > 2) {
+  if (Math.abs(fishTargetY - fishY) > 1 && ((fishTargetY-fishY)*fishTargetSign >= 0) {
     const dir = fishTargetY > fishY ? 1 : -1;
     fishY += dir * FISH_SPEED;
   }
