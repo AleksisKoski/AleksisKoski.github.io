@@ -152,7 +152,7 @@ function update(dt, dtSeconds, now) {
   }
 
   // FISH MOVEMENT
-  if (Math.abs(fishTargetY - fishY) > 1 && ((fishTargetY-fishY)*fishTargetSign >= 0) {
+  if (Math.abs(fishTargetY - fishY) > 1 && (fishTargetY-fishY)*fishTargetSign >= 0) {
     const dir = fishTargetY > fishY ? 1 : -1;
     fishY += dir * FISH_SPEED;
   }
