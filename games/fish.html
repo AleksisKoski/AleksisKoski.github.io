@@ -98,7 +98,7 @@ window.addEventListener("keyup", e => {
 
 
 function randomFishTarget() {
-  const margin = BAR_HEIGHT * 0.1;
+  const margin = BAR_HEIGHT * 0.05;
   return Math.random() * (
     (BAR_BOTTOM - margin - FISH_HEIGHT) - (BAR_TOP + margin)
   ) + (BAR_TOP + margin);
