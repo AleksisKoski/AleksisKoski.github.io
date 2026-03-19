@@ -174,7 +174,7 @@ function update(dt, dtSeconds, now) {
   if (fishOnBar && !showGreat) {
     progress += PROGRESS_UP_SPEED * dtSeconds;
   } else {
-    progress -= (1 + 2*showGreat) * PROGRESS_DOWN_SPEED * dtSeconds;
+    progress -= (1 + 2.5*showGreat) * PROGRESS_DOWN_SPEED * dtSeconds;
   }
 
   progress = Math.max(0, Math.min(1, progress));
