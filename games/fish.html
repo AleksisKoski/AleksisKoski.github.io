@@ -129,11 +129,11 @@ function update(dt, dtSeconds, now) {
 
   // INPUT
   if (mouseDown) {
-    velocity += CLICK_FORCE * 0.12 * dtSeconds * 60;
+    velocity += CLICK_FORCE * 0.09 * dtSeconds * 60;
   }
 
   // PHYSICS
-  velocity += GRAVITY * dtSeconds * 60;
+  velocity += GRAVITY * 0.6 * dtSeconds * 60;
   y += velocity * dtSeconds * 60;
 
   if (y < BAR_TOP) {
