@@ -129,12 +129,12 @@ function update(dt, dtSeconds, now) {
 
   // INPUT
   if (mouseDown) {
-    velocity += CLICK_FORCE * 0.12;
+    velocity += CLICK_FORCE * 0.12 * dtSeconds * 60;
   }
 
   // PHYSICS
-  velocity += GRAVITY;
-  y += velocity;
+  velocity += GRAVITY * dtSeconds * 60;
+  y += velocity * dtSeconds * 60;
 
   if (y < BAR_TOP) {
     y = BAR_TOP;
@@ -159,10 +159,10 @@ function update(dt, dtSeconds, now) {
   // FISH MOVEMENT
   if (Math.abs(fishTargetY - fishY) > 1 && (fishTargetY-fishY)*fishTargetSign >= 0) {
 	if (FISH_SPEED < fishTopSpd){
-		FISH_SPEED = Math.min(FISH_SPEED+fishAccel,fishTopSpd);
+		FISH_SPEED = Math.min(FISH_SPEED + fishAccel * dtSeconds * 60,fishTopSpd);
 	}
     const dir = fishTargetY > fishY ? 1 : -1;
-    fishY += dir * FISH_SPEED;
+    fishY += dir * FISH_SPEED * dtSeconds * 60;
   } else {FISH_SPEED = 0.0;}
 
   const fishCenter = fishY + FISH_HEIGHT / 2;
