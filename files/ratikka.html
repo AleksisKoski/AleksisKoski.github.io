@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tram 15 - Alberganesplanadi</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #0d0d0d;
+      color: #eaeaea;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .title {
+      font-size: 2rem;
+      opacity: 0.8;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .time {
+      font-size: 5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">15 Alberganesplanadi</div>
+    <div class="subtitle">Next tram:</div>
+    <div class="time" id="time">?? min</div>
+  </div>
+
+  <script>
+    const STOP_ID = "HSL:0762"; // Alberganesplanadi
+
+    async function fetchNextTram() {
+      const query = `
+      {
+        stop(id: "${STOP_ID}") {
+          stoptimesWithoutPatterns(numberOfDepartures: 10) {
+            realtimeDeparture
+            serviceDay
+            trip {
+              route {
+                shortName
+              }
+            }
+          }
+        }
+      }`;
+
+      try {
+        const res = await fetch(
+          "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query })
+          }
+        );
+
+        const data = await res.json();
+
+        const now = Date.now();
+
+        const departures = data.data.stop.stoptimesWithoutPatterns
+          .filter(t => t.trip.route.shortName === "15")
+          .map(t => (t.serviceDay + t.realtimeDeparture) * 1000)
+          .filter(time => time > now)
+          .sort((a, b) => a - b);
+
+        if (departures.length === 0) {
+          document.getElementById("time").textContent = "--";
+          return;
+        }
+
+        const next = departures[0];
+        const minutes = Math.floor((next - now) / 60000);
+
+        document.getElementById("time").textContent = minutes + " min";
+
+      } catch (err) {
+        document.getElementById("time").textContent = "ERR";
+        console.error(err);
+      }
+    }
+
+    // Initial fetch + refresh every 30 seconds
+    fetchNextTram();
+    setInterval(fetchNextTram, 30000);
+  </script>
+</body>
+</html>
