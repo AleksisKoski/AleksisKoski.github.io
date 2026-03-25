@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    image-rendering: pixelated;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let lastTime = 0;
+let progress = 0;
+
+// logical resolution
+const WIDTH = 400;
+const HEIGHT = 800;
+
+// scale canvas to fit screen
+function resize() {
+  const scale = Math.min(
+    window.innerWidth / WIDTH,
+    window.innerHeight / HEIGHT
+  );
+  canvas.width = WIDTH * scale;
+  canvas.height = HEIGHT * scale;
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+}
+window.addEventListener("resize", resize);
+resize();
+
+// physics
+const g = 0.6;
+const jumpVelocity = 10;
+const boostVelocity = 10;
+const speedX = 3;
+
+// player
+const player = {
+  x: 100,
+  y: 600,
+  vy: 0,
+  width: 20,
+  height: 20,
+  onGround: true,
+  jumping: false
+};
+
+const sprite = new Image();
+sprite.src = "jumper.png";
+
+const anim = {
+  frame: 0,
+  timer: 0,
+  speed: 0.15 // lower = slower animation
+};
+
+function updateAnimation(player) {
+  if (!player.onGround) {
+    // jumping frame (3rd frame)
+    anim.frame = 2;
+    anim.timer = 0;
+    return;
+  }
+
+  // running animation (frames 0 and 1)
+  anim.timer += anim.speed;
+
+  if (anim.timer >= 1) {
+    anim.timer = 0;
+    anim.frame = (anim.frame + 1) % 2;
+  }
+}
+
+function drawPlayer(ctx, player) {
+  const frameWidth = 20;
+  const frameHeight = 20;
+
+  ctx.drawImage(
+    sprite,
+    anim.frame * frameWidth, // source x
+    0,                       // source y
+    frameWidth,
+    frameHeight,
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  );
+}
+
+// blocks
+let blocks = [
+  { x: 0, y: 650, w: 600, h: 20 }
+];
+
+// input
+let holdingJump = false;
+let allowJump = true;
+
+const MAX_HOLD_TIME = 1.0; // seconds
+
+let jumpHoldTime = 0;
+
+document.addEventListener("keydown", e => {
+  if (e.key === "c") holdingJump = true;
+});
+document.addEventListener("keyup", e => {
+  if (e.key === "c") {
+    holdingJump = false;
+	allowJump = true;
+  }
+});
+document.addEventListener("pointerdown", () => holdingJump = true);
+document.addEventListener("pointerup", () => {
+  holdingJump = false;
+  allowJump = true;
+});
+
+// jump logic
+function handleJump(dt) {
+  if (holdingJump && player.onGround && allowJump) {
+    player.vy = -jumpVelocity;
+    player.onGround = false;
+	player.jumping = true;
+	allowJump = false;
+    jumpHoldTime = 0;
+  }
+  if (player.jumping && holdingJump) {
+    if (jumpHoldTime < MAX_HOLD_TIME) {
+      player.vy -= boostVelocity * dt; // upward boost (tune this)
+      jumpHoldTime += dt;
+    }
+  }
+  if (!holdingJump || jumpHoldTime >= MAX_HOLD_TIME) {
+    player.jumping = false;
+  }
+}
+
+// physics update
+function update(dt) {
+  handleJump(dt);
+
+  player.vy += g;
+  player.y += player.vy;
+
+  // collision
+  player.onGround = false;
+  for (let b of blocks) {
+    if (
+      player.x < b.x + b.w &&
+      player.x + player.width > b.x &&
+      player.y + player.height > b.y &&
+      player.y + player.height < b.y + b.h + 10 &&
+      player.vy >= 0
+    ) {
+      player.y = b.y - player.height;
+      player.vy = 0;
+      player.onGround = true;
+	  player.jumping = false
+    }
+  }
+
+  // move world left
+  for (let b of blocks) {
+    b.x -= speedX;
+  }
+
+  // remove old blocks
+  blocks = blocks.filter(b => b.x + b.w > 0);
+  
+  updateAnimation(player);
+
+  spawnNextBlock();
+  
+  if (player.y > HEIGHT){
+	player.y = 0;
+	progress = 0;
+	blocks = [
+		{ x: 0, y: 650, w: 600, h: 20 }
+	];
+  }
+}
+
+// procedural generation
+function spawnNextBlock() {
+  const last = blocks[blocks.length - 1];
+
+  if (last.x + last.w > WIDTH) return;
+
+  const x0 = last.x + last.w;
+  const y0 = last.y;
+  
+  const scale = (progress+10)/(progress+20);
+  
+  const j = jumpVelocity + boostVelocity/2;
+  
+
+  const maxHeight = Math.max(y0 - (j * j) / (4 * g) * scale, 100);
+  const minHeight = Math.min(y0 + (j * j) / (4 * g) * scale, HEIGHT-100);
+  const maxDist = (2 * j / g) * speedX * 0.9*scale;
+  const minDist = maxDist/1.8*scale;
+
+  // random point in triangle
+  const t = Math.random();
+  const u = Math.random();
+
+  let x = x0 + t * (maxDist-minDist) + minDist;
+  let y = u * (maxHeight - minHeight) + minHeight;
+  
+  if (y < y0 + (x-maxDist-x0)*j/4){y = y0 + (x-maxDist-x0)*j/4;}
+  
+  progress += 1;
+  
+  const w = 80+Math.random()*30-50*(progress/(progress+10));
+  const h = 20;
+
+  blocks.push({
+    x: x,
+    y: y,
+    w: w,
+    h: h
+  });
+  
+  if (Math.random() < 0.05){
+	blocks.push({
+    x: x+w,
+    y: y+h,
+    w: 30+Math.random()*20,
+    h: h
+  });
+  }
+}
+
+// render
+function draw() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // player
+  drawPlayer(ctx, player);
+
+  // blocks
+  ctx.fillStyle = "white";
+  for (let b of blocks) {
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+  }
+}
+
+// loop
+
+function loop(time) {
+  const dt = (time - lastTime) / 1000;
+  lastTime = time;
+
+  update(dt);
+  draw();
+
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>
