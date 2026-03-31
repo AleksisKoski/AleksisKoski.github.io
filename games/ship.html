@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pirate game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+<canvas id="gameCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Fixed internal resolution (typical Android portrait)
+const GAME_WIDTH = 360;
+const GAME_HEIGHT = 640;
+
+canvas.width = GAME_WIDTH;
+canvas.height = GAME_HEIGHT;
+
+function resize() {
+  const scale = Math.min(
+    window.innerWidth / GAME_WIDTH,
+    window.innerHeight / GAME_HEIGHT
+  );
+
+  canvas.style.width = GAME_WIDTH * scale + "px";
+  canvas.style.height = GAME_HEIGHT * scale + "px";
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+// Load images
+const shipImg = new Image();
+shipImg.src = "ship_img.png";
+
+const waterImg = new Image();
+waterImg.src = "water.png";
+
+const islandImg = new Image();
+islandImg.src = "island.png";
+
+// Ship state
+let ship = {
+  x: 0,
+  y: 0,
+  speed: 1,
+  angle: 0,
+  size: 5
+};
+
+
+// Islands (world positions)
+let islands = [];
+
+
+function generateIslands() {
+  const count = 5;
+  const minDist = 300;
+  const maxDist = 600;
+
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const dist = minDist + Math.random() * (maxDist - minDist);
+
+    islands.push({
+      x: Math.cos(angle) * dist,
+      y: Math.sin(angle) * dist,
+      size: 80
+    });
+  }
+}
+
+generateIslands();
+
+let target = { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 };
+
+function getPointerPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = GAME_WIDTH / rect.width;
+  const scaleY = GAME_HEIGHT / rect.height;
+
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  };
+}
+
+canvas.addEventListener("mousemove", (e) => {
+  target = getPointerPos(e);
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  target = getPointerPos(e.touches[0]);
+}, { passive: false });
+
+function checkCollision(nx, ny) {
+  for (let island of islands) {
+    const halfI = island.size / 2;
+    const halfS = ship.size / 2;
+
+    if (
+      nx + halfS > island.x - halfI &&
+      nx - halfS < island.x + halfI &&
+      ny + halfS > island.y - halfI &&
+      ny - halfS < island.y + halfI
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function update() {
+  const dx = target.x - GAME_WIDTH / 2;
+  const dy = target.y - GAME_HEIGHT / 2;
+
+  const angle = Math.atan2(dy, dx);
+  ship.angle = angle;
+
+  const moveX = Math.cos(angle) * ship.speed;
+  const moveY = Math.sin(angle) * ship.speed;
+
+  let nx = ship.x + moveX;
+  let ny = ship.y;
+
+  // Try move X only
+  if (!checkCollision(nx, ny)) {
+    ship.x = nx;
+  }
+
+  nx = ship.x;
+  ny = ship.y + moveY;
+
+  // Try move Y only
+  if (!checkCollision(nx, ny)) {
+    ship.y = ny;
+  }
+}
+
+function drawBackground() {
+  const tileSize = 100;
+
+  const offsetX = Math.floor(-ship.x % tileSize);
+  const offsetY = Math.floor(-ship.y % tileSize);
+
+  for (let x = offsetX - tileSize; x < GAME_WIDTH; x += tileSize) {
+    for (let y = offsetY - tileSize; y < GAME_HEIGHT; y += tileSize) {
+      ctx.drawImage(waterImg, x, y, tileSize, tileSize);
+    }
+  }
+}
+
+
+function drawIslands() {
+  if (!islandImg.complete) return;
+
+  const size = 100;
+
+  for (let island of islands) {
+    const screenX = Math.floor(GAME_WIDTH / 2 + (island.x - ship.x) - size / 2);
+    const screenY = Math.floor(GAME_HEIGHT / 2 + (island.y - ship.y) - size / 2);
+
+    // simple culling
+    if (
+      screenX < -size ||
+      screenY < -size ||
+      screenX > GAME_WIDTH ||
+      screenY > GAME_HEIGHT
+    ) continue;
+
+    ctx.drawImage(islandImg, screenX, screenY, size, size);
+  }
+}
+
+function drawShip() {
+  if (!shipImg.complete) return;
+
+  const frameCount = 16;
+  const spriteSize = 100;
+
+  let angle = -ship.angle;
+  if (angle < 0) angle += Math.PI * 2;
+
+  const index = Math.floor(angle / (Math.PI * 2) * frameCount+10) % frameCount;
+
+  const col = index % 4;
+  const row = Math.floor(index / 4);
+
+  const sx = col * spriteSize;
+  const sy = row * spriteSize;
+
+  const dx = GAME_WIDTH / 2 - spriteSize / 2;
+  const dy = GAME_HEIGHT / 2 - spriteSize / 2;
+
+  ctx.drawImage(shipImg, sx, sy, spriteSize, spriteSize, dx, dy, spriteSize, spriteSize);
+}
+
+function loop() {
+  update();
+
+  ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+  drawBackground();
+    drawIslands();
+  drawShip();
+
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>
