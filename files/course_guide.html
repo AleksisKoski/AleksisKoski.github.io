@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course organization guide</title>
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      src: url('Inter.ttc');
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: black;
+      color: white;
+      font-size: 20px;
+    }
+
+    header {
+      background: #cfe8f3;
+      color: black;
+      padding: 80px;
+      font-size: 48px;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: #111;
+      padding: 20px;
+      height: calc(100vh - 160px);
+      position: sticky;
+      top: 160px;
+      overflow-y: auto;
+    }
+
+    .topic {
+      margin-bottom: 12px;
+    }
+
+    .topic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 22px;
+    }
+
+    .topic-title {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .toggle-btn {
+      cursor: pointer;
+      padding-left: 10px;
+      font-weight: bold;
+    }
+
+    .sections {
+      display: none;
+      margin-left: 12px;
+      margin-top: 4px;
+    }
+
+    .sections a {
+      display: block;
+      font-size: 20px;
+      margin: 5px 0;
+      color: #ccc;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .sections a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 900px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 5px;
+    }
+
+    h3 {
+      font-size: 28px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .collapsible {
+      background: #222;
+      border: 1px solid #444;
+      margin: 10px 0;
+      border-radius: 6px;
+    }
+
+    .collapsible-header {
+      padding: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .collapsible-content {
+      padding: 10px;
+      display: none;
+      border-top: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+
+<header>Guide - Organizing a course</header>
+
+<div class="container">
+
+  <nav class="sidebar">
+  
+	<div class="topic">
+	  <div class="topic-header">
+		<span class="topic-title" onclick="loadPage('overview')">
+		  Overview
+		</span>
+	  </div>
+	</div>
+
+    <div class="topic">
+      <div class="topic-header">
+        <span class="topic-title" onclick="loadPage('intro')">How to organize a course?</span>
+        <span class="toggle-btn" onclick="toggleSections(this)">+</span>
+      </div>
+      <div class="sections">
+        <a onclick="loadPage('intro'); scrollToSection('intro-1')">Background</a>
+        <a onclick="loadPage('intro'); scrollToSection('intro-2')">Purpose</a>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-header">
+        <span class="topic-title" onclick="loadPage('methods')">MyCourses</span>
+        <span class="toggle-btn" onclick="toggleSections(this)">+</span>
+      </div>
+      <div class="sections">
+        <a onclick="loadPage('methods'); scrollToSection('methods-1')">Content</a>
+        <a onclick="loadPage('methods'); scrollToSection('methods-2')">Evaluation</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <main class="content" id="content"></main>
+
+</div>
+
+<script>
+
+const pages = {
+  overview: `
+      <p>Content.</p>
+  `,
+
+  intro: `
+    <section id="intro-1">
+      <h2>How to organize a course?</h2>
+      <h3>Background</h3>
+      <p>Background content.</p>
+    </section>
+
+    <section id="intro-2">
+      <h3>Purpose</h3>
+      <p>Purpose content.</p>
+
+      <div class="collapsible">
+        <div class="collapsible-header" onclick="toggleCollapse(this)">
+          <span>More</span><span>+</span>
+        </div>
+        <div class="collapsible-content">
+          Hidden content.
+        </div>
+      </div>
+    </section>
+  `,
+
+  methods: `
+    <section id="methods-1">
+      <h2>MyCourses</h2>
+      <h3>Content</h3>
+      <p>Content details.</p>
+    </section>
+
+    <section id="methods-2">
+      <h3>Evaluation</h3>
+      <p>Evaluation details.</p>
+    </section>
+  `
+};
+
+function loadPage(page) {
+  document.getElementById('content').innerHTML = pages[page];
+}
+
+function toggleSections(btn) {
+  const sections = btn.parentElement.nextElementSibling;
+
+  if (sections.style.display === 'block') {
+    sections.style.display = 'none';
+    btn.textContent = '+';
+  } else {
+    sections.style.display = 'block';
+    btn.textContent = '−';
+  }
+}
+
+function scrollToSection(id) {
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 50);
+}
+
+function toggleCollapse(header) {
+  const content = header.nextElementSibling;
+  const symbol = header.querySelector('span:last-child');
+
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
+    symbol.textContent = '+';
+  } else {
+    content.style.display = 'block';
+    symbol.textContent = '−';
+  }
+}
+
+loadPage('intro');
+
+</script>
+
+</body>
+</html>
