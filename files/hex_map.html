@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hexagonal Piecewise Linear Map</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f13;
+    color: #a0ddd8;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 18px;
+  }
+  h1 {
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #eeeeee;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 0.7rem;
+    color: #aaaaaa;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 14px;
+    background: #191920;
+    border: 1px solid #2a2a35;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    color: #888;
+  }
+  .controls label { color: #b0a898; }
+  .controls input[type=range] { accent-color: #7090c0; width: 100px; }
+  .controls span { color: #e0ddd8; min-width: 16px; }
+  button {
+    background: #1e2535;
+    border: 1px solid #3a4060;
+    color: #8aabe0;
+    padding: 4px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
+  button:hover { background: #253048; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .panel {
+    background: #141418;
+    border: 1px solid #252530;
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .panel-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #eeeeee;
+    margin-bottom: 4px;
+  }
+  canvas { display: block; border-radius: 3px; }
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    font-size: 0.65rem;
+    color: #666;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-swatch { width: 14px; height: 10px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<h1>Piecewise Linear Hexagonal Map</h1>
+<div class="subtitle">drag interior vertices in panel 2 &nbsp;·&nbsp; drag segment &amp; point in panel 4</div>
+<div class="controls">
+  <label>Subdivisions:</label>
+  <input type="range" id="subDiv" min="1" max="8" value="3">
+  <span id="subDivVal">3</span>
+  <button id="resetBtn">Reset Map</button>
+</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-label">① Domain — Jacobian Sign</div>
+    <canvas id="c1" width="360" height="360"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-label">② Image — Drag Interior Vertices</div>
+    <canvas id="c2" width="360" height="360"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-label">③ Preimage of Segment &amp; Point</div>
+    <canvas id="c3" width="360" height="360"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-label">④ Target — Drag Segment &amp; Point</div>
+    <canvas id="c4" width="360" height="360"></canvas>
+  </div>
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#5580cc88"></div> Jacobian &gt; 0</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#cc556688"></div> Jacobian &lt; 0</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#8888aa55"></div> Jacobian = 0</div>
+</div>
+
+<script>
+// ─── Constants ────────────────────────────────────────────────────────────────
+const W = 360, H = 360, CX = W/2, CY = H/2;
+const RADIUS = 155; // hexagon circumradius in pixels
+
+// ─── Grid basis ───────────────────────────────────────────────────────────────
+// Axial hex grid: e1 = step*(1,0), e2 = step*(cos60, sin60) = step*(0.5, sqrt3/2)
+// Grid point (q,r) -> pixel: CX + q*e1 + r*e2
+// The six hex corners are at axial positions:
+//   (N,0),(0,N),(-N,N),(-N,0),(0,-N),(N,-N)
+// In pixel space these are at angles 0, 60, 120, 180, 240, 300 degrees.
+// So hexVerts must start at angle 0 (pointing right), step by 60 degrees.
+
+function hexVerts() {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = i * Math.PI / 3; // 0, 60, 120, ... degrees  (flat-top style)
+    pts.push([CX + RADIUS * Math.cos(a), CY + RADIUS * Math.sin(a)]);
+  }
+  return pts;
+}
+const HEX = hexVerts();
+
+// ─── Build grid ───────────────────────────────────────────────────────────────
+let N = 3;
+let domainGrid = {}; // key "q,r" -> [x,y]
+let imageGrid  = {}; // key "q,r" -> [x,y]  (draggable interior)
+
+function gridPt(q, r) {
+  const step = RADIUS / N;
+  return [
+    CX + q * step + r * step * 0.5,
+    CY + r * step * (Math.sqrt(3) / 2)
+  ];
+}
+
+function buildGrid(N) {
+  const pts = {};
+  for (let q = -N; q <= N; q++) {
+    for (let r = -N; r <= N; r++) {
+      const s = -q - r;
+      if (Math.abs(s) <= N) {
+        const step = RADIUS / N;
+        pts[`${q},${r}`] = [
+          CX + q * step + r * step * 0.5,
+          CY + r * step * (Math.sqrt(3) / 2)
+        ];
+      }
+    }
+  }
+  return pts;
+}
+
+function isOnBoundary(q, r) {
+  const s = -q - r;
+  return Math.abs(q) === N || Math.abs(r) === N || Math.abs(s) === N;
+}
+
+// ─── Triangulation ────────────────────────────────────────────────────────────
+// For each interior cell (q,r) we emit two CCW triangles:
+//   T1 (up):   (q,r) -> (q+1,r) -> (q,r+1)    CCW when e2 is up-right
+//   T2 (down): (q+1,r) -> (q+1,r-1) ... no.
+//
+// Let's be explicit. With e1=(1,0)*step, e2=(0.5, sqrt3/2)*step:
+//   A=(q,r), B=(q+1,r), C=(q,r+1)
+//   B-A = e1 = (step, 0)
+//   C-A = e2 = (step/2, step*sqrt3/2)
+//   cross(B-A, C-A) = step * step*sqrt3/2 - 0 * step/2 = positive => CCW. Good.
+//
+//   A=(q+1,r), B=(q,r+1), C=(q+1,r+1) -- the other triangle of the rhombus
+//   B-A = e2-e1 = (-step/2, step*sqrt3/2)
+//   C-A = e2    = (-step/2+step/2 ... wait let me just compute:
+//   (q+1,r) -> pixel: CX+(q+1)*step + r*step/2, CY + r*step*sqrt3/2
+//   (q,r+1) -> pixel: CX+q*step + (r+1)*step/2, CY + (r+1)*step*sqrt3/2
+//   (q+1,r+1)->pixel: CX+(q+1)*step+(r+1)*step/2, CY+(r+1)*step*sqrt3/2
+//   B-A: (q*step+(r+1)*step/2 - (q+1)*step - r*step/2, (r+1)-r)*step*sqrt3/2)
+//       = (q*step + r*step/2 + step/2 - q*step - step - r*step/2, step*sqrt3/2)
+//       = (-step/2, step*sqrt3/2)
+//   C-A: ((q+1)*step+(r+1)*step/2 - (q+1)*step - r*step/2, step*sqrt3/2)
+//       = (step/2, step*sqrt3/2)
+//   cross(B-A, C-A) = (-step/2)*(step*sqrt3/2) - (step*sqrt3/2)*(step/2)
+//                   = -step^2*sqrt3/4 - step^2*sqrt3/4 < 0 => CW!
+//
+// So T2 as (q+1,r),(q,r+1),(q+1,r+1) is CW. We need to reverse it to get CCW:
+//   T2 CCW: (q+1,r),(q+1,r+1),(q,r+1)  -- let's verify:
+//   A=(q+1,r), B=(q+1,r+1), C=(q,r+1)
+//   B-A: (step/2, step*sqrt3/2)
+//   C-A: (-step/2, step*sqrt3/2)
+//   cross: step/2*step*sqrt3/2 - step*sqrt3/2*(-step/2) = step^2*sqrt3/4 + step^2*sqrt3/4 > 0 => CCW. Good.
+
+let triangles = []; // each: [[q1,r1],[q2,r2],[q3,r3]], all CCW in domainGrid
+
+function buildTriangles() {
+  const tris = [];
+  for (let q = -N; q < N; q++) {
+    for (let r = -N; r < N; r++) {
+      // Only emit triangle if all three vertices exist in grid
+      const k0 = `${q},${r}`;
+      const k1 = `${q+1},${r}`;
+      const k2 = `${q},${r+1}`;
+      const k3 = `${q+1},${r+1}`;
+      // T1 (up-triangle): (q,r),(q+1,r),(q,r+1) -- CCW
+      if (k0 in domainGrid && k1 in domainGrid && k2 in domainGrid) {
+        tris.push([[q,r],[q+1,r],[q,r+1]]);
+      }
+      // T2 (down-triangle): (q+1,r),(q+1,r+1),(q,r+1) -- CCW
+      if (k1 in domainGrid && k3 in domainGrid && k2 in domainGrid) {
+        tris.push([[q+1,r],[q+1,r+1],[q,r+1]]);
+      }
+    }
+  }
+  return tris;
+}
+
+function initGrids() {
+  domainGrid = buildGrid(N);
+  imageGrid = {};
+  for (const k in domainGrid) imageGrid[k] = [...domainGrid[k]];
+  triangles = buildTriangles();
+}
+
+initGrids();
+
+// ─── Math helpers ─────────────────────────────────────────────────────────────
+function cross2(ax, ay, bx, by) { return ax * by - ay * bx; }
+
+// Barycentric coords of point P in triangle (A, B, C).
+// Returns [wA, wB, wC] such that P = wA*A + wB*B + wC*C and wA+wB+wC=1.
+function barycentricCoords(px, py, ax, ay, bx, by, cx, cy) {
+  // Using the method: solve P-A = s*(B-A) + t*(C-A)
+  // then wA=1-s-t, wB=s, wC=t
+  const bax = bx - ax, bay = by - ay;
+  const cax = cx - ax, cay = cy - ay;
+  const pax = px - ax, pay = py - ay;
+  const d = cross2(bax, bay, cax, cay);
+  if (Math.abs(d) < 1e-10) return null;
+  const s = cross2(pax, pay, cax, cay) / d; // weight of B
+  const t = cross2(bax, bay, pax, pay) / d; // weight of C
+  return [1 - s - t, s, t]; // [wA, wB, wC]
+}
+
+function inTriangle(bary, eps = 1e-8) {
+  return bary && bary[0] >= -eps && bary[1] >= -eps && bary[2] >= -eps;
+}
+
+// Interpolate: given barycentric coords [wA,wB,wC] and three 2D points, return weighted sum
+function baryInterp(w, pa, pb, pc) {
+  return [w[0]*pa[0] + w[1]*pb[0] + w[2]*pc[0],
+          w[0]*pa[1] + w[1]*pb[1] + w[2]*pc[1]];
+}
+
+// ─── Map & Jacobian ───────────────────────────────────────────────────────────
+function triKeys(tri) {
+  return tri.map(([q,r]) => `${q},${r}`);
+}
+
+function jacobian(tri) {
+  const [ka, kb, kc] = triKeys(tri);
+  if (!(ka in domainGrid && kb in domainGrid && kc in domainGrid)) return 0;
+  const [ax,ay] = domainGrid[ka], [bx,by] = domainGrid[kb], [cx,cy] = domainGrid[kc];
+  const [ia,ja] = imageGrid[ka],  [ib,jb] = imageGrid[kb],  [ic,jc] = imageGrid[kc];
+  // The map sends (b-a) -> (ib-ia) and (c-a) -> (ic-ia).
+  // Jacobian det = det([ib-ia, ic-ia]) / det([b-a, c-a])
+  const det_dom = cross2(bx-ax, by-ay, cx-ax, cy-ay);
+  if (Math.abs(det_dom) < 1e-10) return 0;
+  const det_img = cross2(ib-ia, jb-ja, ic-ia, jc-ja);
+  return det_img / det_dom;
+}
+
+// ─── Preimage computation ─────────────────────────────────────────────────────
+// For each triangle T, the map F: domain_T -> image_T is affine.
+// Inverse: given a point Q in image space, check if Q is in image_T.
+//   If yes, use barycentric coords in image_T to get domain point.
+
+function preimageOfPoint(qx, qy) {
+  const results = [];
+  for (const tri of triangles) {
+    const [ka, kb, kc] = triKeys(tri);
+    if (!(ka in imageGrid && kb in imageGrid && kc in imageGrid)) continue;
+    const ia = imageGrid[ka], ib = imageGrid[kb], ic = imageGrid[kc];
+    // Ensure consistent winding in image triangle for barycentric test.
+    // Compute signed area; if negative the image triangle is flipped.
+    const imgArea = cross2(ib[0]-ia[0], ib[1]-ia[1], ic[0]-ia[0], ic[1]-ia[1]);
+    let bary;
+    if (imgArea >= 0) {
+      bary = barycentricCoords(qx, qy, ia[0],ia[1], ib[0],ib[1], ic[0],ic[1]);
+    } else {
+      // Swap B and C to get CCW, then swap back weights
+      bary = barycentricCoords(qx, qy, ia[0],ia[1], ic[0],ic[1], ib[0],ib[1]);
+      if (bary) bary = [bary[0], bary[2], bary[1]]; // un-swap
+    }
+    if (!inTriangle(bary)) continue;
+    const da = domainGrid[ka], db = domainGrid[kb], dc = domainGrid[kc];
+    results.push(baryInterp(bary, da, db, dc));
+  }
+  return results;
+}
+
+// Clip segment [P,Q] to triangle given by three points (must be CCW).
+// Returns clipped [px,py,qx,qy] or null.
+function clipSegmentToTriangleCCW(px,py,qx,qy, ax,ay,bx,by,cx,cy) {
+  let p = [px,py], q = [qx,qy];
+  const edges = [[ax,ay,bx,by],[bx,by,cx,cy],[cx,cy,ax,ay]];
+  for (const [ex,ey,fx,fy] of edges) {
+    // "inside" = left of directed edge E->F, i.e. cross(F-E, P-E) >= 0
+    const edx = fx-ex, edy = fy-ey;
+    const in0 = cross2(edx, edy, p[0]-ex, p[1]-ey) >= -1e-9;
+    const in1 = cross2(edx, edy, q[0]-ex, q[1]-ey) >= -1e-9;
+    if (in0 && in1) continue; // both inside
+    if (!in0 && !in1) return null; // both outside
+    // One inside, one outside -- compute intersection
+    const ix = lineIntersect(p[0],p[1],q[0],q[1],ex,ey,fx,fy);
+    if (!ix) { if (!in0) return null; continue; }
+    if (in0 && !in1) q = ix;
+    else             p = ix;
+  }
+  return [p[0],p[1],q[0],q[1]];
+}
+
+function lineIntersect(p1x,p1y,p2x,p2y, p3x,p3y,p4x,p4y) {
+  const d1x=p2x-p1x, d1y=p2y-p1y;
+  const d2x=p4x-p3x, d2y=p4y-p3y;
+  const denom = cross2(d1x,d1y,d2x,d2y);
+  if (Math.abs(denom) < 1e-12) return null;
+  const t = cross2(p3x-p1x, p3y-p1y, d2x, d2y) / denom;
+  return [p1x + t*d1x, p1y + t*d1y];
+}
+
+function preimageOfSegment(p1x, p1y, p2x, p2y) {
+  const results = [];
+  for (const tri of triangles) {
+    const [ka, kb, kc] = triKeys(tri);
+    if (!(ka in imageGrid && kb in imageGrid && kc in imageGrid)) continue;
+    const ia = imageGrid[ka], ib = imageGrid[kb], ic = imageGrid[kc];
+
+    // Normalize winding of image triangle to CCW for clipping
+    const imgArea = cross2(ib[0]-ia[0], ib[1]-ia[1], ic[0]-ia[0], ic[1]-ia[1]);
+    let ta = ia, tb = ib, tc = ic;
+    let swapped = false;
+    if (imgArea < 0) { tb = ic; tc = ib; swapped = true; } // swap B,C to make CCW
+
+    const clipped = clipSegmentToTriangleCCW(
+      p1x, p1y, p2x, p2y,
+      ta[0],ta[1], tb[0],tb[1], tc[0],tc[1]
+    );
+    if (!clipped) continue;
+    const [cx1,cy1,cx2,cy2] = clipped;
+
+    // Map clipped endpoints back to domain via inverse affine
+    // Barycentric in (possibly swapped) image triangle
+    const bary1 = barycentricCoords(cx1,cy1, ta[0],ta[1], tb[0],tb[1], tc[0],tc[1]);
+    const bary2 = barycentricCoords(cx2,cy2, ta[0],ta[1], tb[0],tb[1], tc[0],tc[1]);
+    if (!inTriangle(bary1) || !inTriangle(bary2)) continue;
+
+    // Domain vertices in same order as (ta,tb,tc)
+    const da = domainGrid[ka];
+    let db = domainGrid[kb], dc = domainGrid[kc];
+    if (swapped) { db = domainGrid[kc]; dc = domainGrid[kb]; }
+
+    const dp1 = baryInterp(bary1, da, db, dc);
+    const dp2 = baryInterp(bary2, da, db, dc);
+    results.push([dp1, dp2]);
+  }
+  return results;
+}
+
+// ─── Drawing ──────────────────────────────────────────────────────────────────
+function drawHexOutline(ctx) {
+  ctx.beginPath();
+  ctx.moveTo(HEX[0][0], HEX[0][1]);
+  for (let i = 1; i < 6; i++) ctx.lineTo(HEX[i][0], HEX[i][1]);
+  ctx.closePath();
+  ctx.strokeStyle = '#6a6a88';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+}
+
+function drawTriangleEdges(ctx, grid, strokeStyle, lineWidth) {
+  ctx.strokeStyle = strokeStyle;
+  ctx.lineWidth = lineWidth;
+  // Draw each edge once using a set
+  const drawn = new Set();
+  for (const tri of triangles) {
+    const [ka, kb, kc] = triKeys(tri);
+    if (!(ka in grid && kb in grid && kc in grid)) continue;
+    const verts = [grid[ka], grid[kb], grid[kc]];
+    const keys  = [ka, kb, kc];
+    for (let i = 0; i < 3; i++) {
+      const j = (i+1) % 3;
+      const ek = keys[i] < keys[j] ? `${keys[i]}|${keys[j]}` : `${keys[j]}|${keys[i]}`;
+      if (drawn.has(ek)) continue;
+      drawn.add(ek);
+      ctx.beginPath();
+      ctx.moveTo(verts[i][0], verts[i][1]);
+      ctx.lineTo(verts[j][0], verts[j][1]);
+      ctx.stroke();
+    }
+  }
+}
+
+function drawDomainColored(ctx) {
+  for (const tri of triangles) {
+    const [ka, kb, kc] = triKeys(tri);
+    if (!(ka in domainGrid && kb in domainGrid && kc in domainGrid)) continue;
+    const j = jacobian(tri);
+    ctx.fillStyle = j > 1e-6  ? 'rgba(50,90,150,0.42)'
+                  : j < -1e-6 ? 'rgba(200,70,90,0.42)'
+                  :              'rgba(120,120,160,0.22)';
+    const [a,b,c] = [domainGrid[ka], domainGrid[kb], domainGrid[kc]];
+    ctx.beginPath();
+    ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c[0],c[1]);
+    ctx.closePath();
+    ctx.fill();
+  }
+  drawTriangleEdges(ctx, domainGrid, '#5f8fcf', 0.7);
+}
+
+function drawImageGrid(ctx) {
+  // Fill triangles
+  for (const tri of triangles) {
+    const [ka, kb, kc] = triKeys(tri);
+    if (!(ka in imageGrid && kb in imageGrid && kc in imageGrid)) continue;
+    ctx.fillStyle = 'rgba(35,45,68,0.55)';
+    const [a,b,c] = [imageGrid[ka], imageGrid[kb], imageGrid[kc]];
+    ctx.beginPath();
+    ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c[0],c[1]);
+    ctx.closePath();
+    ctx.fill();
+  }
+  // Draw edges of image triangles
+  drawTriangleEdges(ctx, imageGrid, '#5f8fcf', 0.9);
+  // Draw draggable interior dots
+  for (const k in imageGrid) {
+    const [q, r] = k.split(',').map(Number);
+    if (isOnBoundary(q, r)) continue;
+    const [x, y] = imageGrid[k];
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2*Math.PI);
+    ctx.fillStyle = draggedKey === k ? '#ffcc44' : '#6999ff';
+    ctx.fill();
+    ctx.strokeStyle = '#90b8e8';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  }
+}
+
+// ─── Canvas setup ─────────────────────────────────────────────────────────────
+const c1 = document.getElementById('c1'), ctx1 = c1.getContext('2d');
+const c2 = document.getElementById('c2'), ctx2 = c2.getContext('2d');
+const c3 = document.getElementById('c3'), ctx3 = c3.getContext('2d');
+const c4 = document.getElementById('c4'), ctx4 = c4.getContext('2d');
+
+function drawC1() {
+  ctx1.clearRect(0,0,W,H);
+  drawDomainColored(ctx1);
+  drawHexOutline(ctx1);
+}
+
+// ─── Canvas 2: draggable image grid ──────────────────────────────────────────
+let draggedKey = null;
+
+function drawC2() {
+  ctx2.clearRect(0,0,W,H);
+  drawImageGrid(ctx2);
+  drawHexOutline(ctx2);
+}
+
+function nearestInteriorKey(x, y, grid, radius=12) {
+  let best = null, bestDist = Infinity;
+  for (const k in grid) {
+    const [q, r] = k.split(',').map(Number);
+    if (isOnBoundary(q, r)) continue;
+    const [gx, gy] = grid[k];
+    const d = Math.hypot(x-gx, y-gy);
+    if (d < radius && d < bestDist) { bestDist = d; best = k; }
+  }
+  return best;
+}
+
+function c2MouseDown(x, y) { draggedKey = nearestInteriorKey(x, y, imageGrid); }
+function c2MouseMove(x, y) {
+  if (!draggedKey) return;
+  imageGrid[draggedKey] = [x, y];
+  redrawAll();
+}
+function c2MouseUp() { draggedKey = null; }
+
+c2.addEventListener('mousedown', e => { const r=c2.getBoundingClientRect(); c2MouseDown(e.clientX-r.left, e.clientY-r.top); });
+c2.addEventListener('mousemove', e => { const r=c2.getBoundingClientRect(); c2MouseMove(e.clientX-r.left, e.clientY-r.top); });
+c2.addEventListener('mouseup', c2MouseUp);
+c2.addEventListener('mouseleave', c2MouseUp);
+c2.addEventListener('touchstart', e => { e.preventDefault(); const r=c2.getBoundingClientRect(),t=e.touches[0]; c2MouseDown(t.clientX-r.left,t.clientY-r.top); }, {passive:false});
+c2.addEventListener('touchmove',  e => { e.preventDefault(); const r=c2.getBoundingClientRect(),t=e.touches[0]; c2MouseMove(t.clientX-r.left,t.clientY-r.top); }, {passive:false});
+c2.addEventListener('touchend',   c2MouseUp);
+
+// ─── Canvas 4: target segment + point ────────────────────────────────────────
+let seg = { p1:[CX-60, CY-30], p2:[CX+60, CY+30] };
+let targetPt = [CX+20, CY-60];
+let dragging4 = null, drag4Offset = [0,0], drag4SegStart = null;
+
+function drawC4() {
+  ctx4.clearRect(0,0,W,H);
+  drawHexOutline(ctx4);
+  // segment
+  ctx4.beginPath(); ctx4.moveTo(seg.p1[0],seg.p1[1]); ctx4.lineTo(seg.p2[0],seg.p2[1]);
+  ctx4.strokeStyle='#f0c060'; ctx4.lineWidth=2; ctx4.stroke();
+  for (const [x,y] of [seg.p1, seg.p2]) {
+    ctx4.beginPath(); ctx4.arc(x,y,7,0,2*Math.PI);
+    ctx4.fillStyle='#f0c060'; ctx4.fill();
+  }
+  // point
+  ctx4.beginPath(); ctx4.arc(targetPt[0],targetPt[1],7,0,2*Math.PI);
+  ctx4.fillStyle='#80e8a0'; ctx4.fill();
+  ctx4.strokeStyle='#c0ffd0'; ctx4.lineWidth=1; ctx4.stroke();
+  // labels
+  ctx4.fillStyle='#a09060'; ctx4.font='11px Courier New';
+  ctx4.fillText('segment', seg.p1[0]+9, seg.p1[1]-9);
+  ctx4.fillStyle='#60a070';
+  ctx4.fillText('point', targetPt[0]+9, targetPt[1]-9);
+}
+
+function hitTest4(x,y) {
+  if (Math.hypot(x-seg.p1[0],y-seg.p1[1]) < 12) return 'p1';
+  if (Math.hypot(x-seg.p2[0],y-seg.p2[1]) < 12) return 'p2';
+  if (Math.hypot(x-targetPt[0],y-targetPt[1]) < 12) return 'pt';
+  const dx=seg.p2[0]-seg.p1[0], dy=seg.p2[1]-seg.p1[1], len2=dx*dx+dy*dy;
+  if (len2 > 1) {
+    const t = ((x-seg.p1[0])*dx+(y-seg.p1[1])*dy)/len2;
+    if (t>=0&&t<=1 && Math.hypot(x-seg.p1[0]-t*dx, y-seg.p1[1]-t*dy) < 8) return 'seg';
+  }
+  return null;
+}
+
+function c4Down(x,y) {
+  dragging4 = hitTest4(x,y);
+  if (dragging4==='seg') { drag4Offset=[x-seg.p1[0],y-seg.p1[1]]; drag4SegStart=[[...seg.p1],[...seg.p2]]; }
+}
+function c4Move(x,y) {
+  if (!dragging4) return;
+  if (dragging4==='p1') seg.p1=[x,y];
+  else if (dragging4==='p2') seg.p2=[x,y];
+  else if (dragging4==='pt') targetPt=[x,y];
+  else if (dragging4==='seg') {
+    const dx=x-drag4Offset[0], dy=y-drag4Offset[1];
+    seg.p1=[drag4SegStart[0][0]+dx, drag4SegStart[0][1]+dy];
+    seg.p2=[drag4SegStart[1][0]+dx, drag4SegStart[1][1]+dy];
+  }
+  redrawAll();
+}
+function c4Up() { dragging4=null; }
+
+c4.addEventListener('mousedown', e=>{const r=c4.getBoundingClientRect();c4Down(e.clientX-r.left,e.clientY-r.top);});
+c4.addEventListener('mousemove', e=>{const r=c4.getBoundingClientRect();c4Move(e.clientX-r.left,e.clientY-r.top);});
+c4.addEventListener('mouseup', c4Up); c4.addEventListener('mouseleave', c4Up);
+c4.addEventListener('touchstart',e=>{e.preventDefault();const r=c4.getBoundingClientRect(),t=e.touches[0];c4Down(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+c4.addEventListener('touchmove', e=>{e.preventDefault();const r=c4.getBoundingClientRect(),t=e.touches[0];c4Move(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+c4.addEventListener('touchend', c4Up);
+
+// ─── Canvas 3: preimage ───────────────────────────────────────────────────────
+function drawC3() {
+  ctx3.clearRect(0,0,W,H);
+  // faint domain grid for reference
+  ctx3.save(); ctx3.globalAlpha=0.2;
+  drawTriangleEdges(ctx3, domainGrid, '#44446a', 0.6);
+  ctx3.restore();
+  drawHexOutline(ctx3);
+
+  // preimage of segment
+  const segPre = preimageOfSegment(seg.p1[0],seg.p1[1],seg.p2[0],seg.p2[1]);
+  ctx3.strokeStyle='#f0c060'; ctx3.lineWidth=2;
+  for (const [dp1,dp2] of segPre) {
+    ctx3.beginPath(); ctx3.moveTo(dp1[0],dp1[1]); ctx3.lineTo(dp2[0],dp2[1]); ctx3.stroke();
+  }
+
+  // preimage of point
+  const ptPre = preimageOfPoint(targetPt[0],targetPt[1]);
+  for (const [px,py] of ptPre) {
+    ctx3.beginPath(); ctx3.arc(px,py,5,0,2*Math.PI);
+    ctx3.fillStyle='#80e8a0'; ctx3.fill();
+    ctx3.strokeStyle='#c0ffd0'; ctx3.lineWidth=1; ctx3.stroke();
+  }
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+function redrawAll() { drawC1(); drawC2(); drawC3(); drawC4(); }
+
+document.getElementById('subDiv').addEventListener('input', function() {
+  N = parseInt(this.value);
+  document.getElementById('subDivVal').textContent = N;
+  initGrids();
+  redrawAll();
+});
+document.getElementById('resetBtn').addEventListener('click', () => { initGrids(); redrawAll(); });
+
+redrawAll();
+</script>
+</body>
+</html>
