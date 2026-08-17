@@ -218,7 +218,7 @@
 </footer>
 
 <script>
-  let currentWeekStart = new Date('2025-09-01'); // change per year
+  let currentWeekStart = new Date('2026-08-31'); // change per year
   
   
   const hours = Array.from({ length: 10 }, (_, i) => `${8 + i}:00`);
@@ -355,8 +355,8 @@
 	let weekCounts = new Array(52).fill(0);
 	
 	function findPeriods(data) {
-	  const threshold = 6;
-	  const minLength = 3;
+	  const threshold = 14;
+	  const minLength = 4;
 
 	  const periods = [];
 	  let current = [];
@@ -373,8 +373,7 @@
 		  current = [];
 		}
 	  }
-	  //console.log("Week Counts:", weekCounts);
-	  //console.log("Periods:", periods);
+
 	  return periods;
 	}
 
@@ -1162,9 +1161,6 @@
               allCourses.push(course);
               colorIndex++;
             }
-			//if (code == "MS-E1542"){
-				//console.log(code, lecturecode, weeksStr);
-			//}
 
             const startHour = parseInt(startTime.split(':')[0], 10);
             const [endHourStr, endMinuteStr] = endTime.split(':');
@@ -1180,7 +1176,7 @@
             } else if (lecturecode.startsWith('S')) { sesType = "seminar"; }
 			
 			if (lecturecode.startsWith("E") || lecturecode.startsWith("T") || lecturecode.startsWith("K")){
-				// console.log("Omitting suspected exam: ", code, courseName, lecturecode, "Hours:", startTime, endTime, "Day:", day, "Weeks:", weeksStr);
+				console.log("Omitting suspected exam: ", code, courseName, lecturecode, "Hours:", startTime, endTime, "Day:", day, "Weeks:", weeksStr);
 				continue;
 			}
 
@@ -1197,7 +1193,7 @@
 					  course.loggedPerWeek = true;
 					}
 				} else {
-					// console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour:", h, "Day:", day, "Weeks:", weeksStr);
+					console.log("Session data out of bounds for: ", code, courseName, lecturecode, "Hour:", h, "Day:", day, "Weeks:", weeksStr);
 				} 
 				if (course.sessionCount > 1){course.allowed = true;} // dont allow courses with only 1 session
 
@@ -1207,7 +1203,8 @@
                   year++;
                 }
                 let sesDate = getDateFromISOWeek(year, w, finnishWeekdayMap[day]);
-
+				
+				if (course.courseName == "MS-A0203 Differentiaali- ja integraalilaskenta 2 (ELEC1)"){console.log(w);}
                 course.instances.push({
                   type: sesType,
                   date: sesDate,
