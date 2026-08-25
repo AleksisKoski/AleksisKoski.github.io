@@ -1,6 +1,18 @@
-version: 1.20
+version: 1.21
 **Course data updated on:**
 
-17.08.2026
+25.08.2026
 
-Updated for semester 2026-2027
+**Added courses:**
+
+-
+
+**Changed courses:**
+
+CS-E3900 USchool Intro D
+CS-E4510 Distributed Algorithms D
+CS-E4891 Deep Generative Models D
+MS-A0111 Differential and Integral Calculus 1
+MS-C1001 Shapes in Action
+MS-C1081 Abstract Algebra
+MS-E1050 Graph Theory D
