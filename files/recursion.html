@@ -243,7 +243,7 @@
     const fibAdd = document.getElementById('fib-add');
     const fibHint = document.getElementById('fib-hint');
     const fibProgress = document.getElementById('fib-progress');
-    const FIB_LIMIT = 100;
+    const FIB_LIMIT = 50;
     let fibonacci = [0, 1];
 
     function renderFib() {
@@ -493,7 +493,7 @@
       totalRegions += additionalRegions;
       chordGroup.append(lineGraphic(nextChord,'chord'));
       updateDiskUi();
-      diskStatus.textContent = `New cut: +${additionalRegions} ${additionalRegions === 1 ? 'region' : 'regions'} (${crossings} distinct interior ${crossings === 1 ? 'crossing' : 'crossings'}). Click to start another.`;
+      diskStatus.textContent = `New cut: +${additionalRegions} ${additionalRegions === 1 ? 'region' : 'regions'}. Click to start another.`;
     });
     diskSvg.addEventListener('pointermove', event => {
       if (firstPoint) showPreview(svgPoint(event));
