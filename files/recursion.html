@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0d17">
+  <meta name="description" content="Three explorations of recursive thinking: Fibonacci numbers, Towers of Hanoi, and cutting a disk.">
+  <title>Recursive thinking</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0d17;
+      --panel: #121724;
+      --panel-2: #171e2d;
+      --text: #f7f8fd;
+      --muted: #a6afc3;
+      --border: rgba(211,225,255,.13);
+      --mint: #a7f2d1;
+      --purple: #c6b9ff;
+      --peach: #ffcda5;
+      --ease: cubic-bezier(.2,.75,.25,1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-width: 300px; background: var(--bg); color: var(--text); font: 17px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    body::before { content: ""; position: fixed; z-index: -1; inset: 0; pointer-events: none; background: radial-gradient(ellipse 65% 38% at 80% -5%, rgba(115,97,177,.19), transparent 75%), radial-gradient(ellipse 50% 50% at -16% 42%, rgba(61,129,122,.12), transparent 70%); }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible, input:focus-visible, svg:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .topbar { min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid var(--border); }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+    .brandmark { display: grid; place-items: center; height: 32px; width: 32px; border: 1px solid rgba(167,242,209,.4); border-radius: 10px; color: var(--mint); background: rgba(167,242,209,.08); font-size: 21px; }
+    .mini-nav { display: flex; gap: clamp(10px, 2.5vw, 28px); color: #b8bfd1; font-size: 14px; }
+    .mini-nav a:hover { color: white; }
+    .hero { padding: 105px 0 90px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .19em; font-size: 12px; font-weight: 750; color: var(--mint); }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    .hero h1 { font-size: clamp(62px, 10.1vw, 122px); letter-spacing: -.09em; line-height: .98; margin: 22px 0 25px; max-width: 1000px; font-weight: 800; }
+    .hero h1 .thin { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; letter-spacing: -.085em; color: #bcb3f4; }
+    .hero-copy { color: var(--muted); max-width: 620px; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; margin: 0; }
+    .hero-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 32px; color: #b8bfd1; font-size: 13px; }
+    .hero-tag { border: 1px solid var(--border); padding: 9px 14px; border-radius: 100px; background: rgba(255,255,255,.025); }
+    .examples { display: grid; gap: 28px; padding-bottom: 84px; }
+    .example { --accent: var(--mint); background: linear-gradient(155deg, rgba(28,35,52,.96), rgba(15,21,34,.96)); border: 1px solid var(--border); box-shadow: 0 20px 75px rgba(0,0,0,.13); border-radius: 27px; padding: clamp(23px,4.2vw,48px); overflow: hidden; scroll-margin-top: 26px; }
+    .example.purple { --accent: var(--purple); }
+    .example.peach { --accent: var(--peach); }
+    .example-header { display: flex; gap: 20px; align-items: flex-start; }
+    .number { color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent); font: 700 14px/1 system-ui,sans-serif; border-radius: 10px; padding: 12px; flex: 0 0 auto; margin-top: 5px; }
+    .example h2 { font-size: clamp(31px,4.1vw,49px); font-weight: 750; line-height: 1.14; letter-spacing: -.055em; margin: 0 0 10px; }
+    .example-subtitle { font-size: 16px; color: var(--muted); margin: 0; max-width: 740px; }
+    .workspace { margin-top: 31px; background: rgba(7,12,22,.47); border: 1px solid rgba(207,226,255,.09); border-radius: 22px; }
+    .fib-workspace { padding: 30px 25px 25px; }
+    .workspace-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; font-size: 12px; text-transform: uppercase; letter-spacing: .13em; color: #9ba6bf; font-weight: 800; }
+    .fib-strip { display: flex; align-items: center; flex-wrap: nowrap; gap: 9px; min-height: 104px; overflow-x: auto; padding: 4px 3px 18px; scrollbar-color: #454e69 transparent; }
+    .fib-cell { animation: popin .3s var(--ease) both; flex: 0 0 84px; min-height: 89px; border: 1px solid rgba(167,242,209,.32); border-radius: 15px; background: linear-gradient(155deg,rgba(167,242,209,.14),rgba(167,242,209,.035)); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .fib-cell small { color: #9ccebb; font-weight: 650; font-size: 12px; margin-bottom: 3px; }
+    .fib-cell strong { color: white; font-size: 34px; letter-spacing: -.05em; font-weight: 750; line-height: 1.1; }
+    .add-btn { flex: 0 0 84px; width: 84px; height: 89px; display: grid; place-items: center; border-radius: 15px; background: var(--mint); color: #10251f; border: 0; font-size: 51px; line-height: 1; font-weight: 350; transition: transform .16s, filter .16s; }
+    .add-btn:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(1.06); }
+    .add-btn:disabled { opacity: .3; cursor: default; }
+    .control-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 13px; margin-top: 10px; }
+    .helper { color: var(--muted); font-size: 14px; margin: 0; }
+    .button-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .ghost-button { color: #e4e8f5; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; font-size: 14px; font-weight: 700; padding: 10px 16px; transition: background .15s,border-color .15s; }
+    .ghost-button:hover:not(:disabled) { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); }
+    .ghost-button:disabled { cursor: default; opacity: .4; }
+    .lesson { display: flex; align-items: baseline; gap: 13px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 22px; font-size: 14px; color: #aab4cb; }
+    .lesson strong { color: var(--accent); font-size: 15px; }
+    .lesson code { color: #f8f8ff; font: 600 14px ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .hanoi-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 30px; }
+    .disc-control { display: flex; align-items: center; gap: 12px; color: #c3cad9; font-size: 15px; font-weight: 650; }
+    .disc-control input { width: 76px; text-align: center; background: #111827; color: white; border: 1px solid #505575; border-radius: 10px; padding: 8px 11px; font-size: 19px; font-weight: 700; }
+    .hanoi-workspace { padding: 18px clamp(9px,2vw,25px) 20px; }
+    .hanoi-board { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
+    .peg { position: relative; height: 250px; width: 100%; border: 1px solid transparent; border-radius: 17px; background: transparent; color: white; padding: 0; transition: background .15s,border-color .15s; overflow: hidden; }
+    .peg:hover { background: rgba(198,185,255,.055); }
+    .peg.selected { background: rgba(198,185,255,.10); border-color: rgba(198,185,255,.5); }
+    .peg.legal-target:hover { background: rgba(198,185,255,.12); border-color: rgba(198,185,255,.27); }
+    .peg.wrong { animation: shake .25s ease; }
+    .pole { position: absolute; bottom: 27px; left: calc(50% - 5px); width: 10px; height: 180px; background: linear-gradient(90deg,#4c5874,#8290b4,#4c5874); border-radius: 8px 8px 0 0; opacity: .68; }
+    .base { position: absolute; bottom: 18px; left: 4%; width: 92%; height: 10px; border-radius: 10px; background: #5f6987; box-shadow: inset 0 2px 2px rgba(255,255,255,.17); }
+    .stack { position: absolute; bottom: 28px; left: 0; right: 0; display: flex; flex-direction: column-reverse; align-items: center; gap: 1px; }
+    .disc { display: grid; place-items: center; flex-shrink: 0; height: var(--disc-height,24px); width: var(--disc-width); background: var(--disc-color); border-radius: 8px; border: 1px solid rgba(255,255,255,.25); box-shadow: inset 0 3px 0 rgba(255,255,255,.25), inset 0 -3px 0 rgba(10,10,40,.13), 0 2px 8px rgba(0,0,0,.20); font-weight: 750; font-size: 12px; color: rgba(17,20,42,.84); }
+    .peg-name { position: absolute; bottom: 1px; left: 0; right: 0; font-size: 11px; letter-spacing: .13em; font-weight: 800; color: #aeb6ce; }
+    .hanoi-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--border); padding: 20px 9px 0; margin-top: 10px; }
+    .stat-label { color: #9ca7bc; text-transform: uppercase; font-size: 12px; letter-spacing: .13em; font-weight: 800; }
+    .counter { color: var(--accent); font-weight: 800; letter-spacing: -.065em; line-height: 1; font-size: clamp(48px,6vw,76px); margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .counter small { color: #e2e5f0; font-size: 17px; letter-spacing: 0; font-weight: 550; margin-left: 8px; }
+    .hanoi-note { margin: 14px 4px 0; min-height: 21px; color: #bbc4da; font-size: 14px; }
+    .hanoi-note.good { color: var(--mint); }
+    .hanoi-note.warn { color: var(--peach); }
+    .disk-layout { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(220px,.75fr); gap: 22px; align-items: center; margin-top: 30px; }
+    .disk-workspace { padding: 16px; display: grid; place-items: center; }
+    .disk-svg { display: block; width: 100%; max-width: 540px; height: auto; touch-action: none; cursor: crosshair; overflow: visible; }
+    .disk-svg .chord { stroke: #fff1df; stroke-width: 2.8; stroke-linecap: round; opacity: .9; }
+    .disk-svg .point { pointer-events: none; }
+    .disk-svg .preview-line { stroke: #fff4dd; stroke-width: 3; stroke-dasharray: 10 10; opacity: .75; pointer-events: none; }
+    .disk-sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .big-stat { border-left: 3px solid var(--peach); padding-left: 18px; }
+    .big-stat .counter { font-size: clamp(64px,8vw,104px); }
+    .small-stat { border-left: 1px solid #556079; padding-left: 19px; }
+    .small-stat strong { display: block; color: #fff; font-size: 27px; letter-spacing: -.03em; margin-top: 6px; }
+    .disk-instructions { color: #c1c8d8; font-size: 15px; line-height: 1.6; max-width: 300px; margin: 0; }
+    .disk-instructions strong { color: white; }
+    .disk-status { font-size: 13px; color: var(--peach); min-height: 40px; margin: 0; }
+    .disk-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    .disk-lesson { margin-top: 25px; }
+    footer { border-top: 1px solid var(--border); padding: 26px 0 48px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; color: #8390a8; font-size: 13px; }
+    @keyframes popin { from { opacity: 0; transform: scale(.77) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+    @media (max-width: 750px) {
+      .shell { width: min(100% - 28px,1120px); }
+      .topbar { min-height: 64px; }
+      .mini-nav { gap: 12px; font-size: 12px; }
+      .mini-nav a:first-child { display: none; }
+      .hero { padding: 72px 0 62px; }
+      .example { border-radius: 21px; }
+      .example-header { gap: 12px; }
+      .number { padding: 10px; }
+      .fib-workspace { padding: 20px 14px 17px; }
+      .fib-cell,.add-btn { flex-basis: 71px; width: 71px; min-height: 76px; height: 76px; }
+      .fib-cell strong { font-size: 29px; }
+      .hanoi-board { gap: 1px; }
+      .peg { height: 235px; }
+      .disk-layout { grid-template-columns: 1fr; gap: 22px; }
+      .disk-sidebar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: 20px; }
+      .disk-instructions,.disk-status,.disk-buttons { grid-column: 1/-1; }
+      .disk-instructions { max-width: unset; }
+    }
+    @media (max-width: 440px) {
+      .mini-nav { font-size: 11px; gap: 10px; }
+      .brand { font-size: 13px; }
+      .hero h1 { font-size: clamp(52px,15vw,70px); }
+      .hanoi-toolbar { align-items: stretch; }
+      .hanoi-toolbar .button-group { width: 100%; }
+      .hanoi-workspace { padding: 10px 4px 16px; }
+      .peg { height: 220px; }
+      .pole { height: 174px; }
+      .hanoi-footer { padding-left: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <nav class="mini-nav" aria-label="Examples">
+        <a href="#fibonacci">Fibonacci</a>
+        <a href="#hanoi">Hanoi</a>
+        <a href="#disk">Cutting a disk</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <h1 id="page-title">Recursive<br><span class="thin">thinking.</span></h1>
+        <p class="hero-copy">Try three interactive experiments and watch simple steps build something surprising.</p>
+      </section>
+
+      <div class="examples">
+        <section class="example" id="fibonacci" aria-labelledby="fib-title">
+          <div class="example-header">
+            <span class="number">01</span>
+            <div><h2 id="fib-title">Fibonacci numbers</h2><p class="example-subtitle">Every new number is the sum of the previous two. Keep adding to reveal the pattern.</p></div>
+          </div>
+          <div class="workspace fib-workspace">
+            <div class="workspace-caption"><span>The growing sequence</span><span id="fib-progress">2 numbers</span></div>
+            <div class="fib-strip" id="fib-strip" aria-label="Fibonacci sequence">
+              <div class="fib-cell"><small>F₀</small><strong>0</strong></div>
+              <div class="fib-cell"><small>F₁</small><strong>1</strong></div>
+              <button class="add-btn" id="fib-add" type="button" aria-label="Add next Fibonacci number" title="Add the next number">+</button>
+            </div>
+            <div class="control-row"><p class="helper" id="fib-hint" aria-live="polite">Press + to calculate the next number.</p><button class="ghost-button" id="fib-reset" type="button">↺ Reset sequence</button></div>
+          </div>
+          <div class="lesson"><strong>The rule</strong><code>F(n) = F(n−1) + F(n−2)</code></div>
+        </section>
+
+        <section class="example purple" id="hanoi" aria-labelledby="hanoi-title">
+          <div class="example-header">
+            <span class="number">02</span>
+            <div><h2 id="hanoi-title">Towers of Hanoi</h2><p class="example-subtitle">Move the entire stack from tower A to tower C. One disk at a time; a larger disk can never sit on a smaller one.</p></div>
+          </div>
+          <div class="hanoi-toolbar">
+            <label class="disc-control" for="disc-count">Number of disks <input id="disc-count" type="number" inputmode="numeric" min="1" max="8" step="1" value="4" aria-describedby="disc-range"><span id="disc-range" class="helper">(1–8)</span></label>
+            <div class="button-group"><button class="ghost-button" id="hanoi-undo" type="button">↶ Undo move</button><button class="ghost-button" id="hanoi-reset" type="button">↺ Restart</button></div>
+          </div>
+          <div class="workspace hanoi-workspace">
+            <div class="hanoi-board" role="group" aria-label="Three Towers of Hanoi. Select a source tower, then a destination tower.">
+              <button class="peg" id="peg-0" type="button" aria-label="Tower A"><span class="pole"></span><span class="stack" id="stack-0"></span><span class="base"></span><span class="peg-name">A · START</span></button>
+              <button class="peg" id="peg-1" type="button" aria-label="Tower B"><span class="pole"></span><span class="stack" id="stack-1"></span><span class="base"></span><span class="peg-name">B · SPARE</span></button>
+              <button class="peg" id="peg-2" type="button" aria-label="Tower C"><span class="pole"></span><span class="stack" id="stack-2"></span><span class="base"></span><span class="peg-name">C · GOAL</span></button>
+            </div>
+            <div class="hanoi-footer">
+              <div><div class="stat-label">Moves made</div><div class="counter" aria-live="polite"><span id="hanoi-moves">0</span><small>moves</small></div></div>
+              <div><div class="stat-label">Best possible</div><div style="font-size:27px;font-weight:750;letter-spacing:-.035em;margin-top:7px"><span id="hanoi-minimum">15</span> <span class="helper">moves</span></div></div>
+            </div>
+          </div>
+          <p class="hanoi-note" id="hanoi-status" role="status" aria-live="polite">Click a tower to pick up its top disk, then click where to place it.</p>
+		  </section>
+
+        <section class="example peach" id="disk" aria-labelledby="disk-title">
+          <div class="example-header">
+            <span class="number">03</span>
+            <div><h2 id="disk-title">Cutting the disk</h2><p class="example-subtitle">How many regions can straight cuts create? Draw chords and see how the number changes.</p></div>
+          </div>
+          <div class="disk-layout">
+            <div class="workspace disk-workspace">
+              <svg id="disk-svg" class="disk-svg" viewBox="0 0 620 620" role="img" aria-label="Interactive circular disk. Click any two distinct points inside to draw a full chord." xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="disk-fill" cx="42%" cy="36%" r="73%"><stop offset="0%" stop-color="#55483f"/><stop offset="100%" stop-color="#292b32"/></radialGradient>
+                  <filter id="disk-shadow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+                  <clipPath id="disk-clip"><circle cx="310" cy="310" r="258"/></clipPath>
+                </defs>
+                <circle cx="310" cy="310" r="264" fill="#ffcfaf" opacity=".1" filter="url(#disk-shadow)"/>
+                <circle id="disk-surface" cx="310" cy="310" r="258" fill="url(#disk-fill)" stroke="#dcb99f" stroke-width="3"/>
+                <g id="disk-chords" clip-path="url(#disk-clip)"></g>
+                <g id="disk-preview" pointer-events="none"></g>
+              </svg>
+            </div>
+            <div class="disk-sidebar">
+              <div class="big-stat"><div class="stat-label">Total regions</div><div class="counter" aria-live="polite"><span id="disk-regions">1</span></div></div>
+              <div class="small-stat"><div class="stat-label">Lines drawn</div><strong id="disk-line-count">0</strong></div>
+              <p class="disk-instructions"><strong>How to draw:</strong> Click two different points anywhere inside the circle. The line extends all the way to the disk's edge.</p>
+              <p class="disk-status" id="disk-status" role="status" aria-live="polite">Choose the first point to start a cut.</p>
+              <div class="disk-buttons"><button class="ghost-button" id="disk-undo" type="button">↶ Undo cut</button><button class="ghost-button" id="disk-clear" type="button">↺ Clear disk</button></div>
+            </div>
+          </div>
+       </section>
+      </div>
+    </main>
+    <footer><span>Recursive thinking</span></footer>
+  </div>
+
+  <script>
+    'use strict';
+
+    // 1. Fibonacci: each step only needs the last two values.
+    const fibStrip = document.getElementById('fib-strip');
+    const fibAdd = document.getElementById('fib-add');
+    const fibHint = document.getElementById('fib-hint');
+    const fibProgress = document.getElementById('fib-progress');
+    const FIB_LIMIT = 100;
+    let fibonacci = [0, 1];
+
+    function renderFib() {
+      fibStrip.querySelectorAll('.fib-cell').forEach(el => el.remove());
+      fibonacci.forEach((value, index) => {
+        const cell = document.createElement('div');
+        cell.className = 'fib-cell';
+        const small = document.createElement('small');
+        small.textContent = 'F' + String(index);
+        const strong = document.createElement('strong');
+        strong.textContent = value;
+        cell.append(small, strong);
+        fibStrip.insertBefore(cell, fibAdd);
+      });
+      fibProgress.textContent = `${fibonacci.length} numbers`;
+      fibAdd.disabled = fibonacci.length >= FIB_LIMIT;
+      fibAdd.setAttribute('aria-label', fibAdd.disabled ? 'Sequence complete' : 'Add next Fibonacci number');
+    }
+    fibAdd.addEventListener('click', () => {
+      if (fibonacci.length >= FIB_LIMIT) return;
+      const previous = fibonacci[fibonacci.length - 1];
+      const before = fibonacci[fibonacci.length - 2];
+      const next = previous + before;
+      fibonacci.push(next);
+      renderFib();
+      fibHint.textContent = fibonacci.length === FIB_LIMIT
+        ? `Completed! ${before} + ${previous} = ${next}. The maximum amount of numbers are showing.`
+        : `${before} + ${previous} = ${next}. Press + to keep going.`;
+      fibAdd.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    });
+    document.getElementById('fib-reset').addEventListener('click', () => {
+      fibonacci = [0, 1];
+      renderFib();
+      fibHint.textContent = 'Press + to calculate the next number.';
+      fibStrip.scrollLeft = 0;
+    });
+    renderFib();
+
+    // 2. Towers of Hanoi: state consists of three bottom-to-top arrays.
+    const discCountInput = document.getElementById('disc-count');
+    const hanoiMovesEl = document.getElementById('hanoi-moves');
+    const hanoiMinimumEl = document.getElementById('hanoi-minimum');
+    const hanoiStatus = document.getElementById('hanoi-status');
+    const pegButtons = [0,1,2].map(n => document.getElementById(`peg-${n}`));
+    const pegStacks = [0,1,2].map(n => document.getElementById(`stack-${n}`));
+    const pegNames = ['A','B','C'];
+    const discColors = ['#ecddff','#d2bfff','#bea6fa','#a9a8f8','#92b9f8','#83cde8','#7ed9d2','#9bdec0'];
+    let discCount = 4, towers = [], selectedPeg = null, moves = 0, moveHistory = [];
+
+    function setHanoiStatus(message, type = '') {
+      hanoiStatus.textContent = message;
+      hanoiStatus.className = `hanoi-note ${type}`;
+    }
+    function renderHanoi() {
+      pegButtons.forEach((button, i) => {
+        button.classList.toggle('selected', i === selectedPeg);
+        button.classList.toggle('legal-target', selectedPeg !== null && i !== selectedPeg);
+        const stack = pegStacks[i];
+        stack.replaceChildren();
+        towers[i].forEach(size => {
+          const disc = document.createElement('span');
+          disc.className = 'disc';
+          disc.style.setProperty('--disc-width', `${28 + 59 * size / discCount}%`);
+          disc.style.setProperty('--disc-height', `${Math.max(18, 29 - discCount * 1.1)}px`);
+          disc.style.setProperty('--disc-color', discColors[(size - 1) % discColors.length]);
+          disc.textContent = size;
+          stack.append(disc);
+        });
+        const top = towers[i].at(-1);
+        button.setAttribute('aria-label', `Tower ${pegNames[i]}, ${towers[i].length} disks${top ? `, top disk ${top}` : ''}${i === selectedPeg ? ', selected' : ''}`);
+        button.setAttribute('aria-pressed', String(i === selectedPeg));
+      });
+      hanoiMovesEl.textContent = moves;
+      hanoiMinimumEl.textContent = (2 ** discCount - 1).toLocaleString();
+      document.getElementById('hanoi-undo').disabled = moveHistory.length === 0;
+    }
+    function resetHanoi() {
+      discCount = Math.min(8, Math.max(1, Math.round(Number(discCountInput.value) || 4)));
+      discCountInput.value = discCount;
+      towers = [Array.from({length: discCount}, (_, i) => discCount - i), [], []];
+      selectedPeg = null; moves = 0; moveHistory = [];
+      setHanoiStatus('Click a tower to pick up its top disk, then click where to place it.');
+      renderHanoi();
+    }
+    function selectTower(i) {
+      if (selectedPeg === null) {
+        if (!towers[i].length) {
+          setHanoiStatus('This tower is empty. Choose a tower with a disk first.', 'warn');
+          return;
+        }
+        selectedPeg = i;
+        setHanoiStatus(`Disk ${towers[i].at(-1)} selected from tower ${pegNames[i]}. Choose a destination.`);
+      } else if (selectedPeg === i) {
+        selectedPeg = null;
+        setHanoiStatus('Selection canceled. Pick a tower to start a move.');
+      } else {
+        const from = selectedPeg;
+        const disk = towers[from].at(-1);
+        const targetTop = towers[i].at(-1);
+        if (targetTop !== undefined && targetTop < disk) {
+          pegButtons[i].classList.remove('wrong');
+          void pegButtons[i].offsetWidth;
+          pegButtons[i].classList.add('wrong');
+          setHanoiStatus(`Not allowed: disk ${disk} cannot go on top of smaller disk ${targetTop}.`, 'warn');
+          return;
+        }
+        towers[from].pop();
+        towers[i].push(disk);
+        moveHistory.push([from, i]);
+        moves++;
+        selectedPeg = null;
+        if (towers[2].length === discCount) {
+          setHanoiStatus(`Puzzle solved in ${moves} moves! The minimum is ${2 ** discCount - 1}.`, 'good');
+        } else {
+          setHanoiStatus(`Moved disk ${disk} from ${pegNames[from]} to ${pegNames[i]}.`);
+        }
+      }
+      renderHanoi();
+    }
+    pegButtons.forEach((button,i) => button.addEventListener('click', () => selectTower(i)));
+    document.getElementById('hanoi-reset').addEventListener('click', resetHanoi);
+    document.getElementById('hanoi-undo').addEventListener('click', () => {
+      const last = moveHistory.pop();
+      if (!last) return;
+      const [from, to] = last;
+      towers[from].push(towers[to].pop());
+      moves--;
+      selectedPeg = null;
+      setHanoiStatus('Last move undone.');
+      renderHanoi();
+    });
+    discCountInput.addEventListener('change', resetHanoi);
+    resetHanoi();
+
+    // 3. Cutting a disk: each full chord splits as many regions as the
+    // number of UNIQUE intersections in the interior, plus one.
+    const diskSvg = document.getElementById('disk-svg');
+    const chordGroup = document.getElementById('disk-chords');
+    const previewGroup = document.getElementById('disk-preview');
+    const diskRegionsEl = document.getElementById('disk-regions');
+    const diskLineCountEl = document.getElementById('disk-line-count');
+    const diskStatus = document.getElementById('disk-status');
+    const diskUndo = document.getElementById('disk-undo');
+    const CENTER = { x: 310, y: 310 }, RADIUS = 258;
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    let chords = [], regionIncrements = [], totalRegions = 1, firstPoint = null;
+
+    function svgPoint(event) {
+      const matrix = diskSvg.getScreenCTM();
+      if (!matrix) return null;
+      const pt = diskSvg.createSVGPoint();
+      pt.x = event.clientX; pt.y = event.clientY;
+      return pt.matrixTransform(matrix.inverse());
+    }
+    function insideDisk(p) {
+      return p && (p.x - CENTER.x) ** 2 + (p.y - CENTER.y) ** 2 <= RADIUS ** 2;
+    }
+    function chordThrough(a,b) {
+      const dx = b.x-a.x, dy = b.y-a.y;
+      const A = dx*dx+dy*dy;
+      if (A < 12) return null; // Separate the two clicks enough to define a line.
+      const ox = a.x-CENTER.x, oy = a.y-CENTER.y;
+      const B = 2*(ox*dx+oy*dy);
+      const C = ox*ox+oy*oy-RADIUS*RADIUS;
+      const discriminant = B*B-4*A*C;
+      if (discriminant <= 0) return null;
+      const root = Math.sqrt(discriminant);
+      const t0 = (-B-root)/(2*A), t1 = (-B+root)/(2*A);
+      return { p: {x:a.x+t0*dx, y:a.y+t0*dy}, q: {x:a.x+t1*dx, y:a.y+t1*dy} };
+    }
+    function cross(a,b) { return a.x*b.y-a.y*b.x; }
+    function subtract(a,b) { return {x:a.x-b.x,y:a.y-b.y}; }
+    function distanceSquared(a,b) { return (a.x-b.x)**2+(a.y-b.y)**2; }
+    function sameChord(a,b) {
+      return (distanceSquared(a.p,b.p)<.5 && distanceSquared(a.q,b.q)<.5)
+        || (distanceSquared(a.p,b.q)<.5 && distanceSquared(a.q,b.p)<.5);
+    }
+    function interiorIntersection(a,b) {
+      const r = subtract(a.q,a.p), s = subtract(b.q,b.p);
+      const denominator = cross(r,s);
+      if (Math.abs(denominator) < 1e-7) return null;
+      const delta = subtract(b.p,a.p);
+      const t = cross(delta,s)/denominator, u = cross(delta,r)/denominator;
+      // Boundary meetings do not divide a chord into an additional segment.
+      if (t <= 1e-6 || t >= 1-1e-6 || u <= 1e-6 || u >= 1-1e-6) return null;
+      return {x: a.p.x+t*r.x, y:a.p.y+t*r.y};
+    }
+    function countNewCrossings(newChord) {
+      const intersections = [];
+      for (const oldChord of chords) {
+        const point = interiorIntersection(newChord, oldChord);
+        // A triple (or higher-order) crossing is a single intersection point.
+        if (point && !intersections.some(prior => distanceSquared(point,prior)<0.25)) intersections.push(point);
+      }
+      return intersections.length;
+    }
+    function createSvgElement(tag, attrs) {
+      const el = document.createElementNS(SVG_NS, tag);
+      Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, String(v)));
+      return el;
+    }
+    function lineGraphic(chord, className) {
+      return createSvgElement('line', {x1:chord.p.x, y1:chord.p.y, x2:chord.q.x, y2:chord.q.y, class:className});
+    }
+    function showPreview(point) {
+      previewGroup.replaceChildren();
+      if (!firstPoint) return;
+      if (point && insideDisk(point)) {
+        const previewChord = chordThrough(firstPoint,point);
+        if (previewChord) previewGroup.append(lineGraphic(previewChord,'preview-line'));
+      }
+      previewGroup.append(createSvgElement('circle', {cx:firstPoint.x,cy:firstPoint.y,r:7,fill:'#fff6e8',stroke:'#e6ab78','stroke-width':3,class:'point'}));
+    }
+    function updateDiskUi() {
+      diskRegionsEl.textContent = totalRegions.toLocaleString();
+      diskLineCountEl.textContent = chords.length.toLocaleString();
+      diskUndo.disabled = chords.length === 0;
+    }
+    diskSvg.addEventListener('pointerdown', event => {
+      if (event.button !== 0 && event.pointerType === 'mouse') return;
+      const point = svgPoint(event);
+      if (!insideDisk(point)) {
+        diskStatus.textContent = 'Choose a point inside the circle.';
+        return;
+      }
+      if (!firstPoint) {
+        firstPoint = {x:point.x,y:point.y};
+        showPreview(point);
+        diskStatus.textContent = 'Now choose the second point. A full chord will be drawn.';
+        return;
+      }
+      const nextChord = chordThrough(firstPoint,point);
+      if (!nextChord) {
+        diskStatus.textContent = 'Pick a second point farther from the first.';
+        return;
+      }
+      firstPoint = null;
+      previewGroup.replaceChildren();
+      if (chords.some(chord => sameChord(chord,nextChord))) {
+        diskStatus.textContent = 'That cut is already there. Choose a new direction.';
+        return;
+      }
+      const crossings = countNewCrossings(nextChord);
+      const additionalRegions = crossings + 1;
+      chords.push(nextChord);
+      regionIncrements.push(additionalRegions);
+      totalRegions += additionalRegions;
+      chordGroup.append(lineGraphic(nextChord,'chord'));
+      updateDiskUi();
+      diskStatus.textContent = `New cut: +${additionalRegions} ${additionalRegions === 1 ? 'region' : 'regions'} (${crossings} distinct interior ${crossings === 1 ? 'crossing' : 'crossings'}). Click to start another.`;
+    });
+    diskSvg.addEventListener('pointermove', event => {
+      if (firstPoint) showPreview(svgPoint(event));
+    });
+    diskSvg.addEventListener('pointerleave', () => { if (firstPoint) showPreview(null); });
+    diskUndo.addEventListener('click', () => {
+      if (!chords.length) return;
+      chords.pop();
+      totalRegions -= regionIncrements.pop();
+      chordGroup.lastElementChild?.remove();
+      firstPoint = null;
+      previewGroup.replaceChildren();
+      updateDiskUi();
+      diskStatus.textContent = 'Last cut removed. Click to start another.';
+    });
+    document.getElementById('disk-clear').addEventListener('click', () => {
+      chords = []; regionIncrements = []; totalRegions = 1; firstPoint = null;
+      chordGroup.replaceChildren();
+      previewGroup.replaceChildren();
+      updateDiskUi();
+      diskStatus.textContent = 'Disk cleared. Choose the first point to start a cut.';
+    });
+    updateDiskUi();
+  </script>
+</body>
+</html>
