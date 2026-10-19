@@ -1,7 +1,7 @@
-version: 1.21
+version: 1.22
 **Course data updated on:**
 
-25.08.2026
+19.10.2026
 
 **Added courses:**
 
@@ -9,10 +9,55 @@ version: 1.21
 
 **Changed courses:**
 
-CS-E3900 USchool Intro D
-CS-E4510 Distributed Algorithms D
-CS-E4891 Deep Generative Models D
+CS-A1113 Basics in Programming Y1
+CS-A1121 Ohjelmoinnin peruskurssi Y2
+CS-A1123 Basics in Programming Y2
+CS-A1141 Tietorakenteet ja algoritmit Y
+CS-C0005 Mind & Study - hyvinvoivan opiskelijan työkalupakki
+CS-C2130 Software Project 1
+CS-C3120 Human-Computer Interaction
+CS-C3130 Information Security
+CS-C3170 Web-sovelluskehitys
+CS-C3250 Data Science Project
+CS-C4020 Cognitive Psychology
+CS-C4030 Sosiaalipsykologia
+CS-E3220 Declarative Programming D
+CS-E4190 Cloud Software and Systems D
+CS-E4265 Multimedia Systems D
+CS-E4650 Methods of Data Mining D
+CS-E4700 Logiikka ja työläät laskentaongelmat D
+CS-E4805 Trustworthy Artificial Intelligence D
+CS-E4925 Portfolio in Software Engineering
+CS-E5012 Research Methods: AI-based Data Synthesis & Analysis D
+CS-E5281 Yhteiskunnallinen palvelumuotoilu D
+CS-E5700 Käytännön verkostoanalyysi
+CS-E5740 Complex Networks D
+CS-E5775 Complex Systems D
+CS-E5866 Computational Genomics D
+MS-A0002 Matriisilaskenta (SCI, CHEM)
+MS-A0003 Matriisilaskenta (ELEC1, ENG1)
+MS-A0101 Differentiaali- ja integraalilaskenta 1 (TFM)
+MS-A0104 Differentiaali- ja integraalilaskenta 1 (ELEC2, ENG2)
+MS-A0108 Differentiaali- ja integraalilaskenta 1
 MS-A0111 Differential and Integral Calculus 1
+MS-A0211 Differential and Integral Calculus 2
+MS-A0305 Differentiaali- ja integraalilaskenta 3
+MS-A0311 Differential and Integral Calculus 3
+MS-A0501 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
+MS-A0502 Todennäköisyyslaskennan ja tilastotieteen peruskurssi
 MS-C1001 Shapes in Action
-MS-C1081 Abstract Algebra
-MS-E1050 Graph Theory D
+MS-C1342 Lineaarialgebra
+MS-C2111 Stochastic Processes
+MS-C2128 Prediction and Time Series Analysis
+MS-E1082 Special course: Advanced Topics in Algebra D
+MS-E1600 Todennäköisyysteoria D
+MS-E2112 Multivariate Statistical Analysis D
+MS-E2120 Suomalaisen yhteiskunnan resilienssi D
+PHYS-A4110 Mekaniikka (BioIT)
+PHYS-C0210 Kvanttimekaniikka I
+PHYS-C0230 Klassinen dynamiikka
+PHYS-C0256 Thermodynamics and Statistical Physics
+PHYS-E0410 Kvanttimekaniikka II D
+PHYS-E0460 Introduction to Reactor Physics D
+PHYS-E0461 Introduction to Plasma Physics for Fusion and Space Applications D
+PHYS-E0510 Advanced Computational Methods in Physics D
