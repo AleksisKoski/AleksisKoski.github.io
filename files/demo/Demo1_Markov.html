@@ -106,6 +106,13 @@
   gap: 14px;
   padding: 4px 2px;
 }
+.day-probabilities {
+  white-space: pre-line;
+  margin: 18px 0 8px;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 500;
+}
 .setup-symbol {
   min-width: 2.8rem;
   font-family: "Cambria Math", Georgia, serif;
@@ -232,6 +239,7 @@
             </div>
           </div>
           <p id="forecastInvalidNotice" class="forecast-invalid" hidden>Sääennusteen laskemiseksi korjaa siirtymämatriisin todennäköisyydet.</p>
+<p id="dayProbabilities" class="day-probabilities"></p>
         </div>
 
         <div class="graph-panel">
@@ -386,6 +394,9 @@
     $('currentVector').innerHTML = vectorMathHTML(current);
     $('transitionMatrixMath').innerHTML = matrixMathHTML(P);
     $('nextVector').innerHTML = vectorMathHTML(next);
+$('dayProbabilities').textContent =
+  `Todennäköisyydet päivänä ${currentDay + 1} (p${subscript(currentDay + 1)}): \n ` +
+  weather.map((w, i) => `${w.emoji} ${w.name} ${percent(next[i])}`).join(' · ');
     $('currentVector').setAttribute('aria-label', `Day ${currentDay}: ${weather.map((w, i) => `${w.name} ${percent(current[i])}`).join(', ')}`);
     $('nextVector').setAttribute('aria-label', `Day ${currentDay + 1} forecast: ${weather.map((w, i) => `${w.name} ${percent(next[i])}`).join(', ')}`);
     $('transitionMatrixMath').setAttribute('aria-label', `Column-vector transition matrix M, rows and columns in Aurinkoista, Pilvistä, Sateista order: ${transpose(P).map(row => row.map(v => v.toFixed(2)).join(', ')).join('; ')}`);
