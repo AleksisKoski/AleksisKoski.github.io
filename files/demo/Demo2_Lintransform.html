@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lineaarikuvauksen hahmottaminen</title>
+<style>
+  :root { color-scheme: light; --ink:#20242b; --muted:#6b7280; --line:#e5e7eb; --blue:#2563eb; --orange:#ea580c; --green:#059669; --paper:#fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#f8fafc; color:var(--ink); font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:32px 20px 40px; }
+  header { margin-bottom:24px; }
+  h1 { font-size:clamp(1.5rem,3vw,2rem); letter-spacing:-.04em; margin:0 0 6px; font-weight:650; }
+  .subtitle { color:var(--muted); margin:0; }
+  .panels { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .panel { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:16px; min-width:0; }
+  .panel-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:8px; }
+  h2 { font-size:1rem; font-weight:650; margin:0; }
+  .hint { font-size:.78rem; color:var(--muted); text-align:right; }
+  svg { width:100%; display:block; height:auto; aspect-ratio:1 / 1; touch-action: none; border-radius:10px; background:#fff; }
+  .matrix-card { margin-top:18px; padding:18px 20px; border:1px solid var(--line); border-radius:16px; background:#fff; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:20px; }
+  .matrix-label { font-weight:650; font-size:1rem; }
+  .matrix-equation { display:flex; align-items:center; gap:12px; font-size:1.08rem; }
+  .matrix { display:grid; grid-template-columns:auto auto; gap:6px 10px; padding:7px 16px; position:relative; }
+  .matrix:before,.matrix:after { content:""; position:absolute; top:0; bottom:0; width:6px; border-top:1.5px solid var(--ink); border-bottom:1.5px solid var(--ink); }
+  .matrix:before { left:0; border-left:1.5px solid var(--ink); }
+  .matrix:after { right:0; border-right:1.5px solid var(--ink); }
+  .matrix input { width:72px; padding:6px 8px; font:inherit; font-variant-numeric:tabular-nums; text-align:center; color:var(--ink); border:1px solid #cbd5e1; border-radius:8px; background:#fff; }
+  .matrix input:focus { outline:2px solid #818cf8; outline-offset:1px; border-color:#818cf8; }
+  .matrix input { -moz-appearance:textfield; appearance:textfield; }
+.matrix input::-webkit-outer-spin-button,
+.matrix input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  .controls { display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  button { border:1px solid #cbd5e1; background:#fff; color:var(--ink); border-radius:10px; padding:10px 15px; font:inherit; cursor:pointer; transition:background .15s,border-color .15s; }
+  button:hover { background:#f1f5f9; }
+  button[aria-pressed="true"] { background:#e0e7ff; border-color:#818cf8; }
+  .reset { color:#475569; }
+  .legend { display:flex; justify-content:center; flex-wrap:wrap; gap:16px; margin-top:12px; color:var(--muted); font-size:.82rem; }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+  .note { text-align:center; color:var(--muted); font-size:.82rem; margin:12px 0 0; }
+  @media (max-width:700px) { main { padding:22px 12px 30px; } .panels { grid-template-columns:1fr; } .panel { padding:12px; } .hint { max-width:58%; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Lineaarikuvauksen tutkija</h1>
+  </header>
+  <section class="panels">
+    <article class="panel">
+      <div class="panel-head"><h2>Lähtöavaruus</h2><span class="hint">Lisää vektori klikkaamalla</span></div>
+      <svg id="input" viewBox="0 0 400 400" role="img" aria-label="Lähtöavaruuden koordinaatisto. Klikkaa lisätäksesi vektoreita."></svg>
+    </article>
+    <article class="panel">
+      <div class="panel-head"><h2>Kuva-avaruus</h2><span class="hint">Muuta kuvausta vetämällä kuvavektoreita Ae_i</span></div>
+      <svg id="output" viewBox="0 0 400 400" role="img" aria-label="Kuva-avaruuden koordinaatisto. Vedä kantavektorien kärkiä muuttaaksesi kuvausta."></svg>
+    </article>
+  </section>
+  <section class="matrix-card">
+    <div class="matrix-label">Kuvausmatriisi</div>
+    <div class="matrix-equation">
+      <span>A =</span>
+      <div class="matrix" role="group" aria-label="Matriisi A, muokattavat kertoimet">
+        <input id="a11" type="number" step="0.1" min="-3.35" max="3.35" value="1" aria-label="a₁₁ (rivi 1, sarake 1)">
+        <input id="a12" type="number" step="0.1" min="-3.35" max="3.35" value="0" aria-label="a₁₂ (rivi 1, sarake 2)">
+        <input id="a21" type="number" step="0.1" min="-3.35" max="3.35" value="0" aria-label="a₂₁ (rivi 2, sarake 1)">
+        <input id="a22" type="number" step="0.1" min="-3.35" max="3.35" value="1" aria-label="a₂₂ (rivi 2, sarake 2)">
+      </div>
+      <span>joten&nbsp; <i>v</i> ↦ A<i>v</i></span>
+    </div>
+  </section>
+  <div class="controls">
+    <button id="square" aria-pressed="false">Näytä yksikköneliö</button>
+    <button id="reset" class="reset">Takaisin alkuun</button>
+    <button id="clear" class="reset">Tyhjennä vektorit</button>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:#2563eb"></i>Kantavektorit</span>
+    <span><i class="dot" style="background:#ea580c"></i>Omat vektorisi</span>
+    <span><i class="dot" style="background:#059669"></i>Kuvatut vektorit</span>
+  </div>
+  <p class="note">Matriisin A sarakkeet ovat Ae₁ ja Ae₂. Voit muokata kertoimia suoraan (arvot −3,35…3,35) tai vetää kärkiä kuva-avaruudessa.</p>
+</main>
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const inputSvg = document.querySelector("#input");
+  const outputSvg = document.querySelector("#output");
+  const SCALE = 52, CX = 200, CY = 200, LIMIT = 3.35;
+  const COLORS = { basis:"#2563eb", vector:"#ea580c", image:"#059669", grid:"#e5e7eb", axis:"#9ca3af", text:"#6b7280" };
+  const cells = {
+    a11: document.querySelector("#a11"),
+    a12: document.querySelector("#a12"),
+    a21: document.querySelector("#a21"),
+    a22: document.querySelector("#a22")
+  };
+  let vectors = [];
+  let nextId = 1;
+  let e1 = [1,0], e2 = [0,1];
+  let showSquare = false;
+  let dragging = null;
+
+  const sx = x => CX + x*SCALE;
+  const sy = y => CY - y*SCALE;
+  const coord = (x,y) => [(x-CX)/SCALE, (CY-y)/SCALE];
+  const fmt = n => {
+    if (Math.abs(n) < .005) n = 0;
+    const rounded = Math.round(n*100)/100;
+    return String(rounded);
+  };
+  function el(tag, attrs={}, parent) {
+    const node = document.createElementNS(NS, tag);
+    for (const [k,v] of Object.entries(attrs)) node.setAttribute(k, v);
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+  function text(parent, x, y, value, attrs={}) {
+    const n = el("text", {x,y,fill:COLORS.text,"font-size":12,"font-family":"system-ui, sans-serif",...attrs}, parent);
+    n.textContent = value;
+    return n;
+  }
+  function line(parent, x1,y1,x2,y2, attrs={}) {
+    return el("line", {x1,y1,x2,y2, ...attrs}, parent);
+  }
+  function arrow(parent, v, color, label, options={}) {
+    const [x,y] = v;
+    const x2=sx(x), y2=sy(y), x1=CX, y1=CY;
+    if (Math.hypot(x,y) < .04) {
+      el("circle",{cx:CX,cy:CY,r:4,fill:color},parent);
+      if (options.handle) el("circle",{cx:CX,cy:CY,r:5,fill:"none",stroke:color,"stroke-width":2.5,"data-handle":options.handle},parent);
+      if (label) text(parent,CX+7,CY-8,label,{fill:color,"font-weight":650});
+      return;
+    }
+    const angle = Math.atan2(y2-y1,x2-x1);
+    const head=9;
+    const bx=x2-head*Math.cos(angle), by=y2-head*Math.sin(angle);
+    line(parent,x1,y1,bx,by,{stroke:color,"stroke-width":2.5,"stroke-linecap":"round"});
+    el("polygon",{points:`${x2},${y2} ${bx+4*Math.sin(angle)},${by-4*Math.cos(angle)} ${bx-4*Math.sin(angle)},${by+4*Math.cos(angle)}`,fill:color},parent);
+    if (options.handle) el("circle",{cx:x2,cy:y2,r:5,fill:"#fff",stroke:color,"stroke-width":2.5,"data-handle":options.handle},parent);
+    if (label) {
+      const offset=options.labelOffset || [8,-8];
+      text(parent,x2+offset[0],y2+offset[1],label,{fill:color,"font-weight":650,"font-size":13, "paint-order":"stroke","stroke":"#fff","stroke-width":3,"stroke-linejoin":"round"});
+    }
+  }
+  function grid(svg) {
+    svg.replaceChildren();
+    const g=el("g",{},svg);
+    for(let i=-3;i<=3;i++) {
+      if(i!==0) {
+        line(g,sx(i),24,sx(i),376,{stroke:COLORS.grid,"stroke-width":1});
+        line(g,24,sy(i),376,sy(i),{stroke:COLORS.grid,"stroke-width":1});
+        text(g,sx(i),CY+16,i,{ "text-anchor":"middle","font-size":10});
+        text(g,CX-9,sy(i)+4,i,{"text-anchor":"end","font-size":10});
+      }
+    }
+    line(g,24,CY,376,CY,{stroke:COLORS.axis,"stroke-width":1.2});
+    line(g,CX,376,CX,24,{stroke:COLORS.axis,"stroke-width":1.2});
+    el("polygon",{points:"376,200 368,196 368,204",fill:COLORS.axis},g);
+    el("polygon",{points:"200,24 196,32 204,32",fill:COLORS.axis},g);
+    text(g,380,194,"x",{"font-size":12,fill:"#20242b"});
+    text(g,208,21,"y",{"font-size":12,fill:"#20242b"});
+    text(g,CX+8,CY+15,"0",{"font-size":10});
+    return g;
+  }
+  function drawSquare(parent, matrix=false) {
+    const pts = matrix ? [[0,0],e1,[e1[0]+e2[0],e1[1]+e2[1]],e2] : [[0,0],[1,0],[1,1],[0,1]];
+    const pointStr=pts.map(p=>`${sx(p[0])},${sy(p[1])}`).join(" ");
+    el("polygon",{points:pointStr,fill:matrix?"#059669":"#2563eb","fill-opacity":.14,stroke:matrix?"#059669":"#2563eb","stroke-width":1.5},parent);
+  }
+  function drawInput() {
+    const g=grid(inputSvg);
+    if(showSquare) drawSquare(g,false);
+    arrow(g,[1,0],COLORS.basis,"e₁",{labelOffset:[7,18]});
+    arrow(g,[0,1],COLORS.basis,"e₂",{labelOffset:[8,-8]});
+    vectors.forEach(v=>arrow(g,v.xy,COLORS.vector,`v${v.id}`,{labelOffset:[8,-8]}));
+  }
+  function drawOutput() {
+    const g=grid(outputSvg);
+    if(showSquare) drawSquare(g,true);
+    arrow(g,e1,COLORS.basis,"Ae₁",{handle:"e1",labelOffset:[8,17]});
+    arrow(g,e2,COLORS.basis,"Ae₂",{handle:"e2",labelOffset:[8,-8]});
+    vectors.forEach(v=>{
+      const [x,y]=v.xy;
+      arrow(g,[e1[0]*x+e2[0]*y,e1[1]*x+e2[1]*y],COLORS.image,`Av${v.id}`,{labelOffset:[8,-8]});
+    });
+  }
+  // Päivittää kentät; ei koske kenttään, jota käyttäjä parhaillaan kirjoittaa.
+  function updateMatrix() {
+    const values = { a11:e1[0], a21:e1[1], a12:e2[0], a22:e2[1] };
+    for (const [key,input] of Object.entries(cells)) {
+      if (document.activeElement === input) continue;
+      input.value = fmt(values[key]);
+    }
+  }
+  function render(){ drawInput(); drawOutput(); updateMatrix(); }
+
+  // Matriisin kenttien muokkaus -> päivitä kuvaus
+  function readCell(input, fallback) {
+    const n = input.valueAsNumber;
+    if (!Number.isFinite(n)) return fallback;
+    return Math.max(-LIMIT, Math.min(LIMIT, n));
+  }
+  function onCellInput() {
+    e1 = [readCell(cells.a11, e1[0]), readCell(cells.a21, e1[1])];
+    e2 = [readCell(cells.a12, e2[0]), readCell(cells.a22, e2[1])];
+    drawInput(); drawOutput();
+  }
+  for (const input of Object.values(cells)) {
+    input.addEventListener("input", onCellInput);
+    input.addEventListener("change", () => { onCellInput(); updateMatrix(); });
+    input.addEventListener("blur", updateMatrix);
+  }
+
+  function svgPoint(evt, svg) {
+    const r=svg.getBoundingClientRect();
+    return [(evt.clientX-r.left)*400/r.width,(evt.clientY-r.top)*400/r.height];
+  }
+  function nearestVector(pt) {
+    let best=-1, dist=14;
+    vectors.forEach((v,i)=>{
+      const d=Math.hypot(pt[0]-sx(v.xy[0]),pt[1]-sy(v.xy[1]));
+      if(d<dist){dist=d;best=i;}
+    });
+    return best;
+  }
+  inputSvg.addEventListener("click", evt => {
+    if (dragging) return;
+    const p=svgPoint(evt,inputSvg);
+    if(p[0]<24||p[0]>376||p[1]<24||p[1]>376) return;
+    const i=nearestVector(p);
+    if(i>=0) vectors.splice(i,1);
+    else {
+      const xy=coord(...p);
+      if(Math.hypot(...xy)<.08) return;
+      vectors.push({id:nextId++,xy:xy.map(n=>Math.round(n*100)/100)});
+    }
+    render();
+  });
+  outputSvg.addEventListener("pointerdown", evt => {
+    const handle=evt.target.closest("[data-handle]");
+    if(!handle) return;
+    dragging=handle.getAttribute("data-handle");
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    outputSvg.setPointerCapture(evt.pointerId);
+    evt.preventDefault();
+  });
+  outputSvg.addEventListener("pointermove", evt => {
+    if(!dragging) return;
+    const p=coord(...svgPoint(evt,outputSvg));
+    const v=p.map(n=>Math.max(-LIMIT,Math.min(LIMIT,n)));
+    if(dragging==="e1") e1=v; else e2=v;
+    render();
+  });
+  function stopDrag(){ dragging=null; }
+  outputSvg.addEventListener("pointerup",stopDrag);
+  outputSvg.addEventListener("pointercancel",stopDrag);
+  document.querySelector("#square").addEventListener("click",e=>{
+    showSquare=!showSquare;
+    e.currentTarget.setAttribute("aria-pressed",String(showSquare));
+    e.currentTarget.textContent=showSquare?"Piilota yksikköneliö":"Näytä yksikköneliö";
+    render();
+  });
+  document.querySelector("#reset").addEventListener("click",()=>{
+    e1=[1,0]; e2=[0,1]; render();
+  });
+  document.querySelector("#clear").addEventListener("click",()=>{
+    vectors=[]; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
