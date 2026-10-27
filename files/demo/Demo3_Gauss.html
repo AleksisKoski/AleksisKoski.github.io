@@ -587,7 +587,7 @@ function analyze(M) {
     const nm = cloneM(M);
     nm[i][j] = v;
     M = nm;
-    steps.push('set R' + (i + 1) + 'C' + (j + 1) + ' = ' + txt(v));
+    /* steps.push('Muuta R' + (i + 1) + 'C' + (j + 1) + ' = ' + txt(v)); */
     armed = false;
     pulse = { row: i, changed: new Set([j]) };
     render();
