@@ -1,0 +1,690 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Gaussin Eliminaatio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: left-aligned title and controls, then one graph-paper board. The matrix sits dead centre of the board
+   with an arrow lane on its left for swap and elimination arrows. Row operations are logged underneath. */
+:root{
+  --bg:#e8edf2; --panel:#f8fafc; --ink:#101b28; --muted:#566779; --line:#c9d3dd; --grid:rgba(16,27,40,.07);
+  --pos-bg:#d4ece6; --pos-fg:#0a4a3d; --neg-bg:#f4dbe6; --neg-fg:#7b1c46;
+  --zero-fg:#8393a5; --zero-line:#bcc8d4;
+  --accent:#1f5eff; --on-accent:#ffffff; --warn:#a85d00; --pivot:#101b28;
+  --font-ui:'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-num:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b121a; --panel:#121b25; --ink:#e7eef6; --muted:#8fa1b4; --line:#25323f; --grid:rgba(231,238,246,.06);
+    --pos-bg:#12362f; --pos-fg:#8fe3d0; --neg-bg:#3b1829; --neg-fg:#f4a9c8;
+    --zero-fg:#5b6f83; --zero-line:#2c3d4d;
+    --accent:#7ea4ff; --on-accent:#0b121a; --warn:#f0b35a; --pivot:#e7eef6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b121a; --panel:#121b25; --ink:#e7eef6; --muted:#8fa1b4; --line:#25323f; --grid:rgba(231,238,246,.06);
+  --pos-bg:#12362f; --pos-fg:#8fe3d0; --neg-bg:#3b1829; --neg-fg:#f4a9c8;
+  --zero-fg:#5b6f83; --zero-line:#2c3d4d;
+  --accent:#7ea4ff; --on-accent:#0b121a; --warn:#f0b35a; --pivot:#e7eef6;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-ui); font-size:15px; line-height:1.45;
+  padding-block:28px 40px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap{max-width:900px; margin:0 auto; display:grid; gap:18px}
+h1{margin:0; font-size:clamp(30px,6vw,48px); line-height:1; letter-spacing:-.025em; font-weight:700; text-wrap:balance}
+.sub{margin:8px 0 0; color:var(--muted); max-width:52ch}
+h2{margin:0 0 10px; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+
+.controls{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px}
+.group{display:flex; align-items:center; gap:8px}
+.lbl{font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.spacer{flex:1 1 20px}
+button{font:inherit; color:inherit; cursor:pointer}
+button:focus-visible,.swapbtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.stepper{display:flex; align-items:center; border:1.5px solid var(--line); border-radius:9px; background:var(--panel); overflow:hidden}
+.stepper button{width:36px; height:36px; border:0; background:transparent; font-size:20px; line-height:1}
+.stepper button:hover:not(:disabled){background:var(--grid)}
+.stepper output{min-width:28px; text-align:center; font-family:var(--font-num); font-weight:700}
+.btn{border:1.5px solid var(--line); background:var(--panel); border-radius:9px; padding:8px 14px; font-weight:600}
+.btn:hover:not(:disabled){border-color:var(--muted)}
+.btn.primary{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+button:disabled{opacity:.4; cursor:not-allowed}
+
+.board{
+  display:grid; gap:12px; padding:14px; border:1.5px solid var(--line); border-radius:14px;
+  background-color:var(--panel);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+.status{
+  margin:0; padding:10px 12px; min-height:calc(1.45em * 3 + 20px); max-width:64ch;
+  background:var(--panel); border:1px solid var(--line); border-radius:8px; font-size:15px;
+}
+.status.warn{border-color:var(--warn); color:var(--warn)}
+.stagewrap{display:grid; place-items:center; padding-block:6px}
+.stage{position:relative; margin:0 auto; user-select:none; -webkit-user-select:none}
+.matrix{position:absolute; top:0}
+.overlay{position:absolute; left:0; top:0; overflow:visible; pointer-events:none; z-index:2}
+
+.row{position:absolute; left:0; display:flex; gap:var(--G); height:var(--S)}
+.rlabel{position:absolute; right:calc(100% + 8px); transform:translateY(-50%); font:500 12px var(--font-num); color:var(--muted)}
+.narrow .rlabel{display:none}
+.cell{
+  width:var(--S); height:var(--S); border-radius:7px; display:grid; place-items:center;
+  font-family:var(--font-num); font-weight:700; font-variant-numeric:tabular-nums; line-height:1;
+  border:1.5px solid transparent;
+}
+.cell.pos{background:var(--pos-bg); color:var(--pos-fg)}
+.cell.neg{background:var(--neg-bg); color:var(--neg-fg)}
+.cell.zero{background:transparent; color:var(--zero-fg); border:1.5px dashed var(--zero-line)}
+.cell{cursor:text}
+.cell:hover{outline:2px solid var(--line); outline-offset:1px}
+.cell:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.row.src .cell{cursor:grab}
+.row.dragging .cell{cursor:grabbing}
+.celledit{
+  position:absolute; z-index:5; border-radius:7px; border:2px solid var(--accent); background:var(--panel); color:var(--ink);
+  text-align:center; font-family:var(--font-num); font-weight:700; padding:0 4px; outline:none; box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+.celledit.bad{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)} 75%{transform:translateX(4px)}}
+.cell.pivot{box-shadow:0 0 0 2.5px var(--pivot)}
+.cell.pivot-now{box-shadow:0 0 0 3px var(--pivot)}
+.cell.clear{outline:2px solid var(--accent); outline-offset:2px}
+.frac{display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.1}
+.frac .num{border-bottom:max(1.5px,.08em) solid currentColor; padding:0 .18em .06em}
+
+.row.src{cursor:grab; touch-action:none}
+.row.dragging{cursor:grabbing; z-index:3}
+.row.target::after, .row.src::after{
+  content:""; position:absolute; inset:-5px -6px; border-radius:11px; pointer-events:none;
+}
+.row.target::after{border:2px dashed var(--accent); opacity:.4}
+.row.target.hover::after{opacity:1; background:color-mix(in srgb, var(--accent) 12%, transparent)}
+.armed .row.target::after{opacity:1}
+.row.src::after{border:2px solid var(--accent); opacity:.55}
+.row.swapping::after{content:""; position:absolute; inset:-5px -6px; border-radius:11px; border:2px dashed var(--accent); opacity:.6; pointer-events:none}
+.row.ghost{z-index:4; pointer-events:none}
+.row.ghost .cell, .row.ghost .cell.zero{background:var(--accent); color:var(--on-accent); border:0; opacity:.92}
+.cell.pulse{animation:pulse .65s ease-out}
+@keyframes pulse{0%{transform:scale(1.2); box-shadow:0 0 0 0 var(--accent)} 100%{transform:scale(1); box-shadow:0 0 0 12px transparent}}
+
+.arrow{fill:none; stroke:var(--accent); stroke-width:2.5; stroke-linecap:round}
+.hit{fill:none; stroke:transparent; stroke-width:26; pointer-events:stroke}
+.head{fill:var(--accent)}
+.dot{fill:var(--accent)}
+.grip{fill:var(--panel); stroke:var(--accent); stroke-width:2.5; cursor:grab; pointer-events:all; touch-action:none}
+.halo{fill:none; stroke:var(--accent); stroke-width:2; opacity:.5; transform-box:fill-box; transform-origin:center; animation:halo 1.8s ease-out infinite}
+@keyframes halo{0%{transform:scale(1); opacity:.6} 100%{transform:scale(2.2); opacity:0}}
+.pillbg{fill:var(--accent)}
+.pilltext{fill:var(--on-accent); font:700 13px var(--font-num); text-anchor:middle; dominant-baseline:central}
+.narrow .pilltext{font-size:12px}
+.swapbtn{pointer-events:all; cursor:pointer; outline:none}
+.swapbtn:hover .pillbg{filter:brightness(1.12)}
+.swapbtn:focus-visible .pillbg{stroke:var(--ink); stroke-width:2.5}
+.swapbtn .pillbg{animation:nudge 1.6s ease-in-out infinite; transform-box:fill-box; transform-origin:center}
+@keyframes nudge{0%,100%{transform:scale(1)} 50%{transform:scale(1.07)}}
+
+.log{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+.log li{display:flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line); border-radius:8px; background:var(--panel); font:500 13px var(--font-num)}
+.log li .n{color:var(--muted)}
+.log li.last{border-color:var(--accent)}
+.log li.empty{color:var(--muted); font-family:var(--font-ui); border-style:dashed}
+.note{margin:12px 0 0; color:var(--muted); font-size:14px; max-width:70ch}
+
+@media (prefers-reduced-motion: reduce){
+  .halo,.swapbtn .pillbg,.cell.pulse,.celledit.bad{animation:none}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Gaussin Eliminaatio</h1>
+    <p class="sub">Käytä rivioperaatioita, ja vie matriisi porrasmuotoon.</p>
+  </header>
+
+  <div class="controls">
+    <div class="group">
+      <span class="lbl">Rivit</span>
+      <div class="stepper">
+        <button id="rowsDown" aria-label="Fewer rows">&minus;</button>
+        <output id="rowsVal">3</output>
+        <button id="rowsUp" aria-label="More rows">+</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="lbl">Sarakkeet</span>
+      <div class="stepper">
+        <button id="colsDown" aria-label="Fewer columns">&minus;</button>
+        <output id="colsVal">3</output>
+        <button id="colsUp" aria-label="More columns">+</button>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button id="undo" class="btn">Peruuta</button>
+    <button id="reset" class="btn">Alkuun</button>
+    <button id="fresh" class="btn primary">Uusi matriisi</button>
+  </div>
+
+  <div id="board" class="board">
+    <p id="status" class="status" aria-live="polite"></p>
+    <div id="stagewrap" class="stagewrap">
+      <div id="stage" class="stage" role="group" aria-label="Matrix">
+        <div id="matrix" class="matrix"></div>
+        <svg id="overlay" class="overlay" aria-hidden="false"></svg>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Tehdyt rivioperaatiot</h2>
+    <ol id="log" class="log"></ol>
+  </section>
+</div>
+
+<script id="logic">
+const MINUS = '−';
+const gcd = (a, b) => { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; };
+const F = (n, d = 1n) => { n = BigInt(n); d = BigInt(d); if (d < 0n) { n = -n; d = -d; } const g = gcd(n, d) || 1n; return { n: n / g, d: d / g }; };
+const add = (a, b) => F(a.n * b.d + b.n * a.d, a.d * b.d);
+const mul = (a, b) => F(a.n * b.n, a.d * b.d);
+const div = (a, b) => F(a.n * b.d, a.d * b.n);
+const neg = a => F(-a.n, a.d);
+const isZero = a => a.n === 0n;
+const sgn = b => (b < 0n ? MINUS : '');
+const absb = b => (b < 0n ? -b : b);
+const txt = x => (x.d === 1n ? sgn(x.n) + absb(x.n) : sgn(x.n) + absb(x.n) + '/' + x.d);
+const cloneM = m => m.map(r => r.slice());
+function randomMatrix(r, c) {
+  let m;
+  do {
+    m = Array.from({ length: r }, () => Array.from({ length: c }, () => F(Math.floor(Math.random() * 19) - 9)));
+  } while (m.every(row => row.every(isZero)));
+  return m;
+}
+// Parses "8", "-1.5", "1,5", "3/2" into a reduced fraction. Returns null if invalid or outside -100..100.
+function parseNumber(str) {
+  const s = String(str).trim().replace(/−/g, '-').replace(/,/g, '.').replace(/\s+/g, '');
+  let m, v = null;
+  if ((m = /^([+-]?)(\d*)(?:\.(\d*))?$/.exec(s)) && ((m[2] || '') + (m[3] || '')).length) {
+    const frac = m[3] || '';
+    if (frac.length > 6) return null;
+    const n = BigInt((m[2] || '0') + frac);
+    v = F(m[1] === '-' ? -n : n, 10n ** BigInt(frac.length));
+  } else if ((m = /^([+-]?\d+)\/(\d+)$/.exec(s)) && BigInt(m[2]) !== 0n) {
+    v = F(BigInt(m[1].replace('+', '')), BigInt(m[2]));
+  }
+  if (!v || absb(v.n) > 100n * v.d) return null;
+  return v;
+}
+// Finds the next thing the user must do. Scans columns left to right.
+function analyze(M) {
+  const R = M.length, C = M[0].length;
+  let r = 0;
+  const pivots = [];
+  for (let c = 0; c < C && r < R; c++) {
+    let k = -1;
+    for (let i = r; i < R; i++) if (!isZero(M[i][c])) { k = i; break; }
+    if (k < 0) continue;
+    if (k !== r) return { type: 'swap', r, k, c, pivots };
+    const targets = [];
+    for (let i = r + 1; i < R; i++) if (!isZero(M[i][c])) targets.push(i);
+    if (targets.length) return { type: 'eliminate', r, c, targets, pivots };
+    pivots.push([r, c]);
+    r++;
+  }
+  return { type: 'done', pivots };
+}
+</script>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const boardEl = $('board'), stageEl = $('stage'), wrapEl = $('stagewrap'), matrixEl = $('matrix'),
+        svg = $('overlay'), statusEl = $('status'), logEl = $('log');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const D = () => (reduce.matches ? 0 : 560);
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const PAD = 14, MIN = 2, MAX = 6;
+
+  let R = 3, C = 3;
+  let M = randomMatrix(R, C), initial = cloneM(M);
+  let history = [], steps = [];
+  let busy = false, armed = false, drag = null, state = null, ov = null, pulse = null, geo = {}, flashT = 0;
+  let editing = null, suppressClick = false;
+
+  const mult = (r, t, c) => neg(div(M[t][c], M[r][c]));
+  const mtxt = m => '(' + txt(m) + ')';
+  const yc = i => i * (geo.S + geo.G) + geo.S / 2;
+  const rowEl = i => matrixEl.querySelector('.row[data-i="' + i + '"]');
+  const orList = a => (a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' tai ' + a[a.length - 1]);
+
+  function cellHTML(x, S) {
+    if (x.d === 1n) {
+      const s = sgn(x.n) + absb(x.n), L = s.length;
+      return { html: s, fs: Math.max(9, S * (L <= 2 ? 0.44 : L === 3 ? 0.34 : L === 4 ? 0.27 : 0.21)) };
+    }
+    const ns = sgn(x.n) + absb(x.n), ds = String(x.d), L = Math.max(ns.length, ds.length);
+    return {
+      html: '<span class="frac"><span class="num">' + ns + '</span><span class="den">' + ds + '</span></span>',
+      fs: Math.max(8, S * (L <= 2 ? 0.3 : L === 3 ? 0.25 : L === 4 ? 0.2 : 0.16))
+    };
+  }
+
+  function layout() {
+    const innerW = Math.max(280, boardEl.clientWidth - PAD * 2);
+    const narrow = innerW < 560;
+    const lL = narrow ? 78 : 120, lR = narrow ? 8 : 120, G = narrow ? 5 : 8;
+    const S = Math.max(36, Math.min(72, Math.floor((innerW - lL - lR - (C - 1) * G) / C)));
+    const mw = C * S + (C - 1) * G, mh = R * S + (R - 1) * G, W = lL + mw + lR;
+    geo = { S, G, lL, lR, mw, mh, narrow, x0: lL - (narrow ? 30 : 40) };
+    stageEl.classList.toggle('narrow', narrow);
+    stageEl.style.width = W + 'px';
+    stageEl.style.height = mh + 'px';
+    wrapEl.style.minHeight = (MAX * S + (MAX - 1) * G + 12) + 'px';
+    matrixEl.style.cssText = 'left:' + lL + 'px;width:' + mw + 'px;height:' + mh + 'px;--S:' + S + 'px;--G:' + G + 'px';
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + mh);
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', mh);
+  }
+
+  function render() {
+    if (editing) { const ed = editing; editing = null; ed.inp.remove(); }
+    layout();
+    state = analyze(M);
+    stageEl.classList.toggle('armed', armed && state.type === 'eliminate');
+    matrixEl.innerHTML = '';
+    const { S, G } = geo;
+    const piv = new Set(state.pivots.map(p => p[0] + ',' + p[1]));
+    M.forEach((row, i) => {
+      const el = document.createElement('div');
+      el.className = 'row';
+      el.dataset.i = i;
+      el.style.top = (i * (S + G)) + 'px';
+      if (state.type === 'eliminate') {
+        if (i === state.r) el.classList.add('src');
+        else if (state.targets.includes(i)) el.classList.add('target');
+      }
+      if (state.type === 'swap' && (i === state.r || i === state.k)) el.classList.add('swapping');
+      row.forEach((x, j) => {
+        const cell = document.createElement('div');
+        const k = cellHTML(x, S);
+        cell.className = 'cell ' + (x.n > 0n ? 'pos' : x.n < 0n ? 'neg' : 'zero');
+        if (piv.has(i + ',' + j)) cell.classList.add('pivot');
+        if (state.type === 'eliminate') {
+          if (i === state.r && j === state.c) cell.classList.add('pivot-now');
+          else if (j === state.c && state.targets.includes(i)) cell.classList.add('clear');
+        }
+        if (state.type === 'swap' && j === state.c && i === state.k) cell.classList.add('pivot-now');
+        if (pulse && pulse.row === i && pulse.changed.has(j)) cell.classList.add('pulse');
+        cell.style.fontSize = k.fs + 'px';
+        cell.innerHTML = k.html;
+        cell.tabIndex = 0;
+        cell.setAttribute('role', 'button');
+        cell.setAttribute('aria-label', 'Row ' + (i + 1) + ', column ' + (j + 1) + ': ' + txt(x) + '. Press Enter to edit.');
+        cell.addEventListener('click', () => { if (!suppressClick && !busy && !drag) openEditor(i, j); });
+        cell.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === 'F2') { e.preventDefault(); if (!busy) openEditor(i, j); } });
+        el.appendChild(cell);
+      });
+      el.addEventListener('pointerdown', onRowDown);
+      matrixEl.appendChild(el);
+    });
+    M.forEach((_, i) => {
+      const lab = document.createElement('span');
+      lab.className = 'rlabel';
+      lab.style.top = yc(i) + 'px';
+      lab.textContent = 'R' + (i + 1);
+      matrixEl.appendChild(lab);
+    });
+    pulse = null;
+    drawOverlay();
+    updateStatus();
+    updateControls();
+    renderLog();
+  }
+
+  /* ---------- overlay (arrows) ---------- */
+  function mk(tag, attrs, parent) {
+    const e = document.createElementNS(SVGNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(e);
+    return e;
+  }
+  function head(x, y, parent) {
+    return mk('polygon', { class: 'head', points: x + ',' + y + ' ' + (x - 10) + ',' + (y - 6) + ' ' + (x - 10) + ',' + (y + 6) }, parent);
+  }
+  function curve(y1, y2) {
+    const x0 = geo.x0;
+    const b = Math.min(geo.narrow ? 24 : 44, 14 + Math.abs(y2 - y1) * 0.3);
+    return { d: 'M' + x0 + ' ' + y1 + ' C' + (x0 - b) + ' ' + y1 + ' ' + (x0 - b) + ' ' + y2 + ' ' + x0 + ' ' + y2, b };
+  }
+  function pill(cx, cy, text, parent) {
+    const w = text.length * (geo.narrow ? 7.2 : 7.9) + (geo.narrow ? 16 : 22), h = geo.narrow ? 22 : 26;
+    mk('rect', { class: 'pillbg', x: cx - w / 2, y: cy - h / 2, width: w, height: h, rx: h / 2 }, parent);
+    const t = mk('text', { class: 'pilltext', x: cx, y: cy }, parent);
+    t.textContent = text;
+  }
+  function clearSvg() { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  function drawSwap() {
+    const { r, k } = state, x0 = geo.x0, y1 = yc(r), y2 = yc(k);
+    const g = mk('g', { class: 'swapbtn', tabindex: 0, role: 'button', 'aria-label': 'Vaihda rivit ' + (r + 1) + ' ja ' + (k + 1) });
+    const cv = curve(y1, y2);
+    mk('path', { class: 'hit', d: cv.d }, g);
+    mk('path', { class: 'arrow', d: cv.d }, g);
+    head(x0, y1, g);
+    head(x0, y2, g);
+    pill(x0 - 0.75 * cv.b, (y1 + y2) / 2, 'Vaihda!', g);
+    g.addEventListener('click', doSwap);
+    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doSwap(); } });
+  }
+  function drawGrip() {
+    const x0 = geo.x0, y = yc(state.r);
+    mk('circle', { class: 'halo', cx: x0, cy: y, r: 7 });
+    const g = mk('circle', { class: 'grip', cx: x0, cy: y, r: 8 });
+    g.addEventListener('pointerdown', e => startDrag(e, state.r, true));
+  }
+  function drawElim(o) {
+    const x0 = geo.x0, y1 = yc(o.r);
+    mk('circle', { class: 'dot', cx: x0, cy: y1, r: 6 });
+    if (Math.abs(o.ty - y1) > 4) {
+      const cv = curve(y1, o.ty);
+      mk('path', { class: 'arrow', d: cv.d });
+      head(x0, o.ty);
+      if (o.target !== null && o.m) pill(x0 - 0.75 * cv.b, (y1 + o.ty) / 2, mtxt(o.m) + ' ×');
+    }
+  }
+  function drawOverlay() {
+    clearSvg();
+    if (ov) { drawElim(ov); return; }
+    if (busy || !state) return;
+    if (state.type === 'swap') drawSwap();
+    else if (state.type === 'eliminate') drawGrip();
+  }
+
+  /* ---------- status, log, controls ---------- */
+  function updateStatus() {
+    statusEl.classList.remove('warn');
+    const s = state;
+    let h;
+    if (s.type === 'swap') {
+      h = 'Sarakken ' + (s.c + 1) + ' rivin ' + (s.r + 1) + ' johtava alkio on 0. Rivillä ' + (s.k + 1) +
+          ' on nollasta poikkeava alkio, joten paina napista <b>Vaihda!</b>.';
+    } else if (s.type === 'eliminate') {
+      const list = orList(s.targets.map(t => 'riville ' + (t + 1)));
+      h = armed
+        ? 'Rivi ' + (s.r + 1) + ' on valittu. Klikkaa ' + list + '  ' + (s.c + 1) + ' entry.'
+        : 'Pivot on <b>' + txt(M[s.r][s.c]) + '</b> rivillä ' + (s.r + 1) + ', sarakkeella ' + (s.c + 1) +
+          '. Vedä rivi ' + (s.r + 1) + " " + list + ' eliminoidaksesi ' + (s.targets.length > 1 ? 'alkiot' : 'alkio') + ' sen alla.';
+    } else {
+      const p = s.pivots.length;
+      h = '<b>Porrasmuoto saavutettu.</b> Matriisilla on ' + p + ' pivot' + (p === 1 ? '' : 'ia') + ', joten sen aste on ' + p +
+          '.';
+    }
+    statusEl.innerHTML = h;
+  }
+  function flash(msg) {
+    statusEl.innerHTML = msg;
+    statusEl.classList.add('warn');
+    clearTimeout(flashT);
+    flashT = setTimeout(() => { if (!busy) updateStatus(); }, 2600);
+  }
+  function renderLog() {
+    if (!steps.length) { logEl.innerHTML = '<li class="empty">Ei tehtyjä rivioperaatioita.</li>'; return; }
+    logEl.innerHTML = steps.map((s, i) =>
+      '<li' + (i === steps.length - 1 ? ' class="last"' : '') + '><span class="n">' + (i + 1) + '</span>' + s + '</li>').join('');
+  }
+  function updateControls() {
+    $('rowsVal').textContent = R;
+    $('colsVal').textContent = C;
+    $('rowsDown').disabled = busy || R <= MIN;
+    $('rowsUp').disabled = busy || R >= MAX;
+    $('colsDown').disabled = busy || C <= MIN;
+    $('colsUp').disabled = busy || C >= MAX;
+    $('undo').disabled = busy || !history.length;
+    $('reset').disabled = busy || !history.length;
+    $('fresh').disabled = busy;
+  }
+
+  /* ---------- dragging ---------- */
+  function pointerRow(e) {
+    const rect = matrixEl.getBoundingClientRect();
+    const py = e.clientY - rect.top;
+    const idx = Math.min(R - 1, Math.max(0, Math.floor((py + geo.G / 2) / (geo.S + geo.G))));
+    return { py: Math.max(0, Math.min(geo.mh, py)), idx };
+  }
+  function setOv(e) {
+    const { py, idx } = pointerRow(e);
+    const t = state.targets.includes(idx) ? idx : null;
+    ov = { r: state.r, ty: t !== null ? yc(t) : py, target: t, m: t !== null ? mult(state.r, t, state.c) : null };
+    matrixEl.querySelectorAll('.row.hover').forEach(el => el.classList.remove('hover'));
+    if (t !== null) rowEl(t).classList.add('hover');
+    drawOverlay();
+  }
+  function endDrag() {
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('pointercancel', onCancel);
+    matrixEl.querySelectorAll('.row.hover,.row.dragging').forEach(el => el.classList.remove('hover', 'dragging'));
+    drag = null;
+  }
+  function startDrag(e, i, grip) {
+    if (busy || editing || !state || state.type !== 'eliminate') return;
+    if (i !== state.r) { flash('Start from the pivot row, row ' + (state.r + 1) + '.'); return; }
+    e.preventDefault();
+    drag = { x: e.clientX, y: e.clientY, moved: false, grip: !!grip };
+    rowEl(i).classList.add('dragging');
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onCancel);
+  }
+  function onMove(e) {
+    if (!drag) return;
+    if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 6) drag.moved = true;
+    if (drag.moved) setOv(e);
+  }
+  function onUp(e) {
+    const moved = drag && drag.moved;
+    const grip = drag && drag.grip;
+    const { idx } = pointerRow(e);
+    endDrag();
+    if (!moved) {
+      if (grip) {
+        armed = !armed;
+        ov = null;
+        stageEl.classList.toggle('armed', armed);
+        drawOverlay();
+        updateStatus();
+      }
+      return;
+    }
+    suppressClick = true;
+    setTimeout(() => { suppressClick = false; }, 0);
+    const t = state.targets.includes(idx) ? idx : null;
+    if (t !== null) doElim(state.r, t);
+    else {
+      ov = null;
+      drawOverlay();
+      flash('Vedä rivi alemmalle riville eliminoidaksesi sen sarakkeen ' + (state.c + 1) + ' alkio.');
+    }
+  }
+  function onCancel() { endDrag(); ov = null; drawOverlay(); }
+  function onRowDown(e) {
+    if (busy || editing || !state) return;
+    const i = +e.currentTarget.dataset.i;
+    if (state.type === 'eliminate') {
+      if (i === state.r) startDrag(e, i, false);
+      else if (armed && state.targets.includes(i)) doElim(state.r, i);
+    }
+  }
+
+  /* ---------- editing a box ---------- */
+  const editText = x => (x.n < 0n ? '-' : '') + absb(x.n) + (x.d !== 1n ? '/' + x.d : '');
+  function openEditor(i, j) {
+    if (busy || drag) return;
+    if (editing) commitEdit(true);
+    const { S, G } = geo;
+    const inp = document.createElement('input');
+    inp.className = 'celledit';
+    inp.type = 'text';
+    inp.inputMode = 'decimal';
+    inp.autocomplete = 'off';
+    inp.spellcheck = false;
+    inp.setAttribute('aria-label', 'New value for row ' + (i + 1) + ', column ' + (j + 1));
+    inp.value = editText(M[i][j]);
+    inp.style.cssText = 'left:' + (j * (S + G)) + 'px;top:' + (i * (S + G)) + 'px;width:' + S + 'px;height:' + S + 'px;font-size:' + Math.max(13, S * 0.3) + 'px';
+    matrixEl.appendChild(inp);
+    editing = { i, j, inp };
+    statusEl.classList.remove('warn');
+    statusEl.innerHTML = 'Muokataan alkiota kohdassa (' + (i + 1) + ', ' + (j + 1) + '). Kirjoita luku, ja paina enter-näppäintä.';
+    inp.focus();
+    inp.select();
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); commitEdit(false); }
+      else if (e.key === 'Escape') { e.preventDefault(); closeEditor(); }
+    });
+    inp.addEventListener('blur', () => { if (editing && editing.inp === inp) commitEdit(true); });
+  }
+  function closeEditor() {
+    if (!editing) return;
+    const ed = editing;
+    editing = null;
+    ed.inp.remove();
+    updateStatus();
+  }
+  function commitEdit(fromBlur) {
+    if (!editing) return;
+    const { i, j, inp } = editing;
+    const v = parseNumber(inp.value);
+    if (!v) {
+      if (fromBlur) {
+        closeEditor();
+        flash('Luvun täytyy olla välillä &minus;100 to 100.');
+      } else {
+        flash('Anna luku välillä &minus;100 to 100, kuten 8, &minus;2.5, tai 3/2.');
+        inp.classList.remove('bad');
+        void inp.offsetWidth;
+        inp.classList.add('bad');
+      }
+      return;
+    }
+    editing = null;
+    inp.remove();
+    const old = M[i][j];
+    if (v.n === old.n && v.d === old.d) { updateStatus(); return; }
+    history.push({ M: cloneM(M), steps: steps.slice(), initial: cloneM(initial) });
+    if (steps.every(s => s.startsWith('set '))) initial[i][j] = v;
+    const nm = cloneM(M);
+    nm[i][j] = v;
+    M = nm;
+    steps.push('set R' + (i + 1) + 'C' + (j + 1) + ' = ' + txt(v));
+    armed = false;
+    pulse = { row: i, changed: new Set([j]) };
+    render();
+  }
+
+  /* ---------- operations ---------- */
+  async function doElim(r, t) {
+    const c = state.c;
+    busy = true; armed = false;
+    stageEl.classList.remove('armed');
+    updateControls();
+    const m = mult(r, t, c);
+    ov = { r, ty: yc(t), target: t, m };
+    drawOverlay();
+    const { S, G } = geo;
+    const ghost = document.createElement('div');
+    ghost.className = 'row ghost';
+    ghost.style.top = (r * (S + G)) + 'px';
+    M[r].forEach(x => {
+      const v = mul(m, x), k = cellHTML(v, S);
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.style.fontSize = k.fs + 'px';
+      cell.innerHTML = k.html;
+      ghost.appendChild(cell);
+    });
+    matrixEl.appendChild(ghost);
+    void ghost.offsetWidth;
+    ghost.style.transition = 'transform ' + D() + 'ms cubic-bezier(.5,0,.2,1)';
+    ghost.style.transform = 'translateY(' + ((t - r) * (S + G)) + 'px)';
+    await sleep(D() + 40);
+    history.push({ M: cloneM(M), steps: steps.slice() });
+    const before = M[t];
+    const after = before.map((x, j) => add(x, mul(m, M[r][j])));
+    const changed = new Set();
+    after.forEach((x, j) => { if (x.n !== before[j].n || x.d !== before[j].d) changed.add(j); });
+    M = M.map((row, i) => (i === t ? after : row));
+    steps.push('R' + (t + 1) + ' ← R' + (t + 1) + ' + ' + mtxt(m) + '·R' + (r + 1));
+    pulse = { row: t, changed };
+    ov = null; busy = false;
+    render();
+  }
+
+  async function doSwap() {
+    if (busy || !state || state.type !== 'swap') return;
+    const { r, k } = state;
+    busy = true;
+    updateControls();
+    drawOverlay();
+    const { S, G } = geo;
+    const a = rowEl(r), b = rowEl(k), dy = (k - r) * (S + G);
+    [a, b].forEach(el => { el.style.transition = 'transform ' + D() + 'ms cubic-bezier(.5,0,.2,1)'; el.style.zIndex = 3; });
+    a.style.transform = 'translateY(' + dy + 'px)';
+    b.style.transform = 'translateY(' + (-dy) + 'px)';
+    await sleep(D() + 40);
+    history.push({ M: cloneM(M), steps: steps.slice() });
+    const t = M.slice();
+    [t[r], t[k]] = [t[k], t[r]];
+    M = t;
+    steps.push('R' + (r + 1) + ' ↔ R' + (k + 1));
+    busy = false;
+    render();
+  }
+
+  /* ---------- controls ---------- */
+  const clamp = v => Math.max(MIN, Math.min(MAX, v));
+  function fresh() {
+    M = randomMatrix(R, C);
+    initial = cloneM(M);
+    history = []; steps = []; armed = false; ov = null;
+    render();
+  }
+  $('rowsDown').addEventListener('click', () => { if (!busy) { R = clamp(R - 1); fresh(); } });
+  $('rowsUp').addEventListener('click', () => { if (!busy) { R = clamp(R + 1); fresh(); } });
+  $('colsDown').addEventListener('click', () => { if (!busy) { C = clamp(C - 1); fresh(); } });
+  $('colsUp').addEventListener('click', () => { if (!busy) { C = clamp(C + 1); fresh(); } });
+  $('fresh').addEventListener('click', () => { if (!busy) fresh(); });
+  $('undo').addEventListener('click', () => {
+    if (busy || !history.length) return;
+    const h = history.pop();
+    M = h.M; steps = h.steps; armed = false; ov = null;
+    if (h.initial) initial = h.initial;
+    render();
+  });
+  $('reset').addEventListener('click', () => {
+    if (busy || !history.length) return;
+    M = cloneM(initial); history = []; steps = []; armed = false; ov = null;
+    render();
+  });
+
+  let rt = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { if (!busy && !drag && !editing) render(); }, 120);
+  });
+
+  render();
+})();
+</script>
+
+</body></html>
