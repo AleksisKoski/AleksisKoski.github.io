@@ -70,6 +70,7 @@ button:disabled{opacity:.4; cursor:not-allowed}
 }
 .status.warn{border-color:var(--warn); color:var(--warn)}
 .stagewrap{display:grid; place-items:center; padding-block:6px}
+.stage {touch-action: none;}
 .stage{position:relative; margin:0 auto; user-select:none; -webkit-user-select:none}
 .matrix{position:absolute; top:0}
 .overlay{position:absolute; left:0; top:0; overflow:visible; pointer-events:none; z-index:2}
@@ -545,7 +546,7 @@ function analyze(M) {
     matrixEl.appendChild(inp);
     editing = { i, j, inp };
     statusEl.classList.remove('warn');
-    statusEl.innerHTML = 'Muokataan alkiota kohdassa (' + (i + 1) + ', ' + (j + 1) + '). Kirjoita luku, ja paina enter-näppäintä.';
+    statusEl.innerHTML = 'Muokataan alkiota kohdassa (' + (i + 1) + ', ' + (j + 1) + '). Kirjoita luku, ja paina Enter-näppäintä.';
     inp.focus();
     inp.select();
     inp.addEventListener('keydown', e => {
