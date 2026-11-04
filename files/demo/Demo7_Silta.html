@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matriisit rakennetekniikassa: jousisilta</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1d2330; --muted:#667085; --line:#d9dde5;
+    --accent:#2563eb; --load:#dc2626; --spring:#0f766e; --block:#e8eefc; --fixed:#475467;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#12151b; --card:#1b2029; --ink:#e7eaf0; --muted:#98a2b3; --line:#2f3644;
+           --accent:#6ea0ff; --load:#ff6b6b; --spring:#3cc4b4; --block:#24304d; --fixed:#8a94a6; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+  h1{font-size:1.6rem;margin:0 0 4px}
+  h2{font-size:1.15rem;margin:0 0 8px}
+  p.sub{color:var(--muted);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  svg{width:100%;height:auto;display:block;touch-action:manipulation}
+  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 20px;align-items:center}
+  .controls label{display:block;font-size:.9rem;color:var(--muted)}
+  .controls input[type=range]{width:100%}
+  .val{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600}
+  button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  .hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem}
+  .eq{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:nowrap}
+  table.bal{border-collapse:collapse;width:100%;margin-top:8px}
+  table.bal td{padding:4px 6px;border-bottom:1px solid var(--line)}
+  table.bal td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  .mwrap{overflow-x:auto}
+  table.mat{border-collapse:collapse;font-size:.78rem;font-variant-numeric:tabular-nums}
+  table.mat th{color:var(--muted);font-weight:500;padding:2px 4px}
+  table.mat td{padding:3px 5px;text-align:right;min-width:34px;border:1px solid transparent}
+  table.mat td.op{color:var(--muted);min-width:14px;text-align:center}
+  table.mat tr.sel td{border-top-color:var(--accent);border-bottom-color:var(--accent)}
+  table.mat td.hot{font-weight:700;outline:2px solid var(--accent);outline-offset:-2px}
+  table.mat td.ucol,table.mat td.fcol{font-weight:600}
+  .mrow{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center}
+  .solh{font-weight:600;margin-bottom:6px}
+  .solg{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,auto);gap:2px 24px;font-size:.85rem;font-variant-numeric:tabular-nums}
+  .solg .cur{color:var(--accent);font-weight:700}
+  ol.steps li{margin-bottom:6px}
+  .ok{color:var(--spring);font-weight:600}
+  .legend span{display:inline-block;margin-right:14px;font-size:.85rem}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+</style>
+</head>
+<body>
+<main>
+  <h1>Matriisit rakennetekniikassa</h1>
+  <p class="sub">Silta, jossa on 15 lohkoa jousilla toisiinsa kytkettynä. Aina kun jotain muuttuu, sivu muodostaa jäykkyysmatriisin <b>K</b> ja ratkaisee yhtälön <b>K·u = f</b> lohkojen siirtymille.</p>
+
+  <div class="card">
+    <svg id="scene" viewBox="0 0 960 400" role="img" aria-label="Siltasimulaatio"></svg>
+    <div class="hint"><b>Klikkaa</b> vapaata lohkoa lisätäksesi sille painon (+1 t) &middot; <b>oikea klikkaus</b> tai <b>Shift+klikkaus</b> poistaa yhden &middot; vie hiiri (tai napauta) lohkon päälle nähdäksesi sen voimat.</div>
+    <div class="legend" style="margin-top:6px">
+      <span><i class="sw" style="background:var(--load)"></i>paino (lohkon oma paino ja lisäpainot)</span>
+      <span><i class="sw" style="background:var(--accent)"></i>jousten voimat valittuun lohkoon</span>
+      <span><i class="sw" style="background:var(--spring)"></i>jousen väri = kuinka rasittunut se on</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Säädöt</h2>
+    <div class="controls">
+      <div><label>Jousivakio k (kaikilla jousilla sama): <span class="val" id="kV"></span> kN/m</label>
+        <input type="range" id="kk" min="10" max="500" step="5" value="100"></div>
+      <div><button id="reset">Poista lisäpainot</button></div>
+    </div>
+    <div class="hint">Jokaisella lohkolla on massa <b>50 kg</b>, joten painovoima taivuttaa siltaa jo ilman lisäpainoja (g = 9,81 m/s²). Yksi klikkaus lisää 1000 kg:n painon.</div>
+  </div>
+
+  <div class="card">
+    <h2>Lohkon <span id="selName"></span> voimat</h2>
+    <div id="detail"></div>
+  </div>
+
+  <div class="card">
+    <h2>Lineaarinen yhtälöryhmä K · u = f</h2>
+    <p style="margin-top:0">Jokainen rivi on yhden vapaan lohkon voimatasapaino. <b>K</b>:n sarakkeet vastaavat naapurilohkoja, joihin lohko on kytketty. Yllä valitsemaasi lohkoa vastaava rivi on korostettu.</p>
+    <div class="mwrap" id="matrix"></div>
+  </div>
+
+  <div class="card">
+    <h2>Näin matriisi rakennetaan</h2>
+    <ol class="steps">
+      <li><b>Jousivoimat.</b> Vierekkäisten lohkojen välillä on jousi, jonka jäykkyys on <i>k</i>. Lohkojen <i>a</i> ja <i>b</i> välinen jousi vastustaa voimalla <i>k·(u<sub>a</sub> − u<sub>b</sub>)</i>.
+      <li><b>Tasapainoyhtälöt.</b> Jokaiseen lohkoon vaikuttavat voimat kumoavat toisensa. Nämä ovat painovoima (johon vaikuttaa lohkon oma massa ja lisäpainot), ja jousien muodostama jännitysvoima.
+      <li><b>Reunaehdot.</b> Päätylohkot ovat kiinni (<i>u<sub>1</sub> = u<sub>15</sub> = 0</i>), joten niille ei tarvitse muodostaa yhtälöitä. Jäljelle jää 13 yhtälöä. Ilman tätä vaihetta <b>K</b> olisi singulaarinen, koska koko silta voisi liikkua vapaasti.</li>
+      <li><b>Ratkaisu.</b> Yhtälöryhmä <span class="mono">K·u = f</span> voidaan ratkaista esim. LU-hajotelmalla. Painojen muuttaminen muuttaa ainoastaan voimia f, ei jäykkyysmatriisia K.</li>
+    </ol>
+    <p style="margin-bottom:0" class="hint">Mallinnushuomio: siirtymät ovat vain pystysuuntaisia, ja jokainen jousi vastustaa kahden lohkonsa <i>suhteellista pystysiirtymää</i> (leikkausjousi). Tuloksena oleva matriisi on sama kuin kireällä langalla tai massaketjussa, ja se on yksinkertaisin esimerkki elementtimenetelmästä.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  const N = 15, NF = 13, NS = 14;          // lohkot, vapaat lohkot, jouset
+  const G = 9.81, M_BLOCK = 50, M_CLICK = 1000;   // m/s², kg, kg
+  const SCALE = 150;                       // px per m (vain piirtoa varten)
+  let kk = 100;                            // kN/m, sama kaikille jousille
+  const w = Array(N).fill(0);              // klikkausten määrä lohkoa kohti
+  let sel = 7;
+
+  const $ = id => document.getElementById(id);
+  const svg = $('scene');
+
+  /* ---------- lineaarialgebra ---------- */
+  function solve(A0, b0){
+    const n = b0.length;
+    const A = A0.map((r,i)=>r.concat([b0[i]]));
+    for(let c=0;c<n;c++){
+      let p=c;
+      for(let r=c+1;r<n;r++) if(Math.abs(A[r][c])>Math.abs(A[p][c])) p=r;
+      [A[c],A[p]]=[A[p],A[c]];
+      for(let r=c+1;r<n;r++){
+        const m=A[r][c]/A[c][c];
+        for(let j=c;j<=n;j++) A[r][j]-=m*A[c][j];
+      }
+    }
+    const x=Array(n).fill(0);
+    for(let i=n-1;i>=0;i--){
+      let s=A[i][n];
+      for(let j=i+1;j<n;j++) s-=A[i][j]*x[j];
+      x[i]=s/A[i][i];
+    }
+    return x;
+  }
+
+  let K, f, U;   // K: 13x13, f: 13, U: 15 (koko siirtymävektori, päät = 0)
+  const weightOwn = () => M_BLOCK*G/1000;                 // kN
+  const weightAdded = i => w[i]*M_CLICK*G/1000;           // kN
+  function compute(){
+    K = Array.from({length:NF},()=>Array(NF).fill(0));
+    for(let j=0;j<NS;j++){
+      const a=j, b=j+1;                    // jousen j yhdistämät lohkot
+      const aFree = a>=1 && a<=NF, bFree = b>=1 && b<=NF;
+      if(aFree) K[a-1][a-1]+=kk;
+      if(bFree) K[b-1][b-1]+=kk;
+      if(aFree&&bFree){ K[a-1][b-1]-=kk; K[b-1][a-1]-=kk; }
+    }
+    f = Array.from({length:NF},(_,i)=>weightOwn()+weightAdded(i+1));
+    const u = solve(K,f);
+    U = [0].concat(u,[0]);
+  }
+  const springForce = j => kk*(U[j+1]-U[j]);   // jousen j voima lohkoon j (alas = +)
+  const fl = i => kk*(U[i-1]-U[i]);            // vasen jousi lohkoon i
+  const fr = i => kk*(U[i+1]-U[i]);            // oikea jousi lohkoon i
+
+  /* ---------- piirtäminen ---------- */
+  const X = i => 50 + i*62, BASE = 120, S = 38;
+  const Y = i => BASE + Math.max(-60, Math.min(230, U[i]*SCALE));
+
+  function arrow(x,y1,y2,color,w=2.5,op=1){
+    if(Math.abs(y2-y1)<1) return '';
+    const d = y2>y1?1:-1;
+    return `<g opacity="${op}"><line x1="${x}" y1="${y1}" x2="${x}" y2="${y2-d*6}" stroke="${color}" stroke-width="${w}"/>`+
+           `<polygon points="${x-5},${y2-d*8} ${x+5},${y2-d*8} ${x},${y2}" fill="${color}"/></g>`;
+  }
+  function zig(x1,y1,x2,y2,n=7,amp=7){
+    const dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, nx=-uy, ny=ux;
+    let d=`M${x1},${y1} L${x1+ux*L*0.12},${y1+uy*L*0.12}`;
+    for(let s=1;s<=n*2;s++){
+      const t=0.12+0.76*s/(n*2), sgn=(s%2)?1:-1;
+      d+=` L${x1+ux*L*t+nx*amp*sgn},${y1+uy*L*t+ny*amp*sgn}`;
+    }
+    return d+` L${x2},${y2}`;
+  }
+  const cap = (v,m) => Math.min(m, Math.abs(v)*1.2) * Math.sign(v);
+
+  function drawScene(){
+    let s = '';
+    // tukipilarit ja maa
+    s += `<rect x="0" y="${BASE+S/2}" width="${X(0)+S/2+8}" height="${400-BASE-S/2}" fill="var(--fixed)" opacity=".25"/>`;
+    s += `<rect x="${X(14)-S/2-8}" y="${BASE+S/2}" width="${960-(X(14)-S/2-8)}" height="${400-BASE-S/2}" fill="var(--fixed)" opacity=".25"/>`;
+    s += `<line x1="0" y1="${BASE}" x2="960" y2="${BASE}" stroke="var(--line)" stroke-dasharray="4 5"/>`;
+    // jouset
+    const maxF = Math.max(1e-9, ...Array.from({length:NS},(_,j)=>Math.abs(springForce(j))));
+    for(let j=0;j<NS;j++){
+      const t = Math.abs(springForce(j))/maxF;
+      const col = `hsl(${170-150*t},70%,45%)`;
+      s += `<path d="${zig(X(j)+S/2,Y(j),X(j+1)-S/2,Y(j+1))}" fill="none" stroke="${col}" stroke-width="${1+kk/150}" stroke-linejoin="round"/>`;
+    }
+    // lohkot
+    for(let i=0;i<N;i++){
+      const free = i>=1 && i<=NF, y=Y(i), x=X(i);
+      const isSel = i===sel;
+      s += `<g data-i="${i}" style="cursor:${free?'pointer':'default'}">`;
+      s += `<rect x="${x-S/2}" y="${y-S/2}" width="${S}" height="${S}" rx="4" fill="${free?'var(--block)':'var(--fixed)'}" stroke="${isSel?'var(--accent)':'var(--ink)'}" stroke-width="${isSel?3:1.2}"/>`;
+      s += `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="12" fill="${free?'var(--ink)':'#fff'}">${i+1}</text>`;
+      s += `</g>`;
+      if(!free) continue;
+      // painot (oma paino aina, lisäpainot korostettuna)
+      const F=f[i-1], len=Math.min(80, 10+F*1.2);
+      s += arrow(x,y-S/2-4-len,y-S/2-4,'var(--load)',w[i]>0?2.5:1.5,w[i]>0?1:.55);
+      if(w[i]>0){
+        s += `<text x="${x}" y="${y-S/2-8-len}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--load)">+${w[i]} t</text>`;
+      }
+    }
+    // valitun lohkon jousivoimat
+    if(sel>=1 && sel<=NF){
+      const x=X(sel), y=Y(sel), a=fl(sel), b=fr(sel);
+      const L = cap(a,70), R = cap(b,70);
+      if(Math.abs(L)>0.5) s += arrow(x-10,y,y+L,'var(--accent)',3);
+      if(Math.abs(R)>0.5) s += arrow(x+10,y,y+R,'var(--accent)',3);
+    }
+    svg.innerHTML = s;
+  }
+
+  /* ---------- paneelit ---------- */
+  const dec = s => s.replace('.',',');
+  const f1 = v => dec((Math.abs(v)<5e-10?0:v).toFixed(1));
+  const f2 = v => dec((Math.abs(v)<5e-10?0:v).toFixed(2));
+  const f3 = v => dec((Math.abs(v)<5e-10?0:v).toFixed(3));
+
+  function drawDetail(){
+    $('selName').textContent = '#'+(sel+1)+(sel===0||sel===N-1?' (kiinteä tuki)':'');
+    let h='';
+    if(sel===0||sel===N-1){
+      const j = sel===0?0:NS-1;
+      const forceOnBlock = sel===0 ? springForce(0) : -springForce(NS-1);
+      h += `<p style="margin-top:0">Tämä lohko on kiinni: <span class="mono">u = 0</span>. Se ei ole yhtälöryhmän tuntematon, mutta viereinen jousi vetää sitä, ja tuen täytyy kestää tämä voima.</p>`;
+      h += `<table class="bal"><tr><td>Jousi ${j+1} vetää voimalla</td><td>${f2(forceOnBlock)} kN</td></tr><tr><td><b>Tukireaktio (siirtyy maahan)</b></td><td><b>${f2(-forceOnBlock)} kN</b></td></tr></table>`;
+    } else {
+      const i=sel, X=i+1;
+      const fixedNote = (i===1) ? ` Tässä u<sub>1</sub> = 0, koska lohko 1 on kiinteä tuki.` : (i===NF) ? ` Tässä u<sub>15</sub> = 0, koska lohko 15 on kiinteä tuki.` : '';
+      h += `<div class="eq mono">${kk}·(u<sub>${X}</sub>−u<sub>${X-1}</sub>) + ${kk}·(u<sub>${X}</sub>−u<sub>${X+1}</sub>) = ${f2(f[i-1])} kN</div>`;
+      h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ku = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä u<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
+      const a=fl(i), b=fr(i), own=weightOwn(), add=weightAdded(i), sum=a+b+own+add;
+      h += `<table class="bal">
+        <tr><td style="color:var(--load)">Oma paino m·g (${M_BLOCK} kg, alas)</td><td>${f2(own)} kN</td></tr>
+        <tr><td style="color:var(--load)">Lisäpaino (${w[i]} t, alas)</td><td>${f2(add)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Vasen jousi ${i} · k·(u<sub>${i}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(a)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Oikea jousi ${i+1} · k·(u<sub>${i+2}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(b)} kN</td></tr>
+        <tr><td><b>Summa (tasapaino)</b></td><td><b class="ok">${f2(sum)} kN</b></td></tr></table>`;
+      h += `<div class="hint">Positiivinen = alaspäin. Lohkon siirtymä: <b>${f3(U[i])} m</b> alas.</div>`;
+    }
+    $('detail').innerHTML = h;
+  }
+
+  function drawMatrix(){
+    let maxD=0; for(let i=0;i<NF;i++) maxD=Math.max(maxD,K[i][i]);
+    let h='<table class="mat"><tr><th></th>';
+    for(let c=0;c<NF;c++) h+=`<th>${c+2}</th>`;
+    h+='<th></th><th>u</th><th></th><th>f (kN)</th></tr>';
+    for(let r=0;r<NF;r++){
+      const blk=r+1;
+      h+=`<tr class="${blk===sel?'sel':''}"><th>${r+2}</th>`;
+      for(let c=0;c<NF;c++){
+        const v=K[r][c];
+        let bg='';
+        if(Math.abs(v)>1e-9){
+          const a=Math.min(.55,Math.abs(v)/maxD*.55);
+          bg = v>0 ? `background:rgba(37,99,235,${a})` : `background:rgba(234,88,12,${a})`;
+        }
+        const hot = blk===sel && Math.abs(c-r)<=1 && Math.abs(v)>1e-9;
+        h+=`<td class="${hot?'hot':''}" style="${bg}">${Math.abs(v)<1e-9?'·':v}</td>`;
+      }
+      h+=`<td class="op">${r===Math.floor(NF/2)?'·':''}</td><td class="ucol">u<sub>${r+2}</sub></td><td class="op">${r===Math.floor(NF/2)?'=':''}</td><td class="fcol" style="color:${w[r+1]>0?'var(--load)':'inherit'}">${f2(f[r])}</td></tr>`;
+    }
+    h+='</table>';
+    let sol='<div class="sol"><div class="solh">Ratkaisu:</div><div class="solg">';
+    for(let r=0;r<NF;r++) sol+=`<div class="${r+1===sel?'cur':''}">u<sub>${r+2}</sub> = ${f3(U[r+1])} m</div>`;
+    sol+='</div></div>';
+    $('matrix').innerHTML = `<div class="mrow"><div>${h}</div>${sol}</div>`+
+      `<div class="hint">Rivien ja sarakkeiden numerot vastaavat vapaasti liikkuvia lohkoja 2–14, ja tuntemattomat u<sub>n</sub> ovat näiden lohkojen pystysiirtymiä (päätylohkot pysyvät paikallaan: u<sub>1</sub> = u<sub>15</sub> = 0). Sininen = positiiviset alkiot (lohkon oma jäykkyys), oranssi = negatiiviset alkiot (kytkentä naapureihin). Oikean reunan f sisältää painovoiman m·g, ja lisäpainoa sisältävät lohkot on merkitty punaisella.</div>`;
+  }
+
+  function render(){ compute(); drawScene(); drawDetail(); drawMatrix(); }
+
+  /* ---------- ohjaimet ---------- */
+  $('kk').addEventListener('input',e=>{ kk=+e.target.value; $('kV').textContent=kk; render(); });
+  $('reset').addEventListener('click',()=>{ w.fill(0); render(); });
+  $('kV').textContent=kk;
+
+  function blockOf(e){ const g=e.target.closest('g[data-i]'); return g?+g.dataset.i:null; }
+  svg.addEventListener('mouseover',e=>{ const i=blockOf(e); if(i!==null && i!==sel){ sel=i; drawScene(); drawDetail(); drawMatrix(); } });
+  svg.addEventListener('click',e=>{
+    const i=blockOf(e); if(i===null) return;
+    sel=i;
+    if(i>=1&&i<=NF){ if(e.shiftKey) w[i]=Math.max(0,w[i]-1); else w[i]++; }
+    render();
+  });
+  svg.addEventListener('contextmenu',e=>{
+    const i=blockOf(e); if(i===null) return;
+    e.preventDefault(); sel=i;
+    if(i>=1&&i<=NF) w[i]=Math.max(0,w[i]-1);
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
