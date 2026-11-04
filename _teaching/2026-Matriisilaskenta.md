@@ -19,7 +19,6 @@ I have taught the first year course Matriisilaskenta MS-A000X since Autumn 2026.
 
 
 Course material
-
 ======
 
 
