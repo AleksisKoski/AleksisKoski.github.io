@@ -236,8 +236,8 @@
       h += `<table class="bal">
         <tr><td style="color:var(--load)">Oma paino m·g (${M_BLOCK} kg, alas)</td><td>${f2(own)} kN</td></tr>
         <tr><td style="color:var(--load)">Lisäpaino (${w[i]} t, alas)</td><td>${f2(add)} kN</td></tr>
-        <tr><td style="color:var(--accent)">Vasen jousi ${i} · k·(u<sub>${i}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(a)} kN</td></tr>
-        <tr><td style="color:var(--accent)">Oikea jousi ${i+1} · k·(u<sub>${i+2}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(b)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Vasen jousi:  k·(u<sub>${i}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(a)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Oikea jousi: k·(u<sub>${i+2}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(b)} kN</td></tr>
         <tr><td><b>Summa (tasapaino)</b></td><td><b class="ok">${f2(sum)} kN</b></td></tr></table>`;
       h += `<div class="hint">Positiivinen = alaspäin. Lohkon siirtymä: <b>${f3(U[i])} m</b> alas.</div>`;
     }
