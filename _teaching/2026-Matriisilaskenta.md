@@ -27,17 +27,17 @@ Lecture notes: [Link](https://atkoski.fi/files/matriisilaskenta.pdf) <br> <br>
 
 Lecture interactive demos: <br> 
 
-[Demo1](https://atkoski.fi/files/demo/Demo1\_Markov.html) <br>
+[Demo1](https://atkoski.fi/files/demo/Demo1_Markov.html) <br>
 
-[Demo2](https://atkoski.fi/files/demo/Demo2\_Lintransform.html) <br>
+[Demo2](https://atkoski.fi/files/demo/Demo2_Lintransform.html) <br>
 
-[Demo3](https://atkoski.fi/files/demo/Demo3\_Gauss.html) <br>
+[Demo3](https://atkoski.fi/files/demo/Demo3_Gauss.html) <br>
 
-[Demo4a](https://atkoski.fi/files/demo/Demo4\_Robo.html) <br>
+[Demo4a](https://atkoski.fi/files/demo/Demo4_Robo.html) <br>
 
-[Demo4b](https://atkoski.fi/files/demo/Demo4\_Robo2.html) <br>
+[Demo4b](https://atkoski.fi/files/demo/Demo4_Robo2.html) <br>
 
-[Demo7](https://atkoski.fi/files/demo/Demo7\_Silta.html) <br>
+[Demo7](https://atkoski.fi/files/demo/Demo7_Silta.html) <br>
 
 
 
