@@ -1,0 +1,683 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Diskreetti Lämpödiffuusio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap">
+<style>
+/* Layout: otsikko, sen alla laboratorio (ruudukko vasemmalla, ohjaimet oikealla), sen alla teoria numeroituina riveinä (otsikko vasemmalla, teksti oikealla). */
+:root {
+  --bg: #eceff2;
+  --surface: #f8f9fa;
+  --ink: #121c26;
+  --muted: #56646f;
+  --line: #cbd3da;
+  --hover: #e1e6ea;
+  --stage: #cfd6dc;
+  --wall: #8b97a2;
+  --halo: #f8f9fa;
+  --focus: #2d6cdf;
+  --ok: #1f7a4d;
+  --warn: #b4540a;
+  --c-2: #1c3d9c;
+  --c-1: #86aaea;
+  --c0: #f5f4f0;
+  --c1: #f3a566;
+  --c2: #b3260d;
+  --num-dark: #121c26;
+  --num-light: #f4f7fa;
+  --font-display: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1419; --surface: #171d24; --ink: #e7ecf1; --muted: #93a1ae; --line: #2a343e; --hover: #212a33;
+    --stage: #0a0e12; --wall: #3a4652; --halo: #0a0e12; --focus: #7fb0ff; --ok: #58c28c; --warn: #f0a15a;
+    --c-2: #5aa0ff; --c-1: #1e4a92; --c0: #1a2028; --c1: #9a3d1a; --c2: #ff8a4c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1419; --surface: #171d24; --ink: #e7ecf1; --muted: #93a1ae; --line: #2a343e; --hover: #212a33;
+  --stage: #0a0e12; --wall: #3a4652; --halo: #0a0e12; --focus: #7fb0ff; --ok: #58c28c; --warn: #f0a15a;
+  --c-2: #5aa0ff; --c-1: #1e4a92; --c0: #1a2028; --c1: #9a3d1a; --c2: #ff8a4c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 80px;
+}
+.page { max-width: 1240px; margin: 0 auto; }
+
+/* Otsikko */
+.eyebrow { font: 500 .78rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+h1 {
+  font: 800 clamp(2rem, 5vw, 3.6rem)/1 var(--font-display);
+  font-stretch: 118%;
+  letter-spacing: -.02em;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.lede { max-width: 62ch; margin: 0 0 28px; color: var(--muted); font-size: 1.08rem; }
+
+/* Laboratorio */
+.lab { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }
+.stage, .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.stage { padding: 12px; min-width: 0; }
+#room { display: block; width: 100%; aspect-ratio: 32 / 22; background: var(--stage); border-radius: 3px; cursor: default; }
+#room.drawing { cursor: crosshair; touch-action: none; }
+.stagefoot { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; align-items: center; margin-top: 10px; }
+.readout { font: 400 .8rem/1.4 var(--font-mono); color: var(--muted); min-height: 1.4em; min-width: 0; }
+.legend { display: flex; flex-direction: column; gap: 4px; width: min(100%, 300px); font: 400 .72rem/1 var(--font-mono); color: var(--muted); }
+.legend .bar { height: 10px; border-radius: 2px; border: 1px solid var(--line); background: linear-gradient(90deg, var(--c-2), var(--c-1), var(--c0), var(--c1), var(--c2)); }
+.legend .ticks { display: flex; justify-content: space-between; }
+
+.panel { padding: 4px 16px 16px; min-width: 0; }
+.group { padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.group:first-child { border-top: 0; margin-top: 0; }
+.gtitle { font: 600 .72rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.frame { display: flex; align-items: baseline; gap: 10px; }
+.frame .lbl { font: 500 .9rem var(--font-display); color: var(--muted); }
+.frame .num { font: 600 2.1rem/1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+.row > .btn { flex: 1 1 auto; }
+
+.btn {
+  font: 600 .92rem/1.1 var(--font-display);
+  padding: .7rem .9rem;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 42px;
+  text-align: center;
+}
+.btn:hover { background: var(--hover); }
+.btn.primary, .btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.btn.primary:hover, .btn[aria-pressed="true"]:hover { background: var(--ink); opacity: .9; }
+.btn:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.btn.quiet { border-color: var(--line); font-weight: 500; }
+
+.field { display: flex; flex-direction: column; gap: 4px; font: 500 .7rem/1 var(--font-mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+input[type="number"], select {
+  font: 500 .95rem/1 var(--font-mono);
+  padding: 0 .55rem;
+  height: 42px;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--ink);
+}
+input[type="number"] { width: 5.6rem; }
+select { width: 100%; }
+.check { display: flex; align-items: center; gap: 8px; font: 500 .85rem var(--font-display); }
+.check input { width: 16px; height: 16px; accent-color: var(--ink); }
+.hint { font: 400 .82rem/1.45 var(--font-body); color: var(--muted); min-height: 2.9em; margin: 0; }
+
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font: 400 .85rem/1.3 var(--font-mono); margin: 0; font-variant-numeric: tabular-nums; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; text-align: right; font-weight: 500; }
+.pill { display: inline-block; font: 600 .78rem/1.3 var(--font-display); padding: .3rem .6rem; border-radius: 99px; border: 1.5px solid currentColor; align-self: flex-start; }
+.pill.ok { color: var(--ok); }
+.pill.warn { color: var(--warn); }
+#spark { display: block; width: 100%; height: 96px; }
+.cap { font: 400 .72rem/1.3 var(--font-mono); color: var(--muted); margin: 0; }
+
+/* Teoria */
+.theory { margin-top: 72px; }
+.theory > h2 { font: 800 clamp(1.5rem, 3vw, 2.1rem)/1.1 var(--font-display); font-stretch: 112%; letter-spacing: -.01em; margin: 0 0 20px; text-wrap: balance; }
+.trow { display: grid; grid-template-columns: 210px minmax(0, 68ch); gap: 8px 44px; padding-block: 28px; border-top: 1px solid var(--line); }
+.trow h3 { font: 700 1.08rem/1.25 var(--font-display); margin: 0; text-wrap: balance; }
+.trow h3 .no { display: block; font: 500 .8rem/1 var(--font-mono); color: var(--muted); margin-bottom: 8px; }
+.trow .body { min-width: 0; }
+.trow p { margin: 0 0 1em; }
+.trow p:last-child { margin-bottom: 0; }
+.trow ol, .trow ul { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: .6em; }
+var { font-style: italic; }
+sub, sup { font-size: .72em; line-height: 0; }
+.eq {
+  margin: 1.1rem 0;
+  padding: .9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 1.12rem;
+  line-height: 2;
+  white-space: nowrap;
+}
+.mat { display: inline-grid; grid-template-columns: repeat(4, auto); gap: 6px 18px; padding: 2px 14px; margin-inline: .4em; border-left: 2px solid var(--ink); border-right: 2px solid var(--ink); border-radius: 8px; vertical-align: middle; text-align: center; line-height: 1.5; }
+.note { color: var(--muted); font-size: .95rem; }
+
+@media (max-width: 960px) {
+  .lab { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 820px) {
+  .trow { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="page">
+  <header>
+    <p class="eyebrow">Lineaarinen rekursio · lämpöyhtälö</p>
+    <h1>Diskreetti Lämpödiffuusio</h1>
+    <p class="lede">Huoneen lämpötilat on jaettu ruutuihin. Jokaisella aika-askeleella ruutujen lämpötila lasketaan edellisistä lämpötiloista yksinkertaisella säännöllä, ja siitä syntyy lämmön leviäminen.</p>
+  </header>
+
+  <section class="lab" aria-label="Simulaatio">
+    <div class="stage">
+      <canvas id="room" role="img" aria-label="Huoneen lämpötilakartta: 20 × 30 ruutua seinien ympäröimänä. Patteri pohjoisseinän alla, kaksi ikkunaa eteläseinällä."></canvas>
+      <div class="stagefoot">
+        <div class="readout" id="readout">Vie hiiri ruudun päälle nähdäksesi sen lämpötilan.</div>
+        <div class="legend" aria-hidden="true">
+          <div class="bar"></div>
+          <div class="ticks"><span>−60 kylmä</span><span>0</span><span>+60 kuuma</span></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panel" aria-label="Ohjaimet">
+      <div class="group">
+        <h2 class="gtitle">Simulaatio</h2>
+        <div class="frame"><span class="lbl">Kuva</span><span class="num" id="frameNum">0</span></div>
+        <div class="row">
+          <button class="btn primary" id="btnRun" type="button">Simuloi</button>
+          <button class="btn" id="btnReset" type="button">Palaa alkuun</button>
+        </div>
+        <div class="row">
+          <label class="field" style="flex:1 1 auto" for="speed">Nopeus
+            <select id="speed">
+              <option value="2" selected>2 askelta / s</option>
+              <option value="10">10 askelta / s</option>
+              <option value="50">50 askelta / s</option>
+              <option value="200">200 askelta / s</option>
+            </select>
+          </label>
+          <button class="btn quiet" id="btnStep" type="button">Yksi askel</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <h2 class="gtitle">Lähteet ja lämpötila</h2>
+        <div class="row">
+          <button class="btn" id="btnSrc" type="button" aria-pressed="false">Lisää lämmönlähde</button>
+          <label class="field" for="srcVal" title="Lähde lisää ruudun lämpötilaa tämän verran joka kuvassa. Negatiivinen luku tekee kylmänlähteen.">Teho
+            <input id="srcVal" type="number" step="any" value="2" inputmode="decimal">
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn" id="btnEdit" type="button" aria-pressed="false">Muokkaa lämpötilaa</button>
+          <label class="field" for="editVal" title="Lisää ruutuun kerran tämän verran lämpöä. Negatiivinen luku lisää kylmää.">Lämpötila
+            <input id="editVal" type="number" step="any" value="40" inputmode="decimal">
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn quiet" id="btnErase" type="button" aria-pressed="false">Poista lähde</button>
+        </div>
+        <p class="hint" id="hint" aria-live="polite">Valitse työkalu ja napsauta tai vedä ruudukossa. Hiiren oikea painike poistaa lähteen.</p>
+      </div>
+
+      <div class="group">
+        <h2 class="gtitle">Tasapaino</h2>
+        <dl class="kv">
+          <dt>Lämmön tuotto</dt><dd id="kvHot">0,0</dd>
+          <dt>Kylmän tuotto</dt><dd id="kvCold">0,0</dd>
+          <dt>Summa Σq</dt><dd id="kvNet">0,0</dd>
+        </dl>
+        <span class="pill ok" id="pill">Tasapainossa</span>
+        <button class="btn" id="btnNorm" type="button">Normalisoi</button>
+      </div>
+
+      <div class="group">
+        <h2 class="gtitle">Mittarit</h2>
+        <dl class="kv">
+          <dt>Keskilämpötila</dt><dd id="kvMean">0,0</dd>
+          <dt>Kylmin ruutu</dt><dd id="kvMin">0,0</dd>
+          <dt>Kuumin ruutu</dt><dd id="kvMax">0,0</dd>
+        </dl>
+        <canvas id="spark" role="img" aria-label="Keskilämpötila kuvien funktiona"></canvas>
+        <label class="check" for="showNum"><input id="showNum" type="checkbox"> Näytä lukuarvot ruuduissa</label>
+      </div>
+    </aside>
+  </section>
+
+  <section class="theory" aria-labelledby="theoryTitle">
+    <h2 id="theoryTitle">Teoria: lineaarinen rekursio ja lämmön leviäminen</h2>
+
+    <div class="trow">
+      <h3><span class="no">1</span>Ruutu, kuva ja rekursio</h3>
+      <div class="body">
+        <p>Ruudukon jokaisessa ruudussa on yksi luku: lämpötila huoneenlämpöön verrattuna. Aikaa mitataan aika-askelilla <var>n</var> = 0, 1, 2, …</p>
+        <p>Seuraavan ajanhetken lämpötilat lasketaan edellisen hetken lämpötilojen perusteella. Tällaista laskentaa sanotaan rekursioksi: tila <var>n</var> + 1 saadaan tilasta <var>n</var>.</p>
+      </div>
+    </div>
+
+    <div class="trow">
+      <h3><span class="no">2</span>Päivityssääntö</h3>
+      <div class="body">
+		<p>Lämpötilan jakautuessa jokainen ruutu luovuttaa naapureilleen osuuden <var>4α</var> omasta lämmöstään. Sisäruuduissa naapureita on neljä, joten jokainen naapuri saa osuuden <var>4α</var>.
+        <p>Ruudun (<var>i</var>, <var>j</var>) uusi lämpötila määräytyy siis kaavalla
+        <div class="eq"><var>T</var><sub><var>i</var>,<var>j</var></sub>(<var>n</var>+1) = <var>T</var><sub><var>i</var>,<var>j</var></sub>(<var>n</var>) + <var>α</var> · [ <var>T</var><sub><var>i</var>−1,<var>j</var></sub> + <var>T</var><sub><var>i</var>+1,<var>j</var></sub> + <var>T</var><sub><var>i</var>,<var>j</var>−1</sub> + <var>T</var><sub><var>i</var>,<var>j</var>+1</sub> − 4<var>T</var><sub><var>i</var>,<var>j</var></sub> ](<var>n</var>) + <var>q</var><sub><var>i</var>,<var>j</var></sub></div>
+        <p>Tässä <var>α</var> = 0,2 ja <var>q</var> on lähdetermi. Jos ruudussa on lämmönlähde, siihen lisätään lisäksi lämpöä joka aika-askeleella lämpölähteen tehon antaman vakion verran. Nämä lämpölähteiden aikaansaamat muutokset on asetettu komponenteiksi vektoriin <var>q</var>. Jos ruudussa ei ole lämmönlähdettä, vastaava vektorin <var>q</var> komponentti on nolla.</p>
+        <p>Kun <var>α</var> = 0,2, sääntö sievenee: kauempana seinistä ruudun uusi lämpötila on ruudun ja sen neljän naapurin keskiarvo. Lämpö virtaa kuumemmasta kylmempään, ja virtaus on sitä suurempi, mitä suurempi lämpötilaero on.</p>
+        <p>Seinät eristävät. Jos naapuri on seinää, sen paikalle ajatellaan ruudun oma lämpötila, jolloin siihen suuntaan ei virtaa mitään. Seinässä voi olla myös lämmönlähde, kuten ikkuna.</p>
+        <p>Lämpöä ei katoa eikä synny itsestään. Kun ruutu luovuttaa naapurilleen osuuden <var>α</var>·Δ<var>T</var>, naapuri saa täsmälleen saman. Kaikkien lämpötilojen summa muuttuu siis vain lähteiden verran.</p>
+      </div>
+    </div>
+
+    <div class="trow">
+      <h3><span class="no">3</span>Matriisimuoto</h3>
+      <div class="body">
+        <p>Kootaan kaikkien ruutujen lämpötilat yhdeksi pitkäksi vektoriksi <var>x</var>(<var>n</var>). Huoneessa on 20 · 30 = 600 ruutua, ja lähteinä toimivat seinäruudut tulevat mukaan lisäksi. Yllä oleva sääntö kaikille ruuduille yhtä aikaa on silloin</p>
+        <div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>b</var></div>
+        <p>Matriisi <var>A</var> kertoo, miten ruudut vaikuttavat toisiinsa. Vektori <var>b</var> sisältää lähteet: se on <var>q</var> lähderuudun kohdalla ja nolla muualla. Pienessä yksiulotteisessa huoneessa, jossa on neljä ruutua jonossa ja eristävät päät, matriisi on</p>
+        <div class="eq"><var>A</var> =
+          <span class="mat">
+            <span>1−<var>α</var></span><span><var>α</var></span><span>0</span><span>0</span>
+            <span><var>α</var></span><span>1−2<var>α</var></span><span><var>α</var></span><span>0</span>
+            <span>0</span><span><var>α</var></span><span>1−2<var>α</var></span><span><var>α</var></span>
+            <span>0</span><span>0</span><span><var>α</var></span><span>1−<var>α</var></span>
+          </span>
+        </div>
+        <p>Diagonaalilla on 1 − <var>α</var> · (naapureiden lukumäärä) ja naapureiden kohdalla <var>α</var>. Jokaisen rivin summa on 1, koska uusi lämpötila on aina vanhojen lämpötilojen painotettu keskiarvo.</p>
+        <p>Toistamalla sääntöä saadaan ratkaisu suljetussa muodossa:</p>
+        <div class="eq"><var>x</var>(<var>n</var>) = <var>A</var><sup><var>n</var></sup> · <var>x</var>(0) + ( <var>I</var> + <var>A</var> + <var>A</var><sup>2</sup> + … + <var>A</var><sup><var>n</var>−1</sup> ) · <var>b</var></div>
+        <p>Ensimmäinen termi kuvaa alkutilan leviämistä ja vaimenemista, toinen lähteiden kertyvää vaikutusta. Sääntö on lineaarinen: kahden erillisen tilanteen tulokset voi laskea erikseen ja laskea yhteen. Vektorin <var>b</var> takia kyseessä on tarkemmin epähomogeeninen lineaarinen rekursio.</p>
+      </div>
+    </div>
+
+    <div class="trow">
+      <h3><span class="no">4</span>Tasapainotilan löytyminen</h3>
+      <div class="body">
+        <p>Tämä simulaatio perustuu siis affiinin rekursion määrittämään vektorijonoon</p>
+		<div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>b</var></div>
+		<p>Affiinien rekursioiden teoria sanoo, että rekursiolla on tasapainotila tasan silloin, kun <var>b</var> kuuluu matriisin <var>I</var>-<var>A</var> kuva-avaruuteen. On mahdollista näyttää, että tämä tapahtuu tasan silloin, kun vektorin <var>b</var> komponenttien summa on nolla, eli kun lämpölähteiden tehot ovat tasapainossa. Muussa tapauksessa kokonaislämpötila joko kasvaa tai vähenee kohti ääretöntä, joten tasapainotilaa ei voida saavuttaa.</p>
+		<p>On myös mahdollista osoittaa, että matriisilla <var>A</var> on ominaisarvo <var>1</var>, jota vastaava ominaisavaruus on yksiulotteinen. Vastaava ominaisvektori on tasapainotila ilman lämmönlähteitä, eli vektori, jonka jokainen komponentti on sama luku (lämpö on tasaisesti jakautunut koko huoneeseen). Yhdestä tasapainotilasta saadaan kaikki muut lisäämällä tämä vektori kerrottuna skalaarilla.</p>
+		<p>Lisäksi matriisin <var>A</var> muut ominaisarvot ovat itseisarvoiltaan pienempiä kuin yksi, joten lämpötilat suppenevat aina tasapainotilaan, kun lämmönlähteiden tehojen summa on nolla. Tasapainotila määräytyy tällöin yksikäsitteisesti huoneen keskilämpötilasta, joka ei simulaatiossa muutu.
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var ROWS = 22, COLS = 32, ALPHA = 0.2, RANGE = 60, HIST = 400, N = ROWS * COLS;
+  var T = new Float64Array(N), T2 = new Float64Array(N), Q = new Float64Array(N), act = new Uint8Array(N);
+  var nAct = 0, frame = 0, running = false, mode = null, rate = 2, hist = [0];
+  var hover = -1, dirty = true, visited = null, drawing = false, pal = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var cv = $('room'), ctx = cv.getContext('2d'), sp = $('spark'), sctx = sp.getContext('2d');
+
+  function isWall(r, c) { return r === 0 || c === 0 || r === ROWS - 1 || c === COLS - 1; }
+  function isCorner(r, c) { return (r === 0 || r === ROWS - 1) && (c === 0 || c === COLS - 1); }
+
+  function fmt(v, d) {
+    d = d === undefined ? 1 : d;
+    var a = Math.abs(v).toFixed(d);
+    var neg = v < 0 && Number(a) !== 0;
+    return (neg ? '−' : '') + a.replace('.', ',');
+  }
+  function fmtS(v, d) { return (v > 0 ? '+' : '') + fmt(v, d); }
+
+  function refreshAct() {
+    nAct = 0;
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var i = r * COLS + c;
+        act[i] = (!isWall(r, c) || Q[i] !== 0) ? 1 : 0;
+        if (!act[i]) { T[i] = 0; T2[i] = 0; }
+        nAct += act[i];
+      }
+    }
+  }
+
+  function initDefault() {
+    T.fill(0); T2.fill(0); Q.fill(0);
+    var c, q = 2;
+    for (c = 12; c <= 19; c++) Q[1 * COLS + c] = q;           // patteri, pohjoisseinän alla
+    for (c = 5; c <= 8; c++) Q[(ROWS - 1) * COLS + c] = -q;   // ikkuna 1, eteläseinällä
+    for (c = 23; c <= 26; c++) Q[(ROWS - 1) * COLS + c] = -q; // ikkuna 2
+    refreshAct();
+    frame = 0; hist = [0];
+  }
+
+  function step() {
+    var sum = 0, r, c, i, t, d;
+    for (r = 0; r < ROWS; r++) {
+      for (c = 0; c < COLS; c++) {
+        i = r * COLS + c;
+        if (!act[i]) { T2[i] = 0; continue; }
+        t = T[i]; d = 0;
+        if (r > 0 && act[i - COLS]) d += T[i - COLS] - t;
+        if (r < ROWS - 1 && act[i + COLS]) d += T[i + COLS] - t;
+        if (c > 0 && act[i - 1]) d += T[i - 1] - t;
+        if (c < COLS - 1 && act[i + 1]) d += T[i + 1] - t;
+        t = t + ALPHA * d + Q[i];
+        T2[i] = t;
+        sum += t;
+      }
+    }
+    var tmp = T; T = T2; T2 = tmp;
+    frame++;
+    hist.push(sum / nAct);
+    if (hist.length > HIST) hist.shift();
+  }
+
+  /* Värit */
+  function hex2rgb(h) {
+    h = h.replace('#', '');
+    return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)];
+  }
+  function readPalette() {
+    var cs = getComputedStyle(document.documentElement);
+    var g = function (n) { return cs.getPropertyValue(n).trim(); };
+    pal = {
+      stops: [g('--c-2'), g('--c-1'), g('--c0'), g('--c1'), g('--c2')].map(hex2rgb),
+      wall: g('--wall'), stage: g('--stage'), ink: g('--ink'), halo: g('--halo'),
+      muted: g('--muted'), line: g('--line'),
+      numDark: g('--num-dark'), numLight: g('--num-light')
+    };
+  }
+  function heat(v) {
+    var t = Math.max(-1, Math.min(1, v / RANGE));
+    var x = (t + 1) * 2, k = Math.min(3, Math.floor(x)), f = x - k;
+    var a = pal.stops[k], b = pal.stops[k + 1];
+    return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
+  }
+
+  /* Piirto */
+  var cssW = 0, cssH = 0, tile = 0;
+  function sizeCanvas(canvas, c2d) {
+    var dpr = window.devicePixelRatio || 1;
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var pw = Math.max(1, Math.round(w * dpr)), ph = Math.max(1, Math.round(h * dpr));
+    if (canvas.width !== pw || canvas.height !== ph) { canvas.width = pw; canvas.height = ph; }
+    c2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return [w, h];
+  }
+
+  function draw() {
+    var wh = sizeCanvas(cv, ctx);
+    cssW = wh[0]; cssH = wh[1]; tile = cssW / COLS;
+    ctx.fillStyle = pal.stage;
+    ctx.fillRect(0, 0, cssW, cssH);
+    var showNum = $('showNum').checked && tile >= 24;
+    if (showNum) {
+      ctx.font = '500 ' + Math.round(tile * 0.34) + 'px "IBM Plex Mono", ui-monospace, monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    }
+    var r, c, i, x, y, rgb, lum, g = 0.5, s = tile - 1;
+    for (r = 0; r < ROWS; r++) {
+      for (c = 0; c < COLS; c++) {
+        i = r * COLS + c; x = c * tile; y = r * tile;
+        if (!act[i]) {
+          ctx.fillStyle = pal.wall;
+          ctx.fillRect(x + g, y + g, s, s);
+          continue;
+        }
+        rgb = heat(T[i]);
+        ctx.fillStyle = 'rgb(' + (rgb[0] | 0) + ',' + (rgb[1] | 0) + ',' + (rgb[2] | 0) + ')';
+        ctx.fillRect(x + g, y + g, s, s);
+        if (showNum && Q[i] === 0) {
+          lum = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+          ctx.fillStyle = lum > 0.5 ? pal.numDark : pal.numLight;
+          var n = Math.round(T[i]);
+          ctx.fillText(n === 0 ? '0' : (n < 0 ? '−' + (-n) : String(n)), x + tile / 2, y + tile / 2 + 0.5);
+        }
+      }
+    }
+    // lähteiden merkit
+    ctx.lineCap = 'round';
+    for (i = 0; i < N; i++) {
+      if (Q[i] === 0) continue;
+      r = (i / COLS) | 0; c = i % COLS; x = c * tile; y = r * tile;
+      var cx = x + tile / 2, cy = y + tile / 2, h = tile * 0.24;
+      ctx.strokeStyle = pal.ink; ctx.globalAlpha = 0.55; ctx.lineWidth = 1.2;
+      ctx.strokeRect(x + 2.5, y + 2.5, tile - 5, tile - 5);
+      ctx.globalAlpha = 1;
+      var passes = [[pal.halo, Math.max(3, tile * 0.2)], [pal.ink, Math.max(1.5, tile * 0.09)]];
+      for (var p = 0; p < 2; p++) {
+        ctx.strokeStyle = passes[p][0]; ctx.lineWidth = passes[p][1];
+        ctx.beginPath();
+        ctx.moveTo(cx - h, cy); ctx.lineTo(cx + h, cy);
+        if (Q[i] > 0) { ctx.moveTo(cx, cy - h); ctx.lineTo(cx, cy + h); }
+        ctx.stroke();
+      }
+    }
+    if (hover >= 0) {
+      r = (hover / COLS) | 0; c = hover % COLS;
+      ctx.strokeStyle = pal.ink; ctx.lineWidth = 2;
+      ctx.strokeRect(c * tile + 1, r * tile + 1, tile - 2, tile - 2);
+    }
+  }
+
+  function drawSpark() {
+    var wh = sizeCanvas(sp, sctx), w = wh[0], h = wh[1];
+    sctx.clearRect(0, 0, w, h);
+    var l = 44, rr = 6, tp = 8, bt = 8;
+    var mn = 0, mx = 0, k;
+    for (k = 0; k < hist.length; k++) { if (hist[k] < mn) mn = hist[k]; if (hist[k] > mx) mx = hist[k]; }
+    if (mx - mn < 1) { mx += 0.5; mn -= 0.5; }
+    var Y = function (v) { return tp + (mx - v) / (mx - mn) * (h - tp - bt); };
+    sctx.font = '400 10px "IBM Plex Mono", ui-monospace, monospace';
+    sctx.textAlign = 'right'; sctx.textBaseline = 'middle';
+    sctx.fillStyle = pal.muted;
+    sctx.fillText(fmt(mx), l - 6, tp + 4);
+    sctx.fillText(fmt(mn), l - 6, h - bt - 4);
+    sctx.fillText('0', l - 6, Y(0));
+    sctx.strokeStyle = pal.line; sctx.lineWidth = 1; sctx.setLineDash([3, 3]);
+    sctx.beginPath(); sctx.moveTo(l, Y(0)); sctx.lineTo(w - rr, Y(0)); sctx.stroke();
+    sctx.setLineDash([]);
+    var span = Math.max(hist.length - 1, 100);
+    sctx.strokeStyle = pal.ink; sctx.lineWidth = 1.6; sctx.lineJoin = 'round';
+    sctx.beginPath();
+    for (k = 0; k < hist.length; k++) {
+      var px = l + k / span * (w - l - rr), py = Y(hist[k]);
+      if (k === 0) sctx.moveTo(px, py); else sctx.lineTo(px, py);
+    }
+    sctx.stroke();
+    var lx = l + (hist.length - 1) / span * (w - l - rr);
+    sctx.fillStyle = pal.ink;
+    sctx.beginPath(); sctx.arc(lx, Y(hist[hist.length - 1]), 3, 0, 6.2832); sctx.fill();
+  }
+
+  function updateStats() {
+    var H = 0, C = 0, i, mn = Infinity, mx = -Infinity, s = 0;
+    for (i = 0; i < N; i++) {
+      if (Q[i] > 0) H += Q[i]; else if (Q[i] < 0) C -= Q[i];
+      if (act[i]) { var t = T[i]; s += t; if (t < mn) mn = t; if (t > mx) mx = t; }
+    }
+    $('frameNum').textContent = String(frame);
+    $('kvHot').textContent = fmtS(H) + ' / aika-askel';
+    $('kvCold').textContent = fmtS(-C) + ' / aika-askel';
+    var net = H - C;
+    $('kvNet').textContent = fmtS(net) + ' / aika-askel';
+    $('kvMean').textContent = fmt(s / nAct, 2);
+    $('kvMin').textContent = fmt(mn);
+    $('kvMax').textContent = fmt(mx);
+    var pill = $('pill');
+    if (Math.abs(net) < 1e-9) {
+      pill.className = 'pill ok'; pill.textContent = 'Tasapainossa';
+    } else {
+      pill.className = 'pill warn';
+      pill.textContent = 'Epätasapaino: keskilämpötila ' + (net > 0 ? 'nousee ' : 'laskee ') + fmt(Math.abs(net / nAct), 3) + ' / kuva';
+    }
+  }
+
+  function render() {
+    dirty = false;
+    draw(); drawSpark(); updateStats();
+  }
+  function invalidate() { if (!running) render(); else dirty = true; }
+
+  /* Ajastin */
+  var last = 0, acc = 0;
+  function loop(ts) {
+    if (!running) return;
+    if (!last) last = ts;
+    var dt = Math.min(ts - last, 250); last = ts;
+    acc += dt * rate / 1000;
+    var n = 0;
+    while (acc >= 1 && n < 50) { step(); acc -= 1; n++; }
+    if (acc >= 1) acc = 0;
+    render();
+    requestAnimationFrame(loop);
+  }
+  function setRunning(on) {
+    running = on;
+    $('btnRun').textContent = on ? 'Tauko' : 'Simuloi';
+    if (on) { last = 0; acc = 0; requestAnimationFrame(loop); }
+  }
+
+  /* Viesti */
+  function hint(t) { $('hint').textContent = t; }
+  var DEFAULT_HINT = 'Valitse työkalu ja napsauta tai vedä ruudukossa. Hiiren oikea painike poistaa lähteen.';
+
+  function readNum(id) {
+    var v = parseFloat($(id).value.replace(',', '.'));
+    return isFinite(v) ? Math.max(-1000, Math.min(1000, v)) : NaN;
+  }
+
+  /* Työkalut */
+  var tools = { src: $('btnSrc'), edit: $('btnEdit'), erase: $('btnErase') };
+  function setMode(m) {
+    mode = (mode === m) ? null : m;
+    for (var k in tools) tools[k].setAttribute('aria-pressed', String(mode === k));
+    cv.classList.toggle('drawing', mode !== null);
+    if (mode === 'src') hint('Lisää lämmönlähde: napsauta tai vedä ruudukossa, myös seinillä. Negatiivinen teho tekee kylmänlähteen. Esc peruu.');
+    else if (mode === 'edit') hint('Muokkaa lämpötilaa: napsauta tai vedä. Jokaiseen ruutuun lisätään arvo kerran, eikä se jää lähteeksi. Esc peruu.');
+    else if (mode === 'erase') hint('Poista lähde: napsauta lähderuutua. Esc peruu.');
+    else hint(DEFAULT_HINT);
+  }
+
+  function applyTool(i, m) {
+    var r = (i / COLS) | 0, c = i % COLS, v;
+    if (m === 'src') {
+      if (isCorner(r, c)) return;
+      v = readNum('srcVal');
+      if (isNaN(v)) { hint('Anna teho lukuna.'); return; }
+      Q[i] = v;
+      refreshAct();
+    } else if (m === 'edit') {
+      if (!act[i]) return;
+      v = readNum('editVal');
+      if (isNaN(v)) { hint('Anna lämpötila lukuna.'); return; }
+      T[i] += v;
+    } else if (m === 'erase') {
+      if (Q[i] === 0) return;
+      Q[i] = 0;
+      refreshAct();
+    }
+  }
+
+  function tileAt(ev) {
+    var rect = cv.getBoundingClientRect();
+    var x = (ev.clientX - rect.left) / rect.width * COLS, y = (ev.clientY - rect.top) / rect.height * ROWS;
+    var c = Math.floor(x), r = Math.floor(y);
+    if (c < 0 || r < 0 || c >= COLS || r >= ROWS) return -1;
+    return r * COLS + c;
+  }
+
+  function describe(i) {
+    var r = (i / COLS) | 0, c = i % COLS;
+    if (!act[i]) return 'Seinä · rivi ' + r + ', sarake ' + c;
+    var s = 'Rivi ' + r + ', sarake ' + c + ' · lämpötila ' + fmt(T[i]);
+    if (Q[i] !== 0) s += ' · lähde ' + fmtS(Q[i]) + ' / kuva';
+    return s;
+  }
+
+  cv.addEventListener('pointerdown', function (ev) {
+    if (ev.button === 2) return;
+    if (!mode) return;
+    var i = tileAt(ev);
+    drawing = true; visited = {};
+    try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    if (i >= 0) { visited[i] = true; applyTool(i, mode); }
+    invalidate();
+    ev.preventDefault();
+  });
+  cv.addEventListener('pointermove', function (ev) {
+    var i = tileAt(ev);
+    if (i !== hover) {
+      hover = i;
+      $('readout').textContent = i >= 0 ? describe(i) : '';
+    }
+    if (drawing && mode && i >= 0 && !visited[i]) { visited[i] = true; applyTool(i, mode); }
+    invalidate();
+  });
+  function endStroke() { drawing = false; visited = null; }
+  cv.addEventListener('pointerup', endStroke);
+  cv.addEventListener('pointercancel', endStroke);
+  cv.addEventListener('pointerleave', function () {
+    hover = -1;
+    $('readout').textContent = 'Vie hiiri ruudun päälle nähdäksesi sen lämpötilan.';
+    invalidate();
+  });
+  cv.addEventListener('contextmenu', function (ev) {
+    var i = tileAt(ev);
+    if (i >= 0 && Q[i] !== 0) { ev.preventDefault(); applyTool(i, 'erase'); invalidate(); }
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && mode) setMode(mode);
+  });
+
+  /* Normalisointi */
+  function normalize() {
+    var H = 0, C = 0, i;
+    for (i = 0; i < N; i++) { if (Q[i] > 0) H += Q[i]; else if (Q[i] < 0) C -= Q[i]; }
+    if (H === 0 && C === 0) { hint('Ei lähteitä, joten ei ole mitä normalisoida.'); return; }
+    if (H === 0 || C === 0) { hint('Tarvitaan sekä lämmönlähteitä että kylmänlähteitä, jotta tuotot voidaan tasata.'); return; }
+    if (Math.abs(H - C) < 1e-9) { hint('Lähteet ovat jo tasapainossa.'); return; }
+    var M = (H + C) / 2;
+    for (i = 0; i < N; i++) { if (Q[i] > 0) Q[i] *= M / H; else if (Q[i] < 0) Q[i] *= M / C; }
+    hint('Normalisoitu: lämmön ja kylmän tuotto on nyt kumpikin ' + fmt(M) + ' / kuva.');
+    invalidate();
+  }
+
+  /* Painikkeet */
+  $('btnRun').addEventListener('click', function () { setRunning(!running); });
+  $('btnReset').addEventListener('click', function () {
+    setRunning(false);
+    if (mode) setMode(mode);
+    initDefault();
+    hint(DEFAULT_HINT);
+    render();
+  });
+  $('btnStep').addEventListener('click', function () { setRunning(false); step(); render(); });
+  $('btnSrc').addEventListener('click', function () { setMode('src'); });
+  $('btnEdit').addEventListener('click', function () { setMode('edit'); });
+  $('btnErase').addEventListener('click', function () { setMode('erase'); });
+  $('btnNorm').addEventListener('click', normalize);
+  $('speed').addEventListener('change', function () { rate = parseFloat($('speed').value) || 2; });
+  $('showNum').addEventListener('change', invalidate);
+
+  /* Teema ja koko */
+  function themeChanged() { readPalette(); invalidate(); }
+  try {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeChanged);
+  } catch (e) {}
+  new MutationObserver(themeChanged).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (window.ResizeObserver) {
+    new ResizeObserver(function () { invalidate(); }).observe(cv);
+    new ResizeObserver(function () { invalidate(); }).observe(sp);
+  } else {
+    window.addEventListener('resize', invalidate);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(invalidate);
+
+  readPalette();
+  initDefault();
+  render();
+})();
+</script>
+
+</body></html>
