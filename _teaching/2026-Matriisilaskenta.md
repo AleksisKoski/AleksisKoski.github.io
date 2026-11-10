@@ -37,7 +37,13 @@ Lecture interactive demos: <br>
 
 [Demo4b](https://atkoski.fi/files/demo/Demo4_Robo2.html) <br>
 
+[Demo5](https://atkoski.fi/files/demo/Demo5_Ominaisvektorit.html) <br>
+
+[Demo6](https://atkoski.fi/files/demo/Demo6_Zombi.html) <br>
+
 [Demo7](https://atkoski.fi/files/demo/Demo7_Silta.html) <br>
+
+[Demo8](https://atkoski.fi/files/demo/Demo8_Diffuusio.html) <br>
 
 
 
