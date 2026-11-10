@@ -105,7 +105,7 @@ h1 {
 .btn.quiet { border-color: var(--line); font-weight: 500; }
 
 .field { display: flex; flex-direction: column; gap: 4px; font: 500 .7rem/1 var(--font-mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
-input[type="number"], select {
+.field input[type="text"], select {
   font: 500 .95rem/1 var(--font-mono);
   padding: 0 .55rem;
   height: 42px;
@@ -114,7 +114,7 @@ input[type="number"], select {
   background: var(--bg);
   color: var(--ink);
 }
-input[type="number"] { width: 5.6rem; }
+.field input[type="text"] { width: 5.6rem; }
 select { width: 100%; }
 .check { display: flex; align-items: center; gap: 8px; font: 500 .85rem var(--font-display); }
 .check input { width: 16px; height: 16px; accent-color: var(--ink); }
@@ -126,7 +126,7 @@ select { width: 100%; }
 .pill { display: inline-block; font: 600 .78rem/1.3 var(--font-display); padding: .3rem .6rem; border-radius: 99px; border: 1.5px solid currentColor; align-self: flex-start; }
 .pill.ok { color: var(--ok); }
 .pill.warn { color: var(--warn); }
-#spark { display: block; width: 100%; height: 96px; }
+#spark { display: block; width: 100%; height: 0px; }
 .cap { font: 400 .72rem/1.3 var(--font-mono); color: var(--muted); margin: 0; }
 
 /* Teoria */
@@ -209,13 +209,13 @@ sub, sup { font-size: .72em; line-height: 0; }
         <div class="row">
           <button class="btn" id="btnSrc" type="button" aria-pressed="false">Lisää lämmönlähde</button>
           <label class="field" for="srcVal" title="Lähde lisää ruudun lämpötilaa tämän verran joka kuvassa. Negatiivinen luku tekee kylmänlähteen.">Teho
-            <input id="srcVal" type="number" step="any" value="2" inputmode="decimal">
+            <input id="srcVal" type="text" value="2" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done">
           </label>
         </div>
         <div class="row">
           <button class="btn" id="btnEdit" type="button" aria-pressed="false">Muokkaa lämpötilaa</button>
           <label class="field" for="editVal" title="Lisää ruutuun kerran tämän verran lämpöä. Negatiivinen luku lisää kylmää.">Lämpötila
-            <input id="editVal" type="number" step="any" value="40" inputmode="decimal">
+            <input id="editVal" type="text" value="40" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done">
           </label>
         </div>
         <div class="row">
@@ -262,7 +262,7 @@ sub, sup { font-size: .72em; line-height: 0; }
     <div class="trow">
       <h3><span class="no">2</span>Päivityssääntö</h3>
       <div class="body">
-		<p>Lämpötilan jakautuessa jokainen ruutu luovuttaa naapureilleen osuuden <var>4α</var> omasta lämmöstään. Sisäruuduissa naapureita on neljä, joten jokainen naapuri saa osuuden <var>4α</var>.
+		<p>Lämpötilan jakautuessa jokainen ruutu luovuttaa naapureilleen osuuden 4<var>α</var> omasta lämmöstään. Sisäruuduissa naapureita on neljä, joten jokainen naapuri saa osuuden <var>α</var>.
         <p>Ruudun (<var>i</var>, <var>j</var>) uusi lämpötila määräytyy siis kaavalla
         <div class="eq"><var>T</var><sub><var>i</var>,<var>j</var></sub>(<var>n</var>+1) = <var>T</var><sub><var>i</var>,<var>j</var></sub>(<var>n</var>) + <var>α</var> · [ <var>T</var><sub><var>i</var>−1,<var>j</var></sub> + <var>T</var><sub><var>i</var>+1,<var>j</var></sub> + <var>T</var><sub><var>i</var>,<var>j</var>−1</sub> + <var>T</var><sub><var>i</var>,<var>j</var>+1</sub> − 4<var>T</var><sub><var>i</var>,<var>j</var></sub> ](<var>n</var>) + <var>q</var><sub><var>i</var>,<var>j</var></sub></div>
         <p>Tässä <var>α</var> = 0,2 ja <var>q</var> on lähdetermi. Jos ruudussa on lämmönlähde, siihen lisätään lisäksi lämpöä joka aika-askeleella lämpölähteen tehon antaman vakion verran. Nämä lämpölähteiden aikaansaamat muutokset on asetettu komponenteiksi vektoriin <var>q</var>. Jos ruudussa ei ole lämmönlähdettä, vastaava vektorin <var>q</var> komponentti on nolla.</p>
@@ -276,8 +276,8 @@ sub, sup { font-size: .72em; line-height: 0; }
       <h3><span class="no">3</span>Matriisimuoto</h3>
       <div class="body">
         <p>Kootaan kaikkien ruutujen lämpötilat yhdeksi pitkäksi vektoriksi <var>x</var>(<var>n</var>). Huoneessa on 20 · 30 = 600 ruutua, ja lähteinä toimivat seinäruudut tulevat mukaan lisäksi. Yllä oleva sääntö kaikille ruuduille yhtä aikaa on silloin</p>
-        <div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>b</var></div>
-        <p>Matriisi <var>A</var> kertoo, miten ruudut vaikuttavat toisiinsa. Vektori <var>b</var> sisältää lähteet: se on <var>q</var> lähderuudun kohdalla ja nolla muualla. Pienessä yksiulotteisessa huoneessa, jossa on neljä ruutua jonossa ja eristävät päät, matriisi on</p>
+        <div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>q</var></div>
+        <p>Matriisi <var>A</var> kertoo, miten ruudut vaikuttavat toisiinsa. Vektori <var>q</var> sisältää lähteet: se on <var>q</var><sub><var>i</var>,<var>j</var></sub> lähderuudun (<var>i</var>, <var>j</var>) kohdalla ja nolla muualla. Pienessä yksiulotteisessa huoneessa, jossa on neljä ruutua jonossa ja eristävät päät, matriisi on</p>
         <div class="eq"><var>A</var> =
           <span class="mat">
             <span>1−<var>α</var></span><span><var>α</var></span><span>0</span><span>0</span>
@@ -288,8 +288,8 @@ sub, sup { font-size: .72em; line-height: 0; }
         </div>
         <p>Diagonaalilla on 1 − <var>α</var> · (naapureiden lukumäärä) ja naapureiden kohdalla <var>α</var>. Jokaisen rivin summa on 1, koska uusi lämpötila on aina vanhojen lämpötilojen painotettu keskiarvo.</p>
         <p>Toistamalla sääntöä saadaan ratkaisu suljetussa muodossa:</p>
-        <div class="eq"><var>x</var>(<var>n</var>) = <var>A</var><sup><var>n</var></sup> · <var>x</var>(0) + ( <var>I</var> + <var>A</var> + <var>A</var><sup>2</sup> + … + <var>A</var><sup><var>n</var>−1</sup> ) · <var>b</var></div>
-        <p>Ensimmäinen termi kuvaa alkutilan leviämistä ja vaimenemista, toinen lähteiden kertyvää vaikutusta. Sääntö on lineaarinen: kahden erillisen tilanteen tulokset voi laskea erikseen ja laskea yhteen. Vektorin <var>b</var> takia kyseessä on tarkemmin epähomogeeninen lineaarinen rekursio.</p>
+        <div class="eq"><var>x</var>(<var>n</var>) = <var>A</var><sup><var>n</var></sup> · <var>x</var>(0) + ( <var>I</var> + <var>A</var> + <var>A</var><sup>2</sup> + … + <var>A</var><sup><var>n</var>−1</sup> ) · <var>q</var></div>
+        <p>Ensimmäinen termi kuvaa alkutilan leviämistä ja vaimenemista, toinen lähteiden kertyvää vaikutusta. Lisätermin <var>q</var> takia kyseessä on affiini rekursio.</p>
       </div>
     </div>
 
@@ -297,8 +297,8 @@ sub, sup { font-size: .72em; line-height: 0; }
       <h3><span class="no">4</span>Tasapainotilan löytyminen</h3>
       <div class="body">
         <p>Tämä simulaatio perustuu siis affiinin rekursion määrittämään vektorijonoon</p>
-		<div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>b</var></div>
-		<p>Affiinien rekursioiden teoria sanoo, että rekursiolla on tasapainotila tasan silloin, kun <var>b</var> kuuluu matriisin <var>I</var>-<var>A</var> kuva-avaruuteen. On mahdollista näyttää, että tämä tapahtuu tasan silloin, kun vektorin <var>b</var> komponenttien summa on nolla, eli kun lämpölähteiden tehot ovat tasapainossa. Muussa tapauksessa kokonaislämpötila joko kasvaa tai vähenee kohti ääretöntä, joten tasapainotilaa ei voida saavuttaa.</p>
+		<div class="eq"><var>x</var>(<var>n</var>+1) = <var>A</var> · <var>x</var>(<var>n</var>) + <var>q</var></div>
+		<p>Affiinien rekursioiden teoria sanoo, että rekursiolla on tasapainotila tasan silloin, kun <var>q</var> kuuluu matriisin <var>I</var>-<var>A</var> kuva-avaruuteen. On mahdollista näyttää, että tämä tapahtuu tasan silloin, kun vektorin <var>q</var> komponenttien summa on nolla, eli kun lämmönlähteiden tehot ovat tasapainossa. Muussa tapauksessa kokonaislämpötila joko kasvaa tai vähenee kohti ääretöntä, joten tasapainotilaa ei voida saavuttaa.</p>
 		<p>On myös mahdollista osoittaa, että matriisilla <var>A</var> on ominaisarvo <var>1</var>, jota vastaava ominaisavaruus on yksiulotteinen. Vastaava ominaisvektori on tasapainotila ilman lämmönlähteitä, eli vektori, jonka jokainen komponentti on sama luku (lämpö on tasaisesti jakautunut koko huoneeseen). Yhdestä tasapainotilasta saadaan kaikki muut lisäämällä tämä vektori kerrottuna skalaarilla.</p>
 		<p>Lisäksi matriisin <var>A</var> muut ominaisarvot ovat itseisarvoiltaan pienempiä kuin yksi, joten lämpötilat suppenevat aina tasapainotilaan, kun lämmönlähteiden tehojen summa on nolla. Tasapainotila määräytyy tällöin yksikäsitteisesti huoneen keskilämpötilasta, joka ei simulaatiossa muutu.
       </div>
@@ -515,7 +515,7 @@ sub, sup { font-size: .72em; line-height: 0; }
 
   function render() {
     dirty = false;
-    draw(); drawSpark(); updateStats();
+    draw(); updateStats();
   }
   function invalidate() { if (!running) render(); else dirty = true; }
 
@@ -543,7 +543,9 @@ sub, sup { font-size: .72em; line-height: 0; }
   var DEFAULT_HINT = 'Valitse työkalu ja napsauta tai vedä ruudukossa. Hiiren oikea painike poistaa lähteen.';
 
   function readNum(id) {
-    var v = parseFloat($(id).value.replace(',', '.'));
+    // Hyväksyy pilkun, välilyönnit ja eri minusmerkit (−, –, —)
+    var txt = $(id).value.replace(/[\u2212\u2013\u2014\u2012]/g, '-').replace(/\s+/g, '').replace(',', '.');
+    var v = /^[+-]?(\d+\.?\d*|\.\d+)$/.test(txt) ? parseFloat(txt) : NaN;
     return isFinite(v) ? Math.max(-1000, Math.min(1000, v)) : NaN;
   }
 
