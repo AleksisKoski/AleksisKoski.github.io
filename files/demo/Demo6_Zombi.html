@@ -671,12 +671,27 @@ input[type="text"]:hover { border-color: var(--muted); }
   ['h0', 'd0', 'z0'].forEach(function (id) {
     $(id).addEventListener('input', reset);
   });
-  ['lambda', 'lambda2'].forEach(function (id) {
-    $(id).addEventListener('input', function (e) {
-      $('lambda').value = e.target.value;
-      $('lambda2').value = -e.target.value;
+function formatDecimal(value) {
+    return value.toLocaleString('fi-FI', {
+        maximumFractionDigits: 10
     });
-  });
+}
+['lambda'].forEach(function (id) {
+    $(id).addEventListener('input', function (e) {
+        const val = Number(e.target.value.replace(',', '.'));
+
+        $('lambda').value = e.target.value;
+        $('lambda2').value = formatDecimal(-val);
+    });
+});
+['lambda2'].forEach(function (id) {
+    $(id).addEventListener('input', function (e) {
+        const val = Number(e.target.value.replace(',', '.'));
+
+        $('lambda').value = formatDecimal(-val);
+        $('lambda2').value = e.target.value;
+    });
+});
   $('speed').addEventListener('input', function (e) {
     speed = parseFloat(e.target.value) || 1;
     $('speedOut').textContent = nf1.format(speed).replace(',0', '') + ' pv/s';
