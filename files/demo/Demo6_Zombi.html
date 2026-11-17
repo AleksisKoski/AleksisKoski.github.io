@@ -402,13 +402,13 @@ input[type="text"]:hover { border-color: var(--muted); }
         <span class="mat" role="group" aria-label="Matriisi A ja sen kertoimet">
           <label class="cell" for="alpha"><span class="sym">α</span><input id="alpha" type="text" inputmode="decimal" autocomplete="off" value="0,02"></label>
           <span class="zero" aria-hidden="true">0</span>
-          <label class="cell" for="beta"><span class="sym">−β</span><input id="beta" type="text" inputmode="decimal" autocomplete="off" value="0,15"></label>
+          <label class="cell" for="beta"><span class="sym">−β</span><input id="beta" type="text" inputmode="decimal" autocomplete="off" value="-0,15"></label>
 
           <label class="cell" for="gamma"><span class="sym">γ</span><input id="gamma" type="text" inputmode="decimal" autocomplete="off" value="0,03"></label>
-          <label class="cell" for="lambda"><span class="sym">−λ</span><input id="lambda" type="text" inputmode="decimal" autocomplete="off" value="0,05"></label>
+          <label class="cell" for="lambda"><span class="sym">−λ</span><input id="lambda" type="text" inputmode="decimal" autocomplete="off" value="-0,05"></label>
           <span class="zero" aria-hidden="true">0</span>
 
-          <label class="cell" for="tau"><span class="sym">−τ</span><input id="tau" type="text" inputmode="decimal" autocomplete="off" value="0,01"></label>
+          <label class="cell" for="tau"><span class="sym">−τ</span><input id="tau" type="text" inputmode="decimal" autocomplete="off" value="-0,01"></label>
           <label class="cell" for="lambda2"><span class="sym">λ</span><input id="lambda2" type="text" inputmode="decimal" autocomplete="off" value="0,05"></label>
           <span class="zero" aria-hidden="true">0</span>
         </span>
@@ -543,14 +543,14 @@ input[type="text"]:hover { border-color: var(--muted); }
     return isFinite(x) ? x : 0;
   }
   function params() {
-    return { a: val('alpha'), b: val('beta'), g: val('gamma'), l: val('lambda'), t: val('tau') };
+    return { a: val('alpha'), b: val('beta'), g: val('gamma'), l: -val('lambda'), t: val('tau') };
   }
   // v = [H, D, Z]
   function f(v, p) {
     return [
-      p.a * v[0] - p.b * v[2],
+      p.a * v[0] + p.b * v[2],
       p.g * v[0] - p.l * v[1],
-      -p.t * v[0] + p.l * v[1]
+      p.t * v[0] + p.l * v[1]
     ];
   }
   function axpy(v, k, s) {
@@ -674,7 +674,7 @@ input[type="text"]:hover { border-color: var(--muted); }
   ['lambda', 'lambda2'].forEach(function (id) {
     $(id).addEventListener('input', function (e) {
       $('lambda').value = e.target.value;
-      $('lambda2').value = e.target.value;
+      $('lambda2').value = -e.target.value;
     });
   });
   $('speed').addEventListener('input', function (e) {
