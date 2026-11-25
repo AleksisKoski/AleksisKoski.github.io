@@ -90,10 +90,10 @@
   <div class="card">
     <h2>Näin matriisi rakennetaan</h2>
     <ol class="steps">
-      <li><b>Jousivoimat.</b> Vierekkäisten lohkojen välillä on jousi, jonka jäykkyys on <i>k</i>. Lohkojen <i>a</i> ja <i>b</i> välinen jousi vastustaa voimalla <i>k·(u<sub>a</sub> − u<sub>b</sub>)</i>.
+      <li><b>Jousivoimat.</b> Vierekkäisten lohkojen välillä on jousi, jonka jäykkyys on <i>k</i>. Lohkojen <i>a</i> ja <i>b</i> välinen jousi vastustaa pystysuuntaan voimalla <i>k·(y<sub>a</sub> − y<sub>b</sub>)</i>.
       <li><b>Tasapainoyhtälöt.</b> Jokaiseen lohkoon vaikuttavat voimat kumoavat toisensa. Nämä ovat painovoima (johon vaikuttaa lohkon oma massa ja lisäpainot), ja jousien muodostama jännitysvoima.
-      <li><b>Reunaehdot.</b> Päätylohkot ovat kiinni (<i>u<sub>1</sub> = u<sub>15</sub> = 0</i>), joten niille ei tarvitse muodostaa yhtälöitä. Jäljelle jää 13 yhtälöä. Ilman tätä vaihetta <b>K</b> olisi singulaarinen, koska koko silta voisi liikkua vapaasti.</li>
-      <li><b>Ratkaisu.</b> Yhtälöryhmä <span class="mono">K·u = f</span> voidaan ratkaista esim. LU-hajotelmalla. Painojen muuttaminen muuttaa ainoastaan voimia f, ei jäykkyysmatriisia K.</li>
+      <li><b>Reunaehdot.</b> Päätylohkot ovat kiinni (<i>y<sub>1</sub> = y<sub>15</sub> = 0</i>), joten niille ei tarvitse muodostaa yhtälöitä. Jäljelle jää 13 yhtälöä. Ilman tätä vaihetta <b>K</b> olisi singulaarinen, koska koko silta voisi liikkua vapaasti.</li>
+      <li><b>Ratkaisu.</b> Yhtälöryhmä <span class="mono">K·y = f</span> voidaan ratkaista esim. LU-hajotelmalla. Painojen muuttaminen muuttaa ainoastaan voimia f, ei jäykkyysmatriisia K.</li>
     </ol>
     <p style="margin-bottom:0" class="hint">Mallinnushuomio: siirtymät ovat vain pystysuuntaisia, ja jokainen jousi vastustaa kahden lohkonsa <i>suhteellista pystysiirtymää</i> (leikkausjousi). Tuloksena oleva matriisi on sama kuin kireällä langalla tai massaketjussa, ja se on yksinkertaisin esimerkki elementtimenetelmästä.</p>
   </div>
@@ -225,19 +225,19 @@
     if(sel===0||sel===N-1){
       const j = sel===0?0:NS-1;
       const forceOnBlock = sel===0 ? springForce(0) : -springForce(NS-1);
-      h += `<p style="margin-top:0">Tämä lohko on kiinni: <span class="mono">u = 0</span>. Se ei ole yhtälöryhmän tuntematon, mutta viereinen jousi vetää sitä, ja tuen täytyy kestää tämä voima.</p>`;
+      h += `<p style="margin-top:0">Tämä lohko on kiinni: <span class="mono">y = 0</span>. Se ei ole yhtälöryhmän tuntematon, mutta viereinen jousi vetää sitä, ja tuen täytyy kestää tämä voima.</p>`;
       h += `<table class="bal"><tr><td>Jousi ${j+1} vetää voimalla</td><td>${f2(forceOnBlock)} kN</td></tr><tr><td><b>Tukireaktio (siirtyy maahan)</b></td><td><b>${f2(-forceOnBlock)} kN</b></td></tr></table>`;
     } else {
       const i=sel, X=i+1;
-      const fixedNote = (i===1) ? ` Tässä u<sub>1</sub> = 0, koska lohko 1 on kiinteä tuki.` : (i===NF) ? ` Tässä u<sub>15</sub> = 0, koska lohko 15 on kiinteä tuki.` : '';
-      h += `<div class="eq mono">${kk}·(u<sub>${X}</sub>−u<sub>${X-1}</sub>) + ${kk}·(u<sub>${X}</sub>−u<sub>${X+1}</sub>) = ${f2(f[i-1])} kN</div>`;
+      const fixedNote = (i===1) ? ` Tässä y<sub>1</sub> = 0, koska lohko 1 on kiinteä tuki.` : (i===NF) ? ` Tässä y<sub>15</sub> = 0, koska lohko 15 on kiinteä tuki.` : '';
+      h += `<div class="eq mono">${kk}·(y<sub>${X}</sub>−y<sub>${X-1}</sub>) + ${kk}·(y<sub>${X}</sub>−y<sub>${X+1}</sub>) = ${f2(f[i-1])} kN</div>`;
       h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ku = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä u<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
       const a=fl(i), b=fr(i), own=weightOwn(), add=weightAdded(i), sum=a+b+own+add;
       h += `<table class="bal">
         <tr><td style="color:var(--load)">Oma paino m·g (${M_BLOCK} kg, alas)</td><td>${f2(own)} kN</td></tr>
         <tr><td style="color:var(--load)">Lisäpaino (${w[i]} t, alas)</td><td>${f2(add)} kN</td></tr>
-        <tr><td style="color:var(--accent)">Vasen jousi:  k·(u<sub>${i}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(a)} kN</td></tr>
-        <tr><td style="color:var(--accent)">Oikea jousi: k·(u<sub>${i+2}</sub>−u<sub>${i+1}</sub>)</td><td>${f2(b)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Vasen jousi:  k·(y<sub>${i}</sub>−y<sub>${i+1}</sub>)</td><td>${f2(a)} kN</td></tr>
+        <tr><td style="color:var(--accent)">Oikea jousi: k·(y<sub>${i+2}</sub>−y<sub>${i+1}</sub>)</td><td>${f2(b)} kN</td></tr>
         <tr><td><b>Summa (tasapaino)</b></td><td><b class="ok">${f2(sum)} kN</b></td></tr></table>`;
       h += `<div class="hint">Positiivinen = alaspäin. Lohkon siirtymä: <b>${f3(U[i])} m</b> alas.</div>`;
     }
@@ -262,14 +262,14 @@
         const hot = blk===sel && Math.abs(c-r)<=1 && Math.abs(v)>1e-9;
         h+=`<td class="${hot?'hot':''}" style="${bg}">${Math.abs(v)<1e-9?'·':v}</td>`;
       }
-      h+=`<td class="op">${r===Math.floor(NF/2)?'·':''}</td><td class="ucol">u<sub>${r+2}</sub></td><td class="op">${r===Math.floor(NF/2)?'=':''}</td><td class="fcol" style="color:${w[r+1]>0?'var(--load)':'inherit'}">${f2(f[r])}</td></tr>`;
+      h+=`<td class="op">${r===Math.floor(NF/2)?'·':''}</td><td class="ucol">y<sub>${r+2}</sub></td><td class="op">${r===Math.floor(NF/2)?'=':''}</td><td class="fcol" style="color:${w[r+1]>0?'var(--load)':'inherit'}">${f2(f[r])}</td></tr>`;
     }
     h+='</table>';
     let sol='<div class="sol"><div class="solh">Ratkaisu:</div><div class="solg">';
-    for(let r=0;r<NF;r++) sol+=`<div class="${r+1===sel?'cur':''}">u<sub>${r+2}</sub> = ${f3(U[r+1])} m</div>`;
+    for(let r=0;r<NF;r++) sol+=`<div class="${r+1===sel?'cur':''}">y<sub>${r+2}</sub> = ${f3(U[r+1])} m</div>`;
     sol+='</div></div>';
     $('matrix').innerHTML = `<div class="mrow"><div>${h}</div>${sol}</div>`+
-      `<div class="hint">Rivien ja sarakkeiden numerot vastaavat vapaasti liikkuvia lohkoja 2–14, ja tuntemattomat u<sub>n</sub> ovat näiden lohkojen pystysiirtymiä (päätylohkot pysyvät paikallaan: u<sub>1</sub> = u<sub>15</sub> = 0). Sininen = positiiviset alkiot (lohkon oma jäykkyys), oranssi = negatiiviset alkiot (kytkentä naapureihin). Oikean reunan f sisältää painovoiman m·g, ja lisäpainoa sisältävät lohkot on merkitty punaisella.</div>`;
+      `<div class="hint">Rivien ja sarakkeiden numerot vastaavat vapaasti liikkuvia lohkoja 2–14, ja tuntemattomat y<sub>n</sub> ovat näiden lohkojen pystysiirtymiä (päätylohkot pysyvät paikallaan: y<sub>1</sub> = y<sub>15</sub> = 0). Sininen = positiiviset alkiot (lohkon oma jäykkyys), oranssi = negatiiviset alkiot (kytkentä naapureihin). Oikean reunan f sisältää painovoiman m·g, ja lisäpainoa sisältävät lohkot on merkitty punaisella.</div>`;
   }
 
   function render(){ compute(); drawScene(); drawDetail(); drawMatrix(); }
