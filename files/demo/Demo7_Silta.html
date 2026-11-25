@@ -54,7 +54,7 @@
 <body>
 <main>
   <h1>Matriisit rakennetekniikassa</h1>
-  <p class="sub">Silta, jossa on 15 lohkoa jousilla toisiinsa kytkettynä. Aina kun jotain muuttuu, sivu muodostaa jäykkyysmatriisin <b>K</b> ja ratkaisee yhtälön <b>K·u = f</b> lohkojen siirtymille.</p>
+  <p class="sub">Silta, jossa on 15 lohkoa jousilla toisiinsa kytkettynä. Aina kun jotain muuttuu, sivu muodostaa jäykkyysmatriisin <b>K</b> ja ratkaisee yhtälön <b>K·y = f</b> lohkojen siirtymille.</p>
 
   <div class="card">
     <svg id="scene" viewBox="0 0 960 400" role="img" aria-label="Siltasimulaatio"></svg>
@@ -82,7 +82,7 @@
   </div>
 
   <div class="card">
-    <h2>Lineaarinen yhtälöryhmä K · u = f</h2>
+    <h2>Lineaarinen yhtälöryhmä K · y = f</h2>
     <p style="margin-top:0">Jokainen rivi on yhden vapaan lohkon voimatasapaino. <b>K</b>:n sarakkeet vastaavat naapurilohkoja, joihin lohko on kytketty. Yllä valitsemaasi lohkoa vastaava rivi on korostettu.</p>
     <div class="mwrap" id="matrix"></div>
   </div>
@@ -231,7 +231,7 @@
       const i=sel, X=i+1;
       const fixedNote = (i===1) ? ` Tässä y<sub>1</sub> = 0, koska lohko 1 on kiinteä tuki.` : (i===NF) ? ` Tässä y<sub>15</sub> = 0, koska lohko 15 on kiinteä tuki.` : '';
       h += `<div class="eq mono">${kk}·(y<sub>${X}</sub>−y<sub>${X-1}</sub>) + ${kk}·(y<sub>${X}</sub>−y<sub>${X+1}</sub>) = ${f2(f[i-1])} kN</div>`;
-      h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ku = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä u<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
+      h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ky = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä u<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
       const a=fl(i), b=fr(i), own=weightOwn(), add=weightAdded(i), sum=a+b+own+add;
       h += `<table class="bal">
         <tr><td style="color:var(--load)">Oma paino m·g (${M_BLOCK} kg, alas)</td><td>${f2(own)} kN</td></tr>
