@@ -231,7 +231,7 @@
       const i=sel, X=i+1;
       const fixedNote = (i===1) ? ` Tässä y<sub>1</sub> = 0, koska lohko 1 on kiinteä tuki.` : (i===NF) ? ` Tässä y<sub>15</sub> = 0, koska lohko 15 on kiinteä tuki.` : '';
       h += `<div class="eq mono">${kk}·(y<sub>${X}</sub>−y<sub>${X-1}</sub>) + ${kk}·(y<sub>${X}</sub>−y<sub>${X+1}</sub>) = ${f2(f[i-1])} kN</div>`;
-      h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ky = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä u<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
+      h += `<p style="margin:8px 0 0">Tämä on yhtälöryhmän Ky = f lohkoa ${X} vastaava rivi. Yhtälöryhmästä saadaan ratkaistua lohkon pystysiirtymä y<sub>${X}</sub> = <b>${f3(U[i])} m</b>.${fixedNote}</p>`;
       const a=fl(i), b=fr(i), own=weightOwn(), add=weightAdded(i), sum=a+b+own+add;
       h += `<table class="bal">
         <tr><td style="color:var(--load)">Oma paino m·g (${M_BLOCK} kg, alas)</td><td>${f2(own)} kN</td></tr>
@@ -248,7 +248,7 @@
     let maxD=0; for(let i=0;i<NF;i++) maxD=Math.max(maxD,K[i][i]);
     let h='<table class="mat"><tr><th></th>';
     for(let c=0;c<NF;c++) h+=`<th>${c+2}</th>`;
-    h+='<th></th><th>u</th><th></th><th>f (kN)</th></tr>';
+    h+='<th></th><th>y</th><th></th><th>f (kN)</th></tr>';
     for(let r=0;r<NF;r++){
       const blk=r+1;
       h+=`<tr class="${blk===sel?'sel':''}"><th>${r+2}</th>`;
