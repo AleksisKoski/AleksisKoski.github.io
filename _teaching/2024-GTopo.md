@@ -1,5 +1,5 @@
 ---
-title: "General Topology 2024 & 2025"
+title: "General Topology 2024-"
 collection: teaching
 type: "Advanced course"
 permalink: /teaching/2024-GTopo
@@ -7,7 +7,7 @@ venue: "Aalto University"
 date: 2024-02-27
 ---
 
-I taught the course General Topology in Spring 2024 and 2025.
+I have taught the course General Topology yearly since Spring 2024.
 
 The Spring 2024 implementation was awarded both the Aalto School of Science Teaching Award and the Department of Mathematics and Systems Analysis Course of the Year award.
 
